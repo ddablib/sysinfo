@@ -1,0 +1,293 @@
+================================================================================
+
+System Information Unit: Historical update information from v1.0 to v3.1
+
+================================================================================
+
+This file records known changes to files in the System Information Unit from
+v1.0 to and v3.1. before the project was placed was placed under version control
+with Subversion.
+
+There are two sections:
+
+  1: Releases: Lists all the releases of the project and notes which files were
+     added, updated or deleted in each release.
+
+  2: Files: Lists all source code and development tools and provides details of
+     changes to these files.
+
+
+================================================================================
+1: RELEASES
+================================================================================
+
+This section lists all releases of the project from the first version (1.0) to 
+release 3.1. For each release the following is noted:
+
+  + Version and date
+  + List of new, updated and deleted files.
+  
+For details of changes to each release see ChangeLog.txt
+
+--------------------------------------------------------------------------------
+v1.0 - 10 Nov 2001
+--------------------------------------------------------------------------------
+New     - PJSysInfo.pas 1.0
+New     - PJSysInfo.dcr 1.0
+New     - Help\PJSysInfo.hap 10 Nov 2001
+New     - Help\PJSysInfo.hpj 1.0
+
+--------------------------------------------------------------------------------
+v1.1 - 25 Nov 2001
+--------------------------------------------------------------------------------
+Updated - PJSysInfo.pas 1.1
+Updated - Help\PJSysInfo.hap 25 Nov 2001
+Updated - Help\PJSysInfo.hpj 1.1
+
+--------------------------------------------------------------------------------
+v1.2 - 30 Jun 2003
+--------------------------------------------------------------------------------
+Updated - PJSysInfo.pas 1.2
+Updated - Help\PJSysInfo.hap 30 Jun 2003
+New     - Demo\SysInfoDemo.dpr 1.0
+New     - Demo\FmDemo.pas 1.0
+
+--------------------------------------------------------------------------------
+v2.0 - 13 Nov 2005
+--------------------------------------------------------------------------------
+Updated - PJSysInfo.pas 2.0
+Updated - Help\PJSysInfo.hpj 1.2
+Updated - Help\PJSysInfo.hap 13 Nov 2005
+New     - Help\PJSysInfo.als 13 Nov 2005
+Updated - Demo\FmDemo.pas 2.0
+
+--------------------------------------------------------------------------------
+v2.0.1 - 07 Jan 2006
+--------------------------------------------------------------------------------
+Updated - PJSysInfo.pas 2.0.1
+
+--------------------------------------------------------------------------------
+v2.1 - 15 Oct 2006
+--------------------------------------------------------------------------------
+Updated - PJSysInfo.pas 2.1
+Updated - Help\PJSysInfo.hpj 1.3
+Updated - Help\PJSysInfo.hap 15 Oct 2006
+Updated - Help\PJSysInfo.als 15 Oct 2006
+
+--------------------------------------------------------------------------------
+v3.0 - 15 Apr 2008
+--------------------------------------------------------------------------------
+Updated - PJSysInfo.pas 3.0
+Updated - Help\PJSysInfo.als 15 Apr 2008
+Updated - Help\PJSysInfo.hap 14 Apr 2008
+Updated - Help\PJSysInfo.hpj 1.4
+Updated - Demo\SysInfoDemo.dpr 1.1
+Updated - Demo\FmDemo.pas 2.1
+
+--------------------------------------------------------------------------------
+v3.1 - 13 Apr 2009
+--------------------------------------------------------------------------------
+Updated - PJSysInfo.pas 3.1
+Updated - Help\PJSysInfo.als 13 Apr 2009
+Updated - Help\PJSysInfo.hap 13 Apr 2009
+Updated - Help\PJSysInfo.hpj 1.5
+Updated - Demo\FmDemo.pas 2.2
+
+
+================================================================================
+2: FILES
+================================================================================
+
+This section lists all files for which an update history is known between v1 and
+and v3.1, inclusive.
+
+--------------------------------------------------------------------------------
+Demo\DelphiDabbler.ico
+--------------------------------------------------------------------------------
+        10 Sep 2003   - Icon created.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+Demo\FmDemo.pas/.dfm
+--------------------------------------------------------------------------------
+v1.0 of 30 Jun 2003   - Original version.
+v2.0 of 13 Nov 2005   - Rewrote to use several tabs to demonstrate component,
+                        static classes, functions and global variables.
+v2.1 of 15 Apr 2008   - Removed demo tabs for TPJSysInfo and SIGetXXX routines.
+                      - Removed TPJSysInfo component.
+                      - Added demo lines for new static class methods and global
+                        variables added in PJSysInfo v3.0.
+v2.2 of 13 Apr 2009   - Added demo lines and updated enumeration descriptions
+                        for new static class methods added in PJSysInfo v3.1.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+Demo\SysInfoDemo.dpr
+--------------------------------------------------------------------------------
+v1.0 of 30 Jun 2003   - Original version.
+v1.1 of 15 Apr 2008   - Added PJSysInfo unit to project.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+DevTools\BuildHelp.bat
+--------------------------------------------------------------------------------
+v1.0 of 15 Apr 2008   - Original version.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+DevTools\Release.bat
+--------------------------------------------------------------------------------
+v1.0 of 14 Apr 2008   - Original version.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+DevTools\Tidy.bat
+--------------------------------------------------------------------------------
+v1.0 of 15 Apr 2008   - Original Version
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+Help\PJSysInfo.als
+--------------------------------------------------------------------------------
+        13 Nov 2005   - Original ALS keyword file.
+        15 Oct 2006   - Regenerated for new topic.
+        15 Apr 2008   - Regenerated re changes in .hap file.
+        13 Apr 2009   - Regenerated re new topics.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+Help\PJSysInfo.hap
+--------------------------------------------------------------------------------
+        10 Nov 2001   - Help topic file for new project.
+        25 Nov 2001   - Added topics for new properties and functions.
+        30 Jun 2003   - Updated topics re new supported operating system.
+                      - Fixed errors (keyword errors and malformed bullets).
+        13 Nov 2005   - Added topics for new static classes and methods.
+                      - Added topics for new Wins32* variables.
+                      - Flagged TPJSysInfo and SIGet* functions as deprecated.
+        15 Oct 2006   - Added topic for new TPJComputerInfo.MACAddress method.
+        14 Apr 2008   - Removed topics for deprecated functions and component.
+                      - Added topics for new methods.
+                      - Added copyright notice.
+                      - Added information about conditional compilation of
+                        deprecated code.
+        13/04/2009    - Added topics for new methods.
+                      - Updated enumerated types with new values.
+                      - Corrected some typos.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+Help\PJSysInfo.hpj
+--------------------------------------------------------------------------------
+v1.0 of 10 Nov 2001   - Original version.
+v1.1 of 30 Jun 2003   - Updated copyright date to 2001-2003.
+                        Changed reference to PJSoft to DelphiDabbler.
+v1.2 of 13 Nov 2005   - Updated copyright date to 2001-2005.
+v1.3 of 15 Oct 2006   - Updated copyright date to 2001-2006.
+v1.4 of 15 Apr 2008   - Updated copyright date to 2001-2008.
+v1.5 of 13 Apr 2009   - Updated copyright date to 2001-2009.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+PJSysInfo.dcr
+--------------------------------------------------------------------------------
+        10 Nov 1002   - Created component palette glyph for TPJSysInfo
+                        component.
+        04 Jul 2009   - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------
+PJSysInfo.pas
+--------------------------------------------------------------------------------
+v1.0 of 10 Nov 2001   - Original version.
+v1.1 of 25 Nov 2001   - Added functions and component properties to retrieve
+                        program files and common files folders.
+v1.2 of 30 Jun 2003   - Updated palette name to "DelphiDabbler" from "PJ
+                        Stuff" in register procedure.
+                      - Added support for Windows 2003 server to OS
+                        detection functions.
+                      - Removed requirement for Registry unit by accessing
+                        registry via Windows API where required.
+                      - Made TOSVersionInfoEx record definition packed.
+                      - GetOSProduct, GetOSProductType & GetOSServicePack
+                        updated according to latest example on MSDN.
+                      - Used resource strings for exception messages.
+v2.0 of 13 Nov 2005   - Added new static classes: TPJComputerInfo (provides
+                        information about the host computer),
+                        TPJSystemFolders (gets paths to system folders) and
+                        TPJOSInfo (provides operating system information).
+                        Together these classes duplicate and extend the
+                        features of the TPJSysInfo component.
+                      - Added new features: gettting Windows product ID;
+                        detection of Windows Vista, XP Media Edition and XP
+                        Tablet Edition; detection of WOW64 sub-system;
+                        further operating system detection features.
+                      - Added new global Win32* variables to provide
+                        extended operating system version information in
+                        style of variables from SysUtils unit. These
+                        variables are intialized at start-up.
+                      - Re-implemented TPJSysInfo and SIGet* functions in
+                        terms of new static classes and deleted private
+                        functions that were no longer required as a result.
+                      - Flagged TPJSysInfo and the SIGet* functions as
+                        deprecated - it is now preferred to use the new
+                        static classes.
+                      - Moved declaration of TOSVersionInfoEx type and
+                        VER_NT_* and VER_SUITE_* constants from
+                        implementation to interface to make publically
+                        available.
+                      - Modified way registry is access to use TRegistry
+                        instead of API calls.
+                      - Introduced conditional compilation to make compile
+                        with Delphi 3 to 7.
+v2.0.1 of 07 Jan 2006 - Fixed bug in TPJOSInfo.ProductName reported by
+                        Guillermo Fazzolari.
+v2.1 of 15 Oct 2006   - Added new TPJComputerInfo.MACAddress method.
+v3.0 of 15 Apr 2008   - All deprecated code, including TPJSysInfo component
+                         is now not compiled by default. Defining
+                         PJSYSINFO_COMPILE_DEPRECATED will cause the
+                         deprecated code to be included.
+                       - Updated for Windows Vista and Windows 2008 Server
+                         and extended amount of info available.
+                       - MakeDirName routine replaced by use of
+                         ExcludeTrailingBackslash on Delphis that support
+                         this in SysUtils.
+                       - Added new HaveWin32ProductInfo and Win32ProductInfo
+                         global variables.
+                       - Added new SM_STARTER and SM_SERVERR2
+                         GetSystemMetrics constants and new VER_SUITE_*
+                         flags.
+                       - Added new PRODUCT_* flags provided by Laurent
+                         Pierre.
+                       - Added several flags to support GetSystemInfo API.
+                       - Added method to TPJComputerInfo to provide number of
+                         processors and their architecture, along with new
+                         TPJProcessorArchitecture enumeration.
+                       - Added check for 64 bit processors to
+                         TPJComputerInfo.
+                       - Added new methods to TPJOsInfo: IsMediaCenter,
+                         IsTabletPC and HasPenExtensions.
+                       - Rewrote TPJOSInfo.Edition method.
+                       - Added wide string version of TOSVersionInfoEx along
+                         with pointer types and Windows style types.
+v3.1 of 13 Apr 2009    - Added further PROCESSOR_ARCHITECTURE_*, PROCESSOR_*
+                         and PRODUCT_* constants.
+                       - Made default OS data structures use unicode versions
+                         when UNICODE is defined in an attempt to make the
+                         structures compatible with Delphi 2009.
+                       - Changed to use GetNativeSystemInfo API function to
+                         get processor architecture if possible.
+                       - Modified TPJOSInfo to detect Windows 7 and Windows
+                         2008 Server R2. Also changed a few OS and product
+                         descriptions.
+                       - Modified TPJOSInfo.Edition to add 64bit
+                         qualification to OS edition information for OSs
+                         running on 64 bit systems and using GetProductInfo
+                         API.
+                       - Added BootMode and IsNetworkPresent methods to
+                         TPJCumputerInfo.
+                       - Added TPJSystemFolders.SystemWow64 method.
+                       - Product name of unknown later Windows version now
+                         contains major and minor version numbers.
+          04 Jul 2009  - IMPORTED TO SVN.
+
+--------------------------------------------------------------------------------

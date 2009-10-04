@@ -1,0 +1,721 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ * Read-me file for System Information Unit.
+ *
+ * $Rev$
+ * $Date$
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+	<title>
+		DelphiDabbler System Information Unit ReadMe
+	</title>
+
+	<style type="text/css">
+		<!--
+		body {
+			margin: 1em;
+			padding: 0;
+			font-family: Verdana, Arial, sans-serif;
+			font-size: 9pt;
+			line-height: 150%;
+		}
+		h1 {
+			margin: 0 0 1em 0;
+			padding: 0.5em;
+			border: 1px silver solid;
+			background-color: #eee;
+			font-size: 13pt;
+			font-weight: bold;
+			text-align: center;
+		}
+		h1 .subtitle {
+			font-style: italic;
+			color: #336;
+		}
+		h2 {
+			margin: 1em 0 0 0;
+			padding: 0;
+			padding-bottom: 6px;
+			border-bottom: 1px silver solid;
+			font-size: 11pt;
+			font-weight: bold;
+		}
+		h3 {
+			margin: 0.5em 0 0 0;
+			padding: 0;
+			font-size: 9pt;
+			font-weight: bold;
+		}
+		p {
+			margin: 0.5em 0 0 0;
+			padding: 0;
+		}
+		ul, ol {
+			margin: 0.5em 0 0 3em;
+			padding: 0;
+		}
+		ul {
+			list-style-type: square;
+		}
+		ul.spaced li,
+		ol.spaced li {
+			margin-top: 0.5em;
+		}
+		ul.spaced li,
+		ol.spaced li {
+			margin-top: 0.5em;
+		}
+		ul.unspaced li,
+		ol.unspaced li {
+			margin-top: 0;
+		}
+		ul.unspaced li.first,
+		ol.unspaced li.first {
+			margin-top: 0.5em;
+		}
+		code {
+			font-family: "Courier New", Courier, monospace;
+		}
+		a:link {
+			color: #336;
+			text-decoration: underline;
+		}
+		a:visited {
+			color: #669;
+			text-decoration: underline;
+		}
+		a:active {
+			color: #336;
+			text-decoration: underline;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+		.gototop {
+			margin: 1em 0 0 0;
+			padding: 0.3em 0 0 0;
+			text-align: center;
+			position: relative;
+			float: right;
+			font-weight: bold;
+		}
+		.pullout {
+			border-left: 8px silver solid;
+			xborder-bottom: 2px silver solid;
+			xborder-top: 2px silver solid;
+			background-color: #eee;
+			margin: 0.5em 0 0 0;
+			padding: 0.25em 0.5em;
+			font-style: italic;
+		}
+		.indent {
+			margin-left: 3em;
+		}
+		.highlight {
+			color: #336;
+			font-style: italic;
+			font-weight: bold;
+		}
+		.endnotes {
+			margin: 1.5em 0 0 0;
+			padding: 1em 0 0 0;
+			border-top: 1px silver solid;
+		}
+		.comments {
+			font-style: italic;
+		}
+		.copyright,
+		.copyright a:link,
+		.copyright a:visited,
+		.copyright a:active {
+			margin: 1em 0 0 0;
+			color: gray;
+			font-size: 8pt;
+			text-align: right;
+		}
+		-->
+	</style>
+
+</head>
+
+<body>
+
+
+<h1>
+	<div>System Information Unit</div>
+	<div class="subtitle">ReadMe</div>
+</h1>
+
+
+
+<h2 id="contents">
+	Contents
+</h2>
+
+<ul>
+	<li><a href="#description">Description</a></li>
+	<li><a href="#compatibility">Compatibility</a></li>
+	<li><a href="#demo">Demo Project</a></li>
+	<li><a href="#installation">Installation</a></li>
+	<li><a href="#update">Update History</a></li>
+	<li><a href="#license">License and Disclaimer</a></li>
+	<li><a href="#author">About the Author</a></li>
+</ul>
+
+
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="description">
+	Description
+</h2>
+
+<p>
+	This unit contains a group of static classes and some global variables that
+	provide information about the user's computer system and operating system.
+	The static classes are:
+</p>
+
+<ul>
+	<li>
+		<var>TPJComputerInfo</var> &ndash; provides information about the host
+		computer.
+	</li>
+
+	<li>
+		<var>TPJSystemFolders</var> &ndash; gets the full path to certain system
+		folders.
+	</li>
+
+	<li>
+		<var>TPJOSInfo</var> &ndash; gives information about the operating
+		system information including the platform, product name, product ID
+		code, version and service packs.
+	</li>
+</ul>
+
+<p>
+	In addition, the unit extends the information provided by the
+	<code>SysUtils</code> unit's <var>Win32xxx</var> variables (such as
+	<var>Win32Platform</var>) by defining further <var>Win32xxx</var>
+	variables that store the extended operating system information available on
+	later NT platform OSs.
+</p>
+
+<h3>
+	Deprecated Code
+</h3>
+
+<p>
+	Earlier versions of the unit provided the deprecated <em>TPJSysInfo</em>
+	component and <var>SIGetxxx</var> functions. As of v3 these are now omitted
+	by default and the unit no longer installs a component.
+</p>
+
+<p>	
+	However the old deprecated code still remains in the unit and can be
+	compiled by defining the symbol <code>PJSYSINFO_COMPILE_DEPRECATED</code>.
+	This can be done either in project options for the package into which the
+	unit is being installed, or by finding the line:
+</p>
+
+<p class="indent">
+	<code>{.$DEFINE PJSYSINFO_COMPILE_DEPRECATED}</code>
+</p>
+
+<p>
+	in the source code and changing it to
+</p>
+
+<p class="indent">
+	<code>{$DEFINE PJSYSINFO_COMPILE_DEPRECATED}</code>
+</p>
+
+<p>
+	When compiling with this symbol defined the old <em>TPJSysInfo</em>
+	component will be installed on the component palette.
+</p>
+
+<p>
+	If you define or remove this symbol from the package's project options then
+	you may need to re-build the whole package instead of simply compiling it
+	in order for the changes to take effect.
+</p>
+
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="compatibility">
+	Compatibility
+</h2>
+
+<p>
+	This unit works with all editions of Delphi from 3 to 2010.
+</p>
+
+<p>
+	In v3.1 some code was changed to work correctly with Unicode versions of
+	Delphi (2009 onwards). Version 3.2 added code to work correctly with
+	character sets in either Ansi or Unicode Delphis and extended compatability
+	back to Delphi 3.
+</p>
+
+<p>
+	Since the unit makes unmanaged calls to the Windows API the unit will not
+	work with Delphi.net compilers.
+</p>
+
+<p>
+	The supplied help file is designed to integrate with the Delphi 3 to 7 IDEs.
+	It will not integrate with later IDEs since the help format has changed. If
+	running on Windows Vista the help file cannot be displayed unless WinHelp is
+	installed. WinHelp is available as an
+	<a href="http://support.microsoft.com/kb/917607">update</a> from Microsoft.
+	Search for update KB917607 on MSDN or the Microsoft website if this link
+	does not work.
+</p>
+
+
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="demo">
+	Demo Project
+</h2>
+
+<p>
+	A demo project is included in the download. The project contains a tab set
+	where each tab displays the information from one of the classes or the
+	global variables. Deprecated code is not demonstrated.
+</p>
+
+<p>
+	The demo code will not compile with Delphi 3 since it uses overload methods.
+</p>
+
+
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="installation">
+	Installation
+</h2>
+
+
+<p>
+	The System Information Unit, documentation and the demo program are supplied
+	in a zip file. Before installing you need to extract all the files from the
+	zip file, preserving the directory structure. The following files will be
+	extracted:
+</p>
+
+<ul>
+	<li>
+		<code><strong>PJSysInfo.pas</strong></code> &ndash; Source code of the
+		static classes, global variables. Deprecated functions and component are
+		present and are conditionally compiled.
+	</li>
+	<li>
+		<code><strong>PJSysInfo.dcr</strong></code> &ndash; Resource file
+		containing the component's glyph. Only required if deprecated code is
+		compiled.
+	</li>
+	<li>
+		<code>PJSysInfo.hlp</code> &ndash; Unit help file (integrates
+		with Delphi 3..7 IDE).
+	</li>
+	<li>
+		<code>PJSysInfo.als</code> &ndash; &quot;A-keyword&quot; file
+		for integration with Delphi 6 or 7 OpenHelp system.
+	</li>
+	<li>
+		<code>ReadMe.htm</code> &ndash; This readme file.
+	</li>
+	<li>
+		<code>ChangeLog.txt</code> &ndash; Unit's change log.
+	</li>
+	<li>
+		<code>MPL.txt</code> &ndash; Mozilla Public Licence v1.1.
+	</li>
+	<li>
+		<code>Demo\SysInfoDemo.dpr</code> &ndash; Demo program project
+		file.
+	</li>
+	<li>
+		<code>Demo\SysInfoDemo.res</code> &ndash; Demo program resource
+		file (contains icon).
+	</li>
+	<li>
+		<code>Demo\FmDemo.pas</code> &ndash; Demo program main form
+		source code.
+	</li>
+	<li>
+		<code>Demo\FmDemo.dfm</code> &ndash; Demo program main form.
+	</li>
+	<li>
+		<code>Demo\DelphiDabbler.ico</code> &ndash; Icon for demo program.
+	</li>
+</ul>
+
+<p>
+	There are three possible ways to use the unit.
+</p>
+
+<ol class="spaced">
+	<li>
+		The simplest way is to add <code>PJSysInfo.pas</code> to your projects
+		as you need it. This will only work if you do not need to install the
+		deprecated component.
+	</li>
+	<li>
+		To make the unit easier to re-use you can either copy it to a folder
+		on your Delphi search path, or add the folder where you extracted the
+		unit to the Delphi Search path. You then simply use the unit as
+		required without needing to add it to your project. Again this will not
+		work if you need to install the deprecated component.
+	</li>
+	<li>
+		For maximum portability you can add the unit to a Delphi design time
+		package. This is the only option if you want to install the deprecated
+		component on your component palette. The methods for Delphi 3 to 7 and
+		for Delphi 2005 or later are different and are explained below.
+		<ul class="unspaced">
+			<li class="first">
+				<a href="#d7">Installation with Delphi 3 to 7</a>
+			</li>
+			<li>
+				<a href="#bds">Installation with Delphi 2005 and later</a>
+			</li>
+		</ul>
+	</li>
+</ol>
+
+
+
+<h3 id="bds">
+	Installation with Delphi 2005 and later
+</h3>
+
+<p>
+	Note that <code>$(BDS)</code> represents the path where the appropriate
+	version of the Borland / CodeGear / Embarcadero Development System was
+	installed.
+</p>
+
+<p>
+	The unit must be installed into a Delphi Win32 design package. It is assumed
+	that you will be installing into an existing package. You may decide to
+	install into the &quot;user&quot; package:
+	<code>$(BDS)\Lib\dclusr.dpk</code>.
+</p>
+
+<ol class="spaced">
+
+	<li>
+		Decide upon a suitable location into which to install the unit.
+		This may be a subdirectory of your <code>Borland Studio Projects</code>
+		(or <code>RAD Studio</code>) or <code>$(BDS)\lib</code> folders.
+	</li>
+	
+	<li>
+		Copy <code>PJSysInfo.pas</code> into the chosen installation folder.
+	</li>
+	
+	<li>
+		If you want to compile the deprecated code you should also copy
+		<code>PJSysInfo.dcr</code> to the same installation folder.
+	</li>
+	
+	<li>
+		Start the Development System (selecting the Delphi Win32 personality if
+		appropriate) then:
+
+		<ul>
+
+			<li>
+				Open the required package. Select <em>File | Open</em> menu and
+				choose a suitable package source file.
+			</li>
+			
+			<li>
+				If you are installing the deprecated code define
+				<code>PJSYSINFO_COMPILE_DEPRECATED</code> in the package's
+				project options, or uncomment the definition in
+				<code>PJSysInfo.pas</code>.
+			</li>
+
+			<li>
+				The package will now be displayed in the Project Manager with a
+				<code>.bpl</code> extension. Right click the package's entry and
+				select <em>Add</em> to display the <em>Add</em> dialog box.
+				Enter the full path to <code>PJSysInfo.pas</code> in the
+				<em>Unit file name</em> edit box (use the <em>Browse</em> button
+				to navigate to the file). Click <em>OK</em> to add the component
+				to the package.
+			</li>
+			
+			<li>
+				Back in the Project Manager, check that all the added files
+				appear under the package's <em>Contains</em> node. If so, right
+				click the package's entry again and select <em>Compile</em>. If
+				you opted to compile the deprecated code then a message should
+				be displayed confirming that <var>TPJSysInfo</var> has been
+				registered. The component should appear in the
+				&quot;DelphiDabbler&quot; section of the Tool Palette. (Note
+				this will only appear when a form is selected in the designer).
+			</li>
+			
+			<li>
+				Close the package project using the <em>File | Close</em> menu
+				item. Accept any prompt that offers to save the package project.
+			</li>
+			
+		</ul>
+		
+	</li>
+
+	<li>
+		If you wish you can now delete <code>PJSysInfo.pas</code> from the
+		chosen installation folder.
+	</li>
+	
+	<li>
+		The supplied help file cannot be integrated with the IDE's help system.
+		However it can be used independently of the IDE, albeit with reduced
+		functionality. Note that the source code is heavily documented.
+	</li>
+
+	<li>
+		The demo programs can be loaded into Delphi and compiled and run as
+		required.
+	</li>
+
+</ol>
+
+
+<h3 id="d7">
+	Installation with Delphi 3 to 7
+</h3>
+
+<p>
+	Note that <code>$(DELPHI)</code> represents the path where the appropriate
+	version of Delphi was installed.
+</p>
+
+<p>
+	The unit must be installed into a design package. It is assumed that
+	you will be installing into an existing package. You may wish to use the
+	&quot;user&quot; package named <code>dclusr.dpk</code> or
+	<code>dclusrXX.dpk</code> (where <code>XX</code> is a version number). This
+	package can be found in <code>$(DELPHI)\Lib</code>. Ensure that the chosen
+	package &quot;requires&quot; <code>designide.dcp</code>.
+</p>
+
+<ol class="spaced">
+
+	<li>
+		Decide upon a suitable location into which to install the unit.
+		This may be a subdirectory of your <code>$(DELPHI)\lib</code> folder.
+	</li>
+	
+	<li>
+		Copy <code>PJSysInfo.pas</code> to the chosen installation folder.
+	</li>
+
+	<li>
+		If you want to compile the deprecated code you should also copy
+		<code>PJSysInfo.dcr</code> to the same installation folder.
+	</li>
+	
+	<li>	
+		Start Delphi then:
+		
+		<ul>
+			
+			<li>
+				Choose the <em>Component | Install Component</em> menu option to
+				display the <em>Install Component</em> dialog box. Ensure the
+				<em>Into existing package</em> tab is selected. Enter the full
+				path to <code>PJSysInfo.pas</code> in the <em>Unit file
+				name</em> edit box (use the adjacent <em>Browse</em> button to
+				navigate to the file). Choose the required package from the
+				<em>Package description</em> combo box, or by navigating to the
+				package using <em>Browse</em>. Click <em>OK</em> to confirm your
+				selections. 
+			</li>
+
+			<li>
+				A confirmation dialog box may displayed, querying whether it is
+				OK to rebuild and reinstall the package. Click <em>No</em> at
+				this point. The Package Manager window will be displayed.
+			</li>
+			
+			<li>
+				If you want to compile the deprecated code, select the 
+				<em>Options</em> button in the Package Manager and, on the
+				<em>Directories / Conditionals</em> tab enter
+				<code>PJSYSINFO_COMPILE_DEPRECATED</code> in the
+				<em>Conditional defines</em> edit box. Close the Project Options
+				dialog box.
+			</li>
+			
+			<li>
+				You can now compile the package by selecting the Package
+				Manager's <em>Compile</em> button. The package will now be
+				rebuilt. If you have included the deprecated code, a message
+				will be displayed indicating that the <var>TPJSysInfo</var>
+				component has been installed. Click <em>OK</em> to dismiss the
+				message box. The component will appear on the
+				&quot;DelphiDabbler&quot; palette. If deprecated code has not
+				been compiled no component will be installed.
+			</li>
+
+		</ul>
+
+	</li>
+
+	<li>
+		If you wish you can now delete <code>PJSysInfo.pas</code> from the
+		chosen installation folder.
+	</li>
+
+	<li>
+		<div>
+			The provided help file can be integrated with the IDE's OpenHelp
+			system. Delphi 6 and 7 also require the use of the supplied
+			<code>.als</code> file. The simplest way to install help is to use
+			my <a href="http://www.delphidabbler.com/software?id=chi">Component
+			Help Installer Expert</a> (v2.2.1 or later). If you prefer to
+			install manually,
+			<a href="http://www.delphidabbler.com/articles?article=15">this
+			article</a> explains the process.
+		</div>
+		<div class="pullout">
+			Help will not work on Windows Vista and later since WinHelp is not
+			included by default. See above for details of how to get a copy of
+			WinHelp for Vista and Windows Server 2008.
+		</div>
+	</li>
+
+	<li>
+		The demo program can be loaded into Delphi and compiled and run as
+		required. Note that the demo will not compile on Delphi 3.
+	</li>
+
+</ol>
+
+
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="update">
+	Update History
+</h2>
+
+<p>
+	A complete change log is provided in a text file that is included in the
+	download.
+</p>
+
+
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="license">
+	License and Disclaimer
+</h2>
+
+<p>
+	This product, <em>System Information Unit</em>, is subject to the
+	Mozilla Public License Version 1.1 (the &quot;License&quot;). You may not
+	use this Product except in compliance with the License. You may obtain a
+	copy of the License at
+	<a
+		href="http://www.mozilla.org/MPL/MPL-1.1"
+	>http://www.mozilla.org/MPL/MPL-1.1</a>.
+</p>
+
+<p>
+	Software distributed under the License is distributed on an &quot;AS
+	IS&quot; basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+	the License for the specific language governing rights and limitations under
+	the License.
+</p>
+
+<p>
+	The Initial Developer of <em>System Information Unit</em> is Peter D
+	Johnson. Portions created by the Initial Developer are Copyright &copy;
+	2001-2009 Peter D Johnson (www.delphidabbler.com). All Rights Reserved.
+</p>
+
+<p>
+	Contributors:
+</p>
+
+<p class="indent">
+	Guillermo Fazzolari<br />
+	Laurent Pierre.
+</p>
+
+<p>
+	All relevant trademarks are acknowledged.
+</p>
+
+
+<p class="pullout">
+	A copy of the license is included in the download &ndash see
+	<code>MPL.txt</code>.
+</p>
+
+
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="author">
+	About the Author
+</h2>
+
+<p>
+	I'm Peter Johnson &ndash; a hobbyist programmer living in Ceredigion in West
+	Wales,  UK, writing write mainly in Delphi. My programs and code are
+	available from:
+	<a href="http://www.delphidabbler.com/">http://www.delphidabbler.com/</a>.
+</p>
+
+<p>
+	I can be <a href="http://www.delphidabbler.com/contact">contacted via the
+	website.</a>
+</p> 
+
+
+<div class="endnotes">
+
+	<div class="comments">
+		Please
+		<a href="http://www.delphidabbler.com/contact">
+		let me know</a> if you have any comments about the components, if you
+		have found a bug, or you want to suggest any updates.
+	</div>
+
+	<div class="copyright">
+		This document is copyright &copy; 2005-2009, P D Johnson,
+		<a href="http://www.delphidabbler.com/">
+		www.delphidabbler.com</a>
+	</div>
+
+</div>
+
+</body>
+
+</html>

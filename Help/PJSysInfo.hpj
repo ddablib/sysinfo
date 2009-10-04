@@ -1,0 +1,40 @@
+; PJSysInfo.hpj
+;
+; Help project file for System Information Unit.
+;
+; $Rev$
+; $Date$
+;
+; ***** BEGIN LICENSE BLOCK *****
+;
+; Version: MPL 1.1
+;
+; The contents of this file are subject to the Mozilla Public License Version
+; 1.1 (the "License"); you may not use this file except in compliance with the
+; License. You may obtain a copy of the License at http://www.mozilla.org/MPL/
+;
+; Software distributed under the License is distributed on an "AS IS" basis,
+; WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+; the specific language governing rights and limitations under the License.
+;
+; The Original Code is PJSysInfo.hpj.
+;
+; The Initial Developer of the Original Code is Peter Johnson
+; (http://www.delphidabbler.com/).
+;
+; Portions created by the Initial Developer are Copyright (C) 2001-2009 Peter
+; Johnson. All Rights Reserved.
+;
+; ***** END LICENSE BLOCK *****
+
+
+[OPTIONS]
+HCW=0
+LCID=0x809 0x0 0x0 ;English (United Kingdom)
+REPORT=Yes
+TITLE=DelphiDabbler System Information Help
+COPYRIGHT=DelphiDabbler System Information Unit copyright © P.D.Johnson, 2001-2009
+HLP=.\PJSysInfo.hlp
+
+[FILES]
+.\PJSysInfo.rtf

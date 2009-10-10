@@ -477,7 +477,7 @@ $=TPJOSInfo Properties
 #=IDH_OSI_METHODS
 $=TPJOSInfo Methods
 [End]
-21
+20
 HS
 1
 0
@@ -618,14 +618,7 @@ HS
 0
 IDH_OSI_IsTabletPC
 
-HS
-207
-0
-
-0
-
-AL(TComponent_Object,1)
-3193
+2959
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}}{\colortbl\red0\green0\blue0;\red0\green0\blue0;\red0\green128\blue0;}\pard \plain \plain\f0\fs18\cf1\b Methods\plain\f0\fs18\cf1 
 \par 
 \par \pard \tx200 \tx2400 \tx2600 \plain\f1\fs18\cf1 \tab \plain\f1\fs18\cf2 \protect <HS 1>\plain\f1\fs18\cf1 BuildNumber\plain\f1\fs18\cf2 \protect </HS 1>\plain\f1\fs18\cf1 
@@ -648,8 +641,7 @@ AL(TComponent_Object,1)
 \par \tab \plain\f1\fs18\cf2 \protect <HS 14>\plain\f1\fs18\cf1 ServicePack\plain\f1\fs18\cf2 \protect </HS 14>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 15>\plain\f1\fs18\cf1 ServicePackMajor\plain\f1\fs18\cf2 \protect </HS 15>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 16>\plain\f1\fs18\cf1 ServicePackMinor\plain\f1\fs18\cf2 \protect </HS 16>\plain\f1\fs18\cf1 
-\par \pard \tx200 \plain\f0\fs8\cf1 
-\par \plain\f0\fs18\cf1 TPJ\plain\f1\fs18\cf1 OSInfo\plain\f0\fs18\cf1  also inherits methods from \plain\f0\fs18\cf2 \protect <HS 207>\plain\f0\fs18\cf1 TComponent\plain\f0\fs18\cf2 \protect </HS 207>\plain\f0\fs20\cf1 
+\par \plain\f0\fs20\cf1 
 \par }
 
 [Footnotes]
@@ -783,7 +775,7 @@ IDH_OSI_CLASS
 
 KP
 114
-1299
+1343
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}{\f2\fmodern Courier New;}{\f3\fmodern \fcharset0 Courier New;}}{\colortbl\red0\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green0\blue0;}\pard \plain \plain\f0\fs22\cf1\b \protect <NS 42>\plain\f0\fs8\cf2  \plain\f0\fs8\cf2\b 
 \par \plain\f0\fs22\cf2\b TPJOSInfo.\plain\f1\fs22\cf2\b HasPenExtensions\plain\f0\fs20\cf3 
 \par \plain\f0\fs12\cf3 
@@ -791,7 +783,7 @@ KP
 \par \plain\f0\fs8\cf3  \plain\f0\fs18\cf1 \protect </NS 42>\plain\f0\fs18\cf3 
 \par \plain\f1\fs18\cf3 Checks for Windows Pen Extensions\plain\f0\fs18\cf3 .
 \par 
-\par \plain\f2\fs18\cf1\b \protect <KP 114>\plain\f3\fs18\cf3\b class function\plain\f2\fs18\cf3  IsTabletPC: \plain\f3\fs18\cf3 Boolean\plain\f2\fs18\cf3 ;\plain\f2\fs18\cf1 \protect </KP 114>\plain\f2\fs18\cf3 
+\par \plain\f2\fs18\cf1\b \protect <KP 114>\plain\f3\fs18\cf3\b class function\plain\f2\fs18\cf3  \plain\f3\fs18\cf3 HasPenExtensions\plain\f2\fs18\cf3 : \plain\f3\fs18\cf3 Boolean\plain\f2\fs18\cf3 ;\plain\f2\fs18\cf1 \protect </KP 114>\plain\f2\fs18\cf3 
 \par \plain\f0\fs18\cf3 
 \par \plain\f0\fs18\cf3\b Description\plain\f0\fs18\cf3 
 \par \plain\f0\fs8\cf3 
@@ -1532,7 +1524,7 @@ $=TPJComputerInfo Properties
 #=IDH_CI_METHODS
 $=TPJComputerInfo Methods
 [End]
-9
+8
 HS
 1
 0
@@ -1589,14 +1581,7 @@ HS
 0
 IDH_CI_Is64Bit
 
-HS
-207
-0
-
-0
-
-AL(TComponent_Object,1)
-1607
+1367
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}}{\colortbl\red0\green0\blue0;\red0\green0\blue0;\red0\green128\blue0;}\pard \plain \plain\f0\fs18\cf1\b Methods\plain\f0\fs18\cf1 
 \par 
 \par \pard \tx200 \tx2400 \tx2600 \plain\f1\fs18\cf1 \tab \plain\f1\fs18\cf2 \protect <HS 6>\plain\f1\fs18\cf1 BootMode\plain\f1\fs18\cf2 \protect </HS 6>\plain\f1\fs18\cf1 
@@ -1607,8 +1592,7 @@ AL(TComponent_Object,1)
 \par \tab \plain\f1\fs18\cf2 \protect <HS 4>\plain\f1\fs18\cf1 Processor\plain\f1\fs18\cf2 \protect </HS 4>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 5>\plain\f1\fs18\cf1 ProcessorCount\plain\f1\fs18\cf2 \protect </HS 5>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 2>\plain\f1\fs18\cf1 UserName\plain\f1\fs18\cf2 \protect </HS 2>\plain\f1\fs18\cf1 
-\par \pard \tx200 \plain\f0\fs8\cf1 
-\par \plain\f0\fs18\cf1 TPJComputerInfo\plain\f1\fs18\cf1  \plain\f0\fs18\cf1 also inherits methods from \plain\f0\fs18\cf2 \protect <HS 207>\plain\f0\fs18\cf1 TComponent\plain\f0\fs18\cf2 \protect </HS 207>\plain\f0\fs20\cf1 
+\par \plain\f0\fs20\cf1 
 \par }
 
 [Footnotes]
@@ -2002,7 +1986,7 @@ $=TPJSystemFolders Properties
 #=IDH_SF_METHODS
 $=TPJSystemFolders Methods
 [End]
-7
+6
 HS
 1
 0
@@ -2045,14 +2029,7 @@ HS
 0
 IDH_SF_SystemWow64
 
-HS
-207
-0
-
-0
-
-AL(TComponent_Object,1)
-1337
+1096
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}}{\colortbl\red0\green0\blue0;\red0\green0\blue0;\red0\green128\blue0;}\pard \plain \plain\f0\fs18\cf1\b Methods\plain\f0\fs18\cf1 
 \par 
 \par \pard \tx200 \tx2400 \tx2600 \plain\f1\fs18\cf1 \tab \plain\f1\fs18\cf2 \protect <HS 1>\plain\f1\fs18\cf1 CommonFiles\plain\f1\fs18\cf2 \protect </HS 1>\plain\f1\fs18\cf1 
@@ -2061,8 +2038,7 @@ AL(TComponent_Object,1)
 \par \tab \plain\f1\fs18\cf2 \protect <HS 4>\plain\f1\fs18\cf1 System\plain\f1\fs18\cf2 \protect </HS 4>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 6>\plain\f1\fs18\cf1 SystemWow64\plain\f1\fs18\cf2 \protect </HS 6>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 5>\plain\f1\fs18\cf1 Temp\plain\f1\fs18\cf2 \protect </HS 5>\plain\f1\fs18\cf1 
-\par \pard \tx200 \plain\f0\fs8\cf1 
-\par \plain\f0\fs18\cf1 TPJSystemFolders\plain\f1\fs18\cf1  \plain\f0\fs18\cf1 also inherits methods from \plain\f0\fs18\cf2 \protect <HS 207>\plain\f0\fs18\cf1 TComponent\plain\f0\fs18\cf2 \protect </HS 207>\plain\f0\fs20\cf1 
+\par \plain\f0\fs20\cf1 
 \par }
 
 [Footnotes]

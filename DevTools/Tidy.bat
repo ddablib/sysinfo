@@ -18,31 +18,18 @@ echo.
 
 set RootDir=..
 
-echo Deleting *.~* from "%RootDir%" and subfolders
+echo Deleting temporary files
 del /S %RootDir%\*.~* 
-echo.
-
-echo Deleting *.dpp from "%RootDir%" and subfolders
 del /S %RootDir%\*.ddp 
-echo.
-
-echo Deleting *.dcu from "%RootDir%" and subfolders
 del /S %RootDir%\*.dcu 
-echo.
-
-echo Deleting *.exe from "%RootDir%" and subfolders
 del /S %RootDir%\*.exe 
-echo.
-
-echo Deleting *.dsk from "%RootDir%" and subfolders
 del /S %RootDir%\*.dsk 
+del /S %RootDir%\*.bak
+del /S %RootDir%\*.GID 
 echo.
 
-echo Deleting any Release directory
+echo Deleting temporary directories
 if exist %RootDir%\Release rmdir /S /Q %RootDir%\Release
-echo.
-
-echo Deleting any __history directories
 for /F "usebackq" %%i in (`dir /S /B /A:D %RootDir%\__history*`) do rmdir /S /Q %%i
 echo.
 

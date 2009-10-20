@@ -19,8 +19,8 @@ set HelpDir=..\Help
 set HelpFile=PJSysInfo.hlp
 set ErrorMsg=
 
-if not "%HC%" == "" set ErrorMsg=Environment variable HC not set
-if not %ErrorMsg% == "" goto error
+if "%HC%" == "" set ErrorMsg=Environment variable HC not set
+if not "%ErrorMsg%" == "" goto error
 
 %HC% -x %HelpDir%\%HelpFile%
 if errorlevel 1 set ErrorMsg=Compilation failed

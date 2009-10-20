@@ -1,6 +1,7 @@
 @rem ---------------------------------------------------------------------------
-@rem Script used to delete System Information Unit's temp, backup files and
-@rem test .dcu and .exe files.
+@rem System Information Unit
+@rem
+@rem Script used to delete temporary files and directories.
 @rem
 @rem Copyright (C) Peter Johnson (www.delphidabbler.com), 2008-2009
 @rem
@@ -15,29 +16,35 @@ echo Tidying
 echo ~~~~~~~
 echo.
 
-set SrcDir=..
+set RootDir=..
 
-echo Deleting *.~* from "%SrcDir%" and subfolders
-del /S %SrcDir%\*.~* 
+echo Deleting *.~* from "%RootDir%" and subfolders
+del /S %RootDir%\*.~* 
 echo.
 
-echo Deleting *.dpp from "%SrcDir%" and subfolders
-del /S %SrcDir%\*.ddp 
+echo Deleting *.dpp from "%RootDir%" and subfolders
+del /S %RootDir%\*.ddp 
 echo.
 
-echo Deleting *.dcu from "%SrcDir%" and subfolders
-del /S %SrcDir%\*.dcu 
+echo Deleting *.dcu from "%RootDir%" and subfolders
+del /S %RootDir%\*.dcu 
 echo.
 
-echo Deleting *.exe from "%SrcDir%" and subfolders
-del /S %SrcDir%\*.exe 
+echo Deleting *.exe from "%RootDir%" and subfolders
+del /S %RootDir%\*.exe 
 echo.
 
-echo Deleting *.dsk from "%SrcDir%" and subfolders
-del /S %SrcDir%\*.dsk 
+echo Deleting *.dsk from "%RootDir%" and subfolders
+del /S %RootDir%\*.dsk 
 echo.
 
-if exist %SrcDir%\Release rmdir /S /Q %SrcDir%\Release
+echo Deleting any Release directory
+if exist %RootDir%\Release rmdir /S /Q %RootDir%\Release
+echo.
+
+echo Deleting any __history directories
+for /F "usebackq" %%i in (`dir /S /B /A:D %RootDir%\__history*`) do rmdir /S /Q %%i
+echo.
 
 echo Done.
 

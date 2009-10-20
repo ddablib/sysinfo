@@ -15,14 +15,14 @@ setlocal
 
 cd .\..
 
-set OutFile=Releases\dd-sysinfo.zip
+set OutFile=Release\dd-sysinfo.zip
 set SrcDir=
 set DocsDir=Docs
 set DemoDir=Demo
 set HelpDir=Help
 
-if exist Releases rmdir /S /Q Releases
-mkdir Releases
+if exist Release rmdir /S /Q Release
+mkdir Release
 
 if exist %OutFile% del %OutFile%
 

@@ -37,7 +37,7 @@ echo Deleting *.dsk from "%SrcDir%" and subfolders
 del /S %SrcDir%\*.dsk 
 echo.
 
-if exist %SrcDir%\Releases rmdir /S /Q %SrcDir%\Releases
+if exist %SrcDir%\Release rmdir /S /Q %SrcDir%\Release
 
 echo Done.
 

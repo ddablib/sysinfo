@@ -15,7 +15,6 @@
 	</title>
 
 	<style type="text/css">
-		<!--
 		body {
 			margin: 1em;
 			padding: 0;
@@ -137,7 +136,6 @@
 			font-size: 8pt;
 			text-align: right;
 		}
-		-->
 	</style>
 
 </head>
@@ -158,11 +156,11 @@
 
 <ul>
 	<li><a href="#description">Description</a></li>
-	<li><a href="#compatibility">Compatibility</a></li>
-	<li><a href="#demo">Demo Project</a></li>
 	<li><a href="#installation">Installation</a></li>
+	<li><a href="#demo">Demo Project</a></li>
 	<li><a href="#update">Update History</a></li>
 	<li><a href="#license">License and Disclaimer</a></li>
+	<li><a href="#bugs">Bugs and Feature Requests</a></li>
 	<li><a href="#author">About the Author</a></li>
 </ul>
 
@@ -247,13 +245,9 @@
 	in order for the changes to take effect.
 </p>
 
-<p class="gototop">
-	&raquo; <a href="#contents">Contents</a>
-</p>
-
-<h2 id="compatibility">
+<h3>
 	Compatibility
-</h2>
+</h3>
 
 <p>
 	This unit works with all editions of Delphi from 3 to 2010.
@@ -271,36 +265,6 @@
 	work with Delphi.net compilers.
 </p>
 
-<p>
-	The supplied help file is designed to integrate with the Delphi 3 to 7 IDEs.
-	It will not integrate with later IDEs since the help format has changed. If
-	running on Windows Vista the help file cannot be displayed unless WinHelp is
-	installed. WinHelp is available as an
-	<a href="http://support.microsoft.com/kb/917607">update</a> from Microsoft.
-	Search for update KB917607 on MSDN or the Microsoft website if this link
-	does not work.
-</p>
-
-
-<p class="gototop">
-	&raquo; <a href="#contents">Contents</a>
-</p>
-
-<h2 id="demo">
-	Demo Project
-</h2>
-
-<p>
-	A demo project is included in the download. The project contains a tab set
-	where each tab displays the information from one of the classes or the
-	global variables. Deprecated code is not demonstrated.
-</p>
-
-<p>
-	The demo code will not compile with Delphi 3 since it uses overload methods.
-</p>
-
-
 <p class="gototop">
 	&raquo; <a href="#contents">Contents</a>
 </p>
@@ -308,7 +272,6 @@
 <h2 id="installation">
 	Installation
 </h2>
-
 
 <p>
 	The System Information Unit, documentation and the demo program are supplied
@@ -346,6 +309,10 @@
 		<code>MPL.txt</code> &ndash; Mozilla Public Licence v1.1.
 	</li>
 	<li>
+		<code>Wiki.URL</code> &ndash; Shortcut to the online Wiki that documents
+		the unit. 
+	</li>
+	<li>
 		<code>Demo\SysInfoDemo.dpr</code> &ndash; Demo program project
 		file.
 	</li>
@@ -359,9 +326,6 @@
 	</li>
 	<li>
 		<code>Demo\FmDemo.dfm</code> &ndash; Demo program main form.
-	</li>
-	<li>
-		<code>Demo\DelphiDabbler.ico</code> &ndash; Icon for demo program.
 	</li>
 </ul>
 
@@ -385,232 +349,45 @@
 	<li>
 		For maximum portability you can add the unit to a Delphi design time
 		package. This is the only option if you want to install the deprecated
-		component on your component palette. The methods for Delphi 3 to 7 and
-		for Delphi 2005 or later are different and are explained below.
-		<ul class="unspaced">
-			<li class="first">
-				<a href="#d7">Installation with Delphi 3 to 7</a>
-			</li>
-			<li>
-				<a href="#bds">Installation with Delphi 2005 and later</a>
-			</li>
-		</ul>
+		component on your component palette. If you need help doing this <a
+			href="http://www.delphidabbler.com/url/install-comp"
+		>see here</a>.
 	</li>
 </ol>
 
+<p>
+	Note that the help file included in the download can only integrate with the
+	IDE in Delphi 3-7. For information on how to do this, see <a
+		href="http://www.delphidabbler.com/articles?article=15"
+	>this article</a>. If running on Windows Vista the help file cannot be
+	displayed unless WinHelp is installed. WinHelp is available as an
+	<a href="http://support.microsoft.com/kb/917607">update</a> from Microsoft.
+	Search for update KB917607 on MSDN or the Microsoft website if this link
+	does not work. Users of other versions of Delphi can either use the help
+	file as a stand-alone file (in which case some links won't work) or you can
+	use the <a
+		href="http://www.delphidabbler.com/url/sysinfo-wiki"
+	>System Information Unit Wiki</a>.
+</p>
 
 
-<h3 id="bds">
-	Installation with Delphi 2005 and later
-</h3>
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="demo">
+	Demo Project
+</h2>
 
 <p>
-	Note that <code>$(BDS)</code> represents the path where the appropriate
-	version of the Borland / CodeGear / Embarcadero Development System was
-	installed.
+	A demo project is included in the download. The project contains a tab set
+	where each tab displays the information from one of the classes or the
+	global variables. Deprecated code is not demonstrated.
 </p>
 
 <p>
-	The unit must be installed into a Delphi Win32 design package. It is assumed
-	that you will be installing into an existing package. You may decide to
-	install into the &quot;user&quot; package:
-	<code>$(BDS)\Lib\dclusr.dpk</code>.
+	The demo code will not compile with Delphi 3 since it uses overload methods.
 </p>
-
-<ol class="spaced">
-
-	<li>
-		Decide upon a suitable location into which to install the unit.
-		This may be a subdirectory of your <code>Borland Studio Projects</code>
-		(or <code>RAD Studio</code>) or <code>$(BDS)\lib</code> folders.
-	</li>
-	
-	<li>
-		Copy <code>PJSysInfo.pas</code> into the chosen installation folder.
-	</li>
-	
-	<li>
-		If you want to compile the deprecated code you should also copy
-		<code>PJSysInfo.dcr</code> to the same installation folder.
-	</li>
-	
-	<li>
-		Start the Development System (selecting the Delphi Win32 personality if
-		appropriate) then:
-
-		<ul>
-
-			<li>
-				Open the required package. Select <em>File | Open</em> menu and
-				choose a suitable package source file.
-			</li>
-			
-			<li>
-				If you are installing the deprecated code define
-				<code>PJSYSINFO_COMPILE_DEPRECATED</code> in the package's
-				project options, or uncomment the definition in
-				<code>PJSysInfo.pas</code>.
-			</li>
-
-			<li>
-				The package will now be displayed in the Project Manager with a
-				<code>.bpl</code> extension. Right click the package's entry and
-				select <em>Add</em> to display the <em>Add</em> dialog box.
-				Enter the full path to <code>PJSysInfo.pas</code> in the
-				<em>Unit file name</em> edit box (use the <em>Browse</em> button
-				to navigate to the file). Click <em>OK</em> to add the component
-				to the package.
-			</li>
-			
-			<li>
-				Back in the Project Manager, check that all the added files
-				appear under the package's <em>Contains</em> node. If so, right
-				click the package's entry again and select <em>Compile</em>. If
-				you opted to compile the deprecated code then a message should
-				be displayed confirming that <var>TPJSysInfo</var> has been
-				registered. The component should appear in the
-				&quot;DelphiDabbler&quot; section of the Tool Palette. (Note
-				this will only appear when a form is selected in the designer).
-			</li>
-			
-			<li>
-				Close the package project using the <em>File | Close</em> menu
-				item. Accept any prompt that offers to save the package project.
-			</li>
-			
-		</ul>
-		
-	</li>
-
-	<li>
-		If you wish you can now delete <code>PJSysInfo.pas</code> from the
-		chosen installation folder.
-	</li>
-	
-	<li>
-		The supplied help file cannot be integrated with the IDE's help system.
-		However it can be used independently of the IDE, albeit with reduced
-		functionality. Note that the source code is heavily documented.
-	</li>
-
-	<li>
-		The demo programs can be loaded into Delphi and compiled and run as
-		required.
-	</li>
-
-</ol>
-
-
-<h3 id="d7">
-	Installation with Delphi 3 to 7
-</h3>
-
-<p>
-	Note that <code>$(DELPHI)</code> represents the path where the appropriate
-	version of Delphi was installed.
-</p>
-
-<p>
-	The unit must be installed into a design package. It is assumed that
-	you will be installing into an existing package. You may wish to use the
-	&quot;user&quot; package named <code>dclusr.dpk</code> or
-	<code>dclusrXX.dpk</code> (where <code>XX</code> is a version number). This
-	package can be found in <code>$(DELPHI)\Lib</code>. Ensure that the chosen
-	package &quot;requires&quot; <code>designide.dcp</code>.
-</p>
-
-<ol class="spaced">
-
-	<li>
-		Decide upon a suitable location into which to install the unit.
-		This may be a subdirectory of your <code>$(DELPHI)\lib</code> folder.
-	</li>
-	
-	<li>
-		Copy <code>PJSysInfo.pas</code> to the chosen installation folder.
-	</li>
-
-	<li>
-		If you want to compile the deprecated code you should also copy
-		<code>PJSysInfo.dcr</code> to the same installation folder.
-	</li>
-	
-	<li>	
-		Start Delphi then:
-		
-		<ul>
-			
-			<li>
-				Choose the <em>Component | Install Component</em> menu option to
-				display the <em>Install Component</em> dialog box. Ensure the
-				<em>Into existing package</em> tab is selected. Enter the full
-				path to <code>PJSysInfo.pas</code> in the <em>Unit file
-				name</em> edit box (use the adjacent <em>Browse</em> button to
-				navigate to the file). Choose the required package from the
-				<em>Package description</em> combo box, or by navigating to the
-				package using <em>Browse</em>. Click <em>OK</em> to confirm your
-				selections. 
-			</li>
-
-			<li>
-				A confirmation dialog box may displayed, querying whether it is
-				OK to rebuild and reinstall the package. Click <em>No</em> at
-				this point. The Package Manager window will be displayed.
-			</li>
-			
-			<li>
-				If you want to compile the deprecated code, select the 
-				<em>Options</em> button in the Package Manager and, on the
-				<em>Directories / Conditionals</em> tab enter
-				<code>PJSYSINFO_COMPILE_DEPRECATED</code> in the
-				<em>Conditional defines</em> edit box. Close the Project Options
-				dialog box.
-			</li>
-			
-			<li>
-				You can now compile the package by selecting the Package
-				Manager's <em>Compile</em> button. The package will now be
-				rebuilt. If you have included the deprecated code, a message
-				will be displayed indicating that the <var>TPJSysInfo</var>
-				component has been installed. Click <em>OK</em> to dismiss the
-				message box. The component will appear on the
-				&quot;DelphiDabbler&quot; palette. If deprecated code has not
-				been compiled no component will be installed.
-			</li>
-
-		</ul>
-
-	</li>
-
-	<li>
-		If you wish you can now delete <code>PJSysInfo.pas</code> from the
-		chosen installation folder.
-	</li>
-
-	<li>
-		<div>
-			The provided help file can be integrated with the IDE's OpenHelp
-			system. Delphi 6 and 7 also require the use of the supplied
-			<code>.als</code> file. The simplest way to install help is to use
-			my <a href="http://www.delphidabbler.com/software?id=chi">Component
-			Help Installer Expert</a> (v2.2.1 or later). If you prefer to
-			install manually,
-			<a href="http://www.delphidabbler.com/articles?article=15">this
-			article</a> explains the process.
-		</div>
-		<div class="pullout">
-			Help will not work on Windows Vista and later since WinHelp is not
-			included by default. See above for details of how to get a copy of
-			WinHelp for Vista and Windows Server 2008.
-		</div>
-	</li>
-
-	<li>
-		The demo program can be loaded into Delphi and compiled and run as
-		required. Note that the demo will not compile on Delphi 3.
-	</li>
-
-</ol>
 
 
 <p class="gototop">
@@ -672,9 +449,25 @@
 </p>
 
 
-<p class="pullout">
-	A copy of the license is included in the download &ndash see
-	<code>MPL.txt</code>.
+<p class="gototop">
+	&raquo; <a href="#contents">Contents</a>
+</p>
+
+<h2 id="bugs">
+	Bugs and Feature Requests
+</h2>
+
+<p>
+	Bugs can be reported or new features requested via the <a
+		href="http://www.delphidabbler.com/url/ddlib-issues"
+	>Issue Tracker</a>.
+</p>
+
+<p>
+	If no similar report or request has been recorded already, use the <em>New
+	Issue</em> link to add a new issue. Please select the most appropriate
+	template from the <em>Templates</em> drop down list.
+
 </p>
 
 
@@ -704,8 +497,9 @@
 	<div class="comments">
 		Please
 		<a href="http://www.delphidabbler.com/contact">
-		let me know</a> if you have any comments about the components, if you
-		have found a bug, or you want to suggest any updates.
+		let me know</a> if you have any comments about the component, but please
+		use the Issue Tracker noted above to report bugs and request new
+		features.
 	</div>
 
 	<div class="copyright">

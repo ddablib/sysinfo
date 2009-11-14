@@ -35,12 +35,12 @@ zip -j -9 %OutFile% %HelpDir%\PJSysInfo.als
 zip -j -9 %OutFile% %DocsDir%\ChangeLog.txt
 zip -j -9 %OutFile% %DocsDir%\MPL.txt
 zip -j -9 %OutFile% %DocsDir%\ReadMe.htm
+zip -j -9 %OutFile% %DocsDir%\Wiki.URL
 
 zip -9 %OutFile% %DemoDir%\SysInfoDemo.dpr
 zip -9 %OutFile% %DemoDir%\SysInfoDemo.res
 zip -9 %OutFile% %DemoDir%\FmDemo.pas
 zip -9 %OutFile% %DemoDir%\FmDemo.dfm
-zip -9 %OutFile% %DemoDir%\DelphiDabbler.ico
 
 endlocal
 

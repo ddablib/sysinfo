@@ -1,3 +1,7 @@
+Release 3.2.1 of 14 November 2009
++ Prevented warnings on Delphi 4 when compiling without deprecated components.
++ Updated documentation.
+
 Release 3.2 of 27 September 2009
 + Added some further PRODUCT_* constants that are new for Windows 7 / 2008 Server R2.
 + Changed character set handling to take account of Unicode and non-Unicode compilers.

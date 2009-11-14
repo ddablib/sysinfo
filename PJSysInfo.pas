@@ -583,7 +583,7 @@ type
   private
     function GetComputerName: string;
       {Read access method for ComputerName property.
-        Result := Property value.
+        @return Property value.
       }
     function GetUserName: string;
       {Read access method for UserName property.
@@ -855,10 +855,12 @@ resourcestring
   // Error messages
   sUnknownPlatform = 'Unrecognized operating system platform';
   sUnknownProduct = 'Unrecognised operating system product';
-  sDupInstErr = 'Only one %0:s component is permitted on a form: '
-    + '%1:s is already present on %2:s';
   sBadRegType =  'Unsupported registry type';
   sBadProcHandle = 'Bad process handle';
+  {$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
+  sDupInstErr = 'Only one %0:s component is permitted on a form: '
+    + '%1:s is already present on %2:s';
+  {$ENDIF}
 
 
 const

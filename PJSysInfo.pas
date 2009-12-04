@@ -38,6 +38,7 @@
  *   Guillermo Fazzolari (bug fix in v2.0.1)
  *   Laurent Pierre (PRODUCT_* constants and suggested GetProductInfo API code
  *     used in v3.0)
+ *   Rich Habedank (bug fix in revision 228)
  *
  * ***** END LICENSE BLOCK *****
 }
@@ -58,7 +59,7 @@ unit PJSysInfo;
 {$DEFINE REGISTRYEX}        // extra TRegistry methods available
 {$DEFINE WARNDIRS}          // $WARN compiler directives available
 {$DEFINE DEPRECATED}        // deprecated directive available
-{$DEFINE EXCLUDETRAILING}   // ExcludeTrailing... SysUtils functions valid
+{$DEFINE EXCLUDETRAILING}   // SysUtils.ExcludeTrailingPathDelimiter available
 {$DEFINE MESSAGEDIRS}       // $MESSAGE compiler directives available
 {$DEFINE HASLONGWORD}       // LongWord type defined
 
@@ -81,6 +82,7 @@ unit PJSysInfo;
 {$IFDEF VER130} // Delphi 5
   {$UNDEF WARNDIRS}
   {$UNDEF DEPRECATED}
+  {$UNDEF EXCLUDETRAILING}  // ** fix by Rich Habedank
   {$UNDEF MESSAGEDIRS}
 {$ENDIF}
 {$IFDEF VER140} // Delphi 6

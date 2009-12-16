@@ -1,3 +1,6 @@
+Release 3.2.2 of 16 December 2009
++ Fixed bug (issue #1) which prevented the unit from compiling with Delphi 5.
+
 Release 3.2.1 of 14 November 2009
 + Prevented warnings on Delphi 4 when compiling without deprecated components.
 + Updated documentation.

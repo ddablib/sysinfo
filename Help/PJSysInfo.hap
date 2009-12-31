@@ -1,6 +1,6 @@
 <*HelpAuthor HTA1.9*>
 AK
-63
+64
 [Footnotes]
 #=IDH_SI_UNIT
 $=PSSysInfo unit
@@ -477,7 +477,7 @@ $=TPJOSInfo Properties
 #=IDH_OSI_METHODS
 $=TPJOSInfo Methods
 [End]
-20
+21
 HS
 1
 0
@@ -618,7 +618,14 @@ HS
 0
 IDH_OSI_IsTabletPC
 
-2959
+HS
+21
+0
+
+0
+IDH_OSI_IsRemoteSession
+
+3095
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}}{\colortbl\red0\green0\blue0;\red0\green0\blue0;\red0\green128\blue0;}\pard \plain \plain\f0\fs18\cf1\b Methods\plain\f0\fs18\cf1 
 \par 
 \par \pard \tx200 \tx2400 \tx2600 \plain\f1\fs18\cf1 \tab \plain\f1\fs18\cf2 \protect <HS 1>\plain\f1\fs18\cf1 BuildNumber\plain\f1\fs18\cf2 \protect </HS 1>\plain\f1\fs18\cf1 
@@ -626,6 +633,7 @@ IDH_OSI_IsTabletPC
 \par \plain\f1\fs18\cf1 \tab \plain\f1\fs18\cf2 \protect <HS 3>\plain\f1\fs18\cf1 Edition\plain\f1\fs18\cf2 \protect </HS 3>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 18>\plain\f1\fs18\cf1 HasPenExtensions\plain\f1\fs18\cf2 \protect </HS 18>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 19>\plain\f1\fs18\cf1 IsMediaCenter\plain\f1\fs18\cf2 \protect </HS 19>\plain\f1\fs18\cf1 
+\par \tab \plain\f1\fs18\cf2 \protect <HS 21>\plain\f1\fs18\cf1 IsRemoteSession\plain\f1\fs18\cf2 \protect </HS 21>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 8>\plain\f1\fs18\cf1 IsServer\plain\f1\fs18\cf2 \protect </HS 8>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 20>\plain\f1\fs18\cf1 IsTabletPC\plain\f1\fs18\cf2 \protect </HS 20>\plain\f1\fs18\cf1 
 \par \tab \plain\f1\fs18\cf2 \protect <HS 4>\plain\f1\fs18\cf1 IsWin32s\plain\f1\fs18\cf2 \protect </HS 4>\plain\f1\fs18\cf1 
@@ -822,6 +830,40 @@ KP
 \par \plain\f0\fs18\cf3\b Description\plain\f0\fs18\cf3 
 \par \plain\f0\fs8\cf3 
 \par \plain\f0\fs18\cf3 Returns true if \plain\f1\fs18\cf3 Windows Media Center is \plain\f0\fs18\cf3 installed\plain\f1\fs18\cf3 .
+\par \plain\f0\fs18\cf3 
+\par }
+
+[Footnotes]
+#=IDH_OSI_IsRemoteSession
+$=TPJOSInfo.IsRemoteSession
+K=IsRemoteSession,TPJOSInfo;TPJOSInfo,IsRemoteSession;IsRemoteSession
+A=TPJOSInfo_IsRemoteSession;IsRemoteSession_Method;IsRemoteSession
+[End]
+3
+NS
+42
+HS
+43
+0
+
+0
+IDH_OSI_CLASS
+
+KP
+114
+1328
+{\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}{\f2\fmodern Courier New;}{\f3\fmodern \fcharset0 Courier New;}}{\colortbl\red0\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green0\blue0;}\pard \plain \plain\f0\fs22\cf1\b \protect <NS 42>\plain\f0\fs8\cf2  \plain\f0\fs8\cf2\b 
+\par \plain\f0\fs22\cf2\b TPJOSInfo.\plain\f1\fs22\cf2\b IsRemoteSession\plain\f0\fs20\cf3 
+\par \plain\f0\fs12\cf3 
+\par \plain\f0\fs18\cf1 \protect <HS 43>\plain\f0\fs18\cf3 TPJ\plain\f1\fs18\cf3 OS\plain\f0\fs18\cf3 Info\plain\f0\fs18\cf1 \protect </HS 43>\plain\f0\fs18\cf3  
+\par \plain\f0\fs8\cf3  \plain\f0\fs18\cf1 \protect </NS 42>\plain\f0\fs18\cf3 
+\par \plain\f1\fs18\cf3 Checks for a Windows Terminal Server remote session.\plain\f0\fs18\cf3 
+\par 
+\par \plain\f2\fs18\cf1\b \protect <KP 114>\plain\f3\fs18\cf3\b class function\plain\f2\fs18\cf3  IsRemoteSession: \plain\f3\fs18\cf3 Boolean\plain\f2\fs18\cf3 ;\plain\f2\fs18\cf1 \protect </KP 114>\plain\f2\fs18\cf3 
+\par \plain\f0\fs18\cf3 
+\par \plain\f0\fs18\cf3\b Description\plain\f0\fs18\cf3 
+\par \plain\f0\fs8\cf3 
+\par \plain\f0\fs18\cf3 Returns true if\plain\f1\fs18\cf3  the program is running under a Windows Terminal Server as a remote client session.
 \par \plain\f0\fs18\cf3 
 \par }
 

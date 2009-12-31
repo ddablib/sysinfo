@@ -162,6 +162,7 @@ begin
   DisplayItem('IsWow64', TPJOSInfo.IsWow64);
   DisplayItem('IsMediaCenter', TPJOSInfo.IsMediaCenter);
   DisplayItem('IsTabletPC', TPJOSInfo.IsTabletPC);
+  DisplayItem('IsRemoteSession', TPJOSInfo.IsRemoteSession);
   DisplayItem('MajorVersion', TPJOSInfo.MajorVersion);
   DisplayItem('MinorVersion', TPJOSInfo.MinorVersion);
   DisplayItem('Platform', TPJOSInfo.Platform);

@@ -20,6 +20,8 @@ ismediacenter
 ismediacenter_method
 isnetworkpresent
 isnetworkpresent_method
+isremotesession
+isremotesession_method
 isserver
 isserver_method
 istabletpc
@@ -89,6 +91,7 @@ tpjosinfo_description
 tpjosinfo_edition
 tpjosinfo_haspenextensions
 tpjosinfo_ismediacenter
+tpjosinfo_isremotesession
 tpjosinfo_isserver
 tpjosinfo_istabletpc
 tpjosinfo_iswin32s

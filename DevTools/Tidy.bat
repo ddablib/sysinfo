@@ -3,7 +3,7 @@
 @rem
 @rem Script used to delete temporary files and directories.
 @rem
-@rem Copyright (C) Peter Johnson (www.delphidabbler.com), 2008-2009
+@rem Copyright (C) Peter Johnson (www.delphidabbler.com), 2008-2010
 @rem
 @rem $Rev$
 @rem $Date$
@@ -25,7 +25,7 @@ del /S %RootDir%\*.dcu
 del /S %RootDir%\*.exe 
 del /S %RootDir%\*.dsk 
 del /S %RootDir%\*.bak
-del /S %RootDir%\*.GID 
+del /S /AH %RootDir%\*.GID 
 echo.
 
 echo Deleting temporary directories

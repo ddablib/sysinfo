@@ -1,15 +1,21 @@
-Release 3.3 of 31 December 2009
+; ------------------------------------------------------------------------------
+; Change Log for System Information Unit
+; $Rev$
+; $Date$
+; ------------------------------------------------------------------------------
+
+Release v3.3 of 31 December 2009
 + Added new TPJOSInfo.IsRemoteSession method to check if the executable is running under Windows Terminal Server as a remote session.
 + Updated help file accordingly.
 
-Release 3.2.2 of 16 December 2009
+Release v3.2.2 of 16 December 2009
 + Fixed bug (issue #1) which prevented the unit from compiling with Delphi 5.
 
-Release 3.2.1 of 14 November 2009
+Release v3.2.1 of 14 November 2009
 + Prevented warnings on Delphi 4 when compiling without deprecated components.
 + Updated documentation.
 
-Release 3.2 of 27 September 2009
+Release v3.2 of 27 September 2009
 + Added some further PRODUCT_* constants that are new for Windows 7 / 2008 Server R2.
 + Changed character set handling to take account of Unicode and non-Unicode compilers.
 + Unit, but not demo, can now be compiled on Delphi 3.
@@ -17,7 +23,7 @@ Release 3.2 of 27 September 2009
 + All exceptions raised are now of type EPJsysInfo.
 + Updated documentation.
 
-Release 3.1 of 13 April 2009
+Release v3.1 of 13 April 2009
 + Updated help file re revised static classes.
 + Revised demo program by adding output for new methods.
 + Added further PROCESSOR_ARCHITECTURE_*, PROCESSOR_* and PRODUCT_* constants.
@@ -29,7 +35,7 @@ Release 3.1 of 13 April 2009
 + Added TPJSystemFolders.SystemWow64 method.
 + Product name of unknown later Windows version now contains major and minor version numbers.
 
-Release 3.0 of 15 April 2008
+Release v3.0 of 15 April 2008
 + Added support for GetProductInfo API (Vista)
 + Added support for Windows 2008 server and 2003 server R2.
 + Rewrote code that gets OS edition.
@@ -44,13 +50,13 @@ Release 3.0 of 15 April 2008
 + Updated help file re revised static class and removed topics for deprecated component and functions.
 + Revised demo program by adding output for new methods and removed demo of deprecated code.
 
-Release 2.1 of 15 October 2006
+Release v2.1 of 15 October 2006
 + Added new TPJComputerInfo.MACAddress method that gets the MAC address of the first available network card.
 
-Release 2.0.1 of 07 January 2005
+Release v2.0.1 of 07 January 2005
 + Fixed bug in TPJOSInfo.ProductName method when running on Windows 2003.
 
-Release 2.0 of 13 November 2005
+Release v2.0 of 13 November 2005
 + Added new static classes that duplicate and extend the features of the TPJSysInfo component:
   - TPJComputerInfo: provides information about the host computer.
   - TPJSystemFolders: gets paths to system folders.
@@ -68,7 +74,7 @@ Release 2.0 of 13 November 2005
 + Added Help A-Keywords file for integration into Delphi 6/7 help systems.
 + Updated demo program re new features.
 
-Release 1.2 of 30 June 2003
+Release v1.2 of 30 June 2003
 + Updated palette name to "DelphiDabbler" from "PJ Stuff".
 + Added support for Windows 2003 server to OS detection functions.
 + Removed requirement for Registry unit by accessing registry via Windows API where required.
@@ -78,8 +84,8 @@ Release 1.2 of 30 June 2003
 + Updated help file.
 + Added new demo application.
 
-Release 1.1 of 25 November 2001
+Release v1.1 of 25 November 2001
 + Added functions and component properties to retrieve Program Files and Common Files folders.
 
-Release 1.0 of 10 November 2001
+Release v1.0 of 10 November 2001
 + Original version.

@@ -2009,10 +2009,11 @@ class function TPJComputerInfo.ComputerName: string;
     @return Computer name.
   }
 var
-  PComputerName: array[0..MAX_PATH] of Char;// buffer for name returned from API
-  Size: DWORD;                              // size of name buffer
+  PComputerName:  // buffer for name returned from API
+    array[0..MAX_COMPUTERNAME_LENGTH] of Char;
+  Size: DWORD;    // size of name buffer
 begin
-  Size := MAX_PATH;
+  Size := MAX_COMPUTERNAME_LENGTH;
   if Windows.GetComputerName(PComputerName, Size) then
     Result := PComputerName
   else
@@ -2152,11 +2153,13 @@ class function TPJComputerInfo.UserName: string;
   {Gets name of currently logged on user.
     @return User name.
   }
+const
+  UNLEN = 256;  // max size of user name buffer (per MS SDK docs)
 var
-  PUserName: array[0..MAX_PATH] of Char;  // buffer for name returned from API
-  Size: DWORD;                            // size of name buffer
+  PUserName: array[0..UNLEN] of Char; // buffer for name returned from API
+  Size: DWORD;                        // size of name buffer
 begin
-  Size := MAX_PATH;
+  Size := UNLEN;
   if Windows.GetUserName(PUserName, Size) then
     Result := PUserName
   else

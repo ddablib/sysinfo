@@ -53,7 +53,7 @@ Release v3.0 of 15 April 2008
 Release v2.1 of 15 October 2006
 + Added new TPJComputerInfo.MACAddress method that gets the MAC address of the first available network card.
 
-Release v2.0.1 of 07 January 2005
+Release v2.0.1 of 07 January 2006
 + Fixed bug in TPJOSInfo.ProductName method when running on Windows 2003.
 
 Release v2.0 of 13 November 2005

@@ -58,18 +58,20 @@ unit PJSysInfo;
 {.$DEFINE PJSYSINFO_COMPILE_DEPRECATED}
 
 // Assume all required facilities available
-{$DEFINE REGISTRYEX}        // extra TRegistry methods available
-{$DEFINE WARNDIRS}          // $WARN compiler directives available
-{$DEFINE DEPRECATED}        // deprecated directive available
-{$DEFINE EXCLUDETRAILING}   // SysUtils.ExcludeTrailingPathDelimiter available
-{$DEFINE MESSAGEDIRS}       // $MESSAGE compiler directives available
-{$DEFINE HASLONGWORD}       // LongWord type defined
+{$DEFINE REGOPENREADONLY}     // TRegistry.OpenKeyReadOnly available
+{$DEFINE REGACCESSFLAGS}      // TRegistry access flags available
+{$DEFINE WARNDIRS}            // $WARN compiler directives available
+{$DEFINE DEPRECATED}          // deprecated directive available
+{$DEFINE EXCLUDETRAILING}     // SysUtils.ExcludeTrailingPathDelimiter available
+{$DEFINE MESSAGEDIRS}         // $MESSAGE compiler directives available
+{$DEFINE HASLONGWORD}         // LongWord type defined
 
 // Undefine facilities not available in earlier compilers
 // Note: Delphi 1/2 is not included since the code will not compile on these
 // compilers
 {$IFDEF VER100} // Delphi 3
-  {$UNDEF REGISTRYEX}
+  {$UNDEF REGOPENREADONLY}
+  {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
   {$UNDEF DEPRECATED}
   {$UNDEF EXCLUDETRAILING}
@@ -77,12 +79,14 @@ unit PJSysInfo;
   {$UNDEF HASLONGWORD}
 {$ENDIF}
 {$IFDEF VER120} // Delphi 4
+  {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
   {$UNDEF DEPRECATED}
   {$UNDEF EXCLUDETRAILING}
   {$UNDEF MESSAGEDIRS}
 {$ENDIF}
 {$IFDEF VER130} // Delphi 5
+  {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
   {$UNDEF DEPRECATED}
   {$UNDEF EXCLUDETRAILING}  // ** fix by Rich Habedank
@@ -1038,21 +1042,6 @@ begin
 end;
 {$ENDIF}
 
-function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
-  {Uses registry object to open a key as read only. On versions of Delphi that
-  can't open keys as read only the key is opened normally.
-    @param Reg [in] Registry object used to open key.
-    @param Key [in] Name of registry key to be opened.
-    @return True if key opened, False otherwise.
-  }
-begin
-  {$IFDEF REGISTRYEX}
-  Result := Reg.OpenKeyReadOnly(Key);
-  {$ELSE}
-  Result := Reg.OpenKey(Key, False);
-  {$ENDIF}
-end;
-
 function GetRegistryString(const RootKey: HKEY;
   const SubKey, Name: string): string;
   {Gets a string value from the registry
@@ -1063,13 +1052,46 @@ function GetRegistryString(const RootKey: HKEY;
       if value or key not found.
     @except EPJSysInfo raised if value is not string or integer.
   }
+
+  // ---------------------------------------------------------------------------
+  function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
+    {Uses registry object to open a key as read only. On versions of Delphi that
+    can't open keys as read only the key is opened normally.
+      @param Reg [in] Registry object used to open key.
+      @param Key [in] Name of registry key to be opened.
+      @return True if key opened, False otherwise.
+    }
+  begin
+    {$IFDEF REGACCESSFLAGS}
+    //! fix for problem with OpenKeyReadOnly on 64 bit Windows
+    //! requires Reg has (KEY_READ or KEY_WOW64_64KEY) access flags
+    Result := Reg.OpenKey(Key, False);
+    {$ELSE}
+    {$IFDEF REGOPENREADONLY}
+    Result := Reg.OpenKeyReadOnly(Key);
+    {$ELSE}
+    Result := Reg.OpenKey(Key, False);
+    {$ENDIF}
+    {$ENDIF}
+  end;
+  // ---------------------------------------------------------------------------
+
 var
   Reg: TRegistry;          // registry access object
   ValueInfo: TRegDataInfo; // info about registry value
+{$IFDEF REGACCESSFLAGS}
+const
+  KEY_WOW64_64KEY = $0100;  // registry access key not defined in all Delphis
+{$ENDIF}
 begin
   Result := '';
   // Open registry at required root key
+  {$IFDEF REGACCESSFLAGS}
+  //! fix for issue #14 (http://bit.ly/eWkw9X) suggested by Steffen Schaff
+  Reg := TRegistry.Create(KEY_READ or KEY_WOW64_64KEY);
+  {$ELSE}
   Reg := TRegistry.Create;
+  {$ENDIF}
   try
     Reg.RootKey := RootKey;
     // Open registry key and check value exists

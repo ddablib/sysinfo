@@ -12,6 +12,10 @@
  * default, but compilation can be enabled by defining the
  * PJSYSINFO_COMPILE_DEPRECATED symbol.
  *
+ * NOTE: When compiled with old versions of Delphi that do not support setting
+ * registry access keys via the TRegistry object, some of this code may not work
+ * correctly on 64 bit Windows.
+ *
  * $Rev$
  * $Date$
  *
@@ -952,6 +956,11 @@ var
   // Records processor architecture information
   pvtProcessorArchitecture: Word = 0;
 
+// Flag required when opening registry with specified access flags
+{$IFDEF REGACCESSFLAGS}
+const
+  KEY_WOW64_64KEY = $0100;  // registry access key not defined in all Delphis
+{$ENDIF}
 
 // -----------------------------------------------------------------------------
 // Helper routines
@@ -1063,10 +1072,12 @@ function GetRegistryString(const RootKey: HKEY;
     }
   begin
     {$IFDEF REGACCESSFLAGS}
-    //! fix for problem with OpenKeyReadOnly on 64 bit Windows
+    //! Fix for problem with OpenKeyReadOnly on 64 bit Windows
     //! requires Reg has (KEY_READ or KEY_WOW64_64KEY) access flags
     Result := Reg.OpenKey(Key, False);
     {$ELSE}
+    // Can't fix Win 64 problem since this version of Delphi does not support
+    // customisation of registry access flags.
     {$IFDEF REGOPENREADONLY}
     Result := Reg.OpenKeyReadOnly(Key);
     {$ELSE}
@@ -1079,10 +1090,6 @@ function GetRegistryString(const RootKey: HKEY;
 var
   Reg: TRegistry;          // registry access object
   ValueInfo: TRegDataInfo; // info about registry value
-{$IFDEF REGACCESSFLAGS}
-const
-  KEY_WOW64_64KEY = $0100;  // registry access key not defined in all Delphis
-{$ENDIF}
 begin
   Result := '';
   // Open registry at required root key
@@ -1682,7 +1689,18 @@ begin
   begin
     // System is reporting NT4 SP6
     // we have SP 6a if particular registry key exists
+    {$IFDEF REGACCESSFLAGS}
+    // Prevent potential error on Win 64 in reading registry, which may cause
+    // following KeyExists method to return false even if key is present.
+    // Note though that this is academic because I don't think there was a 64
+    // bit version of NT4, so there won't be a hotfix key anyway, hence False
+    // will be returned regardless.
+    Reg := TRegistry.Create(KEY_READ or KEY_WOW64_64KEY);
+    {$ELSE}
+    // Can't fix potential Win 64 error since this version of Delphi does not
+    // support customisation of registry access flags.
     Reg := TRegistry.Create;
+    {$ENDIF}
     try
       Reg.RootKey := HKEY_LOCAL_MACHINE;
       Result := Reg.KeyExists(

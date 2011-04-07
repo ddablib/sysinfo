@@ -13,8 +13,8 @@
  * PJSYSINFO_COMPILE_DEPRECATED symbol.
  *
  * NOTE: When compiled with old versions of Delphi that do not support setting
- * registry access keys via the TRegistry object, some of this code may not work
- * correctly on 64 bit Windows.
+ * registry access flags via the TRegistry object, some of this code may not
+ * work correctly on 64 bit Windows.
  *
  * $Rev$
  * $Date$
@@ -959,7 +959,7 @@ var
 // Flag required when opening registry with specified access flags
 {$IFDEF REGACCESSFLAGS}
 const
-  KEY_WOW64_64KEY = $0100;  // registry access key not defined in all Delphis
+  KEY_WOW64_64KEY = $0100;  // registry access flag not defined in all Delphis
 {$ENDIF}
 
 // -----------------------------------------------------------------------------

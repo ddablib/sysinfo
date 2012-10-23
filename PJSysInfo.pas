@@ -37,7 +37,7 @@
  * The Initial Developer of the Original Code is Peter Johnson
  * (http://www.delphidabbler.com/).
  *
- * Portions created by the Initial Developer are Copyright (C) 2001-2011 Peter
+ * Portions created by the Initial Developer are Copyright (C) 2001-2012 Peter
  * Johnson. All Rights Reserved.
  *
  * Contributor(s):
@@ -175,85 +175,116 @@ type
 const
   // These Windows-defined constants are required for use with TOSVersionInfoEx
   // NT Product types
-  VER_NT_WORKSTATION                        = 1;
-  VER_NT_DOMAIN_CONTROLLER                  = 2;
-  VER_NT_SERVER                             = 3;
+  VER_NT_WORKSTATION                          = 1;
+  VER_NT_DOMAIN_CONTROLLER                    = 2;
+  VER_NT_SERVER                               = 3;
   // Mask representing NT product suites
-  VER_SUITE_SMALLBUSINESS                   = $00000001;
-  VER_SUITE_ENTERPRISE                      = $00000002;
-  VER_SUITE_BACKOFFICE                      = $00000004;
-  VER_SUITE_COMMUNICATIONS                  = $00000008;
-  VER_SUITE_TERMINAL                        = $00000010;
-  VER_SUITE_SMALLBUSINESS_RESTRICTED        = $00000020;
-  VER_SUITE_EMBEDDEDNT                      = $00000040;
-  VER_SUITE_DATACENTER                      = $00000080;
-  VER_SUITE_SINGLEUSERTS                    = $00000100;
-  VER_SUITE_PERSONAL                        = $00000200;
-  VER_SUITE_SERVERAPPLIANCE                 = $00000400;
-  VER_SUITE_BLADE                           = VER_SUITE_SERVERAPPLIANCE;
-  VER_SUITE_EMBEDDED_RESTRICTED             = $00000800;
-  VER_SUITE_SECURITY_APPLIANCE              = $00001000;
-  VER_SUITE_STORAGE_SERVER                  = $00002000;
-  VER_SUITE_COMPUTE_SERVER                  = $00004000;
-  VER_SUITE_WH_SERVER                       = $00008000;
+  VER_SUITE_SMALLBUSINESS                     = $00000001;
+  VER_SUITE_ENTERPRISE                        = $00000002;
+  VER_SUITE_BACKOFFICE                        = $00000004;
+  VER_SUITE_COMMUNICATIONS                    = $00000008;
+  VER_SUITE_TERMINAL                          = $00000010;
+  VER_SUITE_SMALLBUSINESS_RESTRICTED          = $00000020;
+  VER_SUITE_EMBEDDEDNT                        = $00000040;
+  VER_SUITE_DATACENTER                        = $00000080;
+  VER_SUITE_SINGLEUSERTS                      = $00000100;
+  VER_SUITE_PERSONAL                          = $00000200;
+  VER_SUITE_SERVERAPPLIANCE                   = $00000400;
+  VER_SUITE_BLADE                             = VER_SUITE_SERVERAPPLIANCE;
+  VER_SUITE_EMBEDDED_RESTRICTED               = $00000800;
+  VER_SUITE_SECURITY_APPLIANCE                = $00001000;
+  VER_SUITE_STORAGE_SERVER                    = $00002000;
+  VER_SUITE_COMPUTE_SERVER                    = $00004000;
+  VER_SUITE_WH_SERVER                         = $00008000;
 
   // These Windows-defined constants are required for use with the
   // GetProductInfo API call (Vista and later)
   // ** Thanks to Laurent Pierre for providing these defintions.
   // ** Additional definitions were obtained from
   //    http://msdn.microsoft.com/en-us/library/ms724358
-  PRODUCT_BUSINESS                          = $00000006;
-  PRODUCT_BUSINESS_N                        = $00000010;
-  PRODUCT_CLUSTER_SERVER                    = $00000012;
-  PRODUCT_DATACENTER_SERVER                 = $00000008;
-  PRODUCT_DATACENTER_SERVER_CORE            = $0000000C;
-  PRODUCT_DATACENTER_SERVER_CORE_V          = $00000027;
-  PRODUCT_DATACENTER_SERVER_V               = $00000025;
-  PRODUCT_ENTERPRISE                        = $00000004;
-  PRODUCT_ENTERPRISE_E                      = $00000046;  // new for 6.1
-  PRODUCT_ENTERPRISE_N                      = $0000001B;
-  PRODUCT_ENTERPRISE_SERVER                 = $0000000A;
-  PRODUCT_ENTERPRISE_SERVER_CORE            = $0000000E;
-  PRODUCT_ENTERPRISE_SERVER_CORE_V          = $00000029;
-  PRODUCT_ENTERPRISE_SERVER_IA64            = $0000000F;
-  PRODUCT_ENTERPRISE_SERVER_V               = $00000026;
-  PRODUCT_HOME_BASIC                        = $00000002;
-  PRODUCT_HOME_BASIC_E                      = $00000043;  // new for 6.1
-  PRODUCT_HOME_BASIC_N                      = $00000005;
-  PRODUCT_HOME_PREMIUM                      = $00000003;
-  PRODUCT_HOME_PREMIUM_E                    = $00000044;  // new for 6.1
-  PRODUCT_HOME_PREMIUM_N                    = $0000001A;
-  PRODUCT_HOME_SERVER                       = $00000013;
-  PRODUCT_HYPERV                            = $0000002A;
-  PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT  = $0000001E;
-  PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING   = $00000020;
-  PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY    = $0000001F;
-  PRODUCT_PROFESSIONAL                      = $00000030;  // new for 6.1
-  PRODUCT_PROFESSIONAL_E                    = $00000045;  // new for 6.1
-  PRODUCT_PROFESSIONAL_N                    = $00000031;  // new for 6.1
-  PRODUCT_SERVER_FOR_SMALLBUSINESS          = $00000018;
-  PRODUCT_SERVER_FOR_SMALLBUSINESS_V        = $00000023;
-  PRODUCT_SERVER_FOUNDATION                 = $00000021;
-  PRODUCT_SMALLBUSINESS_SERVER              = $00000009;
-  PRODUCT_SMALLBUSINESS_SERVER_PREMIUM      = $00000019;
-  PRODUCT_STANDARD_SERVER                   = $00000007;
-  PRODUCT_STANDARD_SERVER_CORE              = $0000000D;
-  PRODUCT_STANDARD_SERVER_CORE_V            = $00000028;
-  PRODUCT_STANDARD_SERVER_V                 = $00000024;
-  PRODUCT_STARTER                           = $0000000B;
-  PRODUCT_STARTER_E                         = $00000042;  // new for 6.1
-  PRODUCT_STARTER_N                         = $0000002F;  // new for 6.1
-  PRODUCT_STORAGE_ENTERPRISE_SERVER         = $00000017;
-  PRODUCT_STORAGE_EXPRESS_SERVER            = $00000014;
-  PRODUCT_STORAGE_STANDARD_SERVER           = $00000015;
-  PRODUCT_STORAGE_WORKGROUP_SERVER          = $00000016;
-  PRODUCT_UNDEFINED                         = $00000000;
-  PRODUCT_ULTIMATE                          = $00000001;
-  PRODUCT_ULTIMATE_E                        = $00000047;  // new for 6.1
-  PRODUCT_ULTIMATE_N                        = $0000001C;
-  PRODUCT_WEB_SERVER                        = $00000011;
-  PRODUCT_WEB_SERVER_CORE                   = $0000001D;
-  PRODUCT_UNLICENSED                        = $ABCDABCD;
+  PRODUCT_BUSINESS                            = $00000006;
+  PRODUCT_BUSINESS_N                          = $00000010;
+  PRODUCT_CLUSTER_SERVER                      = $00000012;
+  PRODUCT_CLUSTER_SERVER_V                    = $00000040;
+  PRODUCT_CORE                                = $00000065;
+  PRODUCT_CORE_N                              = $00000062;
+  PRODUCT_CORE_COUNTRYSPECIFIC                = $00000063;
+  PRODUCT_CORE_SINGLELANGUAGE                 = $00000064;
+  PRODUCT_DATACENTER_EVALUATION_SERVER        = $00000050;
+  PRODUCT_DATACENTER_SERVER                   = $00000008;
+  PRODUCT_DATACENTER_SERVER_CORE              = $0000000C;
+  PRODUCT_DATACENTER_SERVER_CORE_V            = $00000027;
+  PRODUCT_DATACENTER_SERVER_V                 = $00000025;
+  PRODUCT_ENTERPRISE                          = $00000004;
+  PRODUCT_ENTERPRISE_E                        = $00000046;
+  PRODUCT_ENTERPRISE_N_EVALUATION             = $00000054;
+  PRODUCT_ENTERPRISE_N                        = $0000001B;
+  PRODUCT_ENTERPRISE_EVALUATION               = $00000048;
+  PRODUCT_ENTERPRISE_SERVER                   = $0000000A;
+  PRODUCT_ENTERPRISE_SERVER_CORE              = $0000000E;
+  PRODUCT_ENTERPRISE_SERVER_CORE_V            = $00000029;
+  PRODUCT_ENTERPRISE_SERVER_IA64              = $0000000F;
+  PRODUCT_ENTERPRISE_SERVER_V                 = $00000026;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT       = $0000003B;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL       = $0000003C;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC    = $0000003D;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC    = $0000003E;
+  PRODUCT_HOME_BASIC                          = $00000002;
+  PRODUCT_HOME_BASIC_E                        = $00000043;
+  PRODUCT_HOME_BASIC_N                        = $00000005;
+  PRODUCT_HOME_PREMIUM                        = $00000003;
+  PRODUCT_HOME_PREMIUM_E                      = $00000044;
+  PRODUCT_HOME_PREMIUM_N                      = $0000001A;
+  PRODUCT_HOME_PREMIUM_SERVER                 = $00000022;
+  PRODUCT_HOME_SERVER                         = $00000013;
+  PRODUCT_HYPERV                              = $0000002A;
+  PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT    = $0000001E;
+  PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING     = $00000020;
+  PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY      = $0000001F;
+  PRODUCT_MULTIPOINT_STANDARD_SERVER          = $0000004C;
+  PRODUCT_MULTIPOINT_PREMIUM_SERVER           = $0000004D;
+  PRODUCT_PROFESSIONAL                        = $00000030;
+  PRODUCT_PROFESSIONAL_E                      = $00000045;
+  PRODUCT_PROFESSIONAL_N                      = $00000031;
+  PRODUCT_PROFESSIONAL_WMC                    = $00000067;
+  PRODUCT_SB_SOLUTION_SERVER_EM               = $00000036;
+  PRODUCT_SERVER_FOR_SB_SOLUTIONS             = $00000033;
+  PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM          = $00000037;
+  PRODUCT_SERVER_FOR_SMALLBUSINESS            = $00000018;
+  PRODUCT_SERVER_FOR_SMALLBUSINESS_V          = $00000023;
+  PRODUCT_SERVER_FOUNDATION                   = $00000021;
+  PRODUCT_SB_SOLUTION_SERVER                  = $00000032;
+  PRODUCT_SMALLBUSINESS_SERVER                = $00000009;
+  PRODUCT_SMALLBUSINESS_SERVER_PREMIUM        = $00000019;
+  PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE   = $0000003F;
+  PRODUCT_SOLUTION_EMBEDDEDSERVER             = $00000038;
+  PRODUCT_STANDARD_EVALUATION_SERVER          = $0000004F;
+  PRODUCT_STANDARD_SERVER                     = $00000007;
+  PRODUCT_STANDARD_SERVER_CORE                = $0000000D;
+  PRODUCT_STANDARD_SERVER_V                   = $00000024;
+  PRODUCT_STANDARD_SERVER_CORE_V              = $00000028;
+  PRODUCT_STANDARD_SERVER_SOLUTIONS           = $00000034;
+  PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE      = $00000035;
+  PRODUCT_STARTER                             = $0000000B;
+  PRODUCT_STARTER_E                           = $00000042;
+  PRODUCT_STARTER_N                           = $0000002F;
+  PRODUCT_STORAGE_ENTERPRISE_SERVER           = $00000017;
+  PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE      = $0000002E;
+  PRODUCT_STORAGE_EXPRESS_SERVER              = $00000014;
+  PRODUCT_STORAGE_EXPRESS_SERVER_CORE         = $0000002B;
+  PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER  = $00000060;
+  PRODUCT_STORAGE_STANDARD_SERVER             = $00000015;
+  PRODUCT_STORAGE_STANDARD_SERVER_CORE        = $0000002C;
+  PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER = $0000005F;
+  PRODUCT_STORAGE_WORKGROUP_SERVER            = $00000016;
+  PRODUCT_STORAGE_WORKGROUP_SERVER_CORE       = $0000002D;
+  PRODUCT_UNDEFINED                           = $00000000;
+  PRODUCT_ULTIMATE                            = $00000001;
+  PRODUCT_ULTIMATE_E                          = $00000047;
+  PRODUCT_ULTIMATE_N                          = $0000001C;
+  PRODUCT_WEB_SERVER                          = $00000011;
+  PRODUCT_WEB_SERVER_CORE                     = $0000001D;
+  PRODUCT_UNLICENSED                          = $ABCDABCD;
 
   // These constants are required for use with GetSystemMetrics to detect
   // certain editions. GetSystemMetrics returns non-zero when passed these flags
@@ -261,7 +292,7 @@ const
   // Obtained from http://msdn.microsoft.com/en-us/library/ms724385
   SM_TABLETPC       = 86;     // Detects XP Tablet Edition
   SM_MEDIACENTER    = 87;     // Detects XP Media Center Edition
-  SM_STARTER        = 88;     // Detects Vista Starter Edition
+  SM_STARTER        = 88;     // Detects XP Starter Edition
   SM_SERVERR2       = 89;     // Detects Windows Server 2003 R2
   SM_REMOTESESSION  = $1000;  // Detects a remote terminal server session
 
@@ -339,7 +370,9 @@ type
     osWinSvr2008,           // Windows Server 2008
     osWinLater,             // A later version of Windows than v6.1
     osWin7,                 // Windows 7
-    osWinSvr2008R2          // Windows Server 2008 R2
+    osWinSvr2008R2,         // Windows Server 2008 R2
+    osWin8,                 // Windows 8
+    osWinSvr2012            // Windows Server 2012
   );
 
   // Enumerated type identifying processor architecture.
@@ -442,8 +475,8 @@ type
       }
     class function ProductName: string;
       {Gets the name of the OS product.
-        @return Name of product or '' if product not known. If product is later
-          than most recent known version, "Post-Vista Windows" is returned.
+        @return Name of product. Major and minor version number is returned for
+          unknown versions.
       }
     class function MajorVersion: Integer;
       {Gets the operating system's major version number.
@@ -841,7 +874,7 @@ const
   // ** Laurent Pierre supplied original code on which this map is based
   //    It has been modified and extended using MSDN documentation at
   //    http://msdn.microsoft.com/en-us/library/ms724358
-  cProductMap: array[1..52] of record
+  cProductMap: array[1..83] of record
     Id: Cardinal; // product ID
     Name: string; // product name
   end = (
@@ -851,6 +884,18 @@ const
       Name: 'Business N Edition';),
     (Id: PRODUCT_CLUSTER_SERVER;
       Name: 'Cluster Server Edition';),
+    (Id: PRODUCT_CLUSTER_SERVER_V;
+      Name: 'Server Hyper Core V';),
+    (Id: PRODUCT_CORE;
+      Name: 'Windows 8';),
+    (Id: PRODUCT_CORE_N;
+      Name: 'Windows 8N';),
+    (Id: PRODUCT_CORE_COUNTRYSPECIFIC;
+      Name: 'Windows 8 China';),
+    (Id: PRODUCT_CORE_SINGLELANGUAGE;
+      Name: 'Windows 8 Single Language';),
+    (Id: PRODUCT_DATACENTER_EVALUATION_SERVER;
+      Name: 'Server Datacenter (evaluation installation)';),
     (Id: PRODUCT_DATACENTER_SERVER;
       Name: 'Server Datacenter Edition (full installation)';),
     (Id: PRODUCT_DATACENTER_SERVER_CORE;
@@ -863,8 +908,12 @@ const
       Name: 'Enterprise Edition';),
     (Id: PRODUCT_ENTERPRISE_E;
       Name: 'Enterprise E Edition';),
+    (Id: PRODUCT_ENTERPRISE_N_EVALUATION;
+      Name: 'Enterprise N (evaluation installation)';),
     (Id: PRODUCT_ENTERPRISE_N;
       Name: 'Enterprise N Edition';),
+    (Id: PRODUCT_ENTERPRISE_EVALUATION;
+      Name: 'Server Enterprise (evaluation installation)';),
     (Id: PRODUCT_ENTERPRISE_SERVER;
       Name: 'Server Enterprise Edition (full installation)';),
     (Id: PRODUCT_ENTERPRISE_SERVER_CORE;
@@ -875,6 +924,14 @@ const
       Name: 'Server Enterprise Edition for Itanium-based Systems';),
     (Id: PRODUCT_ENTERPRISE_SERVER_V;
       Name: 'Server Enterprise Edition without Hyper-V (full installation)';),
+    (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT;
+      Name: 'Windows Essential Server Solution Management'),
+    (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL;
+      Name: 'Windows Essential Server Solution Additional'),
+    (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC;
+      Name: 'Windows Essential Server Solution Management SVC'),
+    (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC;
+      Name: 'Windows Essential Server Solution Additional SVC'),
     (Id: PRODUCT_HOME_BASIC;
       Name: 'Home Basic Edition';),
     (Id: PRODUCT_HOME_BASIC_E;
@@ -887,6 +944,8 @@ const
       Name: 'Home Premium E Edition';),
     (Id: PRODUCT_HOME_PREMIUM_N;
       Name: 'Home Premium N Edition';),
+    (Id: PRODUCT_HOME_PREMIUM_SERVER;
+      Name: 'Windows Home Server 2011';),
     (Id: PRODUCT_HOME_SERVER;
       Name: 'Home Server Edition';),
     (Id: PRODUCT_HYPERV;
@@ -897,12 +956,24 @@ const
       Name: 'Windows Essential Business Server Messaging Server';),
     (Id: PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY;
       Name: 'Windows Essential Business Server Security Server';),
+    (Id: PRODUCT_MULTIPOINT_STANDARD_SERVER;
+      Name: 'Windows MultiPoint Server Standard (full installation)';),
+    (Id: PRODUCT_MULTIPOINT_PREMIUM_SERVER;
+      Name: 'Windows MultiPoint Server Premium (full installation)';),
     (Id: PRODUCT_PROFESSIONAL;
       Name: 'Professional Edition';),
     (Id: PRODUCT_PROFESSIONAL_E;
       Name: 'Professional E Edition';),
     (Id: PRODUCT_PROFESSIONAL_N;
       Name: 'Professional N Edition';),
+    (Id: PRODUCT_PROFESSIONAL_WMC;
+      Name: 'Professional with Media Center';),
+    (Id: PRODUCT_SB_SOLUTION_SERVER_EM;
+      Name: 'Server For SB Solutions EM';),
+    (Id: PRODUCT_SERVER_FOR_SB_SOLUTIONS;
+      Name: 'Server For SB Solutions';),
+    (Id: PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM;
+      Name: 'Server For SB Solutions EM';),
     (Id: PRODUCT_SERVER_FOR_SMALLBUSINESS;
       Name: 'Server for Small Business Edition';),
     (Id: PRODUCT_SERVER_FOR_SMALLBUSINESS_V;
@@ -910,10 +981,18 @@ const
         + 'Solutions';),
     (Id: PRODUCT_SERVER_FOUNDATION;
       Name: 'Server Foundation';),
+    (Id: PRODUCT_SB_SOLUTION_SERVER;
+      Name: 'Windows Small Business Server 2011 Essentials';),
     (Id: PRODUCT_SMALLBUSINESS_SERVER;
       Name: 'Small Business Server';),
     (Id: PRODUCT_SMALLBUSINESS_SERVER_PREMIUM;
       Name: 'Small Business Server Premium Edition';),
+    (Id: PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE;
+      Name: 'Small Business Server Premium (core installation)';),
+    (Id: PRODUCT_SOLUTION_EMBEDDEDSERVER;
+      Name: 'Windows MultiPoint Server';),
+    (Id: PRODUCT_STANDARD_EVALUATION_SERVER;
+      Name: 'Server Standard (evaluation installation)';),
     (Id: PRODUCT_STANDARD_SERVER;
       Name: 'Server Standard Edition (full installation)';),
     (Id: PRODUCT_STANDARD_SERVER_CORE;
@@ -922,6 +1001,10 @@ const
       Name: 'Server Standard Edition without Hyper-V (core installation)';),
     (Id: PRODUCT_STANDARD_SERVER_V;
       Name: 'Server Standard Edition without Hyper-V (full installation)';),
+    (Id: PRODUCT_STANDARD_SERVER_SOLUTIONS;
+      Name: 'Server Solutions Premium';),
+    (Id: PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE;
+      Name: 'Server Solutions Premium (core installation)';),
     (Id: PRODUCT_STARTER;
       Name: 'Starter Edition';),
     (Id: PRODUCT_STARTER_E;
@@ -930,12 +1013,24 @@ const
       Name: 'Starter N Edition';),
     (Id: PRODUCT_STORAGE_ENTERPRISE_SERVER;
       Name: 'Storage Server Enterprise Edition';),
+    (Id: PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE;
+      Name: 'Storage Server Enterprise (core installation)';),
     (Id: PRODUCT_STORAGE_EXPRESS_SERVER;
       Name: 'Storage Server Express Edition';),
+    (Id: PRODUCT_STORAGE_EXPRESS_SERVER_CORE;
+      Name: 'Storage Server Express (core installation)';),
+    (Id: PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER;
+      Name: 'Storage Server Standard (evaluation installation)';),
     (Id: PRODUCT_STORAGE_STANDARD_SERVER;
       Name: 'Storage Server Standard Edition';),
+    (Id: PRODUCT_STORAGE_STANDARD_SERVER_CORE;
+      Name: 'Storage Server Standard (core installation)';),
+    (Id: PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER;
+      Name: 'Storage Server Workgroup (evaluation installation)';),
     (Id: PRODUCT_STORAGE_WORKGROUP_SERVER;
       Name: 'Storage Server Workgroup Edition';),
+    (Id: PRODUCT_STORAGE_WORKGROUP_SERVER_CORE;
+      Name: 'Storage Server Workgroup (core installation)';),
     (Id: PRODUCT_UNDEFINED;
       Name: 'An unknown product';),
     (Id: PRODUCT_ULTIMATE;
@@ -1511,7 +1606,9 @@ begin
   // This method is based on sample C++ code from MSDN
   Result := '';
   case Product of
-    osWinVista, osWinSvr2008, osWin7, osWinSvr2008R2:
+    osWinVista, osWinSvr2008,
+    osWin7, osWinSvr2008R2,
+    osWin8, osWinSvr2012:
     begin
       // For v6.0 and later we ignore the suite mask and use the new
       // PRODUCT_ flags from the GetProductInfo() function to determine the
@@ -1900,6 +1997,11 @@ begin
                 Result := osWin7
               else
                 Result := osWinSvr2008R2;
+            2:
+              if not IsServer then
+                Result := osWin8
+              else
+                Result := osWinSvr2012;
             else
               // Higher minor version: must be an unknown later OS
               Result := osWinLater
@@ -1934,8 +2036,8 @@ end;
 
 class function TPJOSInfo.ProductName: string;
   {Gets the name of the OS product.
-    @return Name of product or '' if product not known. If product is later than
-      most recent known version, "Post-Vista Windows" is returned.
+    @return Name of product. Major and minor version number is returned for
+      unknown versions.
   }
 begin
   case Product of
@@ -1955,6 +2057,8 @@ begin
     );
     osWin7: Result := 'Windows 7';
     osWinSvr2008R2: Result := 'Windows Server 2008 R2';
+    osWin8: Result := 'Windows 8';
+    osWinSvr2012: Result := 'Windows Server 2012';
     else
       raise EPJSysInfo.Create(sUnknownProduct);
   end;

@@ -6,7 +6,7 @@
  * $Rev$
  * $Date$
  *
- * This file is copyright (C) P D Johnson (www.delphidabbler.com), 2003-2009.
+ * This file is copyright (C) P D Johnson (www.delphidabbler.com), 2003-2012.
  * It may be used without restriction. This code distributed on an "AS IS"
  * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 }
@@ -94,7 +94,7 @@ const
     'osUnknownWinNT', 'osWinNT', 'osWin2K', 'osWinXP', 'osUnknownWin9x',
     'osWin95', 'osWin98', 'osWinMe', 'osUnknownWin32s', 'osWinSvr2003',
     'osUnknown', 'osWinVista', 'osWinSvr2003R2', 'osWinSvr2008',
-    'osWinLater', 'osWin7', 'osWinSvr2008R2'
+    'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012'
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);

@@ -1,46 +1,33 @@
 {
- * PJSysInfo.pas
+{
+ * This Source Code Form is subject to the terms of the Mozilla Public License,
+ * v. 2.0. If a copy of the MPL was not distributed with this file, You can
+ * obtain one at http://mozilla.org/MPL/2.0/
  *
- * System information unit.
- *
- * Contains various static classes, constant and type definitions and global
- * variables for use in providing information about the computer and the
- * operating system.
- *
- * Also contains a deprecated component and some functions for backward
- * compatibility with older versions of the unit. This code is not compiled by
- * default, but compilation can be enabled by defining the
- * PJSYSINFO_COMPILE_DEPRECATED symbol.
- *
- * NOTE: When compiled with old versions of Delphi that do not support setting
- * registry access flags via the TRegistry object, some of this code may not
- * work correctly on 64 bit Windows.
+ * Copyright (C) 2001-2012, Peter Johnson (www.delphidabbler.com).
  *
  * $Rev$
  * $Date$
  *
+ * This unit contains various static classes, constant and type definitions and
+ * global variables for use in providing information about the computer and the
+ * operating system.
  *
- * ***** BEGIN LICENSE BLOCK *****
+ * Also contains a deprecated component and some functions for backward
+ * compatibility with older versions of the unit. The deprecated code is not
+ * compiled by default, but compilation can be enabled by defining the
+ * PJSYSINFO_COMPILE_DEPRECATED symbol.
  *
- * Version: MPL 1.1
+ * NOTE 1: When compiled with old versions of Delphi that do not support setting
+ * registry access flags via the TRegistry object, some of this code may not
+ * work correctly when running as a 32 bit process on 64 bit Windows.
  *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at http://www.mozilla.org/MPL/
+ * NOTE 2: The code has not been tested when compiled using the Delphi 64 bit
+ * compiler, but is expected to require some changes before it will work
+ * correctly.
  *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
+ * Thanks to the following who have contributed to this project:
  *
- * The Original Code is PJSysInfo.pas.
- *
- * The Initial Developer of the Original Code is Peter Johnson
- * (http://www.delphidabbler.com/).
- *
- * Portions created by the Initial Developer are Copyright (C) 2001-2012 Peter
- * Johnson. All Rights Reserved.
- *
- * Contributor(s):
  *   Guillermo Fazzolari (bug fix in v2.0.1)
  *   Laurent Pierre (PRODUCT_* constants and suggested GetProductInfo API code
  *     used in v3.0)

@@ -33,7 +33,7 @@ zip -j -9 %OutFile% %HelpDir%\PJSysInfo.hlp
 zip -j -9 %OutFile% %HelpDir%\PJSysInfo.als
 
 zip -j -9 %OutFile% %DocsDir%\ChangeLog.txt
-zip -j -9 %OutFile% %DocsDir%\MPL.txt
+zip -j -9 %OutFile% %DocsDir%\MPL-2.0.txt
 zip -j -9 %OutFile% %DocsDir%\ReadMe.htm
 zip -j -9 %OutFile% %DocsDir%\Wiki.URL
 

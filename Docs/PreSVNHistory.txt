@@ -21,12 +21,12 @@ There are two sections:
 1: RELEASES
 ================================================================================
 
-This section lists all releases of the project from the first version (1.0) to 
+This section lists all releases of the project from the first version (1.0) to
 release 3.1. For each release the following is noted:
 
   + Version and date
   + List of new, updated and deleted files.
-  
+
 For details of changes to each release see ChangeLog.txt
 
 --------------------------------------------------------------------------------

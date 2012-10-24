@@ -38,7 +38,7 @@ HS
 0
 IDH_EXOSINFOVARS
 
-3236
+3148
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}{\f2\fnil \fcharset2 WingDings;}{\f3\fnil \fcharset0 Arial;}}{\colortbl\red0\green0\blue0;\red0\green128\blue0;\red0\green0\blue0;\red0\green0\blue255;}\pard \plain \plain\f0\fs18\cf1 \protect <NS 1>\plain\f0\fs8\cf2 
 \par \plain\f0\fs22\cf3\b PJSysInfo
 \par \plain\f0\fs8\cf2  \plain\f0\fs18\cf1 \protect </NS 1>\plain\f0\fs18\cf2 
@@ -56,9 +56,9 @@ IDH_EXOSINFOVARS
 \par \plain\f0\fs12\cf2 
 \par \plain\f1\fs18\cf2\b Credits and License\plain\f1\fs18\cf2 
 \par \plain\f0\fs8\cf2 
-\par \plain\f1\fs18\cf2 This unit was created by Peter D Johnson and is copyright (c) 2001-2008 by Peter D Johnson (www.delphidabbler.com). Guillermo Fazzolari and Laurent Pierre have contributed to the code.
+\par \plain\f1\fs18\cf2 This unit is copyright (c) 2001-2012 by Peter D Johnson (www.delphidabbler.com). Guillermo Fazzolari, Laurent Pierre and Rich Habedank have contributed to the code.
 \par \plain\f0\fs8\cf2 
-\par \plain\f1\fs18\cf2 The source code is released under the Mozilla Public License and is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+\par \plain\f1\fs18\cf2 The unit is released under the Mozilla Public License v2.0 (http://mozilla.org/MPL/2.0/).
 \par 
 \par }
 

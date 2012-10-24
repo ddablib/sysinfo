@@ -133,7 +133,7 @@ KP
 4
 NS
 42
-3579
+3751
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}{\f2\fmodern Courier New;}{\f3\fmodern \fcharset0 Courier New;}}{\colortbl\red0\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green0\blue0;}\pard \plain \plain\f0\fs22\cf1\b \protect <NS 42>\plain\f0\fs8\cf2  \plain\f0\fs8\cf2\b 
 \par \plain\f0\fs22\cf2\b TPJOSProduct\plain\f0\fs20\cf3 
 \par \plain\f0\fs8\cf3  \plain\f0\fs18\cf1 \protect </NS 42>\plain\f0\fs18\cf3 
@@ -148,7 +148,7 @@ NS
 \par \pard \plain\f2\fs18\cf1\b \protect <KP 4>\plain\f2\fs18\cf3\b type\plain\f2\fs18\cf3  TPJOSProduct = (osUnknownWinNT, osWinNT, osWin2K, osWinXP,
 \par   osUnknownWin9x, osWin95, osWin98, osWinMe, osUnknownWin32s\plain\f3\fs18\cf3 , osWinSvr2003,
 \par   osUnknown, osWinVista, osWinSvr2003R2, osWinSvr2008, osWinLater, osWin7,
-\par   osWinSvr2008R2\plain\f2\fs18\cf3 );\plain\f2\fs18\cf1 \protect </KP 4>\plain\f2\fs18\cf3 
+\par   osWinSvr2008R2, osWin8, osWinSvr2012\plain\f2\fs18\cf3 );\plain\f2\fs18\cf1 \protect </KP 4>\plain\f2\fs18\cf3 
 \par \pard \fi-400 \li400 \tx400 \plain\f0\fs8\cf3 
 \par \plain\f0\fs18\cf3 The \plain\f1\fs18\cf3 values\plain\f0\fs18\cf3  have the following meaning:
 \par \plain\f0\fs8\cf3 
@@ -163,6 +163,8 @@ NS
 \par \plain\f1\fs18\cf3\i osWinSvr2008\plain\f1\fs18\cf3 \tab Windows Server 2008
 \par \plain\f1\fs18\cf3\i osWin7\plain\f1\fs18\cf3 \tab Windows 7
 \par \plain\f1\fs18\cf3\i osWinSvr2008R2\plain\f1\fs18\cf3 \tab Windows Server 2008 R2
+\par \plain\f1\fs18\cf3\i osWin8\plain\f1\fs18\cf3 \tab WIndows 8
+\par \plain\f1\fs18\cf3\i osWinSvr2012\plain\f1\fs18\cf3 \tab Windows Server 2012
 \par \plain\f1\fs18\cf3\i osWinLater\plain\f1\fs18\cf3 \tab A later Windows version than v6.0 (Vista / Server 2008)
 \par \plain\f1\fs18\cf3\i\b Windows 9x OSs\plain\f0\fs18\cf3 
 \par \plain\f0\fs18\cf3\i osUnknownWin9x\plain\f0\fs18\cf3 \tab An unknwon product on the Windows 9x platform.
@@ -985,7 +987,7 @@ IDH_OSI_CLASS
 
 KP
 114
-1290
+1337
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}{\f2\fmodern Courier New;}{\f3\fmodern \fcharset0 Courier New;}}{\colortbl\red0\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green0\blue0;}\pard \plain \plain\f0\fs22\cf1\b \protect <NS 42>\plain\f0\fs8\cf2  \plain\f0\fs8\cf2\b 
 \par \plain\f0\fs22\cf2\b TPJOSInfo.IsWin9x\plain\f0\fs20\cf3 
 \par \plain\f0\fs12\cf3 
@@ -997,7 +999,7 @@ KP
 \par \plain\f0\fs18\cf3 
 \par \plain\f0\fs18\cf3\b Description\plain\f0\fs18\cf3 
 \par \plain\f0\fs8\cf3 
-\par \plain\f0\fs18\cf3 Returns true if a Windows 9x operating system is installed (i.e. Windows\plain\f1\fs18\cf3  \plain\f0\fs18\cf3 95, Windows 98 or Windows Me).\plain\f0\fs8\cf3 
+\par \plain\f0\fs18\cf3 Returns true if a Windows 9x \plain\f1\fs18\cf3 platform \plain\f0\fs18\cf3 operating system is installed (i.e. Windows\plain\f1\fs18\cf3  \plain\f0\fs18\cf3 95, Windows 98 or Windows Me).\plain\f0\fs8\cf3 
 \par }
 
 [Footnotes]
@@ -1018,7 +1020,7 @@ IDH_OSI_CLASS
 
 KP
 114
-1502
+1643
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}{\f2\fmodern Courier New;}{\f3\fmodern \fcharset0 Courier New;}}{\colortbl\red0\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green0\blue0;}\pard \plain \plain\f0\fs22\cf1\b \protect <NS 42>\plain\f0\fs8\cf2  \plain\f0\fs8\cf2\b 
 \par \plain\f0\fs22\cf2\b TPJOSInfo.\plain\f1\fs22\cf2\b IsWinNT\plain\f0\fs20\cf3 
 \par \plain\f0\fs12\cf3 
@@ -1030,7 +1032,7 @@ KP
 \par \plain\f0\fs18\cf3 
 \par \plain\f0\fs18\cf3\b Description\plain\f0\fs18\cf3 
 \par \plain\f0\fs8\cf3 
-\par \plain\f0\fs18\cf3 Returns true if an NT operating system is installed (including Windows\plain\f1\fs18\cf3  \plain\f0\fs18\cf3 2000, Windows XP\plain\f1\fs18\cf3 , Windows Vista, Windows 7,\plain\f0\fs18\cf3  Windows 2003 Server\plain\f1\fs18\cf3  and Windows 2008 Server\plain\f0\fs18\cf3 )\plain\f1\fs18\cf3 .\plain\f0\fs18\cf3 
+\par \plain\f0\fs18\cf3 Returns true if an NT \plain\f1\fs18\cf3 platform \plain\f0\fs18\cf3 operating system is installed (including Windows\plain\f1\fs18\cf3  \plain\f0\fs18\cf3 2000, Windows XP\plain\f1\fs18\cf3 , Windows Vista, Windows 7,\plain\f0\fs18\cf3  \plain\f1\fs18\cf3 Windows 8, \plain\f0\fs18\cf3 Windows 2003 Server\plain\f1\fs18\cf3 , Windows 2008 Server, Windows 2008 Server R2 and Windows 2012 Server\plain\f0\fs18\cf3 )\plain\f1\fs18\cf3 .\plain\f0\fs18\cf3 
 \par }
 
 [Footnotes]

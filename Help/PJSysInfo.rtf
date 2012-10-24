@@ -71,7 +71,7 @@ A{\footnote {A}TPJOSProduct}
 \par \pard \keep \plain\f4\fs18\cf0\b type\plain\f4\fs18\cf0  TPJOSProduct = (osUnknownWinNT, osWinNT, osWin2K, osWinXP,
 \par   osUnknownWin9x, osWin95, osWin98, osWinMe, osUnknownWin32s\plain\f5\fs18\cf0 , osWinSvr2003,
 \par   osUnknown, osWinVista, osWinSvr2003R2, osWinSvr2008, osWinLater, osWin7,
-\par   osWinSvr2008R2\plain\f4\fs18\cf0 );
+\par   osWinSvr2008R2, osWin8, osWinSvr2012\plain\f4\fs18\cf0 );
 \par \pard \fi-400 \li400 \tx400 \plain\f0\fs8\cf0 
 \par \plain\f0\fs18\cf0 The \plain\f1\fs18\cf0 values\plain\f0\fs18\cf0  have the following meaning:
 \par \plain\f0\fs8\cf0 
@@ -86,6 +86,8 @@ A{\footnote {A}TPJOSProduct}
 \par \plain\f1\fs18\cf0\i osWinSvr2008\plain\f1\fs18\cf0 \tab Windows Server 2008
 \par \plain\f1\fs18\cf0\i osWin7\plain\f1\fs18\cf0 \tab Windows 7
 \par \plain\f1\fs18\cf0\i osWinSvr2008R2\plain\f1\fs18\cf0 \tab Windows Server 2008 R2
+\par \plain\f1\fs18\cf0\i osWin8\plain\f1\fs18\cf0 \tab WIndows 8
+\par \plain\f1\fs18\cf0\i osWinSvr2012\plain\f1\fs18\cf0 \tab Windows Server 2012
 \par \plain\f1\fs18\cf0\i osWinLater\plain\f1\fs18\cf0 \tab A later Windows version than v6.0 (Vista / Server 2008)
 \par \plain\f1\fs18\cf0\i\b Windows 9x OSs\plain\f0\fs18\cf0 
 \par \plain\f0\fs18\cf0\i osUnknownWin9x\plain\f0\fs18\cf0 \tab An unknwon product on the Windows 9x platform.
@@ -445,7 +447,7 @@ A{\footnote {A}TPJOSInfo_IsWin9x;IsWin9x_Method;IsWin9x}
 \par \pard \plain\f0\fs18\cf0 
 \par \plain\f0\fs18\cf0\b Description\plain\f0\fs18\cf0 
 \par \plain\f0\fs8\cf0 
-\par \plain\f0\fs18\cf0 Returns true if a Windows 9x operating system is installed (i.e. Windows\plain\f1\fs18\cf0  \plain\f0\fs18\cf0 95, Windows 98 or Windows Me).\plain\f0\fs8\cf0 
+\par \plain\f0\fs18\cf0 Returns true if a Windows 9x \plain\f1\fs18\cf0 platform \plain\f0\fs18\cf0 operating system is installed (i.e. Windows\plain\f1\fs18\cf0  \plain\f0\fs18\cf0 95, Windows 98 or Windows Me).\plain\f0\fs8\cf0 
 \par \page 
 #{\footnote {#}IDH_OSI_ISWINNT}
 ${\footnote {$}TPJOSInfo.IsWinNT}
@@ -463,7 +465,7 @@ A{\footnote {A}TPJOSInfo_IsWinNT;IsWinNT_Method;IsWinNT}
 \par \pard \plain\f0\fs18\cf0 
 \par \plain\f0\fs18\cf0\b Description\plain\f0\fs18\cf0 
 \par \plain\f0\fs8\cf0 
-\par \plain\f0\fs18\cf0 Returns true if an NT operating system is installed (including Windows\plain\f1\fs18\cf0  \plain\f0\fs18\cf0 2000, Windows XP\plain\f1\fs18\cf0 , Windows Vista, Windows 7,\plain\f0\fs18\cf0  Windows 2003 Server\plain\f1\fs18\cf0  and Windows 2008 Server\plain\f0\fs18\cf0 )\plain\f1\fs18\cf0 .\plain\f0\fs18\cf0 
+\par \plain\f0\fs18\cf0 Returns true if an NT \plain\f1\fs18\cf0 platform \plain\f0\fs18\cf0 operating system is installed (including Windows\plain\f1\fs18\cf0  \plain\f0\fs18\cf0 2000, Windows XP\plain\f1\fs18\cf0 , Windows Vista, Windows 7,\plain\f0\fs18\cf0  \plain\f1\fs18\cf0 Windows 8, \plain\f0\fs18\cf0 Windows 2003 Server\plain\f1\fs18\cf0 , Windows 2008 Server, Windows 2008 Server R2 and Windows 2012 Server\plain\f0\fs18\cf0 )\plain\f1\fs18\cf0 .\plain\f0\fs18\cf0 
 \par \page 
 #{\footnote {#}IDH_OSI_ISWOW64}
 ${\footnote {$}TPJOSInfo.IsWow64}

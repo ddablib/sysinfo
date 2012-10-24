@@ -331,15 +331,18 @@ const
 
 type
 
-  // Enumerated type for OS platforms
+  ///  <summary>Enumeration of OS platforms.</summary>
   TPJOSPlatform = (
     ospWinNT,               // Windows NT platform
     ospWin9x,               // Windows 9x platform
     ospWin32s               // Win32s platform
   );
 
-  // Enumerated type identifying OS product. NOTE: New values are always
-  // appended to the structure so as not to destroy any earlier mappings.
+type
+  ///  <summary>Enumeration identifying OS product.</summary>
+  ///  <remarks>New values are always appended to the end of the enumeration so
+  ///  as not to destroy any existing code that depends on the ordinal value of
+  ///  the existing values.</remarks>
   TPJOSProduct = (
     osUnknownWinNT,         // Unknown Windows NT OS
     osWinNT,                // Windows NT (up to v4)
@@ -362,7 +365,8 @@ type
     osWinSvr2012            // Windows Server 2012
   );
 
-  // Enumerated type identifying processor architecture.
+type
+  ///  <summary>Enumeration identifying processor architecture.</summary>
   TPJProcessorArchitecture = (
     paUnknown,              // Unknown architecture
     paX64,                  // X64 (AMD or Intel)
@@ -370,7 +374,8 @@ type
     paX86                   // Intel 32 bit
   );
 
-  // Enumerated type informing how the system was booted.
+type
+  ///  <summary>Enumeration identifying system boot modes.</summary>
   TPJBootMode = (
     bmUnknown,              // Unknown boot mode
     bmNormal,               // Normal boot
@@ -378,409 +383,325 @@ type
     bmSafeModeNetwork       // Booted in safe node with networking
   );
 
-  // Exceptions raised by code in this unit
+type
+  ///  <summary>Class of exception raised by code in this unit.</summary>
   EPJSysInfo = class(Exception);
 
-  // Static class that provides operating system version information.
+type
+  ///  <summary>Static class that provides operating system version information.
+  ///  </summary>
   TPJOSInfo = class(TObject)
   private
+    ///  <summary>Gets description of OS product edition from value returned
+    ///  from GetProductInfo API.</summary>
     class function EditionFromProductInfo: string;
-      {Gets product edition from value returned from GetProductInfo API.
-        @return Required product edition or '' if product not recognised.
-      }
+
+    ///  <summary>Checks if a given suite is installed on an NT system.
+    ///  </summary>
+    ///  <param name="Suite">Integer [in] One of the VER_SUITE_* flags.</param>
+    ///  <returns>True if suite is installed, False if not installed or not an
+    ///  NT platform OS.</returns>
     class function CheckSuite(const Suite: Integer): Boolean;
-      {Checks if a given suite is installed on an NT system.
-        @param Suites [in] One of the VER_SUITE_* flags.
-        @return True if suite is installed. False if not installed or if not an
-          NT operating system.
-      }
+
+    ///  <summary>Gets product edition from registry.</summary>
+    ///  <remarks>Needed to get edition for NT4 pre SP6.</remarks>
     class function EditionFromReg: string;
-      {Gets product edition from registry. Needed to get edition for NT4 pre
-      SP6.
-        @return Required product edition.
-      }
+
+    ///  <summary>Checks registry to see if NT4 Service Pack 6a is installed.
+    ///  </summary>
     class function IsNT4SP6a: Boolean;
-      {Checks registry to see if NT4 Service Pack 6a is installed.
-        @return True if service pack is installed, False otherwise.
-      }
+
+    ///  <summary>Gets code describing product type from registry.</summary>
+    ///  <remarks>Used to get product type for NT4 SP5 and earlier.</remarks>
     class function ProductTypeFromReg: string;
-      {Gets code describing product type from registry. Used to get product type
-      for NT4 SP5 and earlier.
-        @return Required product type or '' if registry key or value can't be
-          found.
-      }
+
   public
+    ///  <summary>Checks if the OS is on the Windows 9x platform.</summary>
     class function IsWin9x: Boolean;
-      {Checks if a OS if one the Windows 9x line, i.e. Windows 95, Windows 98 or
-      Windows Me.
-        @return True if Win9x OS, False otherwise.
-      }
+
+    ///  <summary>Checks if the OS is on the Windows NT platform.</summary>
     class function IsWinNT: Boolean;
-      {Checks if OS is one of NT line (NT, 2000, XP, 2003 Server, Vista, 2008
-      Server).
-        @return True if WinNT, False otherwise.
-      }
+
+    ///  <summary>Checks if the program is hosted on Win32s.</summary>
+    ///  <remarks>This is unlikely to ever return True since Delphi does not run
+    ///  on Win32s.</remarks>
     class function IsWin32s: Boolean;
-      {Checks if running on Win32s. This is unlikely to ever return true since
-      Delphi does not run on Win32s.
-        @return True if Win32s, False otherwise.
-      }
+
+    ///  <summary>Checks if a 32 bit program is running under WOW64 on a 64 bit
+    ///  operating system.</summary>
     class function IsWow64: Boolean;
-      {Checks if application is running under WOW64 on a 64 bit operating
-      system.
-        @return True if running on WOW64, False otherwise.
-      }
+
+    ///  <summary>Checks if the program is running on a server operating system.
+    ///  </summary>
     class function IsServer: Boolean;
-      {Checks if operating system is a server.
-        @return True if server OS, False otherise.
-      }
+
+    ///  <summary>Checks if Windows Media Center is installed.</summary>
     class function IsMediaCenter: Boolean;
-      {Checks if Windows Media Center is installed.
-        @return True if Media Center installed, False otherwise.
-      }
+
+    ///  <summary>Checks if the program is running on a tablet PC OS.</summary>
     class function IsTabletPC: Boolean;
-      {Checks if this is Tablet PC operating system.
-        @return True if Tablet PC, False otherwise.
-      }
+
+    ///  <summary>Checks if the program is running under Windows Terminal Server
+    ///  as a client session.</summary>
     class function IsRemoteSession: Boolean;
-      {Checks if the program is running under a Windows Terminal Server as a
-      remote client session.
-        @return True if running on terminal server as a client session.
-      }
+
+    ///  <summary>Checks of the host operating system has pen extensions
+    ///  installed.</summary>
     class function HasPenExtensions: Boolean;
-      {Checks if system has Pen Extensions installed.
-        @return True if extensions installed, False otherwise.
-      }
+
+    ///  <summary>Returns the host OS platform identifier.</summary>
     class function Platform: TPJOSPlatform;
-      {Identifies the OS platform.
-        @return Identifier representing the platform.
-        @except EPJSysInfo raised if can't determine platform.
-      }
+
+    ///  <summary>Returns the host OS product identifier.</summary>
     class function Product: TPJOSProduct;
-      {Identifies an OS product.
-        @return Identifier representing the product.
-      }
+
+    ///  <summary>Returns the product name of the host OS.</summary>
     class function ProductName: string;
-      {Gets the name of the OS product.
-        @return Name of product. Major and minor version number is returned for
-          unknown versions.
-      }
+
+    ///  <summary>Returns the major version number of the host OS.</summary>
     class function MajorVersion: Integer;
-      {Gets the operating system's major version number.
-        @return Required version number.
-      }
+
+    ///  <summary>Returns the minor version number of the host OS.</summary>
     class function MinorVersion: Integer;
-      {Gets the operating system's minor version number.
-        @return Required version number.
-      }
+
+    ///  <summary>Returns the host OS's build number.</summary>
     class function BuildNumber: Integer;
-      {Gets operating system's build number.
-        @return Required build number.
-      }
+
+    ///  <summary>Returns the name of any installed OS service pack.</summary>
     class function ServicePack: string;
-      {Gets name of any service pack installed.
-        @return Name of service pack or '' if no service pack installed.
-      }
+
+    ///  <summary>Returns the major version number of any NT platform service
+    ///  pack.</summary>
+    ///  <remarks>0 is returned in no service pack is installed, if the host OS
+    ///  is not on the NT platform.</remarks>
     class function ServicePackMajor: Integer;
-      {Gets major version number of any installed NT service pack.
-        @return Required version number or 0 if no service pack installed or
-          running on Win9x.
-      }
+
+    ///  <summary>Returns the minor version number of any NT platform service
+    ///  pack.</summary>
+    ///  <remarks>Invalid is ServicePackMinor returns 0.</remarks>
     class function ServicePackMinor: Integer;
-      {Gets minor version number of any installed NT service pack.
-        @return Required version number. Invalid if ServicePackMajor returns 0.
-      }
+
+    ///  <summary>Returns the production edition for an NT platform OS.
+    ///  </summary>
+    ///  <remarks>The empty string is returned if the OS is not on the NT
+    ///  platform.</remarks>
     class function Edition: string;
-      {Gets the product edition for an NT operating system.
-        @return Required edition or '' is OS is not NT.
-      }
+
+    ///  <summary>Returns a full descriptuon of the host OS.</summary>
     class function Description: string;
-      {Gets full description of operating system.
-        @return Required description.
-      }
+
+    ///  <summary>Returns the Windows product ID of the host OS.</summary>
     class function ProductID: string;
-      {Determines the Windows product ID.
-        @return Required product id string.
-      }
   end;
 
-  // Static class that provides information about the computer.
+type
+  ///  <summary>Static class that provides information about the host computer.
+  ///  </summary>
   TPJComputerInfo = class(TObject)
   public
+    ///  <summary>Returns name of host computer.</summary>
     class function ComputerName: string;
-      {Gets name of computer.
-        @return Computer name.
-      }
+
+    ///  <summary>Returns name of currently logged on user.</summary>
     class function UserName: string;
-      {Gets name of currently logged on user.
-        @return User name.
-      }
+
+    ///  <summary>Returns MAC address of 1st ethernet adapter on host computer.
+    ///  or empty string if no such adapter is found.
+    ///  </summary>
+    ///  <remarks>**WARNING** may be unreliable - see comments in
+    ///  implementation. </remarks>
     class function MACAddress: string;
-      {Gets MAC address of first ethernet adapter on computer.
-        @return Required MAC address or '' if no ethernet adapter found.
-      }
+
+    ///  <summary>Returns processor architecture of host computer.</summary>
     class function Processor: TPJProcessorArchitecture;
-      {Gets processor architecture.
-        @return Identifier describing  processor architecture.
-      }
+
+    ///  <summary>Returns number of processors in host computer.</summary>
     class function ProcessorCount: Cardinal;
-      {Gets number of processors in computer.
-        @return Number of processors.
-      }
+
+    ///  <summary>Checks if the host computer has a 64 bit processor.</summary>
     class function Is64Bit: Boolean;
-      {Checks if running on 64 bit processor.
-        @param True if running on 64 bit processor, False if 32 bit.
-      }
+
+    ///  <summary>Checks if a network is present on host computer.</summary>
     class function IsNetworkPresent: Boolean;
-      {Checks if a network is present.
-        @return True if network present, False otherwise.
-      }
+
+    ///  <summary>Returns the OS mode used when host computer was last booted.
+    ///  </summary>
     class function BootMode: TPJBootMode;
-      {Determines operating system mode used when computer was last booted.
-        @return Required boot mode.
-      }
   end;
 
-  // Static class that provides paths of the system's standard folders.
+type
+  ///  <summary>Static class that provides the paths of the system's standard
+  ///  folders.</summary>
   TPJSystemFolders = class(TObject)
   public
+    ///  <summary>Returns the fully qualified name of the Common Files folder.
+    ///  </summary>
     class function CommonFiles: string;
-      {Gets fully qualified name of Common Files folder.
-        @return Required folder name.
-      }
+
+    ///  <summary>Returns the fully qualified name of the Program Files folder.
+    ///  </summary>
     class function ProgramFiles: string;
-      {Gets fully qualified name of Program Files folder
-        @return Required folder name.
-      }
+
+    ///  <summary>Returns the fully qualified name of the Windows folder.
+    ///  </summary>
     class function Windows: string;
-      {Gets fully qualified name of Windows folder.
-        @return Required folder name.
-      }
+
+    ///  <summary>Returns the fully qualified name of the Windows System folder.
+    ///  </summary>
     class function System: string;
-      {Gets fully qualified name of Windows system folder
-        @return Required folder name.
-      }
+
+    ///  <summary>Returns the fully qualified name of the folder used to store
+    ///  shared 32 bit code on 64 bit Windows.</summary>
     class function SystemWow64: string;
-      {Gets the fully qualified path name of the folder used to store shared 32
-      bit code on 64 bit Windows.
-        @return Required folder name. Always returns '' on 32 bit Windows.
-      }
+
+    ///  <summary>Returns the fully qualified name of the system's temporary
+    ///  folder.</summary>
     class function Temp: string;
-      {Gets fully qualified name of system's temporary folder.
-        @return Required folder name.
-      }
   end;
 
 
-  {$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
+{$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
+type
   // Component that provides system information.
   TPJSysInfo = class(TComponent)
   private
+    // Read access method for ComputerName property.
     function GetComputerName: string;
-      {Read access method for ComputerName property.
-        @return Property value.
-      }
+    // Read access method for UserName property.
     function GetUserName: string;
-      {Read access method for UserName property.
-        @return Property value.
-      }
+    // Read access method for CommonFilesFolder property.
     function GetCommonFilesFolder: string;
-      {Read access method for CommonFilesFolder property.
-        @return Property value.
-      }
+    // Read access method for ProgramFilesFolder property.
     function GetProgramFilesFolder: string;
-      {Read access method for ProgramFilesFolder property.
-        @return Property value.
-      }
+    // Read access method for SystemFolder property.
     function GetSystemFolder: string;
-      {Read access method for SystemFolder property.
-        @return Property value.
-      }
+    // Read access method for TempFolder property.
     function GetTempFolder: string;
-      {Read access method for TempFolder property.
-        @return Property value.
-      }
+    // Read access method for WindowsFolder property.
     function GetWindowsFolder: string;
-      {Read access method for WindowsFolder property.
-        @return Property value.
-      }
+    // Read access method for OSDesc property.
     function GetOSDesc: string;
-      {Read access method for OSDesc property.
-        @return Property value.
-      }
+    // Read access method for OSBuildNumber property.
     function GetOSBuildNumber: Integer;
-      {Read access method for OSBuildNumber property.
-        @return Property value.
-      }
+    // Read access method for OSMajorVersion property.
     function GetOSMajorVersion: Integer;
-      {Read access method for OSMajorVersion property.
-        @return Property value.
-      }
+    // Read access method for OSMinorVersion property.
     function GetOSMinorVersion: Integer;
-      {Read access method for OSMinorVersion property.
-        @return Property value.
-      }
+    // Read access method for OSPlatform property.
     function GetOSPlatform: TPJOSPlatform;
-      {Read access method for OSPlatform property.
-        @return Property value.
-      }
+    // Read access method for OSProduct property.
     function GetOSProduct: TPJOSProduct;
-      {Read access method for OSProduct property.
-        @return Property value.
-      }
+    // Read access method for OSProductName property.
     function GetOSProductName: string;
-      {Read access method for OSProductName property.
-        @return Property value.
-      }
+    // Read access method for OSProductType property.
     function GetOSProductType: string;
-      {Read access method for OSProductType property.
-        @return Property value.
-      }
+    // Read access method for OSServicePack property.
     function GetOSServicePack: string;
-      {Read access method for OSServicePack property.
-        @return Property value.
-      }
   public
+    // Object constructor. Ensures only one instance of component can be placed
+    // on a form. Raises EPJSysInfo if there is already a component present.
     constructor Create(AOwner: TComponent); override;
-      {Object constructor. Ensures only one instance of component can be placed
-      on a form.
-        @param AOwner [in] Owning component.
-        @except EPJSysInfo raised if there is already a component present.
-      }
+    // Name of host computer.
     property ComputerName: string read GetComputerName;
-      {Name of computer}
+    // Name of currently logged on user.
     property UserName: string read GetUserName;
-      {Name of currently logged on user}
+    // Fully qualified name of Common Files folder.
     property CommonFilesFolder: string read GetCommonFilesFolder;
-      {Fully qualified name of common files folder}
+    // Fully qualified name of Program Files folder.
     property ProgramFilesFolder: string read GetProgramFilesFolder;
-      {Fully qualified name of program files folder}
+    // Fully qualified name of Windows system folder.
     property SystemFolder: string read GetSystemFolder;
-      {Fully qualified name of Windows system folder}
+    // Fully qualified name of current temporary folder.
     property TempFolder: string read GetTempFolder;
-      {Fully qualified name of current temporary folder}
+    // Fully qualified name of Windows folder.
     property WindowsFolder: string read GetWindowsFolder;
-      {Fully qualified name of Windows folder}
+    // Host operating system build number.
     property OSBuildNumber: Integer read GetOSBuildNumber;
-      {Operating system build number}
+    // Full description of operating system: includes product name, suite and
+    // build numbers as applicable.
     property OSDesc: string read GetOSDesc;
-      {Full description of operating system: included product name, suite and
-      build numbers as applicable}
+    // Major version number of host operating system.
     property OSMajorVersion: Integer read GetOSMajorVersion;
-      {Major version number of operating system}
+    // Minor version number of host operating system.
     property OSMinorVersion: Integer read GetOSMinorVersion;
-      {Minor version number of operating system}
+    // Host operating system platform identifier.
     property OSPlatform: TPJOSPlatform read GetOSPlatform;
-      {Operating system platform identifier}
+    // Host operating system product identifier.
     property OSProduct: TPJOSProduct read GetOSProduct;
-      {Operating system product identifier}
+    // Name of host operating system.
     property OSProductName: string read GetOSProductName;
-      {Name of operating system}
+    // Type of operating system for NT. Always empty string for Win9x.
     property OSProductType: string read GetOSProductType;
-      {Type of operating system for NT. Always empty string for Win9x}
+    // Name of any service pack for NT or additional product info for Win9x.
     property OSServicePack: string read GetOSServicePack;
-      {Name of any service pack for NT or additional product info for Win9x}
   end {$IFDEF DEPRECATED}deprecated{$ENDIF};
-  {$ENDIF}
+{$ENDIF}
 
 {$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
 
+// Gets name of computer.
 function SIGetComputerName: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets name of computer.
-    @return Computer name.
-  }
 
+// Gets name of current user.
 function SIGetUserName: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets name of current user.
-    @return Required user name.
-  }
 
+// Gets fully qualified name of Common Files folder.
 function SIGetCommonFilesFolder: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets fully qualified name of Common Files folder.
-    @return Required folder name.
-  }
 
+// Gets fully qualified name of Program Files folder.
 function SIGetProgramFilesFolder: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets fully qualified name of Program Files folder.
-    @return Required folder name.
-  }
 
+// Gets fully qualified name of Windows system folder.
 function SIGetSystemFolder: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets fully qualified name of Windows system folder.
-    @return Required folder name.
-  }
 
+// Gets fully qualified name of current temporary folder.
 function SIGetTempFolder: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets fully qualified name of current temporary folder.
-    @return Required folder name.
-  }
 
+// Gets fully qualified name of Windows folder.
 function SIGetWindowsFolder: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets fully qualified name of Windows folder.
-    @return Required folder name.
-  }
 
+// Gets build number of operating system.
 function SIGetOSBuildNumber: Integer;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets build number of operating system.
-    @return Required build number.
-  }
 
+// Get full description of operating system.
 function SIGetOSDesc: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Get full description of operating system.
-    @return Required description including product name, suite and build numbers
-      as applicable.
-  }
 
+// Gets major version of OS.
 function SIGetOSMajorVersion: Integer;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets major version of OS.
-    @return Required version number
-  }
 
+// Gets minor version of OS.
 function SIGetOSMinorVersion: Integer;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets minor version of OS.
-    @return Required version number.
-  }
 
+// Gets code identifying OS platform.
 function SIGetOSPlatform: TPJOSPlatform;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets code identifying OS platform program is running on.
-    @return Required platform identifier.
-  }
 
+// Gets code identifying OS product.
 function SIGetOSProduct: TPJOSProduct;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets code identifying OS product program is running on.
-    @return Required product identifier.
-  }
 
+// Gets OS product name.
 function SIGetOSProductName: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets product name of operating system.
-    @return Required product name.
-  }
 
+// Gets type of OS product.
 function SIGetOSProductType: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets type of OS product.
-    @return Product type for Win NT and empty string for other OSs.
-  }
 
+// Gets OS service pack info for NT or additional release info for Win9x.
 function SIGetOSServicePack: string;
   {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-  {Gets service pack info for NT or additional release info for Win9x.
-    @return Required service pack / additional information.
-  }
 
 {$ENDIF}
 
@@ -791,36 +712,36 @@ type
 {$ENDIF}
 
 var
-
   // Global variables providing extended information about the OS version
 
+  // Flag that indicates if extended version information is available.
   Win32HaveExInfo: Boolean = False;
-    {True if extended version info available (NT4, SP6 and later)}
-  // Following variables only valid if Win32HaveExInfo is True
+  // Major version number of the latest Service Pack installed on the system. If
+  // no service pack has been installed the value is 0. Invalid if
+  // Win32HaveExInfo is False.
   Win32ServicePackMajor: Integer = 0;
-    {Major version number of the latest Service Pack installed on the system. If
-    no service pack has been installed the value is 0}
+  // Minor version number of the latest Service Pack installed on the system.
+  // Invalid if Win32HaveExInfo is False.
   Win32ServicePackMinor: Integer = 0;
-    {Minor version number of the latest Service Pack installed on the system}
+  // Bit flags that identify the product suites available on the system. Value
+  // is a combination of the VER_SUITE_* flags defined above. Invalid if
+  // Win32HaveExInfo is False.
   Win32SuiteMask: Integer = 0;
-    {Bit flags that identify the product suites available on the system. Value
-    is a combination of the VER_SUITE_* flags defined above}
+  // Additional information about the system. Value is one of the VER_NT_* flags
+  // defined above. Invalid if Win32HaveExInfo is False.
   Win32ProductType: Integer = 0;
-    {Additional information about the system. Value is one of the VER_NT_* flags
-    defined above}
 
+  // Flag that indicates if product information is available on the OS, i.e. if
+  // the GetProductInfo API function is available.
   Win32HaveProductInfo: Boolean = False;
-    {True if product info is available on the OS, i.e. if GetProductInfo API
-    function is available}
+  // Product info for the operating system. Set to 0 if Win32HaveProductInfo
+  // is False.
   Win32ProductInfo: LongWord = 0;
-    {Product info for the operating system. Contains 0 if Win32HaveProductInfo
-    is false}
 
 
 {$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
+// Registers component.
 procedure Register;
-  {Registers component.
-  }
 {$ENDIF}
 
 
@@ -834,8 +755,6 @@ uses
 
 {$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
 procedure Register;
-  {Registers component.
-  }
 begin
   {$IFDEF WARNDIRS}{$WARN SYMBOL_DEPRECATED OFF}{$ENDIF}
   RegisterComponents('DelphiDabbler', [TPJSysInfo]);
@@ -1049,11 +968,8 @@ const
 // -----------------------------------------------------------------------------
 
 {$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE OFF}{$ENDIF}
+// Loads a function from the OS kernel.
 function LoadKernelFunc(const FuncName: string): Pointer;
-  {Loads a function from the OS kernel.
-    @param FuncName [in] Name of required function.
-    @return Pointer to function or nil if function not found in kernel.
-  }
 const
   cKernel = 'kernel32.dll'; // kernel DLL
 begin
@@ -1061,9 +977,8 @@ begin
 end;
 {$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE ON}{$ENDIF}
 
+// Initialise global variables with extended OS version information if possible.
 procedure InitPlatformIdEx;
-  {Initialise global variables with extended OS version information if possible.
-  }
 type
   // Function type of the GetProductInfo API function
   TGetProductInfo = function(OSMajor, OSMinor, SPMajor, SPMinor: DWORD;
@@ -1120,12 +1035,9 @@ begin
 end;
 
 {$IFNDEF EXCLUDETRAILING}
+// Removes any trailing '\' from given directory or path. Used for versions of
+// Delphi that don't implement this routine in SysUtils.
 function ExcludeTrailingPathDelimiter(const DirOrPath: string) : string;
-  {Removes any trailing '\' from given directory or path. Used for versions of
-  Delphi that don't implement this routine in SysUtils.
-    @param DirOrPath [in] Directory or path name to process.
-    @return Directory name with any trailing backslash removed.
-  }
 begin
   Result := DirOrPath;
   while (Result <> '') and (Result[Length(Result)] = '\') do
@@ -1133,25 +1045,15 @@ begin
 end;
 {$ENDIF}
 
+// Gets a string value from the given registry sub-key and value within the
+// given root key (hive).
 function GetRegistryString(const RootKey: HKEY;
   const SubKey, Name: string): string;
-  {Gets a string value from the registry
-    @param RootKey [in] Required registry hive.
-    @param SubKey [in] Registry key within hive.
-    @param Name [in] Name of registry value.
-    @return Required value. Integer values are converted to strings. '' returned
-      if value or key not found.
-    @except EPJSysInfo raised if value is not string or integer.
-  }
 
   // ---------------------------------------------------------------------------
+  // Uses registry object to open a key as read only. On versions of Delphi that
+  // can't open keys as read only the key is opened normally.
   function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
-    {Uses registry object to open a key as read only. On versions of Delphi that
-    can't open keys as read only the key is opened normally.
-      @param Reg [in] Registry object used to open key.
-      @param Key [in] Name of registry key to be opened.
-      @return True if key opened, False otherwise.
-    }
   begin
     {$IFDEF REGACCESSFLAGS}
     //! Fix for problem with OpenKeyReadOnly on 64 bit Windows
@@ -1208,11 +1110,9 @@ begin
   end;
 end;
 
+// Gets string info for given value from Windows current version key in
+// registry.
 function GetCurrentVersionRegStr(ValName: string): string;
-  {Gets string info from Windows current version key in registry.
-    @param ValName [in] Name of registry value under the current version key.
-    @return Required string value or '' if value doesn't exist.
-  }
 const
   // required registry string
   cWdwCurrentVer = '\Software\Microsoft\Windows\CurrentVersion';
@@ -1229,130 +1129,81 @@ end;
 // -----------------------------------------------------------------------------
 
 function SIGetCommonFilesFolder: string;
-  {Gets fully qualified name of Common Files folder.
-    @return Required folder name.
-  }
 begin
   Result := TPJSystemFolders.CommonFiles;
 end;
 
 function SIGetComputerName: string;
-  {Gets name of computer.
-    @return Computer name.
-  }
 begin
   Result := TPJComputerInfo.ComputerName;
 end;
 
 function SIGetOSBuildNumber: Integer;
-  {Gets build number of operating system.
-    @return Required build number.
-  }
 begin
   Result := TPJOSInfo.BuildNumber;
 end;
 
 function SIGetOSDesc: string;
-  {Get full description of operating system.
-    @return Required description including product name, suite and build numbers
-      as applicable.
-  }
 begin
   Result := TPJOSInfo.Description;
 end;
 
 function SIGetOSMajorVersion: Integer;
-  {Gets major version of OS.
-    @return Required version number
-  }
 begin
   Result := TPJOSInfo.MajorVersion;
 end;
 
 function SIGetOSMinorVersion: Integer;
-  {Gets minor version of OS.
-    @return Required version number.
-  }
 begin
   Result := TPJOSInfo.MinorVersion;
 end;
 
 function SIGetOSPlatform: TPJOSPlatform;
-  {Gets code identifying OS platform program is running on.
-    @return Required platform identifier.
-  }
 begin
   Result := TPJOSInfo.Platform;
 end;
 
 function SIGetOSProduct: TPJOSProduct;
-  {Gets code identifying OS product program is running on.
-    @return Required product identifier.
-  }
 begin
   Result := TPJOSInfo.Product;
 end;
 
 function SIGetOSProductName: string;
-  {Gets product name of operating system.
-    @return Required product name.
-  }
 begin
   Result := TPJOSInfo.ProductName;
 end;
 
 function SIGetOSProductType: string;
-  {Gets type of OS product.
-    @return Product type for Win NT and empty string for other OSs.
-  }
 begin
   Result := TPJOSInfo.Edition;
 end;
 
 function SIGetOSServicePack: string;
-  {Gets service pack info for NT or additional release info for Win9x.
-    @return Required service pack / additional information.
-  }
 begin
   Result := TPJOSInfo.ServicePack;
 end;
 
 function SIGetProgramFilesFolder: string;
-  {Gets fully qualified name of Program Files folder.
-    @return Required folder name.
-  }
 begin
   Result := TPJSystemFolders.ProgramFiles;
 end;
 
 function SIGetSystemFolder: string;
-  {Gets fully qualified name of Windows system folder.
-    @return Required folder name.
-  }
 begin
   Result := TPJSystemFolders.System;
 end;
 
 function SIGetTempFolder: string;
-  {Gets fully qualified name of current temporary folder.
-    @return Required folder name.
-  }
 begin
   Result := TPJSystemFolders.Temp;
 end;
 
 function SIGetUserName: string;
-  {Gets name of current user.
-    @return Required user name.
-  }
 begin
   Result := TPJComputerInfo.UserName;
 end;
 
 function SIGetWindowsFolder: string;
-  {Gets fully qualified name of Windows folder.
-    @return Required folder name.
-  }
 begin
   Result := TPJSystemFolders.Windows;
 end;
@@ -1366,11 +1217,6 @@ end;
 { TPJSysInfo }
 
 constructor TPJSysInfo.Create(AOwner: TComponent);
-  {Object constructor. Ensures only one instance of component can be placed on a
-  form.
-    @param AOwner [in] Owning component.
-    @except EPJSysInfo raised if there is already a component present.
-  }
 var
   Idx: Integer; // loops thru components on Owner form
 begin
@@ -1386,129 +1232,81 @@ begin
 end;
 
 function TPJSysInfo.GetCommonFilesFolder: string;
-  {Read access method for CommonFilesFolder property.
-    @return Property value.
-  }
 begin
   Result := TPJSystemFolders.CommonFiles;
 end;
 
 function TPJSysInfo.GetComputerName: string;
-  {Read access method for ComputerName property.
-    @return Property value.
-  }
 begin
   Result := TPJComputerInfo.ComputerName;
 end;
 
 function TPJSysInfo.GetOSBuildNumber: Integer;
-  {Read access method for OSBuildNumber property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.BuildNumber;
 end;
 
 function TPJSysInfo.GetOSDesc: string;
-  {Read access method for OSDesc property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.Description;
 end;
 
 function TPJSysInfo.GetOSMajorVersion: Integer;
-  {Read access method for OSMajorVersion property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.MajorVersion;
 end;
 
 function TPJSysInfo.GetOSMinorVersion: Integer;
-  {Read access method for OSMinorVersion property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.MinorVersion;
 end;
 
 function TPJSysInfo.GetOSPlatform: TPJOSPlatform;
-  {Read access method for OSPlatform property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.Platform;
 end;
 
 function TPJSysInfo.GetOSProduct: TPJOSProduct;
-  {Read access method for OSProduct property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.Product;
 end;
 
 function TPJSysInfo.GetOSProductName: string;
-  {Read access method for OSProductName property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.ProductName;
 end;
 
 function TPJSysInfo.GetOSProductType: string;
-  {Read access method for OSProductType property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.Edition;
 end;
 
 function TPJSysInfo.GetOSServicePack: string;
-  {Read access method for OSServicePack property.
-    @return Property value.
-  }
 begin
   Result := TPJOSInfo.ServicePack;
 end;
 
 function TPJSysInfo.GetProgramFilesFolder: string;
-  {Read access method for ProgramFilesFolder property.
-    @return Property value.
-  }
 begin
   Result := TPJSystemFolders.ProgramFiles;
 end;
 
 function TPJSysInfo.GetSystemFolder: string;
-  {Read access method for SystemFolder property.
-    @return Property value.
-  }
 begin
   Result :=  TPJSystemFolders.System;
 end;
 
 function TPJSysInfo.GetTempFolder: string;
-  {Read access method for TempFolder property.
-    @return Property value.
-  }
 begin
   Result := TPJSystemFolders.Temp;
 end;
 
 function TPJSysInfo.GetUserName: string;
-  {Read access method for UserName property.
-    @return Property value.
-  }
 begin
   Result := TPJComputerInfo.UserName;
 end;
 
 function TPJSysInfo.GetWindowsFolder: string;
-  {Read access method for WindowsFolder property.
-    @return Property value.
-  }
 begin
   Result := TPJSystemFolders.Windows;
 end;
@@ -1522,33 +1320,20 @@ end;
 { TPJOSInfo }
 
 class function TPJOSInfo.BuildNumber: Integer;
-  {Gets operating system's build number.
-    @return Required build number.
-  }
 begin
   Result := Win32BuildNumber;
 end;
 
 class function TPJOSInfo.CheckSuite(const Suite: Integer): Boolean;
-  {Checks if a given suite is installed on an NT system.
-    @param Suites [in] One of the VER_SUITE_* flags.
-    @return True if suite is installed. False if not installed or if not an NT
-      operating system.
-  }
 begin
   Result := Win32SuiteMask and Suite <> 0;
 end;
 
 class function TPJOSInfo.Description: string;
-  {Gets full description of operating system.
-    @return Required description.
-  }
 
   // ---------------------------------------------------------------------------
+  // Adds a non-empty string to end of result, preceeded by space.
   procedure AppendToResult(const Str: string);
-    {Adds a non-empty string to end of result, preceeded by space.
-      @param Str [in] String to append.
-    }
   begin
     if Str <> '' then
       Result := Result + ' ' + Str;
@@ -1586,9 +1371,6 @@ begin
 end;
 
 class function TPJOSInfo.Edition: string;
-  {Gets the product edition for an NT operating system.
-    @return Required edition or '' is OS is not NT.
-  }
 begin
   // This method is based on sample C++ code from MSDN
   Result := '';
@@ -1708,9 +1490,6 @@ begin
 end;
 
 class function TPJOSInfo.EditionFromProductInfo: string;
-  {Gets product edition from value returned from GetProductInfo API.
-    @return Required product edition or '' if product not recognised.
-  }
 var
   Idx: Integer; // loops through entries in cProductMap[]
 begin
@@ -1726,9 +1505,6 @@ begin
 end;
 
 class function TPJOSInfo.EditionFromReg: string;
-  {Gets product edition from registry. Needed to get edition for NT4 pre SP6.
-    @return Required product edition.
-  }
 var
   EditionCode: string;  // OS product edition code stored in registry
 begin
@@ -1745,25 +1521,16 @@ begin
 end;
 
 class function TPJOSInfo.HasPenExtensions: Boolean;
-  {Checks if system has Pen Extensions installed.
-    @return True if extensions installed, False otherwise.
-  }
 begin
   Result := GetSystemMetrics(SM_PENWINDOWS) <> 0;
 end;
 
 class function TPJOSInfo.IsMediaCenter: Boolean;
-  {Checks if Windows Media Center is installed.
-    @return True if Media Center installed, False otherwise.
-  }
 begin
   Result := GetSystemMetrics(SM_MEDIACENTER) <> 0;
 end;
 
 class function TPJOSInfo.IsNT4SP6a: Boolean;
-  {Checks registry to see if NT4 Service Pack 6a is installed.
-    @return True if service pack is installed, False otherwise.
-  }
 var
   Reg: TRegistry; // registry access object
 begin
@@ -1800,18 +1567,11 @@ begin
 end;
 
 class function TPJOSInfo.IsRemoteSession: Boolean;
-  {Checks if the program is running under a Windows Terminal Server as a remote
-  client session.
-    @return True if running on terminal server as a client session.
-  }
 begin
   Result := GetSystemMetrics(SM_REMOTESESSION) <> 0;
 end;
 
 class function TPJOSInfo.IsServer: Boolean;
-  {Checks if operating system is a server.
-    @return True if server OS, False otherise.
-  }
 begin
   if Win32HaveExInfo then
     // Check product type from extended OS info
@@ -1822,44 +1582,26 @@ begin
 end;
 
 class function TPJOSInfo.IsTabletPC: Boolean;
-  {Checks if this is Tablet PC operating system.
-    @return True if Tablet PC, False otherwise.
-  }
 begin
   Result := GetSystemMetrics(SM_TABLETPC) <> 0;
 end;
 
 class function TPJOSInfo.IsWin32s: Boolean;
-  {Checks if running on Win32s. This is unlikely to ever return true since
-  Delphi is not believed to run on Win32s itself.
-    @return True if Win32s, False otherwise.
-  }
 begin
   Result := Platform = ospWin32s;
 end;
 
 class function TPJOSInfo.IsWin9x: Boolean;
-  {Checks if a OS if one the Windows 9x line, i.e. Windows 95, Windows 98 or
-  Windows Me.
-    @return True if Win9x OS, False otherwise.
-  }
 begin
   Result := Platform = ospWin9x;
 end;
 
 class function TPJOSInfo.IsWinNT: Boolean;
-  {Checks if OS is one of NT line (NT, 2000, XP, 2003 Server, Vista, 2008
-  Server).
-    @return True if WinNT, False otherwise.
-  }
 begin
   Result := Platform = ospWinNT;
 end;
 
 class function TPJOSInfo.IsWow64: Boolean;
-  {Checks if application is running under WOW64 on a 64 bit operating system.
-    @return True if running on WOW64, False otherwise.
-  }
 type
   TIsWow64Process = function( // Type of IsWow64Process API fn
     Handle: THandle;
@@ -1885,26 +1627,16 @@ begin
 end;
 
 class function TPJOSInfo.MajorVersion: Integer;
-  {Gets the operating system's major version number.
-    @return Required version number.
-  }
 begin
   Result := Win32MajorVersion;
 end;
 
 class function TPJOSInfo.MinorVersion: Integer;
-  {Gets the operating system's minor version number.
-    @return Required version number.
-  }
 begin
   Result := Win32MinorVersion;
 end;
 
 class function TPJOSInfo.Platform: TPJOSPlatform;
-  {Identifies the OS platform.
-    @return Identifier representing the platform.
-    @except EPJSysInfo raised if can't determine platform.
-  }
 begin
   case Win32Platform of
     VER_PLATFORM_WIN32_NT: Result := ospWinNT;
@@ -1915,9 +1647,6 @@ begin
 end;
 
 class function TPJOSInfo.Product: TPJOSProduct;
-  {Identifies an OS product.
-    @return Identifier representing the product.
-  }
 begin
   Result := osUnknown;
   case Platform of
@@ -2006,9 +1735,6 @@ begin
 end;
 
 class function TPJOSInfo.ProductID: string;
-  {Determines the Windows product ID.
-    @return Required product id string.
-  }
 const
   // Registry keys for Win 9x/NT
   cRegKey: array[Boolean] of string = (
@@ -2022,10 +1748,6 @@ begin
 end;
 
 class function TPJOSInfo.ProductName: string;
-  {Gets the name of the OS product.
-    @return Name of product. Major and minor version number is returned for
-      unknown versions.
-  }
 begin
   case Product of
     osUnknownWinNT, osUnknownWin9x, osUnknownWin32s: Result := '';
@@ -2052,10 +1774,6 @@ begin
 end;
 
 class function TPJOSInfo.ProductTypeFromReg: string;
-  {Gets code describing product type from registry. Used to get product type for
-  NT4 SP5 and earlier.
-    @return Required product type or '' if registry key or value can't be found.
-  }
 begin
   Result := GetRegistryString(
     HKEY_LOCAL_MACHINE,
@@ -2065,9 +1783,6 @@ begin
 end;
 
 class function TPJOSInfo.ServicePack: string;
-  {Gets name of any service pack installed.
-    @return Name of service pack or '' if no service pack installed.
-  }
 begin
   // Assume to service pack
   Result := '';
@@ -2104,18 +1819,11 @@ begin
 end;
 
 class function TPJOSInfo.ServicePackMajor: Integer;
-  {Gets major version number of any installed NT service pack.
-    @return Required version number or 0 if no service pack installed or running
-      on Win9x.
-  }
 begin
   Result := Win32ServicePackMajor;
 end;
 
 class function TPJOSInfo.ServicePackMinor: Integer;
-  {Gets minor version number of any installed NT service pack.
-    @return Required version number. Invalid if ServicePackMajor returns 0.
-  }
 begin
   Result := Win32ServicePackMinor;
 end;
@@ -2123,9 +1831,6 @@ end;
 { TPJComputerInfo }
 
 class function TPJComputerInfo.BootMode: TPJBootMode;
-  {Determines operating system mode used when computer was last booted.
-    @return Required boot mode.
-  }
 begin
   case GetSystemMetrics(SM_CLEANBOOT) of
     0: Result := bmNormal;
@@ -2136,9 +1841,6 @@ begin
 end;
 
 class function TPJComputerInfo.ComputerName: string;
-  {Gets name of computer.
-    @return Computer name.
-  }
 var
   PComputerName:  // buffer for name returned from API
     array[0..MAX_COMPUTERNAME_LENGTH] of Char;
@@ -2152,25 +1854,16 @@ begin
 end;
 
 class function TPJComputerInfo.Is64Bit: Boolean;
-  {Checks if running on 64 bit processor.
-    @param True if running on 64 bit processor, False if 32 bit.
-  }
 begin
   Result := Processor in [paX64, paIA64];
 end;
 
 class function TPJComputerInfo.IsNetworkPresent: Boolean;
-  {Checks if a network is present.
-    @return True if network present, False otherwise.
-  }
 begin
   Result := GetSystemMetrics(SM_NETWORK) and 1 = 1;
 end;
 
 class function TPJComputerInfo.MACAddress: string;
-  {Gets MAC address of first ethernet adapter on computer.
-    @return Required MAC address or '' if no ethernet adapter found.
-  }
 {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE OFF}{$ENDIF}
 {$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE OFF}{$ENDIF}
 type
@@ -2197,11 +1890,8 @@ var
   I: Integer;               // loops thru all adapters in list
 
   // ---------------------------------------------------------------------------
+  // Examines given NetBios API call return value to check if call succeeded.
   function NetBiosSucceeded(const RetCode: AnsiChar): Boolean;
-    {Checks if call to NetBios API function succeeded.
-      @param RetCode [in] Return code of NetBios API call.
-      @return True for successful return code, false otherwise.
-    }
   begin
     Result := UCHAR(RetCode) = NRC_GOODRET;
   end;
@@ -2257,9 +1947,6 @@ begin
 end;
 
 class function TPJComputerInfo.Processor: TPJProcessorArchitecture;
-  {Gets processor architecture.
-    @return Identifier describing  processor architecture.
-  }
 begin
   case pvtProcessorArchitecture of
     PROCESSOR_ARCHITECTURE_INTEL: Result := paX86;
@@ -2270,9 +1957,6 @@ begin
 end;
 
 class function TPJComputerInfo.ProcessorCount: Cardinal;
-  {Gets number of processors in computer.
-    @return Number of processors.
-  }
 var
   SI: TSystemInfo;  // contains system information
 begin
@@ -2281,9 +1965,6 @@ begin
 end;
 
 class function TPJComputerInfo.UserName: string;
-  {Gets name of currently logged on user.
-    @return User name.
-  }
 const
   UNLEN = 256;  // max size of user name buffer (per MS SDK docs)
 var
@@ -2300,9 +1981,6 @@ end;
 { TPJSystemFolders }
 
 class function TPJSystemFolders.CommonFiles: string;
-  {Gets fully qualified name of Common Files folder.
-    @return Required folder name.
-  }
 begin
   Result :=  ExcludeTrailingPathDelimiter(
     GetCurrentVersionRegStr('CommonFilesDir')
@@ -2310,9 +1988,6 @@ begin
 end;
 
 class function TPJSystemFolders.ProgramFiles: string;
-  {Gets fully qualified name of Program Files folder
-    @return Required folder name.
-  }
 begin
   Result :=  ExcludeTrailingPathDelimiter(
     GetCurrentVersionRegStr('ProgramFilesDir')
@@ -2320,9 +1995,6 @@ begin
 end;
 
 class function TPJSystemFolders.System: string;
-  {Gets fully qualified name of Windows system folder
-    @return Required folder name.
-  }
 var
   PFolder: array[0..MAX_PATH] of Char;  // buffer to hold name returned from API
 begin
@@ -2333,10 +2005,6 @@ begin
 end;
 
 class function TPJSystemFolders.SystemWow64: string;
-  {Gets the fully qualified path name of the folder used to store shared 32 bit
-  code on 64 bit Windows.
-    @return Required folder name. Always returns '' on 32 bit Windows.
-  }
 type
   {$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE OFF}{$ENDIF}
   // type of GetSystemWow64DirectoryFn API function
@@ -2360,9 +2028,6 @@ begin
 end;
 
 class function TPJSystemFolders.Temp: string;
-  {Gets fully qualified name of system's temporary folder.
-    @return Required folder name.
-  }
 var
   PathBuf: array[0..MAX_PATH] of Char;  // buffer to hold name returned from API
 begin
@@ -2373,9 +2038,6 @@ begin
 end;
 
 class function TPJSystemFolders.Windows: string;
-  {Gets fully qualified name of Windows folder.
-    @return Required folder name.
-  }
 var
   PFolder: array[0..MAX_PATH] of Char;  // buffer to hold name returned from API
 begin

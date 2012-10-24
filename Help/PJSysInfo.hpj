@@ -33,7 +33,7 @@ HCW=0
 LCID=0x809 0x0 0x0 ;English (United Kingdom)
 REPORT=Yes
 TITLE=DelphiDabbler System Information Help
-COPYRIGHT=DelphiDabbler System Information Unit copyright © P.D.Johnson, 2001-2009
+COPYRIGHT=DelphiDabbler System Information Unit copyright © P.D.Johnson, 2001-2012
 HLP=.\PJSysInfo.hlp
 
 [FILES]

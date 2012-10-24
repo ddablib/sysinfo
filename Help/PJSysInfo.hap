@@ -133,7 +133,7 @@ KP
 4
 NS
 42
-3751
+3859
 {\rtf1\ansi\ansicpg1252\deff0\deftab720\deflang2057{\fonttbl{\f0\fswiss Arial;}{\f1\fswiss \fcharset0 Arial;}{\f2\fmodern Courier New;}{\f3\fmodern \fcharset0 Courier New;}}{\colortbl\red0\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green0\blue0;}\pard \plain \plain\f0\fs22\cf1\b \protect <NS 42>\plain\f0\fs8\cf2  \plain\f0\fs8\cf2\b 
 \par \plain\f0\fs22\cf2\b TPJOSProduct\plain\f0\fs20\cf3 
 \par \plain\f0\fs8\cf3  \plain\f0\fs18\cf1 \protect </NS 42>\plain\f0\fs18\cf3 
@@ -152,29 +152,29 @@ NS
 \par \pard \fi-400 \li400 \tx400 \plain\f0\fs8\cf3 
 \par \plain\f0\fs18\cf3 The \plain\f1\fs18\cf3 values\plain\f0\fs18\cf3  have the following meaning:
 \par \plain\f0\fs8\cf3 
-\par \pard \fi-2000 \li2000 \tx2000 \plain\f1\fs18\cf3\i\b Windows NT OSs\plain\f0\fs18\cf3\i 
+\par \pard \fi-2000 \li2000 \tx2000 \plain\f1\fs18\cf3\i\b Windows NT Platform\plain\f0\fs18\cf3\i 
 \par osUnknownWinNT\plain\f0\fs18\cf3 \tab An unknown product on the Windows NT platform.
 \par \plain\f0\fs18\cf3\i osWinNT\plain\f0\fs18\cf3 \tab Windows NT (v3.51-v4) - needs major and minor version information to identify.
 \par \plain\f0\fs18\cf3\i osWin2k\plain\f0\fs18\cf3 \tab Windows 2000.
 \par \plain\f0\fs18\cf3\i osWinXP\plain\f0\fs18\cf3 \tab Windows XP.
+\par \plain\f1\fs18\cf3\i osWinVista\plain\f1\fs18\cf3 \tab Windows Vista
+\par \plain\f1\fs18\cf3\i osWin7\plain\f1\fs18\cf3 \tab Windows 7
+\par \plain\f1\fs18\cf3\i osWin8\plain\f1\fs18\cf3 \tab WIndows 8
 \par \plain\f0\fs18\cf3\i osWinSvr2003\plain\f1\fs18\cf3 \tab Windows Server 2003
 \par \plain\f1\fs18\cf3\i osWinSvr2003R2\plain\f1\fs18\cf3 \tab Windows Server 2003 R2
-\par \plain\f1\fs18\cf3\i osWinVista\plain\f1\fs18\cf3 \tab Windows Vista
 \par \plain\f1\fs18\cf3\i osWinSvr2008\plain\f1\fs18\cf3 \tab Windows Server 2008
-\par \plain\f1\fs18\cf3\i osWin7\plain\f1\fs18\cf3 \tab Windows 7
 \par \plain\f1\fs18\cf3\i osWinSvr2008R2\plain\f1\fs18\cf3 \tab Windows Server 2008 R2
-\par \plain\f1\fs18\cf3\i osWin8\plain\f1\fs18\cf3 \tab WIndows 8
 \par \plain\f1\fs18\cf3\i osWinSvr2012\plain\f1\fs18\cf3 \tab Windows Server 2012
-\par \plain\f1\fs18\cf3\i osWinLater\plain\f1\fs18\cf3 \tab A later Windows version than v6.0 (Vista / Server 2008)
-\par \plain\f1\fs18\cf3\i\b Windows 9x OSs\plain\f0\fs18\cf3 
-\par \plain\f0\fs18\cf3\i osUnknownWin9x\plain\f0\fs18\cf3 \tab An unknwon product on the Windows 9x platform.
+\par \plain\f1\fs18\cf3\i osWinLater\plain\f1\fs18\cf3 \tab An unknown version of Windows released after the most recent version of Windows identified above.
+\par \plain\f1\fs18\cf3\i\b Windows 9x Platform\plain\f0\fs18\cf3 
+\par \plain\f0\fs18\cf3\i osUnknownWin9x\plain\f0\fs18\cf3 \tab An unkn\plain\f1\fs18\cf3 ow\plain\f0\fs18\cf3 n product on the Windows 9x platform.
 \par \plain\f0\fs18\cf3\i osWin95\plain\f0\fs18\cf3 \tab Windows 95 or Windows 95 OSR1.
 \par \plain\f0\fs18\cf3\i osWin98\plain\f0\fs18\cf3 \tab Windows 98 or Windows 98 SE.
 \par \plain\f0\fs18\cf3\i osWinMe\plain\f0\fs18\cf3 \tab Windows Me.
 \par \plain\f1\fs18\cf3\i\b Win32s\plain\f0\fs18\cf3 
 \par \plain\f0\fs18\cf3\i osUnknownWin32s\plain\f0\fs18\cf3 \tab An operating system running the Win32s platform.
-\par \plain\f1\fs18\cf3\i\b Unknown OS\plain\f1\fs18\cf3 
-\par \plain\f1\fs18\cf3\i osUnknown\plain\f1\fs18\cf3 \tab An unkown operating system.\plain\f0\fs18\cf3 
+\par \plain\f1\fs18\cf3\i\b Other\plain\f1\fs18\cf3 
+\par \plain\f1\fs18\cf3\i osUnknown\plain\f1\fs18\cf3 \tab An unkown operating system on an unknown platform.\plain\f0\fs18\cf3 
 \par }
 
 [Footnotes]

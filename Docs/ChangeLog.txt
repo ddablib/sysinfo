@@ -4,6 +4,11 @@
 ; $Date$
 ; ------------------------------------------------------------------------------
 
+Release v3.4 of 24 October 2012
++ Modified TPJOSInfo to detect Windows 8 and Windows 2012 Server.
++ Added new PRODUCT_* constants and descriptions.
++ Updated documentation.
+
 Release v3.3.1 of 07 April 2010
 + Fixed bug (issue #14) to correctly read from registry on Windows 64 systems. NOTE: This bug may persist when compiled with old Delphis (pre Delphi 6).
 + Corrected buffer sizes used when TPJComputerInfo's ComputerName and UserName methods access Windows API functions.

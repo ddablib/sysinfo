@@ -159,7 +159,7 @@
   <li><a href="#installation">Installation</a></li>
   <li><a href="#demo">Demo Project</a></li>
   <li><a href="#update">Update History</a></li>
-  <li><a href="#license">License and Disclaimer</a></li>
+  <li><a href="#license">License</a></li>
   <li><a href="#bugs">Bugs and Feature Requests</a></li>
   <li><a href="#author">About the Author</a></li>
 </ul>
@@ -250,7 +250,13 @@
 </h3>
 
 <p>
-  This unit compiles with all editions of Delphi from 3 to 2010. However
+  This unit is designed for compilation with the 32 bit Delphi compiler. It has
+  not been tested with the 64 bit compiler, but is not expected to work without
+  change.
+</p>
+
+<p>
+  The unit compiles with all editions of Delphi from 3 to 2010. However
   compilation on old Delphi versions that do not support setting registry access
   flags via <var>TRegistry</var> is not recommended since parts of the code may
   not work correctly on 64 bit Windows. <strong>Use of Delphi 6 or later is
@@ -261,6 +267,7 @@
   Since the unit makes unmanaged calls to the Windows API the unit will not
   work with Delphi.net compilers.
 </p>
+
 
 <p class="gototop">
   &raquo; <a href="#contents">Contents</a>
@@ -303,7 +310,7 @@
     <code>ChangeLog.txt</code> &ndash; Unit's change log.
   </li>
   <li>
-    <code>MPL.txt</code> &ndash; Mozilla Public Licence v1.1.
+    <code>MPL-2.0.txt</code> &ndash; Mozilla Public Licence v2.0.
   </li>
   <li>
     <code>Wiki.URL</code> &ndash; Shortcut to the online Wiki that documents
@@ -406,45 +413,14 @@
 </p>
 
 <h2 id="license">
-  License and Disclaimer
+  License
 </h2>
 
 <p>
-  This product, <em>System Information Unit</em>, is subject to the
-  Mozilla Public License Version 1.1 (the &quot;License&quot;). You may not
-  use this Product except in compliance with the License. You may obtain a
-  copy of the License at
-  <a
-    href="http://www.mozilla.org/MPL/MPL-1.1"
-  >http://www.mozilla.org/MPL/MPL-1.1</a>.
+  The <em>System Information Unit</em>, is released under the terms of the <a
+    href="http://www.mozilla.org/MPL/2.0/"
+  >Mozilla Public License, v2.0</a>.
 </p>
-
-<p>
-  Software distributed under the License is distributed on an &quot;AS
-  IS&quot; basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and limitations under
-  the License.
-</p>
-
-<p>
-  The Initial Developer of <em>System Information Unit</em> is Peter D
-  Johnson. Portions created by the Initial Developer are Copyright &copy;
-  2001-2009 Peter D Johnson (www.delphidabbler.com). All Rights Reserved.
-</p>
-
-<p>
-  Contributors:
-</p>
-
-<p class="indent">
-  Guillermo Fazzolari<br />
-  Laurent Pierre.
-</p>
-
-<p>
-  All relevant trademarks are acknowledged.
-</p>
-
 
 <p class="gototop">
   &raquo; <a href="#contents">Contents</a>
@@ -500,7 +476,7 @@
   </div>
 
   <div class="copyright">
-    This document is copyright &copy; 2005-2009, P D Johnson,
+    This document is copyright &copy; 2005-2012, P D Johnson,
     <a href="http://www.delphidabbler.com/">
     www.delphidabbler.com</a>
   </div>

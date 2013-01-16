@@ -12,11 +12,6 @@
  * global variables for use in providing information about the computer and the
  * operating system.
  *
- * Also contains a deprecated component and some functions for backward
- * compatibility with older versions of the unit. The deprecated code is not
- * compiled by default, but compilation can be enabled by defining the
- * PJSYSINFO_COMPILE_DEPRECATED symbol.
- *
  * NOTE 1: When compiled with old versions of Delphi that do not support setting
  * registry access flags via the TRegistry object, some of this code may not
  * work correctly when running as a 32 bit process on 64 bit Windows.
@@ -41,17 +36,10 @@ unit PJSysInfo;
 
 // Conditional defines
 
-// NOTE: Deprecated code will not be compiled and no component will be
-// registered unless PJSYSINFO_COMPILE_DEPRECATED is defined before compiling.
-// You can either define the symbol in project options or on the command line,
-// or you can remove the '.' character before the '$' in the following line.
-{.$DEFINE PJSYSINFO_COMPILE_DEPRECATED}
-
 // Assume all required facilities available
 {$DEFINE REGOPENREADONLY}     // TRegistry.OpenKeyReadOnly available
 {$DEFINE REGACCESSFLAGS}      // TRegistry access flags available
 {$DEFINE WARNDIRS}            // $WARN compiler directives available
-{$DEFINE DEPRECATED}          // deprecated directive available
 {$DEFINE EXCLUDETRAILING}     // SysUtils.ExcludeTrailingPathDelimiter available
 {$DEFINE MESSAGEDIRS}         // $MESSAGE compiler directives available
 {$DEFINE HASLONGWORD}         // LongWord type defined
@@ -63,7 +51,6 @@ unit PJSysInfo;
   {$UNDEF REGOPENREADONLY}
   {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
-  {$UNDEF DEPRECATED}
   {$UNDEF EXCLUDETRAILING}
   {$UNDEF MESSAGEDIRS}
   {$UNDEF HASLONGWORD}
@@ -71,25 +58,17 @@ unit PJSysInfo;
 {$IFDEF VER120} // Delphi 4
   {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
-  {$UNDEF DEPRECATED}
   {$UNDEF EXCLUDETRAILING}
   {$UNDEF MESSAGEDIRS}
 {$ENDIF}
 {$IFDEF VER130} // Delphi 5
   {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
-  {$UNDEF DEPRECATED}
   {$UNDEF EXCLUDETRAILING}  // ** fix by Rich Habedank
   {$UNDEF MESSAGEDIRS}
 {$ENDIF}
 {$IFDEF VER140} // Delphi 6
   {$UNDEF WARNDIRS}
-{$ENDIF}
-
-{$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
-  {$IFDEF MESSAGEDIRS}
-    {$MESSAGE Hint '*** Compiling deprecated functions and component ***'}
-  {$ENDIF}
 {$ENDIF}
 
 
@@ -329,7 +308,6 @@ const
 
 
 type
-
   ///  <summary>Enumeration of OS platforms.</summary>
   TPJOSPlatform = (
     ospWinNT,               // Windows NT platform
@@ -558,152 +536,6 @@ type
     class function Temp: string;
   end;
 
-
-{$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
-type
-  // Component that provides system information.
-  TPJSysInfo = class(TComponent)
-  private
-    // Read access method for ComputerName property.
-    function GetComputerName: string;
-    // Read access method for UserName property.
-    function GetUserName: string;
-    // Read access method for CommonFilesFolder property.
-    function GetCommonFilesFolder: string;
-    // Read access method for ProgramFilesFolder property.
-    function GetProgramFilesFolder: string;
-    // Read access method for SystemFolder property.
-    function GetSystemFolder: string;
-    // Read access method for TempFolder property.
-    function GetTempFolder: string;
-    // Read access method for WindowsFolder property.
-    function GetWindowsFolder: string;
-    // Read access method for OSDesc property.
-    function GetOSDesc: string;
-    // Read access method for OSBuildNumber property.
-    function GetOSBuildNumber: Integer;
-    // Read access method for OSMajorVersion property.
-    function GetOSMajorVersion: Integer;
-    // Read access method for OSMinorVersion property.
-    function GetOSMinorVersion: Integer;
-    // Read access method for OSPlatform property.
-    function GetOSPlatform: TPJOSPlatform;
-    // Read access method for OSProduct property.
-    function GetOSProduct: TPJOSProduct;
-    // Read access method for OSProductName property.
-    function GetOSProductName: string;
-    // Read access method for OSProductType property.
-    function GetOSProductType: string;
-    // Read access method for OSServicePack property.
-    function GetOSServicePack: string;
-  public
-    // Object constructor. Ensures only one instance of component can be placed
-    // on a form. Raises EPJSysInfo if there is already a component present.
-    constructor Create(AOwner: TComponent); override;
-    // Name of host computer.
-    property ComputerName: string read GetComputerName;
-    // Name of currently logged on user.
-    property UserName: string read GetUserName;
-    // Fully qualified name of Common Files folder.
-    property CommonFilesFolder: string read GetCommonFilesFolder;
-    // Fully qualified name of Program Files folder.
-    property ProgramFilesFolder: string read GetProgramFilesFolder;
-    // Fully qualified name of Windows system folder.
-    property SystemFolder: string read GetSystemFolder;
-    // Fully qualified name of current temporary folder.
-    property TempFolder: string read GetTempFolder;
-    // Fully qualified name of Windows folder.
-    property WindowsFolder: string read GetWindowsFolder;
-    // Host operating system build number.
-    property OSBuildNumber: Integer read GetOSBuildNumber;
-    // Full description of operating system: includes product name, suite and
-    // build numbers as applicable.
-    property OSDesc: string read GetOSDesc;
-    // Major version number of host operating system.
-    property OSMajorVersion: Integer read GetOSMajorVersion;
-    // Minor version number of host operating system.
-    property OSMinorVersion: Integer read GetOSMinorVersion;
-    // Host operating system platform identifier.
-    property OSPlatform: TPJOSPlatform read GetOSPlatform;
-    // Host operating system product identifier.
-    property OSProduct: TPJOSProduct read GetOSProduct;
-    // Name of host operating system.
-    property OSProductName: string read GetOSProductName;
-    // Type of operating system for NT. Always empty string for Win9x.
-    property OSProductType: string read GetOSProductType;
-    // Name of any service pack for NT or additional product info for Win9x.
-    property OSServicePack: string read GetOSServicePack;
-  end {$IFDEF DEPRECATED}deprecated{$ENDIF};
-{$ENDIF}
-
-{$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
-
-// Gets name of computer.
-function SIGetComputerName: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets name of current user.
-function SIGetUserName: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets fully qualified name of Common Files folder.
-function SIGetCommonFilesFolder: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets fully qualified name of Program Files folder.
-function SIGetProgramFilesFolder: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets fully qualified name of Windows system folder.
-function SIGetSystemFolder: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets fully qualified name of current temporary folder.
-function SIGetTempFolder: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets fully qualified name of Windows folder.
-function SIGetWindowsFolder: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets build number of operating system.
-function SIGetOSBuildNumber: Integer;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Get full description of operating system.
-function SIGetOSDesc: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets major version of OS.
-function SIGetOSMajorVersion: Integer;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets minor version of OS.
-function SIGetOSMinorVersion: Integer;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets code identifying OS platform.
-function SIGetOSPlatform: TPJOSPlatform;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets code identifying OS product.
-function SIGetOSProduct: TPJOSProduct;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets OS product name.
-function SIGetOSProductName: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets type of OS product.
-function SIGetOSProductType: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-// Gets OS service pack info for NT or additional release info for Win9x.
-function SIGetOSServicePack: string;
-  {$IFDEF DEPRECATED}deprecated;{$ENDIF}
-
-{$ENDIF}
-
 {$IFNDEF HASLONGWORD}
 type
   // Define LongWord for compilers that don't have it
@@ -738,12 +570,6 @@ var
   Win32ProductInfo: LongWord = 0;
 
 
-{$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
-// Registers component.
-procedure Register;
-{$ENDIF}
-
-
 implementation
 
 
@@ -752,27 +578,12 @@ uses
   Registry, Nb30;
 
 
-{$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
-procedure Register;
-begin
-  {$IFDEF WARNDIRS}{$WARN SYMBOL_DEPRECATED OFF}{$ENDIF}
-  RegisterComponents('DelphiDabbler', [TPJSysInfo]);
-  {$IFDEF WARNDIRS}{$WARN SYMBOL_DEPRECATED ON}{$ENDIF}
-end;
-{$ENDIF}
-
-
 resourcestring
   // Error messages
   sUnknownPlatform = 'Unrecognized operating system platform';
   sUnknownProduct = 'Unrecognised operating system product';
   sBadRegType =  'Unsupported registry type';
   sBadProcHandle = 'Bad process handle';
-  {$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
-  sDupInstErr = 'Only one %0:s component is permitted on a form: '
-    + '%1:s is already present on %2:s';
-  {$ENDIF}
-
 
 const
   // Map of product codes per GetProductInfo API to product names
@@ -1120,197 +931,6 @@ begin
     Windows.HKEY_LOCAL_MACHINE, cWdwCurrentVer, ValName
   );
 end;
-
-
-{$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
-// -----------------------------------------------------------------------------
-// Public routines
-// -----------------------------------------------------------------------------
-
-function SIGetCommonFilesFolder: string;
-begin
-  Result := TPJSystemFolders.CommonFiles;
-end;
-
-function SIGetComputerName: string;
-begin
-  Result := TPJComputerInfo.ComputerName;
-end;
-
-function SIGetOSBuildNumber: Integer;
-begin
-  Result := TPJOSInfo.BuildNumber;
-end;
-
-function SIGetOSDesc: string;
-begin
-  Result := TPJOSInfo.Description;
-end;
-
-function SIGetOSMajorVersion: Integer;
-begin
-  Result := TPJOSInfo.MajorVersion;
-end;
-
-function SIGetOSMinorVersion: Integer;
-begin
-  Result := TPJOSInfo.MinorVersion;
-end;
-
-function SIGetOSPlatform: TPJOSPlatform;
-begin
-  Result := TPJOSInfo.Platform;
-end;
-
-function SIGetOSProduct: TPJOSProduct;
-begin
-  Result := TPJOSInfo.Product;
-end;
-
-function SIGetOSProductName: string;
-begin
-  Result := TPJOSInfo.ProductName;
-end;
-
-function SIGetOSProductType: string;
-begin
-  Result := TPJOSInfo.Edition;
-end;
-
-function SIGetOSServicePack: string;
-begin
-  Result := TPJOSInfo.ServicePack;
-end;
-
-function SIGetProgramFilesFolder: string;
-begin
-  Result := TPJSystemFolders.ProgramFiles;
-end;
-
-function SIGetSystemFolder: string;
-begin
-  Result := TPJSystemFolders.System;
-end;
-
-function SIGetTempFolder: string;
-begin
-  Result := TPJSystemFolders.Temp;
-end;
-
-function SIGetUserName: string;
-begin
-  Result := TPJComputerInfo.UserName;
-end;
-
-function SIGetWindowsFolder: string;
-begin
-  Result := TPJSystemFolders.Windows;
-end;
-{$ENDIF}
-
-{$IFDEF PJSYSINFO_COMPILE_DEPRECATED}
-// -----------------------------------------------------------------------------
-// Component implementation
-// -----------------------------------------------------------------------------
-
-{ TPJSysInfo }
-
-constructor TPJSysInfo.Create(AOwner: TComponent);
-var
-  Idx: Integer; // loops thru components on Owner form
-begin
-  // Ensure that component is unique
-  for Idx := 0 to Pred(AOwner.ComponentCount) do
-    if AOwner.Components[Idx] is ClassType then
-      raise EPJSysInfo.CreateFmt(
-        sDupInstErr,
-        [ClassName, AOwner.Components[Idx].Name, AOwner.Name]
-      );
-  // All OK: go ahead and create component
-  inherited Create(AOwner);
-end;
-
-function TPJSysInfo.GetCommonFilesFolder: string;
-begin
-  Result := TPJSystemFolders.CommonFiles;
-end;
-
-function TPJSysInfo.GetComputerName: string;
-begin
-  Result := TPJComputerInfo.ComputerName;
-end;
-
-function TPJSysInfo.GetOSBuildNumber: Integer;
-begin
-  Result := TPJOSInfo.BuildNumber;
-end;
-
-function TPJSysInfo.GetOSDesc: string;
-begin
-  Result := TPJOSInfo.Description;
-end;
-
-function TPJSysInfo.GetOSMajorVersion: Integer;
-begin
-  Result := TPJOSInfo.MajorVersion;
-end;
-
-function TPJSysInfo.GetOSMinorVersion: Integer;
-begin
-  Result := TPJOSInfo.MinorVersion;
-end;
-
-function TPJSysInfo.GetOSPlatform: TPJOSPlatform;
-begin
-  Result := TPJOSInfo.Platform;
-end;
-
-function TPJSysInfo.GetOSProduct: TPJOSProduct;
-begin
-  Result := TPJOSInfo.Product;
-end;
-
-function TPJSysInfo.GetOSProductName: string;
-begin
-  Result := TPJOSInfo.ProductName;
-end;
-
-function TPJSysInfo.GetOSProductType: string;
-begin
-  Result := TPJOSInfo.Edition;
-end;
-
-function TPJSysInfo.GetOSServicePack: string;
-begin
-  Result := TPJOSInfo.ServicePack;
-end;
-
-function TPJSysInfo.GetProgramFilesFolder: string;
-begin
-  Result := TPJSystemFolders.ProgramFiles;
-end;
-
-function TPJSysInfo.GetSystemFolder: string;
-begin
-  Result :=  TPJSystemFolders.System;
-end;
-
-function TPJSysInfo.GetTempFolder: string;
-begin
-  Result := TPJSystemFolders.Temp;
-end;
-
-function TPJSysInfo.GetUserName: string;
-begin
-  Result := TPJComputerInfo.UserName;
-end;
-
-function TPJSysInfo.GetWindowsFolder: string;
-begin
-  Result := TPJSystemFolders.Windows;
-end;
-{$ENDIF}
-
 
 // -----------------------------------------------------------------------------
 // Static class implementations

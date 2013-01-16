@@ -559,6 +559,15 @@ type
     ///  Windows systems.</remarks>
     class function CommonFilesX86: string;
 
+    ///  <summary>Returns the fully qualified name of the Common Files folder
+    ///  according to whether the host program and operating system are 32 or 64
+    ///  bit.</summary>
+    ///  <remarks>For a 32 bit program on 32 bit Windows or 64 bit program on
+    ///  64 bit windows the return value is the same as CommonFiles. For a 32
+    ///  bit program running on 64 bit Windows the return value is the same as
+    ///  CommonFilesX86.</remarks>
+    class function PlatformCommonFiles: string;
+
     ///  <summary>Returns the fully qualified name of the Program Files folder.
     ///  </summary>
     class function ProgramFiles: string;
@@ -568,6 +577,15 @@ type
     ///  <remarks>This folder is used to install 32 bit programs on 64 bit
     ///  Windows systems.</remarks>
     class function ProgramFilesX86: string;
+
+    ///  <summary>Returns the fully qualified name of the Program Files folder
+    ///  according to whether the host program and operating system are 32 or 64
+    ///  bit.</summary>
+    ///  <remarks>For a 32 bit program on 32 bit Windows or 64 bit program on
+    ///  64 bit windows the return value is the same as ProgramFiles. For a 32
+    ///  bit program running on 64 bit Windows the return value is the same as
+    ///  ProgramFilesX86.</remarks>
+    class function PlatformProgramFiles: string;
 
     ///  <summary>Returns the fully qualified name of the Windows folder.
     ///  </summary>
@@ -900,6 +918,21 @@ begin
     Result := Copy(Result, 1, Length(Result) - 1);
 end;
 {$ENDIF}
+
+// Returns the value of the given environment variable.
+function GetEnvVar(const VarName: string): string;
+var
+  BufSize: Integer;  // size (in chars) of value + terminal #0
+begin
+  BufSize := GetEnvironmentVariable(PChar(VarName), nil, 0);
+  if BufSize > 0 then
+  begin
+    SetLength(Result, BufSize - 1);
+    GetEnvironmentVariable(PChar(VarName), PChar(Result), BufSize);
+  end
+  else
+    Result := '';
+end;
 
 // Creates a read only TRegistry instance. On versions of Delphi that don't
 // support passing access flags to TRegistry constructor, registry is opened
@@ -1785,6 +1818,16 @@ begin
   Result :=  ExcludeTrailingPathDelimiter(
     GetCurrentVersionRegStr('CommonFilesDir (x86)')
   );
+end;
+
+class function TPJSystemFolders.PlatformCommonFiles: string;
+begin
+  Result := GetEnvVar('COMMONPROGRAMFILES');
+end;
+
+class function TPJSystemFolders.PlatformProgramFiles: string;
+begin
+  Result := GetEnvVar('PROGRAMFILES');
 end;
 
 class function TPJSystemFolders.ProgramFiles: string;

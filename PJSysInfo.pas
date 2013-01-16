@@ -503,6 +503,14 @@ type
     ///  <summary>Returns the OS mode used when host computer was last booted.
     ///  </summary>
     class function BootMode: TPJBootMode;
+
+    ///  <summary>Checks if the current user has administrator privileges.
+    ///  </summary>
+    ///  <remarks>
+    ///  <para>Always returns True on the Windows 9x platform.</para>
+    ///  <para>Based on code at http://edn.embarcadero.com/article/26752</para>
+    ///  </remarks>
+    class function IsAdmin: Boolean;
   end;
 
 type
@@ -1462,6 +1470,71 @@ end;
 class function TPJComputerInfo.Is64Bit: Boolean;
 begin
   Result := Processor in [paX64, paIA64];
+end;
+
+class function TPJComputerInfo.IsAdmin: Boolean;
+const
+  // SID related constants
+  SECURITY_NT_AUTHORITY: TSIDIdentifierAuthority = (Value: (0, 0, 0, 0, 0, 5));
+  SECURITY_BUILTIN_DOMAIN_RID = $00000020;
+  DOMAIN_ALIAS_RID_ADMINS = $00000220;
+var
+  AccessToken: THandle;           // process access token
+  TokenGroupsInfo: PTokenGroups;  // token groups
+  InfoBufferSize: DWORD;          // token info buffer size
+  AdmininstratorsSID: PSID;       // administrators SID
+  I: Integer;                     // loops thru token groups
+  Success: BOOL;                  // API function success results
+begin
+  if TPJOSInfo.IsWin9x then
+  begin
+    Result := True;
+    Exit;
+  end;
+  Result := False;
+  Success := OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, AccessToken);
+  if not Success then
+  begin
+    if GetLastError = ERROR_NO_TOKEN then
+      Success := OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, AccessToken);
+  end;
+  if Success then
+  begin
+    {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE OFF}{$ENDIF}
+    GetMem(TokenGroupsInfo, 1024);
+    {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE ON}{$ENDIF}
+    Success := GetTokenInformation(
+      AccessToken, TokenGroups, TokenGroupsInfo, 1024, InfoBufferSize
+    );
+    CloseHandle(AccessToken);
+    if Success then
+    begin
+      AllocateAndInitializeSid(
+        SECURITY_NT_AUTHORITY, 2, SECURITY_BUILTIN_DOMAIN_RID,
+        DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, AdmininstratorsSID
+      );
+      {$IFOPT R+}
+        {$DEFINE RANGECHECKSWEREON}
+        {$R-}
+      {$ELSE}
+        {$UNDEF RANGECHECKSWEREON}
+      {$ENDIF}
+      for I := 0 to TokenGroupsInfo.GroupCount - 1 do
+        if EqualSid(AdmininstratorsSID, TokenGroupsInfo.Groups[I].Sid) then
+        begin
+          Result := True;
+          Break;
+        end;
+      {$IFDEF RANGECHECKSWEREON}
+        {$R+}
+      {$ENDIF}
+      FreeSid(AdmininstratorsSID);
+    end;
+    if Assigned(TokenGroupsInfo) then
+      {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE OFF}{$ENDIF}
+      FreeMem(TokenGroupsInfo);
+      {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE ON}{$ENDIF}
+  end;
 end;
 
 class function TPJComputerInfo.IsNetworkPresent: Boolean;

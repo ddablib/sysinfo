@@ -188,12 +188,17 @@ begin
   DisplayRuling;
   DisplayItem('CommonFiles', TPJSystemFolders.CommonFiles);
   DisplayItem('CommonFilesX86', TPJSystemFolders.CommonFilesX86);
+  DisplayItem('PlatformCommonFiles', TPJSystemFolders.PlatformCommonFiles);
+  DisplayRuling;
   DisplayItem('ProgramFiles', TPJSystemFolders.ProgramFiles);
-  DisplayItem('ProgramFiles (x86)', TPJSystemFolders.ProgramFilesX86);
+  DisplayItem('ProgramFilesX86', TPJSystemFolders.ProgramFilesX86);
+  DisplayItem('PlatformProgramFiles', TPJSystemFolders.PlatformProgramFiles);
+  DisplayRuling;
+  DisplayItem('Windows', TPJSystemFolders.Windows);
   DisplayItem('System', TPJSystemFolders.System);
   DisplayItem('SystemWow64', TPJSystemFolders.SystemWow64);
+  DisplayRuling;
   DisplayItem('Temp', TPJSystemFolders.Temp);
-  DisplayItem('Windows', TPJSystemFolders.Windows);
   DisplayRuleOff;
 end;
 

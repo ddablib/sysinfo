@@ -487,8 +487,19 @@ type
     ///  <summary>Returns processor architecture of host computer.</summary>
     class function Processor: TPJProcessorArchitecture;
 
-    ///  <summary>Returns number of processors in host computer.</summary>
+    ///  <summary>Returns number of processors (or cores) in the host computer.
+    ///  </summary>
     class function ProcessorCount: Cardinal;
+
+    ///  <summary>Returns the identifier of the computer's processor.</summary>
+    ///  <remarks>On multi-processor systems this is the identifier of the 1st
+    ///  processor.</remarks>
+    class function ProcessorIdentifier: string;
+
+    ///  <summary>Returns the name of the computer's processor.</summary>
+    ///  <remarks>On multi-processor systems this is the name of the 1st
+    ///  processor.</remarks>
+    class function ProcessorName: string;
 
     ///  <summary>Checks if the host computer has a 64 bit processor.</summary>
     class function Is64Bit: Boolean;
@@ -522,6 +533,15 @@ type
     ///  http://tinyurl.com/avlztmg</para>
     ///  </remarks>
     class function IsUACActive: Boolean;
+
+    ///  <summary>Returns the name of the computer's BIOS vendor.</summary>
+    class function BiosVendor: string;
+
+    ///  <summary>Returns the name of the computer's manufacturer.</summary>
+    class function SystemManufacturer: string;
+
+    ///  <summary>Returns the system product name.</summary>
+    class function SystemProductName: string;
   end;
 
 type
@@ -1462,6 +1482,15 @@ end;
 
 { TPJComputerInfo }
 
+class function TPJComputerInfo.BiosVendor: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE,
+    'HARDWARE\DESCRIPTION\System\Bios\',
+    'BIOSVendor'
+  );
+end;
+
 class function TPJComputerInfo.BootMode: TPJBootMode;
 begin
   case GetSystemMetrics(SM_CLEANBOOT) of
@@ -1678,6 +1707,42 @@ var
 begin
   GetSystemInfo(SI);
   Result := SI.dwNumberOfProcessors;
+end;
+
+class function TPJComputerInfo.ProcessorIdentifier: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE,
+    'HARDWARE\DESCRIPTION\System\CentralProcessor\0\',
+    'Identifier'
+  );
+end;
+
+class function TPJComputerInfo.ProcessorName: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE,
+    'HARDWARE\DESCRIPTION\System\CentralProcessor\0\',
+    'ProcessorNameString'
+  );
+end;
+
+class function TPJComputerInfo.SystemManufacturer: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE,
+    'HARDWARE\DESCRIPTION\System\Bios\',
+    'SystemManufacturer'
+  );
+end;
+
+class function TPJComputerInfo.SystemProductName: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE,
+    'HARDWARE\DESCRIPTION\System\Bios\',
+    'SystemProductName'
+  );
 end;
 
 class function TPJComputerInfo.UserName: string;

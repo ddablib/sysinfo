@@ -144,6 +144,7 @@ begin
   DisplayItem('Is 64 Bit?', TPJComputerInfo.Is64Bit);
   DisplayItem('Is Network Present?', TPJComputerInfo.IsNetworkPresent);
   DisplayItem('Boot Mode', cBootModes[TPJComputerInfo.BootMode]);
+  DisplayItem('Is Administrator?', TPJComputerInfo.IsAdmin);
   DisplayRuleOff;
 end;
 

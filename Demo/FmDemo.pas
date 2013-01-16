@@ -187,7 +187,9 @@ begin
   DisplayHeading('TPJSystemFolders Static Methods');
   DisplayRuling;
   DisplayItem('CommonFiles', TPJSystemFolders.CommonFiles);
+  DisplayItem('CommonFilesX86', TPJSystemFolders.CommonFilesX86);
   DisplayItem('ProgramFiles', TPJSystemFolders.ProgramFiles);
+  DisplayItem('ProgramFiles (x86)', TPJSystemFolders.ProgramFilesX86);
   DisplayItem('System', TPJSystemFolders.System);
   DisplayItem('SystemWow64', TPJSystemFolders.SystemWow64);
   DisplayItem('Temp', TPJSystemFolders.Temp);

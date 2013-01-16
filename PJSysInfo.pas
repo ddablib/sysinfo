@@ -41,7 +41,6 @@ unit PJSysInfo;
 {$DEFINE REGACCESSFLAGS}      // TRegistry access flags available
 {$DEFINE WARNDIRS}            // $WARN compiler directives available
 {$DEFINE EXCLUDETRAILING}     // SysUtils.ExcludeTrailingPathDelimiter available
-{$DEFINE MESSAGEDIRS}         // $MESSAGE compiler directives available
 {$DEFINE HASLONGWORD}         // LongWord type defined
 
 // Undefine facilities not available in earlier compilers
@@ -52,20 +51,17 @@ unit PJSysInfo;
   {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
   {$UNDEF EXCLUDETRAILING}
-  {$UNDEF MESSAGEDIRS}
   {$UNDEF HASLONGWORD}
 {$ENDIF}
 {$IFDEF VER120} // Delphi 4
   {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
   {$UNDEF EXCLUDETRAILING}
-  {$UNDEF MESSAGEDIRS}
 {$ENDIF}
 {$IFDEF VER130} // Delphi 5
   {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
   {$UNDEF EXCLUDETRAILING}  // ** fix by Rich Habedank
-  {$UNDEF MESSAGEDIRS}
 {$ENDIF}
 {$IFDEF VER140} // Delphi 6
   {$UNDEF WARNDIRS}

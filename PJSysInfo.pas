@@ -504,9 +504,24 @@ type
     ///  </summary>
     ///  <remarks>
     ///  <para>Always returns True on the Windows 9x platform.</para>
+    ///  <para>WARNING: True is also returned when running in Windows 9x
+    ///  compatibility mode on a Windows NT platform system, regardless of
+    ///  whether the user has admin privileges or not.</para>
     ///  <para>Based on code at http://edn.embarcadero.com/article/26752</para>
     ///  </remarks>
     class function IsAdmin: Boolean;
+
+    ///  <summary>Checks if UAC is active on the computer.</summary>
+    ///  <remarks>
+    ///  <para>UAC requires Windows Vista or later. Returns False on earlier
+    ///  operating systems.</para>
+    ///  <para>WARNING: False is also returned when running in Windows XP or
+    ///  earlier compatibility mode on Windows Vista or later, regardless of
+    ///  whether UAC is enabled or not.</para>
+    ///  <para>Based on code on Stack Overflow, answer by norgepaul, at
+    ///  http://tinyurl.com/avlztmg</para>
+    ///  </remarks>
+    class function IsUACActive: Boolean;
   end;
 
 type
@@ -854,42 +869,49 @@ begin
 end;
 {$ENDIF}
 
+// Creates a read only TRegistry instance. On versions of Delphi that don't
+// support passing access flags to TRegistry constructor, registry is opened
+// normally for read/write access.
+function RegCreate: TRegistry;
+begin
+  {$IFDEF REGACCESSFLAGS}
+  //! fix for issue #14 (http://bit.ly/eWkw9X) suggested by Steffen Schaff
+  Result := TRegistry.Create(KEY_READ or KEY_WOW64_64KEY);
+  {$ELSE}
+  Result := TRegistry.Create;
+  {$ENDIF}
+end;
+
+// Uses registry object to open a key as read only. On versions of Delphi that
+// can't open keys as read only the key is opened normally.
+function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
+begin
+  {$IFDEF REGACCESSFLAGS}
+  //! Fix for problem with OpenKeyReadOnly on 64 bit Windows
+  //! requires Reg has (KEY_READ or KEY_WOW64_64KEY) access flags
+  Result := Reg.OpenKey(Key, False);
+  {$ELSE}
+  // Can't fix Win 64 problem since this version of Delphi does not support
+  // customisation of registry access flags.
+  {$IFDEF REGOPENREADONLY}
+  Result := Reg.OpenKeyReadOnly(Key);
+  {$ELSE}
+  Result := Reg.OpenKey(Key, False);
+  {$ENDIF}
+  {$ENDIF}
+end;
+
 // Gets a string value from the given registry sub-key and value within the
 // given root key (hive).
 function GetRegistryString(const RootKey: HKEY;
   const SubKey, Name: string): string;
-
-  // Uses registry object to open a key as read only. On versions of Delphi that
-  // can't open keys as read only the key is opened normally.
-  function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
-  begin
-    {$IFDEF REGACCESSFLAGS}
-    //! Fix for problem with OpenKeyReadOnly on 64 bit Windows
-    //! requires Reg has (KEY_READ or KEY_WOW64_64KEY) access flags
-    Result := Reg.OpenKey(Key, False);
-    {$ELSE}
-    // Can't fix Win 64 problem since this version of Delphi does not support
-    // customisation of registry access flags.
-    {$IFDEF REGOPENREADONLY}
-    Result := Reg.OpenKeyReadOnly(Key);
-    {$ELSE}
-    Result := Reg.OpenKey(Key, False);
-    {$ENDIF}
-    {$ENDIF}
-  end;
-
 var
   Reg: TRegistry;          // registry access object
   ValueInfo: TRegDataInfo; // info about registry value
 begin
   Result := '';
   // Open registry at required root key
-  {$IFDEF REGACCESSFLAGS}
-  //! fix for issue #14 (http://bit.ly/eWkw9X) suggested by Steffen Schaff
-  Reg := TRegistry.Create(KEY_READ or KEY_WOW64_64KEY);
-  {$ELSE}
-  Reg := TRegistry.Create;
-  {$ENDIF}
+  Reg := RegCreate;
   try
     Reg.RootKey := RootKey;
     // Open registry key and check value exists
@@ -1484,6 +1506,7 @@ var
 begin
   if TPJOSInfo.IsWin9x then
   begin
+    // Admin mode is a foreign concept to Windows 9x - everyone is an admin
     Result := True;
     Exit;
   end;
@@ -1536,6 +1559,26 @@ end;
 class function TPJComputerInfo.IsNetworkPresent: Boolean;
 begin
   Result := GetSystemMetrics(SM_NETWORK) and 1 = 1;
+end;
+
+class function TPJComputerInfo.IsUACActive: Boolean;
+var
+  Reg: TRegistry;   // registry access object
+begin
+  Result := False;
+  if not TPJOSInfo.IsWinNT or (TPJOSInfo.MajorVersion < 6) then
+    // UAC only available on Vista or later
+    Exit;
+  Reg := RegCreate;
+  try
+    Reg.RootKey := HKEY_LOCAL_MACHINE;
+    if RegOpenKeyReadOnly(
+      Reg, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+    ) then
+      Result := Reg.ValueExists('EnableLUA') and Reg.ReadBool('EnableLUA');
+  finally
+    Reg.Free;
+  end;
 end;
 
 class function TPJComputerInfo.MACAddress: string;

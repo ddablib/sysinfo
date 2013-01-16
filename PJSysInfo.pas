@@ -80,11 +80,8 @@ uses
   SysUtils, Classes, Windows;
 
 
-// -----------------------------------------------------------------------------
-// Windows types and constants
-// -----------------------------------------------------------------------------
-
 type
+  // Windows types not defined in all supported Delphi VCLs
 
   // ANSI versions of the Win API OSVERSIONINFOEX structure and pointers
   _OSVERSIONINFOEXA = packed record
@@ -138,6 +135,8 @@ type
   {$ENDIF}
 
 const
+  // Windows constants possibly not defined in all supported Delphi VCLs
+
   // These Windows-defined constants are required for use with TOSVersionInfoEx
   // NT Product types
   VER_NT_WORKSTATION                          = 1;
@@ -773,10 +772,6 @@ const
   KEY_WOW64_64KEY = $0100;  // registry access flag not defined in all Delphis
 {$ENDIF}
 
-// -----------------------------------------------------------------------------
-// Helper routines
-// -----------------------------------------------------------------------------
-
 {$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE OFF}{$ENDIF}
 // Loads a function from the OS kernel.
 function LoadKernelFunc(const FuncName: string): Pointer;
@@ -860,7 +855,6 @@ end;
 function GetRegistryString(const RootKey: HKEY;
   const SubKey, Name: string): string;
 
-  // ---------------------------------------------------------------------------
   // Uses registry object to open a key as read only. On versions of Delphi that
   // can't open keys as read only the key is opened normally.
   function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
@@ -879,7 +873,6 @@ function GetRegistryString(const RootKey: HKEY;
     {$ENDIF}
     {$ENDIF}
   end;
-  // ---------------------------------------------------------------------------
 
 var
   Reg: TRegistry;          // registry access object
@@ -932,10 +925,6 @@ begin
   );
 end;
 
-// -----------------------------------------------------------------------------
-// Static class implementations
-// -----------------------------------------------------------------------------
-
 { TPJOSInfo }
 
 class function TPJOSInfo.BuildNumber: Integer;
@@ -950,14 +939,12 @@ end;
 
 class function TPJOSInfo.Description: string;
 
-  // ---------------------------------------------------------------------------
   // Adds a non-empty string to end of result, preceeded by space.
   procedure AppendToResult(const Str: string);
   begin
     if Str <> '' then
       Result := Result + ' ' + Str;
   end;
-  // ---------------------------------------------------------------------------
 
 begin
   // Start with product name
@@ -1508,13 +1495,11 @@ var
   Ncb: TNCB;                // network control block descriptor
   I: Integer;               // loops thru all adapters in list
 
-  // ---------------------------------------------------------------------------
   // Examines given NetBios API call return value to check if call succeeded.
   function NetBiosSucceeded(const RetCode: AnsiChar): Boolean;
   begin
     Result := UCHAR(RetCode) = NRC_GOODRET;
   end;
-  // ---------------------------------------------------------------------------
 
 begin
   // Assume not adapter

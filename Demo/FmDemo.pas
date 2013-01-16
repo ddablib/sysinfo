@@ -145,6 +145,7 @@ begin
   DisplayItem('Is Network Present?', TPJComputerInfo.IsNetworkPresent);
   DisplayItem('Boot Mode', cBootModes[TPJComputerInfo.BootMode]);
   DisplayItem('Is Administrator?', TPJComputerInfo.IsAdmin);
+  DisplayItem('Is UAC active?', TPJComputerInfo.IsUACActive);
   DisplayRuleOff;
 end;
 

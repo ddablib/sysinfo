@@ -141,11 +141,16 @@ begin
   DisplayItem('MAC Address', TPJComputerInfo.MACAddress);
   DisplayItem('Processor Count', Integer(TPJComputerInfo.ProcessorCount));
   DisplayItem('Processor Architecture', cProcessors[TPJComputerInfo.Processor]);
+  DisplayItem('Processor Identifier', TPJComputerInfo.ProcessorIdentifier);
+  DisplayItem('Processor Name', TPJComputerInfo.ProcessorName);
   DisplayItem('Is 64 Bit?', TPJComputerInfo.Is64Bit);
   DisplayItem('Is Network Present?', TPJComputerInfo.IsNetworkPresent);
   DisplayItem('Boot Mode', cBootModes[TPJComputerInfo.BootMode]);
   DisplayItem('Is Administrator?', TPJComputerInfo.IsAdmin);
   DisplayItem('Is UAC active?', TPJComputerInfo.IsUACActive);
+  DisplayItem('BIOS Vender', TPJComputerInfo.BiosVendor);
+  DisplayItem('System Manufacturer', TPJComputerInfo.SystemManufacturer);
+  DisplayItem('System Product Name', TPJComputerInfo.SystemProductName);
   DisplayRuleOff;
 end;
 

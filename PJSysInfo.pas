@@ -553,9 +553,21 @@ type
     ///  </summary>
     class function CommonFiles: string;
 
+    ///  <summary>Returns the fully qualified name of the Common Files x86
+    ///  folder.</summary>
+    ///  <remarks>This folder is used common files for 32 bit programs on 64 bit
+    ///  Windows systems.</remarks>
+    class function CommonFilesX86: string;
+
     ///  <summary>Returns the fully qualified name of the Program Files folder.
     ///  </summary>
     class function ProgramFiles: string;
+
+    ///  <summary>Returns the fully qualified name of the Program Files x86
+    ///  folder.</summary>
+    ///  <remarks>This folder is used to install 32 bit programs on 64 bit
+    ///  Windows systems.</remarks>
+    class function ProgramFilesX86: string;
 
     ///  <summary>Returns the fully qualified name of the Windows folder.
     ///  </summary>
@@ -1768,10 +1780,24 @@ begin
   );
 end;
 
+class function TPJSystemFolders.CommonFilesX86: string;
+begin
+  Result :=  ExcludeTrailingPathDelimiter(
+    GetCurrentVersionRegStr('CommonFilesDir (x86)')
+  );
+end;
+
 class function TPJSystemFolders.ProgramFiles: string;
 begin
   Result :=  ExcludeTrailingPathDelimiter(
     GetCurrentVersionRegStr('ProgramFilesDir')
+  );
+end;
+
+class function TPJSystemFolders.ProgramFilesX86: string;
+begin
+  Result :=  ExcludeTrailingPathDelimiter(
+    GetCurrentVersionRegStr('ProgramFilesDir (x86)')
   );
 end;
 

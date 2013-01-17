@@ -546,7 +546,7 @@ type
     ///  <summary>Returns the name of the computer's manufacturer.</summary>
     class function SystemManufacturer: string;
 
-    ///  <summary>Returns the system product name.</summary>
+    ///  <summary>Returns the computer's product or model name.</summary>
     class function SystemProductName: string;
 
   end;

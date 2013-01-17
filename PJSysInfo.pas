@@ -464,6 +464,12 @@ type
 
     ///  <summary>Returns the Windows product ID of the host OS.</summary>
     class function ProductID: string;
+
+    ///  <summary>Organisation to which Windows is registered, if any.</summary>
+    class function RegisteredOrganisation: string;
+
+    ///  <summary>Owner to which Windows is registered.</summary>
+    class function RegisteredOwner: string;
   end;
 
 type
@@ -542,6 +548,7 @@ type
 
     ///  <summary>Returns the system product name.</summary>
     class function SystemProductName: string;
+
   end;
 
 type
@@ -829,6 +836,14 @@ const
       Name: 'Web Server Edition (core installation)';),
     (Id: Cardinal(PRODUCT_UNLICENSED);
       Name: 'Unlicensed product';)
+  );
+
+const
+  // Array of "current version" registry sub-keys that vary with platform.
+  // "False" value is for Window 9x and "True" value is for Windows NT.
+  CurrentVersionRegKeys: array[Boolean] of string = (
+    'Software\Microsoft\Windows\CurrentVersion',
+    'Software\Microsoft\Windows NT\CurrentVersion'
   );
 
 var
@@ -1432,15 +1447,9 @@ begin
 end;
 
 class function TPJOSInfo.ProductID: string;
-const
-  // Registry keys for Win 9x/NT
-  cRegKey: array[Boolean] of string = (
-    'Software\Microsoft\Windows\CurrentVersion',
-    'Software\Microsoft\Windows NT\CurrentVersion'
-  );
 begin
   Result := GetRegistryString(
-    HKEY_LOCAL_MACHINE, cRegKey[IsWinNT], 'ProductID'
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'ProductID'
   );
 end;
 
@@ -1476,6 +1485,20 @@ begin
     HKEY_LOCAL_MACHINE,
     'SYSTEM\CurrentControlSet\Control\ProductOptions',
     'ProductType'
+  );
+end;
+
+class function TPJOSInfo.RegisteredOrganisation: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'RegisteredOrganisation'
+  );
+end;
+
+class function TPJOSInfo.RegisteredOwner: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'RegisteredOwner'
   );
 end;
 

@@ -190,11 +190,11 @@ begin
   DisplayRuling;
   DisplayItem('CommonFiles', TPJSystemFolders.CommonFiles);
   DisplayItem('CommonFilesX86', TPJSystemFolders.CommonFilesX86);
-  DisplayItem('PlatformCommonFiles', TPJSystemFolders.PlatformCommonFiles);
+  DisplayItem('CommonFilesRedirect', TPJSystemFolders.CommonFilesRedirect);
   DisplayRuling;
   DisplayItem('ProgramFiles', TPJSystemFolders.ProgramFiles);
   DisplayItem('ProgramFilesX86', TPJSystemFolders.ProgramFilesX86);
-  DisplayItem('PlatformProgramFiles', TPJSystemFolders.PlatformProgramFiles);
+  DisplayItem('ProgramFilesRedirect', TPJSystemFolders.ProgramFilesRedirect);
   DisplayRuling;
   DisplayItem('Windows', TPJSystemFolders.Windows);
   DisplayItem('System', TPJSystemFolders.System);

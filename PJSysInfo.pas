@@ -568,8 +568,12 @@ type
 
     ///  <summary>Returns the fully qualified name of the Common Files x86
     ///  folder.</summary>
-    ///  <remarks>This folder is used common files for 32 bit programs on 64 bit
-    ///  Windows systems.</remarks>
+    ///  <remarks>
+    ///  <para>Returns the empty string on 32 bit Windows since there is no
+    ///  such folder.</para>
+    ///  <para>This folder is used common files for 32 bit programs on 64 bit
+    ///  Windows systems.</para>
+    ///  </remarks>
     class function CommonFilesX86: string;
 
     ///  <summary>Returns the fully qualified name of the Common Files folder
@@ -579,16 +583,20 @@ type
     ///  64 bit windows the return value is the same as CommonFiles. For a 32
     ///  bit program running on 64 bit Windows the return value is the same as
     ///  CommonFilesX86.</remarks>
-    class function PlatformCommonFiles: string;
+    class function CommonFilesRedirect: string;
 
     ///  <summary>Returns the fully qualified name of the Program Files folder.
     ///  </summary>
     class function ProgramFiles: string;
 
     ///  <summary>Returns the fully qualified name of the Program Files x86
-    ///  folder.</summary>
-    ///  <remarks>This folder is used to install 32 bit programs on 64 bit
-    ///  Windows systems.</remarks>
+    ///  folder, if present.</summary>
+    ///  <remarks>
+    ///  <para>Returns the empty string on 32 bit Windows since there is no
+    ///  such folder.</para>
+    ///  <para>This folder is used to install 32 bit programs on 64 bit
+    ///  Windows systems.</para>
+    ///  </remarks>
     class function ProgramFilesX86: string;
 
     ///  <summary>Returns the fully qualified name of the Program Files folder
@@ -598,7 +606,7 @@ type
     ///  64 bit windows the return value is the same as ProgramFiles. For a 32
     ///  bit program running on 64 bit Windows the return value is the same as
     ///  ProgramFilesX86.</remarks>
-    class function PlatformProgramFiles: string;
+    class function ProgramFilesRedirect: string;
 
     ///  <summary>Returns the fully qualified name of the Windows folder.
     ///  </summary>
@@ -1819,6 +1827,11 @@ begin
   );
 end;
 
+class function TPJSystemFolders.CommonFilesRedirect: string;
+begin
+  Result := GetEnvVar('COMMONPROGRAMFILES');
+end;
+
 class function TPJSystemFolders.CommonFilesX86: string;
 begin
   Result :=  ExcludeTrailingPathDelimiter(
@@ -1826,21 +1839,16 @@ begin
   );
 end;
 
-class function TPJSystemFolders.PlatformCommonFiles: string;
-begin
-  Result := GetEnvVar('COMMONPROGRAMFILES');
-end;
-
-class function TPJSystemFolders.PlatformProgramFiles: string;
-begin
-  Result := GetEnvVar('PROGRAMFILES');
-end;
-
 class function TPJSystemFolders.ProgramFiles: string;
 begin
   Result :=  ExcludeTrailingPathDelimiter(
     GetCurrentVersionRegStr('ProgramFilesDir')
   );
+end;
+
+class function TPJSystemFolders.ProgramFilesRedirect: string;
+begin
+  Result := GetEnvVar('PROGRAMFILES');
 end;
 
 class function TPJSystemFolders.ProgramFilesX86: string;

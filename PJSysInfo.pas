@@ -1600,7 +1600,7 @@ var
   I: Integer;                     // loops thru token groups
   Success: BOOL;                  // API function success results
 begin
-  if TPJOSInfo.IsWin9x then
+  if not TPJOSInfo.IsWinNT then
   begin
     // Admin mode is a foreign concept to Windows 9x - everyone is an admin
     Result := True;

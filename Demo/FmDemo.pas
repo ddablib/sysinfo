@@ -179,6 +179,8 @@ begin
   DisplayItem('ServicePackMajor', TPJOSInfo.ServicePackMajor);
   DisplayItem('ServicePackMinor', TPJOSInfo.ServicePackMinor);
   DisplayItem('HasPenExtensions', TPJOSInfo.HasPenExtensions);
+  DisplayItem('RegisteredOrganisation', TPJOSInfo.RegisteredOrganisation);
+  DisplayItem('RegisteredOwner', TPJOSInfo.RegisteredOwner);
   DisplayRuleOff;
 end;
 

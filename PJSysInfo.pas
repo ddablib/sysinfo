@@ -1254,18 +1254,7 @@ begin
   begin
     // System is reporting NT4 SP6
     // we have SP 6a if particular registry key exists
-    {$IFDEF REGACCESSFLAGS}
-    // Prevent potential error on Win 64 in reading registry, which may cause
-    // following KeyExists method to return false even if key is present.
-    // Note though that this is academic because I don't think there was a 64
-    // bit version of NT4, so there won't be a hotfix key anyway, hence False
-    // will be returned regardless.
-    Reg := TRegistry.Create(KEY_READ or KEY_WOW64_64KEY);
-    {$ELSE}
-    // Can't fix potential Win 64 error since this version of Delphi does not
-    // support customisation of registry access flags.
-    Reg := TRegistry.Create;
-    {$ENDIF}
+    Reg := RegCreate;
     try
       Reg.RootKey := HKEY_LOCAL_MACHINE;
       Result := Reg.KeyExists(

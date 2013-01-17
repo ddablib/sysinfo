@@ -67,6 +67,12 @@ unit PJSysInfo;
   {$UNDEF WARNDIRS}
 {$ENDIF}
 
+// Switch off "unsafe" warnings for this unit
+{$IFDEF WARNDIRS}
+  {$WARN UNSAFE_TYPE OFF}
+  {$WARN UNSAFE_CODE OFF}
+{$ENDIF}
+
 
 interface
 
@@ -856,7 +862,6 @@ const
   KEY_WOW64_64KEY = $0100;  // registry access flag not defined in all Delphis
 {$ENDIF}
 
-{$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE OFF}{$ENDIF}
 // Loads a function from the OS kernel.
 function LoadKernelFunc(const FuncName: string): Pointer;
 const
@@ -864,7 +869,6 @@ const
 begin
   Result := GetProcAddress(GetModuleHandle(cKernel), PChar(FuncName));
 end;
-{$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE ON}{$ENDIF}
 
 // Initialise global variables with extended OS version information if possible.
 procedure InitPlatformIdEx;
@@ -886,14 +890,12 @@ begin
   // Get pointer to structure of non-extended type (GetVersionEx
   // requires a non-extended structure and we need this pointer to get
   // it to accept our extended structure!!)
-  {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE OFF}{$ENDIF}
   {$TYPEDADDRESS OFF}
   POSVI := @OSVI;
   {$TYPEDADDRESS ON}
   // Try to get exended information
   OSVI.dwOSVersionInfoSize := SizeOf(TOSVersionInfoEx);
   Win32HaveExInfo := GetVersionEx(POSVI^);
-  {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE ON}{$ENDIF}
   if Win32HaveExInfo then
   begin
     // We have extended info: store details in global vars
@@ -1616,9 +1618,7 @@ begin
   end;
   if Success then
   begin
-    {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE OFF}{$ENDIF}
     GetMem(TokenGroupsInfo, 1024);
-    {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE ON}{$ENDIF}
     Success := GetTokenInformation(
       AccessToken, TokenGroups, TokenGroupsInfo, 1024, InfoBufferSize
     );
@@ -1647,9 +1647,7 @@ begin
       FreeSid(AdmininstratorsSID);
     end;
     if Assigned(TokenGroupsInfo) then
-      {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE OFF}{$ENDIF}
       FreeMem(TokenGroupsInfo);
-      {$IFDEF WARNDIRS}{$WARN UNSAFE_CODE ON}{$ENDIF}
   end;
 end;
 
@@ -1679,8 +1677,6 @@ begin
 end;
 
 class function TPJComputerInfo.MACAddress: string;
-{$IFDEF WARNDIRS}{$WARN UNSAFE_CODE OFF}{$ENDIF}
-{$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE OFF}{$ENDIF}
 type
   // Based on code at MSDN knowledge base Q118623 article at
   // http://support.microsoft.com/kb/q118623/}
@@ -1755,8 +1751,6 @@ begin
       Exit;
     end;
   end;
-{$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE ON}{$ENDIF}
-{$IFDEF WARNDIRS}{$WARN UNSAFE_CODE ON}{$ENDIF}
 end;
 
 class function TPJComputerInfo.Processor: TPJProcessorArchitecture;
@@ -1879,11 +1873,9 @@ end;
 
 class function TPJSystemFolders.SystemWow64: string;
 type
-  {$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE OFF}{$ENDIF}
   // type of GetSystemWow64DirectoryFn API function
   TGetSystemWow64Directory = function(lpBuffer: PChar; uSize: UINT): UINT;
     stdcall;
-  {$IFDEF WARNDIRS}{$WARN UNSAFE_TYPE ON}{$ENDIF}
 var
   PFolder: array[0..MAX_PATH] of Char;  // buffer to hold name returned from API
   GetSystemWow64Directory: TGetSystemWow64Directory;  // API function

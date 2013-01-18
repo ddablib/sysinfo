@@ -19,7 +19,6 @@ set OutFile=Release\dd-sysinfo.zip
 set SrcDir=
 set DocsDir=Docs
 set DemoDir=Demo
-set HelpDir=Help
 
 if exist Release rmdir /S /Q Release
 mkdir Release
@@ -27,20 +26,13 @@ mkdir Release
 if exist %OutFile% del %OutFile%
 
 zip -j -9 %OutFile% PJSysInfo.pas
-zip -j -9 %OutFile% PJSysInfo.dcr
-
-zip -j -9 %OutFile% %HelpDir%\PJSysInfo.hlp
-zip -j -9 %OutFile% %HelpDir%\PJSysInfo.als
 
 zip -j -9 %OutFile% %DocsDir%\ChangeLog.txt
 zip -j -9 %OutFile% %DocsDir%\MPL-2.0.txt
 zip -j -9 %OutFile% %DocsDir%\ReadMe.htm
-zip -j -9 %OutFile% %DocsDir%\Wiki.URL
+zip -j -9 %OutFile% %DocsDir%\Documentation.URL
 
-zip -9 %OutFile% %DemoDir%\SysInfoDemo.dpr
-zip -9 %OutFile% %DemoDir%\SysInfoDemo.res
-zip -9 %OutFile% %DemoDir%\FmDemo.pas
-zip -9 %OutFile% %DemoDir%\FmDemo.dfm
+zip %OutFile% -r -9 %DemoDir%\*.* -x *.svn\*
 
 endlocal
 

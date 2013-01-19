@@ -18,7 +18,7 @@ cd .\..
 set OutFile=Release\dd-sysinfo.zip
 set SrcDir=
 set DocsDir=Docs
-set DemoDir=Demo
+set DemoDir=Demos
 
 if exist Release rmdir /S /Q Release
 mkdir Release

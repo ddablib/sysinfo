@@ -29,7 +29,7 @@ Y=1
 Z=1
 ShowHints=1
 ShowWarnings=1
-UnitAliases=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+UnitAliases=
 NamespacePrefix=
 SymbolDeprecated=0
 SymbolLibrary=0
@@ -90,8 +90,8 @@ MaxStackSize=1048576
 ImageBase=4194304
 ExeDescription=
 [Directories]
-OutputDir=
-UnitOutputDir=
+OutputDir=.\Win32
+UnitOutputDir=.\Win32
 PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=
@@ -108,7 +108,7 @@ DebugCWD=
 [Language]
 ActiveLang=
 ProjectLang=
-RootDir=C:\Programs\Borland\Delphi7\Bin\
+RootDir=
 [Version Info]
 IncludeVerInfo=0
 AutoIncBuild=0

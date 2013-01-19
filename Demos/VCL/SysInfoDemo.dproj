@@ -24,6 +24,8 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <DCC_DcuOutput>.\Win32</DCC_DcuOutput>
+        <DCC_ExeOutput>.\Win32</DCC_ExeOutput>
         <DCC_SymbolReferenceInfo>1</DCC_SymbolReferenceInfo>
         <DCC_N>true</DCC_N>
         <DCC_F>false</DCC_F>
@@ -45,15 +47,12 @@
         <DCC_S>false</DCC_S>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <Icon_MainIcon>SysInfoDemo_Icon.ico</Icon_MainIcon>
-        <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_DcuOutput>.\$(Platform)</DCC_DcuOutput>
-        <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
-        <DCC_ExeOutput>.\$(Platform)</DCC_ExeOutput>
+        <DCC_DcuOutput>.\Win64</DCC_DcuOutput>
+        <DCC_ExeOutput>.\Win64</DCC_ExeOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>

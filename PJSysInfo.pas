@@ -42,6 +42,7 @@ unit PJSysInfo;
 {$DEFINE WARNDIRS}            // $WARN compiler directives available
 {$DEFINE EXCLUDETRAILING}     // SysUtils.ExcludeTrailingPathDelimiter available
 {$DEFINE HASLONGWORD}         // LongWord type defined
+{$UNDEF RTLNAMESPACES}        // No support for RTL namespaces in unit names
 
 // Undefine facilities not available in earlier compilers
 // Note: Delphi 1/2 is not included since the code will not compile on these
@@ -66,6 +67,11 @@ unit PJSysInfo;
 {$IFDEF VER140} // Delphi 6
   {$UNDEF WARNDIRS}
 {$ENDIF}
+{$IFDEF CONDITIONALEXPRESSIONS}
+  {$IF CompilerVersion >= 23.0} // Delphi XE2
+    {$DEFINE RTLNAMESPACES}
+  {$IFEND}
+{$ENDIF}
 
 // Switch off "unsafe" warnings for this unit
 {$IFDEF WARNDIRS}
@@ -79,7 +85,11 @@ interface
 
 uses
   // Delphi
+  {$IFNDEF RTLNAMESPACES}
   SysUtils, Classes, Windows;
+  {$ELSE}
+  System.SysUtils, System.Classes, Winapi.Windows;
+  {$ENDIF}
 
 
 type
@@ -664,7 +674,11 @@ implementation
 
 uses
   // Delphi
+  {$IFNDEF RTLNAMESPACES}
   Registry, Nb30;
+  {$ELSE}
+  System.Win.Registry, Winapi.Nb30;
+  {$ENDIF}
 
 
 resourcestring
@@ -928,7 +942,7 @@ begin
   // available, otherwise use GetSystemInfo()
   GetSystemInfoFn := LoadKernelFunc('GetNativeSystemInfo');
   if not Assigned(GetSystemInfoFn) then
-    GetSystemInfoFn := Windows.GetSystemInfo;
+    GetSystemInfoFn := GetSystemInfo;
   GetSystemInfoFn(SI);
   pvtProcessorArchitecture := SI.wProcessorArchitecture;
 end;
@@ -1036,9 +1050,7 @@ const
   // required registry string
   cWdwCurrentVer = '\Software\Microsoft\Windows\CurrentVersion';
 begin
-  Result := GetRegistryString(
-    Windows.HKEY_LOCAL_MACHINE, cWdwCurrentVer, ValName
-  );
+  Result := GetRegistryString(HKEY_LOCAL_MACHINE, cWdwCurrentVer, ValName);
 end;
 
 { TPJOSInfo }
@@ -1575,7 +1587,7 @@ var
   Size: DWORD;    // size of name buffer
 begin
   Size := MAX_COMPUTERNAME_LENGTH;
-  if Windows.GetComputerName(PComputerName, Size) then
+  if GetComputerName(PComputerName, Size) then
     Result := PComputerName
   else
     Result := '';
@@ -1812,7 +1824,7 @@ var
   Size: DWORD;                        // size of name buffer
 begin
   Size := UNLEN;
-  if Windows.GetUserName(PUserName, Size) then
+  if GetUserName(PUserName, Size) then
     Result := PUserName
   else
     Result := '';

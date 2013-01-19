@@ -8,17 +8,20 @@
  * $Rev$
  * $Date$
  *
- * This unit contains various static classes, constant and type definitions and
- * global variables for use in providing information about the computer and the
+ * This unit contains various static classes, constants, type definitions and
+ * global variables for use in providing information about the host computer and
  * operating system.
  *
- * NOTE 1: When compiled with old versions of Delphi that do not support setting
- * registry access flags via the TRegistry object, some of this code may not
- * work correctly when running as a 32 bit process on 64 bit Windows.
+ * NOTES
  *
- * NOTE 2: The code has not been tested when compiled using the Delphi 64 bit
- * compiler, but is expected to require some changes before it will work
- * correctly.
+ *  1: When compiled with old versions of Delphi that do not support setting
+ *     registry access flags via the TRegistry object, some of this code may not
+ *     work correctly when running on 64 bit Windows.
+ *
+ *  2: The code has been tested with the Delphi 64 bit compiler (introduced
+ *     in Delphi XE2) and functions correctly.
+ *
+ * ACKNOWLEDGEMENTS
  *
  * Thanks to the following who have contributed to this project:
  *

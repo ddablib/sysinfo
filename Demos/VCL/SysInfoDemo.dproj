@@ -64,7 +64,7 @@
         <DCCReference Include="FmDemo.pas">
             <Form>DemoForm</Form>
         </DCCReference>
-        <DCCReference Include="..\PJSysInfo.pas"/>
+        <DCCReference Include="..\..\PJSysInfo.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

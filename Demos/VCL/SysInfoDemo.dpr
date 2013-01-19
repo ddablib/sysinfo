@@ -16,7 +16,7 @@ program SysInfoDemo;
 uses
   Forms,
   FmDemo in 'FmDemo.pas' {DemoForm},
-  PJSysInfo in '..\PJSysInfo.pas';
+  PJSysInfo in '..\..\PJSysInfo.pas';
 
 {$R *.RES}
 

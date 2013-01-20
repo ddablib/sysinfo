@@ -11,6 +11,29 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v4.0 of 20 January 2013
++ PJSysInfo.pas is now compatible with Delphi 32 and 64 bit compilers and will compile with both VCL and FireMonkey 2 frameworks on Windows.
++ Added numerous new methods:
+  - TPJComputerInfo: "IsAdmin", "IsUACActive", "BiosVendor", "ProcessorIdentifier", "ProcessorName", "SystemManufacturer" & "SystemProductName".
+  - TPJSystemFolders: "ProgramFilesX86", "ProgramFilesRedirect", "CommonFilesX86" & "CommonFilesRedirect".
+  - TPJOSInfo: "RegisteredOrganisation" & "RegisteredOwner".
++ All previously deprecated code removed, i.e.:
+  - TPJSysInfo component and associated glyph file PJSysInfo.dcr.
+  - All SIGetXXXX functions.
++ Used unit names are now qualified with namespace name on Delphi XE2 and later.
++ Changed original SysInfoDemo VCL project:
+  - Default window font changed.
+  - Form is no longer scaled.
+  - Displayed text no longer word-wraps.
+  - Added example output for all new methods.
+  - Added manifest to resources to request themed controls and set elevation level.
+  - New project configuration files with option to compile for 32 bit or 64 Windows targets on Delphi XE2 and later.
++ Added new FireMonkey 2 demo project with same basic functionality as revised SysInfoDemo project that can also be compiled for either 32 bit or 64 bit Windows targets.
++ Some refactoring.
++ WinHelp file removed.
++ Revised documentation and changed link to online help.
++ Demos placed in public domain.
+
 Release v3.4 of 24 October 2012
 + Modified TPJOSInfo to detect Windows 8 and Windows 2012 Server.
 + Added new PRODUCT_* constants and descriptions.

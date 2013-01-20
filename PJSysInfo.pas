@@ -881,6 +881,15 @@ var
   // Records processor architecture information
   pvtProcessorArchitecture: Word = 0;
 
+type
+  // Function type of the GetNativeSystemInfo and GetSystemInfo functions
+  TGetSystemInfo = procedure(var lpSystemInfo: TSystemInfo); stdcall;
+
+var
+  // Function used to get system info: initialised to GetNativeSystemInfo API
+  // function if available, otherwise set to GetSystemInfo API function.
+  GetSystemInfoFn: TGetSystemInfo;
+
 // Flag required when opening registry with specified access flags
 {$IFDEF REGACCESSFLAGS}
 const
@@ -901,13 +910,10 @@ type
   // Function type of the GetProductInfo API function
   TGetProductInfo = function(OSMajor, OSMinor, SPMajor, SPMinor: DWORD;
     out ProductType: DWORD): BOOL; stdcall;
-  // Function type of the GetNativeSystemInfo and GetSystemInfo functions
-  TGetSystemInfo = procedure(var lpSystemInfo: TSystemInfo); stdcall;
 var
   OSVI: TOSVersionInfoEx;           // extended OS version info structure
   POSVI: POSVersionInfo;            // pointer to OS version info structure
   GetProductInfo: TGetProductInfo;  // pointer to GetProductInfo API function
-  GetSystemInfoFn: TGetSystemInfo;  // function used to get system info
   SI: TSystemInfo;                  // structure from GetSystemInfo API call
 begin
   // Clear the structure
@@ -941,12 +947,13 @@ begin
         Win32ProductInfo := PRODUCT_UNDEFINED;
     end;
   end;
-  // Get processor architecture. Prefer to use GetNativeSystemInfo() API call if
-  // available, otherwise use GetSystemInfo()
+  // Set GetSystemInfoFn to GetNativeSystemInfo() API if available, otherwise
+  // use GetSystemInfo().
   GetSystemInfoFn := LoadKernelFunc('GetNativeSystemInfo');
   if not Assigned(GetSystemInfoFn) then
     GetSystemInfoFn := GetSystemInfo;
   GetSystemInfoFn(SI);
+  // Get processor architecture
   pvtProcessorArchitecture := SI.wProcessorArchitecture;
 end;
 
@@ -1124,7 +1131,7 @@ begin
       if pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64 then
         Result := Result + ' (64-bit)';
       // can detect 32-bit if required by checking if
-      // pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_INTEL then
+      // pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_INTEL
     end;
     osWinSvr2003, osWinSvr2003R2:
     begin
@@ -1779,7 +1786,7 @@ class function TPJComputerInfo.ProcessorCount: Cardinal;
 var
   SI: TSystemInfo;  // contains system information
 begin
-  GetSystemInfo(SI);
+  GetSystemInfoFn(SI);
   Result := SI.dwNumberOfProcessors;
 end;
 

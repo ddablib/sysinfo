@@ -11,6 +11,9 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v4.0.1 of 28 January 2013
++ Fixed bug in TPJOSInfo.RegisteredOrganisation (issue #23 - http://bit.ly/SZ4ohf)
+
 Release v4.0 of 20 January 2013
 + PJSysInfo.pas is now compatible with Delphi 32 and 64 bit compilers and will compile with both VCL and FireMonkey 2 frameworks on Windows.
 + Added numerous new methods:

@@ -11,6 +11,9 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v4.0.2 of 29 October 2013
++ Fixed potential registry access bug that may appear on Windows 2000 and earlier. See comment #1 of issue #14 (http://bit.ly/HqGb00).
+
 Release v4.0.1 of 28 January 2013
 + Fixed bug in TPJOSInfo.RegisteredOrganisation (issue #23 - http://bit.ly/SZ4ohf)
 

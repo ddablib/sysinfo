@@ -75,7 +75,7 @@ Release v3.1 of 13 April 2009
 + Updated help file re revised static classes.
 + Revised demo program by adding output for new methods.
 + Added further PROCESSOR_ARCHITECTURE_*, PROCESSOR_* and PRODUCT_* constants.
-+ Made default OS data structures use unicode versions when UNICODE is defined by compiler.
++ Made default OS data structures use Unicode versions when UNICODE is defined by compiler.
 + Changed to use GetNativeSystemInfo API function to get processor architecture if possible.
 + Modified TPJOSInfo to detect Windows 7 and Windows 2008 Server R2. Also changed a few OS and product descriptions.
 + Modified TPJOSInfo.Edition to add 64bit qualification to OS edition information for OSs running on 64 bit systems and using GetProductInfo API.
@@ -89,8 +89,8 @@ Release v3.0 of 15 April 2008
 + Rewrote code that gets OS edition.
 + Added further VER_SUITE_ flags.
 + Added new PRODUCT_ and PROCESSOR_ flags.
-+ Added new SM_STARTER and SM_SERVER2 consts.
-+ Added Unicode version of OSVERSIONINFOEX and expanded number of types refering to ANSI and Unicode versions of these structures.
++ Added new SM_STARTER and SM_SERVER2 constants.
++ Added Unicode version of OSVERSIONINFOEX and expanded number of types referring to ANSI and Unicode versions of these structures.
 + Added new methods to TPJOSInfo class.
 + Added new processor related methods to TPJComputerInfo.
 + Added new Win32XXX global variables relating to availability and value of product information.
@@ -112,7 +112,7 @@ Release v2.0 of 13 November 2005
   - TPJSystemFolders: gets paths to system folders;
   - TPJOSInfo: provides operating system information.
 + Added new features to the TOSInfo classes:
-  - gettting Windows product ID;
+  - getting Windows product ID;
   - detection of Windows Vista, XP Media Edition and XP Tablet Edition;
   - detection of WOW64 sub-system;
   - further operating system detection features.

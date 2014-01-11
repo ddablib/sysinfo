@@ -3,7 +3,7 @@
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
  * obtain one at http://mozilla.org/MPL/2.0/
  *
- * Copyright (C) 2001-2012, Peter Johnson (www.delphidabbler.com).
+ * Copyright (C) 2001-2014, Peter Johnson (www.delphidabbler.com).
  *
  * $Rev$
  * $Date$
@@ -71,7 +71,10 @@ unit PJSysInfo;
   {$UNDEF WARNDIRS}
 {$ENDIF}
 {$IFDEF CONDITIONALEXPRESSIONS}
-  {$IF CompilerVersion >= 23.0} // Delphi XE2
+  {$IF CompilerVersion >= 24.0} // Delphi XE3 and later
+    {$LEGACYIFEND ON}  // NOTE: this must come before all $IFEND directives
+  {$IFEND}
+  {$IF CompilerVersion >= 23.0} // Delphi XE2 and later
     {$DEFINE RTLNAMESPACES}
   {$IFEND}
 {$ENDIF}

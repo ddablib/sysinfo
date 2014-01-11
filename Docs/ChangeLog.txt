@@ -3,13 +3,17 @@
 ; v. 2.0. If a copy of the MPL was not distributed with this file, You can
 ; obtain one at http://mozilla.org/MPL/2.0/
 ;
-; Copyright (C) 2013, Peter Johnson (www.delphidabbler.com).
+; Copyright (C) 2013-2014, Peter Johnson (www.delphidabbler.com).
 ;
 ; $Rev$
 ; $Date$
 ;
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
+
+Release v4.0.3 of 11 January 2014
++ Fixed problem with compiler directives in System Information Unit that was causing compilation to fail on Delphi XE5.
++ Minor documentation tweaks and corrections.
 
 Release v4.0.2 of 29 October 2013
 + Fixed potential registry access bug that may appear on Windows 2000 and earlier. See comment #1 of issue #14 (http://bit.ly/HqGb00).

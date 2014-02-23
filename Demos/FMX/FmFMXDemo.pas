@@ -89,7 +89,8 @@ const
     'osUnknownWinNT', 'osWinNT', 'osWin2K', 'osWinXP', 'osUnknownWin9x',
     'osWin95', 'osWin98', 'osWinMe', 'osUnknownWin32s', 'osWinSvr2003',
     'osUnknown', 'osWinVista', 'osWinSvr2003R2', 'osWinSvr2008',
-    'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012'
+    'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012',
+    'osWin8Point1', 'osWinSvr2012R2'
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);

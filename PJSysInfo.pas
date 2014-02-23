@@ -356,7 +356,9 @@ type
     osWin7,                 // Windows 7
     osWinSvr2008R2,         // Windows Server 2008 R2
     osWin8,                 // Windows 8
-    osWinSvr2012            // Windows Server 2012
+    osWinSvr2012,           // Windows Server 2012
+    osWin8Point1,           // Windows 8.1
+    osWinSvr2012R2          // Windows Server 2012 R2
   );
 
 type
@@ -447,6 +449,9 @@ type
     class function Platform: TPJOSPlatform;
 
     ///  <summary>Returns the host OS product identifier.</summary>
+    ///  <remarks>Note that Windows 8.1 and Windows 2012 Server R2 will only be
+    ///  detected by Windows 8.1 if the application is correctly "manifested"
+    ///  for the OS. See http://bit.ly/MJSO8Q for details.</remarks>
     class function Product: TPJOSProduct;
 
     ///  <summary>Returns the product name of the host OS.</summary>
@@ -1154,7 +1159,8 @@ begin
   case Product of
     osWinVista, osWinSvr2008,
     osWin7, osWinSvr2008R2,
-    osWin8, osWinSvr2012:
+    osWin8, osWinSvr2012,
+    osWin8Point1, osWinSvr2012R2:
     begin
       // For v6.0 and later we ignore the suite mask and use the new
       // PRODUCT_ flags from the GetProductInfo() function to determine the
@@ -1484,6 +1490,14 @@ begin
                 Result := osWin8
               else
                 Result := osWinSvr2012;
+            3:
+              // NOTE: Version 6.3 is only reported by Windows if the
+              // application is "manifested" for Windows 8.1. See
+              // http://bit.ly/MJSO8Q
+              if not IsServer then
+                Result := osWin8Point1
+              else
+                Result := osWinSvr2012R2;
             else
               // Higher minor version: must be an unknown later OS
               Result := osWinLater
@@ -1528,6 +1542,8 @@ begin
     osWinSvr2008R2: Result := 'Windows Server 2008 R2';
     osWin8: Result := 'Windows 8';
     osWinSvr2012: Result := 'Windows Server 2012';
+    osWin8Point1: Result := 'Windows 8.1';
+    osWinSvr2012R2: Result := 'Windows Server 2012 R2';
     else
       raise EPJSysInfo.Create(sUnknownProduct);
   end;
@@ -1970,4 +1986,5 @@ initialization
 InitPlatformIdEx;
 
 end.
+
 

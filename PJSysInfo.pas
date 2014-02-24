@@ -40,23 +40,14 @@ unit PJSysInfo;
 // Conditional defines
 
 // Assume all required facilities available
-{$DEFINE REGOPENREADONLY}     // TRegistry.OpenKeyReadOnly available
 {$DEFINE REGACCESSFLAGS}      // TRegistry access flags available
 {$DEFINE WARNDIRS}            // $WARN compiler directives available
 {$DEFINE EXCLUDETRAILING}     // SysUtils.ExcludeTrailingPathDelimiter available
-{$DEFINE HASLONGWORD}         // LongWord type defined
 {$UNDEF RTLNAMESPACES}        // No support for RTL namespaces in unit names
 
 // Undefine facilities not available in earlier compilers
-// Note: Delphi 1/2 is not included since the code will not compile on these
+// Note: Delphi 1 to 3 is not included since the code will not compile on these
 // compilers
-{$IFDEF VER100} // Delphi 3
-  {$UNDEF REGOPENREADONLY}
-  {$UNDEF REGACCESSFLAGS}
-  {$UNDEF WARNDIRS}
-  {$UNDEF EXCLUDETRAILING}
-  {$UNDEF HASLONGWORD}
-{$ENDIF}
 {$IFDEF VER120} // Delphi 4
   {$UNDEF REGACCESSFLAGS}
   {$UNDEF WARNDIRS}
@@ -646,12 +637,6 @@ type
     class function Temp: string;
   end;
 
-{$IFNDEF HASLONGWORD}
-type
-  // Define LongWord for compilers that don't have it
-  LongWord = Windows.DWORD;
-{$ENDIF}
-
 var
   // Global variables providing extended information about the OS version
 
@@ -1024,18 +1009,6 @@ end;
 // Uses registry object to open a key as read only. On versions of Delphi that
 // can't open keys as read only the key is opened normally.
 function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
-
-  // Opens registry key using TRegistry.OpenKeyReadOnly if supported, otherwise
-  // uses TRegistry.OpenKey.
-  function TryOpenKeyReadOnly: Boolean;
-  begin
-    {$IFDEF REGOPENREADONLY}
-    Result := Reg.OpenKeyReadOnly(Key);
-    {$ELSE}
-    Result := Reg.OpenKey(Key, False);
-    {$ENDIF}
-  end;
-
 begin
   {$IFDEF REGACCESSFLAGS}
   //! Fix for problem with OpenKeyReadOnly on 64 bit Windows requires Reg has
@@ -1043,13 +1016,13 @@ begin
   //! Even though these flags aren't provided on Windows 2000 and earlier, the
   //! following code should still work
   if IsWin2000OrEarlier then
-    Result := TryOpenKeyReadOnly
+    Result := Reg.OpenKeyReadOnly(Key)
   else
     Result := Reg.OpenKey(Key, False);
   {$ELSE}
   // Can't fix Win 64 problem since this version of Delphi does not support
   // customisation of registry access flags.
-  Result := TryOpenKeyReadOnly;
+  Result := Reg.OpenKeyReadOnly(Key);
   {$ENDIF}
 end;
 

@@ -182,6 +182,7 @@ begin
   DisplayItem('HasPenExtensions', TPJOSInfo.HasPenExtensions);
   DisplayItem('RegisteredOrganisation', TPJOSInfo.RegisteredOrganisation);
   DisplayItem('RegisteredOwner', TPJOSInfo.RegisteredOwner);
+  DisplayItem('CanSpoof', TPJOSInfo.CanSpoof);
   DisplayRuleOff;
 end;
 

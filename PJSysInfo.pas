@@ -1417,7 +1417,9 @@ begin
       end
       else
       begin
-        if CheckSuite(VER_SUITE_COMPUTE_SERVER) then
+        if CheckSuite(VER_SUITE_WH_SERVER) then
+          Result := 'Home Server'
+        else if CheckSuite(VER_SUITE_COMPUTE_SERVER) then
           Result := 'Compute Cluster Edition'
         else if CheckSuite(VER_SUITE_DATACENTER) then
           Result := 'Datacenter Edition'

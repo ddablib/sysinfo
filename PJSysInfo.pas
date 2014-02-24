@@ -40,15 +40,34 @@ unit PJSysInfo;
 // Config options
 // ==============
 
-// By default this unit uses the GetVersion and GetVersionEx API functions only
-// on OSs where the functions are not deprecated. On later OSs where they are
-// deprecated (Windows 8.1 and later) an alternative, and slower, method of
-// finding version information is used. This is thanks to MS's decision to screw
-// up the GetVersionXX API on these versions.
-// If you want to revert to the older behaviour and use GetVersion and
-// GetVersionEx on all OSs, define the ALWAYS_USE_GETVERSION_API below.
+// When version information is read using GetVersion and GetVersionEx the
+// information returned can be spoofed by running the program in compatibility
+// mode for a different OS.
+//
+// When running on Windows Vista and later the code in this unit can be made to
+// ignore the OS reported via compatibility mode and to report the true
+// underlying OS. This is done by defining the IGNORE_OS_SPOOFING_FROM_VISTA_UP
+// symbol below (the default). To do this the unit does not use GetVersion and
+// GetVersionEx to obtain version information when running on Vista or later.
+// Instead its uses a different, slower method.
+//
+// For backwards compatibility with previous versions you can comment out both
+// IGNORE_OS_SPOOFING_FROM_VISTA_UP and IGNORE_OS_SPOOFING_FROM_8POINT1_UP to
+// force the unit to use GetVersion and GetVersionEx to get version information
+// regardless of the underlying OS. This allows OS spoofing on all OSs.
+// However, GetVersion and GetVersionEx are deprecated from Windows 8.1.
+//
+// Defining IGNORE_OS_SPOOFING_FROM_8POINT1_UP and commenting out
+// IGNORE_OS_SPOOFING_FROM_VISTA_UP uses GetVersion and GetVersionEx for all OSs
+// up to Windows 8 but uses the alternative method of getting version
+// information when running on OSs from 8.1. This means that OS spoofing can be
+// used on all OSs up to Windows 8.
+//
+// Note: Use the CanSpoof method of TOSInfo to see if the reported OS could have
+// been spoofed.
 
-{$UNDEF ALWAYS_USE_GETVERSION_API} // change $UNDEF to $DEFINE to enable
+{$DEFINE IGNORE_OS_SPOOFING_FROM_VISTA_UP}
+{.$DEFINE IGNORE_OS_SPOOFING_FROM_8POINT1_UP}
 
 
 // Conditional defines
@@ -422,6 +441,9 @@ type
     class function ProductTypeFromReg: string;
 
   public
+
+    class function CanSpoof: Boolean;
+
     ///  <summary>Checks if the OS is on the Windows 9x platform.</summary>
     class function IsWin9x: Boolean;
 
@@ -937,6 +959,7 @@ var
   InternalMinorVersion: LongWord = 0;
   InternalBuildNumber: Integer = 0;
   InternalCSDVersion: string = '';
+  InternalCanSpoof: Boolean = True;
 
 // Flag required when opening registry with specified access flags
 {$IFDEF REGACCESSFLAGS}
@@ -951,6 +974,17 @@ const
   VER_GREATER_EQUAL = 3; // current value >= specified value.
   VER_LESS          = 4; // current value < specified value.
   VER_LESS_EQUAL    = 5; // current value <= specified value.
+
+  // Platform ID defines
+  // these are not included in Windows unit of all supported Delphis
+  VER_BUILDNUMBER = $00000004;
+  VER_MAJORVERSION = $00000002;
+  VER_MINORVERSION = $00000001;
+  VER_PLATFORMID = $00000008;
+  VER_SERVICEPACKMAJOR = $00000020;
+  VER_SERVICEPACKMINOR = $00000010;
+  VER_SUITENAME = $00000040;
+  VER_PRODUCT_TYPE = $00000080;
 
 // Tests Windows version (major, minor, service pack major & service pack minor)
 // against the given values using the given comparison condition and return
@@ -1014,15 +1048,26 @@ begin
   Result := VerifyVersionInfo(POSVI, VER_PRODUCT_TYPE, ConditionalMask);
 end;
 
-// Checks if we are to avoid using GetVersion and GetVersionEx API functions
+// Checks if we are to use the GetVersion and GetVersionEx API functions to get
+// version information.
 // (these functions were deprecated in Windows 8.1).
-function AvoidGetVersionAPI: Boolean;
+function UseGetVersionAPI: Boolean;
+
+  function TestOSLT(Major, Minor: LongWord): Boolean;
+  begin
+    Result := Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo)
+      and TestWindowsVersion(Major, Minor, 0, 0, VER_LESS);
+  end;
+
 begin
-  {$IFDEF ALWAYS_USE_GETVERSION_API}
-  Result := False;
+  {$IFDEF IGNORE_OS_SPOOFING_FROM_VISTA_UP}
+  Result := TestOSLT(6, 0);
   {$ELSE}
-  Result := Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo) and
-    TestWindowsVersion(6, 3, 0, 0, VER_GREATER_EQUAL); // >= Windows 8.1
+  {$IFDEF IGNORE_OS_SPOOFING_FROM_8POINT1_UP}
+  Result := TestOSLT(6, 3);
+  {$ELSE}
+  Result := True;
+  {$ENDIF}
   {$ENDIF}
 end;
 
@@ -1211,7 +1256,7 @@ begin
   VerifyVersionInfo := LoadKernelFunc('VerifyVersionInfoA');
   {$ENDIF}
 
-  if AvoidGetVersionAPI then
+  if not UseGetVersionAPI then
   begin
     // Not using GetVersion and GetVersionEx functions to get version info
     InternalMajorVersion := 0;
@@ -1328,6 +1373,11 @@ end;
 class function TPJOSInfo.BuildNumber: Integer;
 begin
   Result := InternalBuildNumber;
+end;
+
+class function TPJOSInfo.CanSpoof: Boolean;
+begin
+  Result := UseGetVersionAPI;
 end;
 
 class function TPJOSInfo.CheckSuite(const Suite: Integer): Boolean;

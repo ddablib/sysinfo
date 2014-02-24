@@ -977,14 +977,14 @@ const
 
   // Platform ID defines
   // these are not included in Windows unit of all supported Delphis
-  VER_BUILDNUMBER = $00000004;
-  VER_MAJORVERSION = $00000002;
-  VER_MINORVERSION = $00000001;
-  VER_PLATFORMID = $00000008;
-  VER_SERVICEPACKMAJOR = $00000020;
-  VER_SERVICEPACKMINOR = $00000010;
-  VER_SUITENAME = $00000040;
-  VER_PRODUCT_TYPE = $00000080;
+  VER_BUILDNUMBER       = $00000004;
+  VER_MAJORVERSION      = $00000002;
+  VER_MINORVERSION      = $00000001;
+  VER_PLATFORMID        = $00000008;
+  VER_SERVICEPACKMAJOR  = $00000020;
+  VER_SERVICEPACKMINOR  = $00000010;
+  VER_SUITENAME         = $00000040;
+  VER_PRODUCT_TYPE      = $00000080;
 
 // Tests Windows version (major, minor, service pack major & service pack minor)
 // against the given values using the given comparison condition and return

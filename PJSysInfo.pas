@@ -1367,9 +1367,7 @@ begin
   try
     Reg.RootKey := RootKey;
     // Open registry key and check value exists
-    if RegOpenKeyReadOnly(Reg, SubKey) then
-    begin
-      if Reg.ValueExists(Name) then
+    if RegOpenKeyReadOnly(Reg, SubKey) and Reg.ValueExists(Name) then
     begin
       // Check if registry value is string or integer
       Reg.GetDataInfo(Name, ValueInfo);
@@ -1384,7 +1382,6 @@ begin
           // unsupported value: raise exception
           raise EPJSysInfo.Create(sBadRegType);
       end;
-    end;
     end;
   finally
     // Close registry
@@ -1408,6 +1405,12 @@ function GetNTBuildNumberFromReg: LongWord;
 var
   BuildStr: string;
 begin
+  BuildStr := GetRegistryString(
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[True], 'CurrentBuildNumber'
+  );
+  Result := StrToIntDef(BuildStr, 0);
+  if Result <> 0 then
+    Exit;
   BuildStr := GetRegistryString(
     HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[True], 'CurrentBuild'
   );

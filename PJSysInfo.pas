@@ -25,10 +25,19 @@
  *
  * Thanks to the following who have contributed to this project:
  *
- *   Guillermo Fazzolari (bug fix in v2.0.1)
- *   Laurent Pierre (PRODUCT_* constants and suggested GetProductInfo API code
+ *   - Guillermo Fazzolari (bug fix in v2.0.1)
+ *   - Laurent Pierre (PRODUCT_* constants and suggested GetProductInfo API code
  *     used in v3.0)
- *   Rich Habedank (bug fix in revision 228)
+ *   - Rich Habedank (bug fix in revision 228)
+ *
+ * The project also draws on the work of:
+ *
+ *   - Achim Kalwa <delphi@achim-kalwa.de> who translated the versionhelpers.h
+ *     header into Pascal. Some of the IsReallyWindowsXXXXOrGreater methods of
+ *     TPJOSInfo and the TestWindowsVersion routine are based closely on his
+ *     work.
+ *   - Brendan grant for his ideas presented in the Code Project article at
+ *     http://bit.ly/1mDKTu3
  *
  * ***** END LICENSE BLOCK *****
 }
@@ -78,7 +87,8 @@ unit PJSysInfo;
 {$DEFINE WARNDIRS}            // $WARN compiler directives available
 {$DEFINE EXCLUDETRAILING}     // SysUtils.ExcludeTrailingPathDelimiter available
 {$UNDEF RTLNAMESPACES}        // No support for RTL namespaces in unit names
-{$UNDEF HASUNIT64}            // UInt64 type defined
+{$UNDEF HASUNIT64}            // UInt64 type not defined
+{$UNDEF INLINEMETHODS}        // No support for inline methods
 
 // Undefine facilities not available in earlier compilers
 // Note: Delphi 1 to 3 is not included since the code will not compile on these
@@ -102,6 +112,9 @@ unit PJSysInfo;
   {$IFEND}
   {$IF CompilerVersion >= 23.0} // Delphi XE2 and later
     {$DEFINE RTLNAMESPACES}
+  {$IFEND}
+  {$IF CompilerVersion >= 17.0} // Delphi 2005 and later
+    {$DEFINE INLINEMETHODS}
   {$IFEND}
   {$IF Declared(UInt64)}
     {$DEFINE HASUINT64}
@@ -440,8 +453,31 @@ type
     ///  <remarks>Used to get product type for NT4 SP5 and earlier.</remarks>
     class function ProductTypeFromReg: string;
 
+    ///  <summary>Checks if the underlying operating system either has the given
+    ///  major and minor version number and service pack major version numbers
+    ///  or is a later version.</summary>
+    ///  <remarks>
+    ///  <para>MajorVersion version must be greater than or equal to 5,
+    ///  otherwise the method always returns False.</para>
+    ///  <para>This method is immune to spoofing: it always returns information
+    ///  about the actual operating system.</para>
+    ///  </remarks>
+    class function IsReallyWindowsVersionOrGreater(MajorVersion, MinorVersion,
+      ServicePackMajor: Word): Boolean;
+
   public
 
+    ///  <summary>Checks if the OS is able to be "spoofed" by specifying a
+    ///  compatibility mode for the program.</summary>
+    ///  <remarks>
+    ///  <para>When this method returns True any public method of TPJOSInfo will
+    ///  return the details of the compatibility mode OS instead of the actual
+    ///  one, unless the method is documented to the contrary. When False is
+    ///  returned the reported OS is the real underlying OS and any
+    ///  compatibility mode is ignored.</para>
+    ///  <para>Exactly which OSs can be spoofed depends on how the unit was
+    ///  compiled.</para>
+    ///  </remarks>
     class function CanSpoof: Boolean;
 
     ///  <summary>Checks if the OS is on the Windows 9x platform.</summary>
@@ -481,9 +517,6 @@ type
     class function Platform: TPJOSPlatform;
 
     ///  <summary>Returns the host OS product identifier.</summary>
-    ///  <remarks>Note that Windows 8.1 and Windows 2012 Server R2 will only be
-    ///  detected by Windows 8.1 if the application is correctly "manifested"
-    ///  for the OS. See http://bit.ly/MJSO8Q for details.</remarks>
     class function Product: TPJOSProduct;
 
     ///  <summary>Returns the product name of the host OS.</summary>
@@ -529,6 +562,119 @@ type
 
     ///  <summary>Owner to which Windows is registered.</summary>
     class function RegisteredOwner: string;
+
+    ///  <summary>Checks whether the OS is Windows 2000 or greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows2000OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows 2000 Service Pack 1 or
+    ///  greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows2000SP1OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows 2000 Service Pack 2 or
+    ///  greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows2000SP2OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows 2000 Service Pack 3 or
+    ///  greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows2000SP3OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows 2000 Service Pack 4 or
+    ///  greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows2000SP4OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows XP or greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindowsXPOrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows XP Service Pack 1 or greater.
+    ///  </summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindowsXPSP1OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows XP Service Pack 2 or greater.
+    ///  </summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindowsXPSP2OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows XP Service Pack 3 or greater.
+    ///  </summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindowsXPSP3OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows Vista or greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindowsVistaOrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows Vista Service Pack 1 or
+    ///  greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindowsVistaSP1OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows Vista Service Pack 2 or
+    ///  greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindowsVistaSP2OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows 7 or greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows7OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows 7 Service Pack 1 or greater.
+    ///  </summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows7SP1OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows 8 or greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows8OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks whether the OS is Windows 8.1 or greater.</summary>
+    ///  <remarks>This method always returns information about the true OS,
+    ///  regardless of any compatibility mode in force.</remarks>
+    class function IsReallyWindows8Point1OrGreater: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+
+    ///  <summary>Checks if the OS is a server version.</summary>
+    ///  <remarks>For Windows 2000 and later the result always relates to the
+    ///  actual OS, regardless of any compatibility mode in force. For versions
+    ///  prior to Windows 2000 this method will take note of compatibility modes
+    ///  and returns the same value as TPJOSInfo.IsServer.</remarks>
+    class function IsWindowsServer: Boolean;
   end;
 
 type
@@ -986,6 +1132,19 @@ const
   VER_SUITENAME         = $00000040;
   VER_PRODUCT_TYPE      = $00000080;
 
+  // Constants from sdkddkver.h
+  _WIN32_WINNT_NT4      = $0400; // Windows NT 4
+  _WIN32_WINNT_WIN2K    = $0500; // Windows 2000
+  _WIN32_WINNT_WINXP    = $0501; // Windows XP
+  _WIN32_WINNT_WS03     = $0502; // Windows Server 2003
+  _WIN32_WINNT_WIN6     = $0600; // Windows Vista
+  _WIN32_WINNT_VISTA    = $0600; // Windows Vista
+  _WIN32_WINNT_WS08     = $0600; // Windows Server 2008
+  _WIN32_WINNT_LONGHORN = $0600; // Windows 7
+  _WIN32_WINNT_WIN7     = $0601; // Windows 7
+  _WIN32_WINNT_WIN8     = $0602; // Windows 8
+  _WIN32_WINNT_WINBLUE  = $0603; // Windows 8.1
+
 // Tests Windows version (major, minor, service pack major & service pack minor)
 // against the given values using the given comparison condition and return
 // True if the given version matches the current one or False if not
@@ -999,6 +1158,7 @@ var
   POSVI: POSVersionInfoEx;
   ConditionalMask: UInt64;
 begin
+  Assert(Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo));
   FillChar(OSVI, SizeOf(OSVI), 0);
   OSVI.dwOSVersionInfoSize := SizeOf(OSVI);
   OSVI.dwMajorVersion := wMajorVersion;
@@ -1612,6 +1772,130 @@ begin
     Result := False;
 end;
 
+class function TPJOSInfo.IsReallyWindows2000OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 0
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindows2000SP1OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 1
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindows2000SP2OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 2
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindows2000SP3OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 3
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindows2000SP4OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 4
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindows7OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WIN7), LoByte(_WIN32_WINNT_WIN7), 0
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindows7SP1OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WIN7), LoByte(_WIN32_WINNT_WIN7), 1
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindows8OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WIN8), LoByte(_WIN32_WINNT_WIN8), 0
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindows8Point1OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WINBLUE), LoByte(_WIN32_WINNT_WINBLUE), 0
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindowsVersionOrGreater(MajorVersion,
+  MinorVersion, ServicePackMajor: Word): Boolean;
+begin
+  Assert(MajorVersion >= HiByte(_WIN32_WINNT_WIN2K));
+  if Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo) then
+    Result := TestWindowsVersion(
+      MajorVersion, MinorVersion, ServicePackMajor, 0, VER_GREATER_EQUAL
+    )
+  else
+    Result := False;
+end;
+
+class function TPJOSInfo.IsReallyWindowsVistaOrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_VISTA), LoByte(_WIN32_WINNT_VISTA), 0
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindowsVistaSP1OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_VISTA), LoByte(_WIN32_WINNT_VISTA), 1
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindowsVistaSP2OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_VISTA), LoByte(_WIN32_WINNT_VISTA), 2
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindowsXPOrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WINXP), LoByte(_WIN32_WINNT_WINXP), 0
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindowsXPSP1OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WINXP), LoByte(_WIN32_WINNT_WINXP), 1
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindowsXPSP2OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WINXP), LoByte(_WIN32_WINNT_WINXP), 2
+  );
+end;
+
+class function TPJOSInfo.IsReallyWindowsXPSP3OrGreater: Boolean;
+begin
+  Result := IsReallyWindowsVersionOrGreater(
+    HiByte(_WIN32_WINNT_WINXP), LoByte(_WIN32_WINNT_WINXP), 3
+  );
+end;
+
 class function TPJOSInfo.IsRemoteSession: Boolean;
 begin
   Result := GetSystemMetrics(SM_REMOTESESSION) <> 0;
@@ -1640,6 +1924,23 @@ end;
 class function TPJOSInfo.IsWin9x: Boolean;
 begin
   Result := Platform = ospWin9x;
+end;
+
+class function TPJOSInfo.IsWindowsServer: Boolean;
+var
+  OSVI: TOSVersionInfoEx;
+  ConditionMask: UInt64;
+begin
+  if Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo) then
+  begin
+    FillChar(OSVI, SizeOf(OSVI), 0);
+    OSVI.dwOSVersionInfoSize := SizeOf(OSVI);
+    OSVI.wProductType := VER_NT_WORKSTATION;
+    ConditionMask := VerSetConditionMask(0, VER_PRODUCT_TYPE, VER_EQUAL);
+    Result := not VerifyVersionInfo(@OSVI, VER_PRODUCT_TYPE, ConditionMask);
+  end
+  else
+    Result := IsServer;
 end;
 
 class function TPJOSInfo.IsWinNT: Boolean;

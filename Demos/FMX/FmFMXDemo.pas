@@ -222,6 +222,12 @@ begin
   DisplayItem('Win32BuildNumber', Win32BuildNumber);
   DisplayItem('Win32CSDVersion', Win32CSDVersion);
 
+  DisplayItem('Win32PlatformEx', Win32PlatformEx);
+  DisplayItem('Win32MajorVersionEx', Win32MajorVersionEx);
+  DisplayItem('Win32MinorVersionEx', Win32MinorVersionEx);
+  DisplayItem('Win32BuildNumberEx', Win32BuildNumberEx);
+  DisplayItem('Win32CSDVersionEx', Win32CSDVersionEx);
+
   DisplayItem('Win32HaveExInfo', Win32HaveExInfo);
   DisplayItem('Win32ProductType', Win32ProductType);
   DisplayItem('Win32ServicePackMajor', Win32ServicePackMajor);

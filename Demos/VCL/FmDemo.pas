@@ -252,6 +252,12 @@ begin
 
   DisplayHeading('PJSysInfo Win32XXX Variables');
   DisplayRuling;
+  DisplayItem('Win32PlatformEx', Win32PlatformEx);
+  DisplayItem('Win32MajorVersionEx', Win32MajorVersionEx);
+  DisplayItem('Win32MinorVersionEx', Win32MinorVersionEx);
+  DisplayItem('Win32BuildNumberEx', Win32BuildNumberEx);
+  DisplayItem('Win32CSDVersionEx', Win32CSDVersionEx);
+  DisplayRuling;
   DisplayItem('Win32HaveExInfo', Win32HaveExInfo);
   DisplayItem('Win32ProductType', Win32ProductType);
   DisplayItem('Win32ServicePackMajor', Win32ServicePackMajor);
@@ -260,6 +266,7 @@ begin
   DisplayItem('Win32HaveProductInfo', Win32HaveProductInfo);
   DisplayItem('Win32ProductInfo', Integer(Win32ProductInfo));
   DisplayRuleOff;
+
 end;
 
 procedure TDemoForm.TabControl1Change(Sender: TObject);

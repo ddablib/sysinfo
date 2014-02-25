@@ -165,6 +165,39 @@ begin
   DisplayItem('RegisteredOrganisation', TPJOSInfo.RegisteredOrganisation);
   DisplayItem('RegisteredOwner', TPJOSInfo.RegisteredOwner);
   DisplayItem('CanSpoof', TPJOSInfo.CanSpoof);
+  DisplayItem('IsReallyWindows2000OrGreater',
+    TPJOSInfo.IsReallyWindows2000OrGreater);
+  DisplayItem('IsReallyWindows2000SP1OrGreater',
+    TPJOSInfo.IsReallyWindows2000SP1OrGreater);
+  DisplayItem('IsReallyWindows2000SP2OrGreater',
+    TPJOSInfo.IsReallyWindows2000SP2OrGreater);
+  DisplayItem('IsReallyWindows2000SP3OrGreater',
+    TPJOSInfo.IsReallyWindows2000SP3OrGreater);
+  DisplayItem('IsReallyWindows2000SP4OrGreater',
+    TPJOSInfo.IsReallyWindows2000SP4OrGreater);
+  DisplayItem('IsReallyWindowsXPOrGreater',
+    TPJOSInfo.IsReallyWindowsXPOrGreater);
+  DisplayItem('IsReallyWindowsXPSP1OrGreater',
+    TPJOSInfo.IsReallyWindowsXPSP1OrGreater);
+  DisplayItem('IsReallyWindowsXPSP2OrGreater',
+    TPJOSInfo.IsReallyWindowsXPSP2OrGreater);
+  DisplayItem('IsReallyWindowsXPSP3OrGreater',
+    TPJOSInfo.IsReallyWindowsXPSP3OrGreater);
+  DisplayItem('IsReallyWindowsVistaOrGreater',
+    TPJOSInfo.IsReallyWindowsVistaOrGreater);
+  DisplayItem('IsReallyWindowsVistaSP1OrGreater',
+    TPJOSInfo.IsReallyWindowsVistaSP1OrGreater);
+  DisplayItem('IsReallyWindowsVistaSP2OrGreater',
+    TPJOSInfo.IsReallyWindowsVistaSP2OrGreater);
+  DisplayItem('IsReallyWindows7OrGreater',
+    TPJOSInfo.IsReallyWindows7OrGreater);
+  DisplayItem('IsReallyWindows7SP1OrGreater',
+    TPJOSInfo.IsReallyWindows7SP1OrGreater);
+  DisplayItem('IsReallyWindows8OrGreater',
+    TPJOSInfo.IsReallyWindows8OrGreater);
+  DisplayItem('IsReallyWindows8Point1OrGreater',
+    TPJOSInfo.IsReallyWindows8Point1OrGreater);
+  DisplayItem('IsWindowsServer', TPJOSInfo.IsWindowsServer);
 end;
 
 procedure TForm1.ShowTPJSystemFolders;

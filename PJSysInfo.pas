@@ -1085,10 +1085,6 @@ const
     'Software\Microsoft\Windows NT\CurrentVersion'
   );
 
-var
-  // Records processor architecture information
-  pvtProcessorArchitecture: Word = 0;
-
 type
   // Function type of the GetNativeSystemInfo and GetSystemInfo functions
   TGetSystemInfo = procedure(var lpSystemInfo: TSystemInfo); stdcall;
@@ -1124,6 +1120,8 @@ var
   InternalMinorVersion: LongWord = 0;
   InternalBuildNumber: Integer = 0;
   InternalCSDVersion: string = '';
+  // Internal variable recording processor architecture information
+  InternalProcessorArchitecture: Word = 0;
 
 // Flag required when opening registry with specified access flags
 {$IFDEF REGACCESSFLAGS}
@@ -1552,7 +1550,7 @@ begin
     GetSystemInfoFn := GetSystemInfo;
   GetSystemInfoFn(SI);
   // Get processor architecture
-  pvtProcessorArchitecture := SI.wProcessorArchitecture;
+  InternalProcessorArchitecture := SI.wProcessorArchitecture;
 end;
 
 { TPJOSInfo }
@@ -1626,24 +1624,24 @@ begin
       // edition
       Result := EditionFromProductInfo;
       // append 64-bit if 64 bit system
-      if pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64 then
+      if InternalProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64 then
         Result := Result + ' (64-bit)';
       // can detect 32-bit if required by checking if
-      // pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_INTEL
+      // InternalProcessorArchitecture = PROCESSOR_ARCHITECTURE_INTEL
     end;
     osWinSvr2003, osWinSvr2003R2:
     begin
       // We check different processor architectures and act accordingly
       // This code closely based on MS's sample code found at
       // http://msdn2.microsoft.com/en-us/library/ms724429
-      if pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_IA64 then
+      if InternalProcessorArchitecture = PROCESSOR_ARCHITECTURE_IA64 then
       begin
         if CheckSuite(VER_SUITE_DATACENTER) then
           Result := 'Datacenter Edition for Itanium-based Systems'
         else if CheckSuite(VER_SUITE_ENTERPRISE) then
           Result := 'Enterprise Edition for Itanium-based Systems';
       end
-      else if (pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64) then
+      else if InternalProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64 then
       begin
         if CheckSuite(VER_SUITE_DATACENTER) then
           Result := 'Datacenter x64 Edition'
@@ -1690,7 +1688,7 @@ begin
         Result := 'Starter Edition'
       else if (InternalMajorVersion = 5) and (InternalMinorVersion = 2) and
         not IsServer and  // XP Pro 64 has version 5.2 not 5.1!
-        (pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64) then
+        (InternalProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64) then
         Result := 'Professional x64 Edition'
       else if CheckSuite(VER_SUITE_PERSONAL) then
         Result := 'Home Edition'
@@ -2066,7 +2064,8 @@ begin
               else
               begin
                 if not IsServer and
-                  (pvtProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64) then
+                  (InternalProcessorArchitecture
+                    = PROCESSOR_ARCHITECTURE_AMD64) then
                   Result := osWinXP // XP Pro X64
                 else
                   Result := osWinSvr2003
@@ -2427,7 +2426,7 @@ end;
 
 class function TPJComputerInfo.Processor: TPJProcessorArchitecture;
 begin
-  case pvtProcessorArchitecture of
+  case InternalProcessorArchitecture of
     PROCESSOR_ARCHITECTURE_INTEL: Result := paX86;
     PROCESSOR_ARCHITECTURE_AMD64: Result := paX64;
     PROCESSOR_ARCHITECTURE_IA64:  Result := paIA64;

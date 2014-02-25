@@ -827,6 +827,25 @@ type
 var
   // Global variables providing extended information about the OS version
 
+  // The following five variables are analogues of the similarly named variables
+  // (without the "Ex" appendix) from SysUtils. If the OS is spoofed and
+  // TOSInfo.CanSpoof = False then these variable will reflect the values from
+  // the true OS, whereas their SysUtils equivalents will have the spoof values.
+  // When TOSInfo.CanSpoof = True then both sets of variables will have the
+  // same value.
+
+  // OS platform: one of VER_PLATFORM_WIN32_NT, VER_PLATFORM_WIN32_WINDOWS or
+  // (very unlikely) VER_PLATFORM_WIN32s.
+  Win32PlatformEx: Integer = 0;
+  // Major version number of OS.
+  Win32MajorVersionEx: LongWord = 0;
+  // Minor version number of OS.
+  Win32MinorVersionEx: LongWord = 0;
+  // OS Build number.
+  Win32BuildNumberEx: Integer = 0;
+  // Description of any OS service pack.
+  Win32CSDVersionEx: string = '';
+
   // Flag that indicates if extended version information is available.
   Win32HaveExInfo: Boolean = False;
   // Major version number of the latest Service Pack installed on the system. If
@@ -1105,7 +1124,6 @@ var
   InternalMinorVersion: LongWord = 0;
   InternalBuildNumber: Integer = 0;
   InternalCSDVersion: string = '';
-  InternalCanSpoof: Boolean = True;
 
 // Flag required when opening registry with specified access flags
 {$IFDEF REGACCESSFLAGS}
@@ -1502,6 +1520,12 @@ begin
       Win32ProductType := OSVI.wProductType;
     end;
   end;
+
+  Win32PlatformEx := InternalPlatform;
+  Win32MajorVersionEx := InternalMajorVersion;
+  Win32MinorVersionEx := InternalMinorVersion;
+  Win32BuildNumberEx := InternalBuildNumber;
+  Win32CSDVersionEx := InternalCSDVersion;
 
   // Try to get product info (API introduced with Windows Vista)
   GetProductInfo := LoadKernelFunc('GetProductInfo');

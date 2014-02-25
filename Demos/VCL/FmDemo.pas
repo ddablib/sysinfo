@@ -117,12 +117,17 @@ end;
 
 procedure TDemoForm.ShowContent(Tab: Integer);
 begin
-  edDisplay.Clear;
-  case Tab of
-    0: ShowTPJComputerInfo;
-    1: ShowTPJSystemFolders;
-    2: ShowTPJOSInfo;
-    3: ShowWin32Globals;
+  edDisplay.Lines.BeginUpdate;
+  try
+    edDisplay.Clear;
+    case Tab of
+      0: ShowTPJComputerInfo;
+      1: ShowTPJSystemFolders;
+      2: ShowTPJOSInfo;
+      3: ShowWin32Globals;
+    end;
+  finally
+    edDisplay.Lines.EndUpdate;
   end;
 end;
 

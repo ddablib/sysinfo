@@ -200,12 +200,142 @@
 </ul>
 
 <p>
-  In addition, the unit extends the information provided by the
+  In addition, the unit extends and enhances the information provided by the
   <code>SysUtils</code> unit's <var>Win32xxx</var> variables (such as
   <var>Win32Platform</var>) by defining further <var>Win32xxx</var> variables
   that store the extended operating system information available on later NT
   platform OSs.
 </p>
+
+<h3>
+  Effect of changes to the Windows API
+</h3>
+
+<p>
+  With the release of Windows 8.1 Microsoft made a controversial decision to
+  deprecate the <var>GetVersion***</var> API functions commonly used to retrieve
+  Windows operating system information. These functions are used by the
+  <em>System Information Unit</em>. Not only that, but when interrogated using
+  the <var>GetVersion***</var> functions Windows 8.1 represents itself as
+  Windows 8 unless the host program has a <a
+    href="http://msdn.microsoft.com/en-us/library/windows/desktop/dn481241.aspx"
+  >special manifest</a>.
+</p>
+
+<p>
+  From release 5.0 the unit has been revised to use an alternative approach for
+  getting operating system information that avoids the use of the deprecated
+  API on later Windows versions and which gets the correct version from
+  Windows 8.1.
+</p>
+
+<p>
+  Apart from being more cumbersome and slower, the new approach differs from the
+  old in an important respect. When a program is run in compatibility mode the
+  old <var>GetVersion***</var> API functions would be fooled (or
+  &quot;spoofed&quot;) by Windows into reporting the version of the operating
+  system emulated by the compatibility mode (more or less!). This is the way the
+  unit has always behaved in the past. The revised approach always returns
+  information about the true operating system regardless of any active
+  compatibility mode. In many ways this is a better solution but unfortunately
+  the API functions required are only available on Windows 2000 and later.
+</p>
+
+<p>
+  The upshot is that older OSs will have to use the <var>GetVersion***</var>
+  API and be subject to OS information spoofing while newer OSs, to avoid using
+  the deprecated API functions, will need to use the new API and therefore never
+  be spoofed. Herein lies an inconsistency. Thanks a bundle Microsoft!
+  The choice has to be made whether to accept the inconsistency or to allow the
+  use of deprecated API code and fail to detect Windows 8.1. The default choice
+  v5 of the <em>System Information Unit</em> is to use the older API for Windows
+  XP and earlier and the new API for Windows Vista and later. However there are
+  options to override this decision at compile time that are discussed in the
+  following section.
+</p>
+
+<p>
+  To make things easier for Windows 2000 and later users (i.e. just about
+  everyone) a bunch of interrogation functions that can't be spoofed have been
+  added to <var>TPJOSInfo</var>. You can also find out if OS spoofing is enabled
+  for the host operating system by examining the <var>CanSpoof</var> method of
+  <var>TPJOSInfo</var>.
+</p>
+
+<h3>
+  Compile Options
+</h3>
+
+<p>
+  From v5 the <em>System Information Unit</em> can be compiled in three
+  different ways. Each makes a different choice about how the deprecation of the
+  old <var>GetVersion***</var> API functions is handled. The options are
+  controlled by defining or un-defining the
+  <code>IGNORE_OS_SPOOFING_FROM_VISTA_UP</code> and
+  <code>IGNORE_OS_SPOOFING_FROM_8POINT1_UP</code> symbols. The choices are:
+</p>
+
+<ul>
+  <li>
+    <p>
+      Define <code>IGNORE_OS_SPOOFING_FROM_VISTA_UP</code> only. This is the
+      default.
+    </p>
+    <p>
+      With this option the old <var>GetVersion***</var> API functions are used
+      to get version information for Windows XP and earlier, which means those
+      OS will still be subject to compatibility mode spoofing. The new approach
+      has been used for Windows Vista and later meaning the the correct
+      information will always be reported regardless of compatibility mode.
+    </p>
+    <p>
+      The choice to make the division between XP and Vista was made because
+      Vista supports the new API and we can get all required information for it
+      without using the <var>GetVersion***</var> API functions. While XP also
+      supports the new API we still need to use the the <var>GetVersion***</var>
+      functions to retrieve some necessary information.
+    </p>
+    <p>
+      This option has the advantages that (a) the new API is used on the
+      earliest possible OS, (b) no deprecated API calls are used and (c) Windows
+      8.1 is detected correctly. This is the best choice if your applications
+      don't need to be run in compatibility mode and you want to detect Windows
+      8.1.
+    </p>
+  </li>
+  <li>
+    <p>
+      Define <code>IGNORE_OS_SPOOFING_FROM_8POINT1_UP</code> only.
+    </p>
+    <p>
+      When this option is used the <var>GetVersion***</var> API functions are
+      used up until the point that they are deprecated, i.e. they are used for
+      all OSs up to and including Windows 8. The new API is used for Windows
+      8.1 (and with later versions when they arrive).
+    </p>
+    <p>
+      This has the advantages that (a) no deprecated code is used (b) the
+      traditional OS spoofing behaviour is retained as long a possible and (c)
+      Windows 8.1 is detected correctly.
+    </p>
+  </li>
+  <li>
+    <p>
+      Define neither <code>IGNORE_OS_SPOOFING_FROM_VISTA_UP</code> nor
+      <code>IGNORE_OS_SPOOFING_FROM_8POINT1_UP</code>.
+    </p>
+    <p>
+      This option reverts the unit to its pre-v5 behaviour: it always uses the
+      <var>GetVersion***</var> API functions to get OS information.
+    </p>
+    <p>
+      This has the advantages of (a) consistency (b) full backward
+      compatibility. The disadvantages are that (a) a deprecated API is used
+      with Windows 8.1 and (b) Windows 8.1 will be reported as Windows 8 on all
+      applications that don't have the required manifest.
+    </p>
+  </li>
+</ul>
 
 <h3>
   Deleted Code
@@ -216,11 +346,6 @@
   and various <var>SIGetxxx</var> functions. As of v3.0 these were deprecated
   and included only if a certain symbol was defined. From v4.0 all the
   deprecated code was removed.
-</p>
-
-<p>
-  If you are still using the deprecated code you a strongly advised to update
-  the code to use the new classes or to revert to using the last v3.x release.
 </p>
 
 <h3>

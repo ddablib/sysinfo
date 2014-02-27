@@ -563,6 +563,11 @@ type
     ///  <summary>Owner to which Windows is registered.</summary>
     class function RegisteredOwner: string;
 
+    ///  <summary>Date the operating system was installed.</summary>
+    ///  <remarks>If this information is not available then <c>0.0</c> is
+    ///  returned (i.e. 1899/12/30).</remarks>
+    class function InstallationDate: TDateTime;
+
     ///  <summary>Checks whether the OS is Windows 2000 or greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
     ///  regardless of any compatibility mode in force.</remarks>
@@ -1289,7 +1294,7 @@ end;
 // Returns the value of the given environment variable.
 function GetEnvVar(const VarName: string): string;
 var
-  BufSize: Integer;  // size (in chars) of value + terminal #0
+  BufSize: Integer;
 begin
   BufSize := GetEnvironmentVariable(PChar(VarName), nil, 0);
   if BufSize > 0 then
@@ -1765,6 +1770,25 @@ end;
 class function TPJOSInfo.HasPenExtensions: Boolean;
 begin
   Result := GetSystemMetrics(SM_PENWINDOWS) <> 0;
+end;
+
+class function TPJOSInfo.InstallationDate: TDateTime;
+var
+  DateStr: string;
+  UnixDate: LongWord;
+const
+  UnixStartDate: TDateTime = 25569.0; // 1970/01/01
+begin
+  DateStr := GetRegistryString(
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'InstallDate'
+  );
+  Result := 0.0;
+  if DateStr = '' then
+    Exit;
+  UnixDate := StrToIntDef(DateStr, 0);
+  if UnixDate = 0 then
+    Exit;
+  Result := (UnixDate / 86400) + UnixStartDate
 end;
 
 class function TPJOSInfo.IsMediaCenter: Boolean;

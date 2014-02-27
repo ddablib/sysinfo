@@ -21,13 +21,21 @@
  *  2: The code has been tested with the Delphi 64 bit compiler (introduced
  *     in Delphi XE2) and functions correctly.
  *
+ *  3: When run on operating systems up to and including Windows 8 running the
+ *     host program in compatibility mode causes some variables and TPJOSInfo
+ *     methods to be "spoofed" into returning information about the emulated
+ *     OS. When run on Windows 8.1 and later details of the actual host
+ *     operating system are always returned and the emaulated OS is ignored.
+ *
  * ACKNOWLEDGEMENTS
  *
  * Thanks to the following who have contributed to this project:
  *
  *   - Guillermo Fazzolari (bug fix in v2.0.1)
+ *
  *   - Laurent Pierre (PRODUCT_* constants and suggested GetProductInfo API code
  *     used in v3.0)
+ *
  *   - Rich Habedank (bug fix in revision 228)
  *
  * The project also draws on the work of:
@@ -36,8 +44,15 @@
  *     header into Pascal. Some of the IsReallyWindowsXXXXOrGreater methods of
  *     TPJOSInfo and the TestWindowsVersion routine are based closely on his
  *     work.
+ *
  *   - Brendan grant for his ideas presented in the Code Project article at
  *     http://bit.ly/1mDKTu3
+ *
+ *   - Kendall Sullivan for the code on which TPJComputerInfo.IsAdmin is based.
+ *     See http://edn.embarcadero.com/article/26752.
+ *
+ *   - norgepaul for the code which TPJComputerInfo.IsUACActive is based. See
+ *     his anser on Stack Overflow at http://tinyurl.com/avlztmg.
  *
  * ***** END LICENSE BLOCK *****
 }
@@ -46,37 +61,13 @@
 unit PJSysInfo;
 
 
-// Config options
-// ==============
+// Define DEBUG_NEW_API if debugging on Windows Vista to Windows 8 in order to
+// check that the new version API used for Windows 8.1 and later is working.
+// This will cause the new API to be used for Windows Vista and later instead
+// of only Windows 8.1 and later.
+// *** IMPORTANT: Ensure that DEBUG_NEW_API is NOT defined in production code.
 
-// When version information is read using GetVersion and GetVersionEx the
-// information returned can be spoofed by running the program in compatibility
-// mode for a different OS.
-//
-// When running on Windows Vista and later the code in this unit can be made to
-// ignore the OS reported via compatibility mode and to report the true
-// underlying OS. This is done by defining the IGNORE_OS_SPOOFING_FROM_VISTA_UP
-// symbol below (the default). To do this the unit does not use GetVersion and
-// GetVersionEx to obtain version information when running on Vista or later.
-// Instead its uses a different, slower method.
-//
-// For backwards compatibility with previous versions you can comment out both
-// IGNORE_OS_SPOOFING_FROM_VISTA_UP and IGNORE_OS_SPOOFING_FROM_8POINT1_UP to
-// force the unit to use GetVersion and GetVersionEx to get version information
-// regardless of the underlying OS. This allows OS spoofing on all OSs.
-// However, GetVersion and GetVersionEx are deprecated from Windows 8.1.
-//
-// Defining IGNORE_OS_SPOOFING_FROM_8POINT1_UP and commenting out
-// IGNORE_OS_SPOOFING_FROM_VISTA_UP uses GetVersion and GetVersionEx for all OSs
-// up to Windows 8 but uses the alternative method of getting version
-// information when running on OSs from 8.1. This means that OS spoofing can be
-// used on all OSs up to Windows 8.
-//
-// Note: Use the CanSpoof method of TOSInfo to see if the reported OS could have
-// been spoofed.
-
-{$DEFINE IGNORE_OS_SPOOFING_FROM_VISTA_UP}
-{.$DEFINE IGNORE_OS_SPOOFING_FROM_8POINT1_UP}
+{$DEFINE DEBUG_NEW_API}
 
 
 // Conditional defines
@@ -254,7 +245,7 @@ const
   VER_SUITE_WH_SERVER                         = $00008000;
 
   // These Windows-defined constants are required for use with the
-  // GetProductInfo API call (Vista and later)
+  // GetProductInfo API call used with Windows Vista and later
   // ** Thanks to Laurent Pierre for providing these defintions.
   // ** Additional definitions were obtained from
   //    http://msdn.microsoft.com/en-us/library/ms724358
@@ -499,17 +490,13 @@ type
 
   public
 
-    ///  <summary>Checks if the OS is able to be "spoofed" by specifying a
+    ///  <summary>Checks if the OS can be "spoofed" by specifying a
     ///  compatibility mode for the program.</summary>
-    ///  <remarks>
-    ///  <para>When this method returns True any public method of TPJOSInfo will
-    ///  return the details of the compatibility mode OS instead of the actual
-    ///  one, unless the method is documented to the contrary. When False is
-    ///  returned the reported OS is the real underlying OS and any
-    ///  compatibility mode is ignored.</para>
-    ///  <para>Exactly which OSs can be spoofed depends on how the unit was
-    ///  compiled.</para>
-    ///  </remarks>
+    ///  <remarks>When this method returns True public methods of TPJOSInfo
+    ///  will return the details of OS emulated by the compatibility mode OS
+    ///  instead of the actual OS, unless the method is documented to the
+    ///  contrary. When False is returned the reported OS is the real underlying
+    ///  OS and any compatibility mode is ignored.</remarks>
     class function CanSpoof: Boolean;
 
     ///  <summary>Checks if the OS is on the Windows 9x platform.</summary>
@@ -529,6 +516,7 @@ type
 
     ///  <summary>Checks if the program is running on a server operating system.
     ///  </summary>
+    ///  <remarks>Use IsWindowsServer in preference.</remarks>
     class function IsServer: Boolean;
 
     ///  <summary>Checks if Windows Media Center is installed.</summary>
@@ -577,8 +565,7 @@ type
     ///  <remarks>Invalid is ServicePackMinor returns 0.</remarks>
     class function ServicePackMinor: Integer;
 
-    ///  <summary>Returns the production edition for an NT platform OS.
-    ///  </summary>
+    ///  <summary>Returns the product edition for an NT platform OS.</summary>
     ///  <remarks>The empty string is returned if the OS is not on the NT
     ///  platform.</remarks>
     class function Edition: string;
@@ -1148,10 +1135,10 @@ var
 
 var
   // Internal variables recording version information.
-  // When using the old GetVersion and GetVersionEx API functions to get version
-  // information these variables have the same value as the similarly named
-  // Win32XXX function in SysUtils. When the old API funtion aren't being used
-  // these value *may* vary from the SysUtils versions.
+  // When using the GetVersionEx API function to get version information these
+  // variables have the same value as the similarly named Win32XXX function in
+  // SysUtils. When the old API funtion aren't being used these value *may* vary
+  // from the SysUtils versions.
   InternalPlatform: Integer = 0;
   InternalMajorVersion: LongWord = 0;
   InternalMinorVersion: LongWord = 0;
@@ -1229,11 +1216,12 @@ begin
   Result := VerifyVersionInfo(POSVI, VER_PRODUCT_TYPE, ConditionalMask);
 end;
 
-// Checks if we are to use the GetVersion and GetVersionEx API functions to get
-// version information.
-// (these functions were deprecated in Windows 8.1).
+// Checks if we are to use the GetVersionEx API function to get version
+// information. (GetVersionEx was deprecated in Windows 8.1).
 function UseGetVersionAPI: Boolean;
 
+  // Checks if the current OS major and minor version is strictly less than the
+  // given major and minor version numbers
   function TestOSLT(Major, Minor: LongWord): Boolean;
   begin
     Result := Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo)
@@ -1241,14 +1229,12 @@ function UseGetVersionAPI: Boolean;
   end;
 
 begin
-  {$IFDEF IGNORE_OS_SPOOFING_FROM_VISTA_UP}
-  Result := TestOSLT(6, 0);
-  {$ELSE}
-  {$IFDEF IGNORE_OS_SPOOFING_FROM_8POINT1_UP}
+  {$IFNDEF DEBUG_NEW_API}
+  // Production code uses GetVersionEx if OS earlier than Windows 8.1
   Result := TestOSLT(6, 3);
   {$ELSE}
-  Result := True;
-  {$ENDIF}
+  // Debug code uses GetVersionEx if OS earlier than Windows Vista
+  Result := TestOSLT(6, 0);
   {$ENDIF}
 end;
 
@@ -1306,7 +1292,7 @@ begin
     Result := '';
 end;
 
-// Checks if host OS is Windows 2000 or earlier, included any Win9x OS.
+// Checks if host OS is Windows 2000 or earlier, including any Win9x OS.
 // This is a helper function for RegCreate and RegOpenKeyReadOnly and avoids
 // avoids using TPJOSInfo to ensure that an infinite loop is not set up with
 // TPJOSInfo calling back into RegCreate.
@@ -1422,6 +1408,7 @@ end;
 
 // Initialise global variables with extended OS version information if possible.
 procedure InitPlatformIdEx;
+
 type
   // Function type of the GetProductInfo API function
   TGetProductInfo = function(OSMajor, OSMinor, SPMajor, SPMinor: DWORD;
@@ -1435,7 +1422,7 @@ var
   GetProductInfo: TGetProductInfo;  // pointer to GetProductInfo API function
   SI: TSystemInfo;                  // structure from GetSystemInfo API call
 begin
-  // Load version query functions
+  // Load version query functions used externally to this routine
   VerSetConditionMask := LoadKernelFunc('VerSetConditionMask');
   {$IFDEF UNICODE}
   VerifyVersionInfo := LoadKernelFunc('VerifyVersionInfoW');
@@ -1454,7 +1441,7 @@ begin
     Win32ServicePackMinor := 0;
     // we don't use suite mask any more!
     Win32SuiteMask := 0;
-    // platform for all OSs tested for this way are NT: IsWindowsVersionEQ calls
+    // platform for all OSs tested for this way are NT: the NewGetVersion calls
     // below indirectly call VerifyVersionInfo API, which is only defined for
     // Windows 2000 and later.
     InternalPlatform := VER_PLATFORM_WIN32_NT;
@@ -1466,7 +1453,7 @@ begin
     if Win32ServicePackMajor > 0 then
       // tried to read this info from registry, but for some weird reason the
       // required value is reported as not existant by TRegistry, even though it
-      // is present
+      // is present in registry
       InternalCSDVersion := Format('Service Pack %d', [Win32ServicePackMajor]);
     // NOTE: It's going to be very slow to test for all possible build numbers,
     // so I've just hard wired them using the information at
@@ -1475,11 +1462,15 @@ begin
       6:
       begin
         case InternalMinorVersion of
-          0: InternalBuildNumber := 6000 + Win32ServicePackMajor; // Vista
-          1: InternalBuildNumber := 7600 + Win32ServicePackMajor; // Windows 7
+          {$IFDEF DEBUG_NEW_API}
+          0:
+            InternalBuildNumber := 6000 + Win32ServicePackMajor; // Vista
+          1:
+            InternalBuildNumber := 7600 + Win32ServicePackMajor; // Windows 7
           2:
             if Win32ServicePackMajor = 0 then
               InternalBuildNumber := 9200;  // Windows 8 (no known SPs)
+          {$ENDIF}
           3:
             if Win32ServicePackMajor = 0 then
               InternalBuildNumber := 9600;  // Windows 8.1 (no known SPs)
@@ -1672,7 +1663,7 @@ begin
         // According to MSDN we can't rely on VER_SUITE_SMALLBUSINESS since it
         // is not removed when upgrading to standard or enterprises editions.
         // When installing Small Business edition both VER_SUITE_SMALLBUSINESS
-        // and VER_SUITE_SMALLBUSINESS_RESTRICTED are set. When installed
+        // and VER_SUITE_SMALLBUSINESS_RESTRICTED are set. When installing
         // standard edition VER_SUITE_SMALLBUSINESS_RESTRICTED gets unset while
         // VER_SUITE_SMALLBUSINESS remains. So, we first check for the
         // Enterprise edition and exclude Small Business if we find that.
@@ -2615,5 +2606,4 @@ initialization
 InitPlatformIdEx;
 
 end.
-
 

@@ -195,7 +195,39 @@ type
   {$ENDIF}
 
 const
+
   // Windows constants possibly not defined in all supported Delphi VCLs
+
+  // Conditional consts ued in VerSetConditionMask calls
+  VER_EQUAL         = 1; // current value = specified value.
+  VER_GREATER       = 2; // current value > specified value.
+  VER_GREATER_EQUAL = 3; // current value >= specified value.
+  VER_LESS          = 4; // current value < specified value.
+  VER_LESS_EQUAL    = 5; // current value <= specified value.
+
+  // Platform ID defines
+  // these are not included in Windows unit of all supported Delphis
+  VER_BUILDNUMBER       = $00000004;
+  VER_MAJORVERSION      = $00000002;
+  VER_MINORVERSION      = $00000001;
+  VER_PLATFORMID        = $00000008;
+  VER_SERVICEPACKMAJOR  = $00000020;
+  VER_SERVICEPACKMINOR  = $00000010;
+  VER_SUITENAME         = $00000040;
+  VER_PRODUCT_TYPE      = $00000080;
+
+  // Constants from sdkddkver.h
+  _WIN32_WINNT_NT4      = $0400; // Windows NT 4
+  _WIN32_WINNT_WIN2K    = $0500; // Windows 2000
+  _WIN32_WINNT_WINXP    = $0501; // Windows XP
+  _WIN32_WINNT_WS03     = $0502; // Windows Server 2003
+  _WIN32_WINNT_WIN6     = $0600; // Windows Vista
+  _WIN32_WINNT_VISTA    = $0600; // Windows Vista
+  _WIN32_WINNT_WS08     = $0600; // Windows Server 2008
+  _WIN32_WINNT_LONGHORN = $0600; // Windows 7
+  _WIN32_WINNT_WIN7     = $0601; // Windows 7
+  _WIN32_WINNT_WIN8     = $0602; // Windows 8
+  _WIN32_WINNT_WINBLUE  = $0603; // Windows 8.1
 
   // These Windows-defined constants are required for use with TOSVersionInfoEx
   // NT Product types
@@ -1133,38 +1165,6 @@ var
 const
   KEY_WOW64_64KEY = $0100;  // registry access flag not defined in all Delphis
 {$ENDIF}
-
-const
-  // Conditional consts ued in VerSetConditionMask calls
-  VER_EQUAL         = 1; // current value = specified value.
-  VER_GREATER       = 2; // current value > specified value.
-  VER_GREATER_EQUAL = 3; // current value >= specified value.
-  VER_LESS          = 4; // current value < specified value.
-  VER_LESS_EQUAL    = 5; // current value <= specified value.
-
-  // Platform ID defines
-  // these are not included in Windows unit of all supported Delphis
-  VER_BUILDNUMBER       = $00000004;
-  VER_MAJORVERSION      = $00000002;
-  VER_MINORVERSION      = $00000001;
-  VER_PLATFORMID        = $00000008;
-  VER_SERVICEPACKMAJOR  = $00000020;
-  VER_SERVICEPACKMINOR  = $00000010;
-  VER_SUITENAME         = $00000040;
-  VER_PRODUCT_TYPE      = $00000080;
-
-  // Constants from sdkddkver.h
-  _WIN32_WINNT_NT4      = $0400; // Windows NT 4
-  _WIN32_WINNT_WIN2K    = $0500; // Windows 2000
-  _WIN32_WINNT_WINXP    = $0501; // Windows XP
-  _WIN32_WINNT_WS03     = $0502; // Windows Server 2003
-  _WIN32_WINNT_WIN6     = $0600; // Windows Vista
-  _WIN32_WINNT_VISTA    = $0600; // Windows Vista
-  _WIN32_WINNT_WS08     = $0600; // Windows Server 2008
-  _WIN32_WINNT_LONGHORN = $0600; // Windows 7
-  _WIN32_WINNT_WIN7     = $0601; // Windows 7
-  _WIN32_WINNT_WIN8     = $0602; // Windows 8
-  _WIN32_WINNT_WINBLUE  = $0603; // Windows 8.1
 
 // Tests Windows version (major, minor, service pack major & service pack minor)
 // against the given values using the given comparison condition and return

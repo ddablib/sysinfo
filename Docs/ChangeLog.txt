@@ -11,6 +11,23 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.0.0 of 27 February 2014
++ Changed how operating system information is obtained and reported when running on Windows 8.1 (and later) in order to conform to API changes introduced by Microsoft in Windows 8.1. As a consequence when running on Windows 8.1 and later OS information for the installed OS will always be reported regardless of whether the host program is running in compatibility. On Windows 8 and earlier running in a compatibility mode will continue to cause OS information to be "spoofed" to reflect the emulated OS.
++ New compile option to help debug the Windows 8.1 method of OS information when using any OS back to Windows Vista.
++ Added new TPJOSInfo.CanSpoof method that indicates if compatibility mode will affect (spoof) reported OS information on the current operating system.
++ Windows 8.1 and Windows 2012 Server R2 are now detected and reported.
++ Windows XP Home Edition is now detected correctly.
++ Numerous new methods added to TPJOSInfo that can detect if the current OS is greater than or equal to a given OS. These methods are not affected by compatibility mode regardless of the compile option used. There is one method for every OS version and service pack from Windows 2000 onwards.
++ New TPJOSInfo.IsWindowsServer method that detects if the OS is a server in a manner not affected by compatibility mode for Windows 2000 and later.
++ New TPJOSInfo.InstallationDate method that returns the date the OS is installed.
++ New global variables added that are analogues of the SysUtils Win32*** variables but that are not affected by compatibility mode when run on Windows 8.1 or later.
++ New constants relating to obtaining version information not defined by all supported versions of Delphi have been added to the unit's interface section.
++ Updated demos:
+  - Both VCL and FireMonkey 2 demos revised to display output of all new TPJOSInfo methods and new global variables.
+  - VCL demo no longer scrolls when displaying lists of information that exceed window height.
++ Delphi 3 is no longer supported by the unit.
++ Updated documentation.
+
 Release v4.0.3 of 11 January 2014
 + Fixed problem with compiler directives in System Information Unit that was causing compilation to fail on Delphi XE5.
 + Minor documentation tweaks and corrections.
@@ -21,7 +38,7 @@ Release v4.0.2 of 29 October 2013
 Release v4.0.1 of 28 January 2013
 + Fixed bug in TPJOSInfo.RegisteredOrganisation (issue #23 - http://bit.ly/SZ4ohf)
 
-Release v4.0 of 20 January 2013
+Release v4.0.0 of 20 January 2013
 + PJSysInfo.pas is now compatible with Delphi 32 and 64 bit compilers and will compile with both VCL and FireMonkey 2 frameworks on Windows.
 + Added numerous new methods:
   - TPJComputerInfo: "IsAdmin", "IsUACActive", "BiosVendor", "ProcessorIdentifier", "ProcessorName", "SystemManufacturer" & "SystemProductName".
@@ -44,7 +61,7 @@ Release v4.0 of 20 January 2013
 + Revised documentation and changed link to online help.
 + Demos placed in public domain.
 
-Release v3.4 of 24 October 2012
+Release v3.4.0 of 24 October 2012
 + Modified TPJOSInfo to detect Windows 8 and Windows 2012 Server.
 + Added new PRODUCT_* constants and descriptions.
 + Updated demo to display newly added OS versions.
@@ -56,7 +73,7 @@ Release v3.3.1 of 07 April 2010
 + Fixed bug (issue #14) to correctly read from registry on Windows 64 systems. NOTE: This bug may persist when compiled with old Delphis (pre Delphi 6).
 + Corrected buffer sizes used when TPJComputerInfo's ComputerName and UserName methods access Windows API functions.
 
-Release v3.3 of 31 December 2009
+Release v3.3.0 of 31 December 2009
 + Added new TPJOSInfo.IsRemoteSession method to check if the executable is running under Windows Terminal Server as a remote session.
 + Updated help file accordingly.
 
@@ -67,7 +84,7 @@ Release v3.2.1 of 14 November 2009
 + Prevented warnings on Delphi 4 when compiling without deprecated components.
 + Updated documentation.
 
-Release v3.2 of 27 September 2009
+Release v3.2.0 of 27 September 2009
 + Added some further PRODUCT_* constants that are new for Windows 7 / 2008 Server R2.
 + Changed character set handling to take account of Unicode and non-Unicode compilers.
 + Unit, but not demo, can now be compiled on Delphi 3.
@@ -75,7 +92,7 @@ Release v3.2 of 27 September 2009
 + All exceptions raised are now of type EPJsysInfo.
 + Updated documentation.
 
-Release v3.1 of 13 April 2009
+Release v3.1.0 of 13 April 2009
 + Updated help file re revised static classes.
 + Revised demo program by adding output for new methods.
 + Added further PROCESSOR_ARCHITECTURE_*, PROCESSOR_* and PRODUCT_* constants.
@@ -87,7 +104,7 @@ Release v3.1 of 13 April 2009
 + Added TPJSystemFolders.SystemWow64 method.
 + Product name of unknown later Windows version now contains major and minor version numbers.
 
-Release v3.0 of 15 April 2008
+Release v3.0.0 of 15 April 2008
 + Added support for GetProductInfo API (Vista)
 + Added support for Windows 2008 server and 2003 server R2.
 + Rewrote code that gets OS edition.
@@ -104,13 +121,13 @@ Release v3.0 of 15 April 2008
   - Added output for new methods.
   - Removed demo of deprecated code.
 
-Release v2.1 of 15 October 2006
+Release v2.1.0 of 15 October 2006
 + Added new TPJComputerInfo.MACAddress method that gets the MAC address of the first available network card.
 
 Release v2.0.1 of 07 January 2006
 + Fixed bug in TPJOSInfo.ProductName method when running on Windows 2003.
 
-Release v2.0 of 13 November 2005
+Release v2.0.0 of 13 November 2005
 + Added new static classes that duplicate and extend the features of the TPJSysInfo component:
   - TPJComputerInfo: provides information about the host computer;
   - TPJSystemFolders: gets paths to system folders;
@@ -128,7 +145,7 @@ Release v2.0 of 13 November 2005
 + Added A-link keywords file for integration into Delphi 6/7 help systems.
 + Updated demo program re new features.
 
-Release v1.2 of 30 June 2003
+Release v1.2.0 of 30 June 2003
 + Updated palette name to "DelphiDabbler" from "PJ Stuff".
 + Added support for Windows 2003 server to OS detection functions.
 + Removed requirement for Registry unit by accessing registry via Windows API where required.
@@ -138,8 +155,8 @@ Release v1.2 of 30 June 2003
 + Updated help file.
 + Added new demo application.
 
-Release v1.1 of 25 November 2001
+Release v1.1.0 of 25 November 2001
 + Added functions and component properties to retrieve Program Files and Common Files folders.
 
-Release v1.0 of 10 November 2001
+Release v1.0.0 of 10 November 2001
 + Original version.

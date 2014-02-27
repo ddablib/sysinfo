@@ -1426,9 +1426,12 @@ type
   // Function type of the GetProductInfo API function
   TGetProductInfo = function(OSMajor, OSMinor, SPMajor, SPMinor: DWORD;
     out ProductType: DWORD): BOOL; stdcall;
+  // Function type of the GetVersionEx API function
+  TGetVersionEx = function(var lpVersionInformation: TOSVersionInfoEx): BOOL;
+    stdcall;
 var
   OSVI: TOSVersionInfoEx;           // extended OS version info structure
-  POSVI: POSVersionInfo;            // pointer to OS version info structure
+  GetVersionEx: TGetVersionEx;      // pointer to GetVersionEx API function
   GetProductInfo: TGetProductInfo;  // pointer to GetProductInfo API function
   SI: TSystemInfo;                  // structure from GetSystemInfo API call
 begin
@@ -1499,24 +1502,23 @@ begin
   end
   else
   begin
-    // Get internal version information from SysUtils.Win32XXX routines, which
-    // in turn gets it from GetVersion or GetVersionEx API.
+    // Get internal OS version information from SysUtils.Win32XXX routines,
+    // which in turn gets it from GetVersion or GetVersionEx API call in
+    // SysUtils.
     InternalPlatform := Win32Platform;
     InternalMajorVersion := Win32MajorVersion;
     InternalMinorVersion := Win32MinorVersion;
     InternalBuildNumber := Win32BuildNumber;
     InternalCSDVersion := Win32CSDVersion;
-    // Clear the structure
-    FillChar(OSVI, SizeOf(OSVI), 0);
-    // Get pointer to structure of non-extended type (GetVersionEx requires a
-    // non-extended structure and we need this pointer to get it to accept our
-    // extended structure!!)
-    {$TYPEDADDRESS OFF}
-    POSVI := @OSVI;
-    {$TYPEDADDRESS ON}
     // Try to get extended information
+    {$IFDEF UNICODE}
+    GetVersionEx := LoadKernelFunc('GetVersionExW');
+    {$ELSE}
+    GetVersionEx := LoadKernelFunc('GetVersionExA');
+    {$ENDIF}
+    FillChar(OSVI, SizeOf(OSVI), 0);
     OSVI.dwOSVersionInfoSize := SizeOf(TOSVersionInfoEx);
-    Win32HaveExInfo := GetVersionEx(POSVI^);
+    Win32HaveExInfo := GetVersionEx(OSVI);
     if Win32HaveExInfo then
     begin
       // We have extended info: store details in global vars

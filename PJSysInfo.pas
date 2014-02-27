@@ -67,7 +67,7 @@ unit PJSysInfo;
 // of only Windows 8.1 and later.
 // *** IMPORTANT: Ensure that DEBUG_NEW_API is NOT defined in production code.
 
-{$DEFINE DEBUG_NEW_API}
+{.$DEFINE DEBUG_NEW_API}
 
 
 // Conditional defines

@@ -37,6 +37,7 @@ type
       overload;
     procedure DisplayItem(const Name: string; const Value: TPJOSProduct);
       overload;
+    procedure DisplayItem(const Name: string; const Value: TDateTime); overload;
     procedure ShowContent(Tab: Integer);
     procedure ShowWin32Globals;
     procedure ShowTPJOSInfo;
@@ -53,6 +54,11 @@ uses
   SysUtils;
 
 {$R *.DFM}
+
+function SameDateTime(const A, B: TDateTime): Boolean;
+begin
+  Result := Abs(A - B) < (1 / MSecsPerDay);
+end;
 
 procedure TDemoForm.DisplayHeading(const Title: string);
 begin
@@ -98,6 +104,15 @@ const
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);
+end;
+
+procedure TDemoForm.DisplayItem(const Name: string;
+  const Value: TDateTime);
+begin
+  if SameDateTime(Value, 0.0) then
+    DisplayItem(Name, 'Unknown')
+  else
+    DisplayItem(Name, DateTimeToStr(Value));
 end;
 
 procedure TDemoForm.DisplayRuleOff;
@@ -167,6 +182,7 @@ begin
   DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
   DisplayItem('Description', TPJOSInfo.Description);
   DisplayItem('Edition', TPJOSInfo.Edition);
+  DisplayItem('InstallationDate', TPJOSInfo.InstallationDate);
   DisplayItem('IsServer', TPJOSInfo.IsServer);
   DisplayItem('IsWin32s', TPJOSInfo.IsWin32s);
   DisplayItem('IsWin9x', TPJOSInfo.IsWin9x);
@@ -187,6 +203,7 @@ begin
   DisplayItem('HasPenExtensions', TPJOSInfo.HasPenExtensions);
   DisplayItem('RegisteredOrganisation', TPJOSInfo.RegisteredOrganisation);
   DisplayItem('RegisteredOwner', TPJOSInfo.RegisteredOwner);
+  DisplayRuling;
   DisplayItem('CanSpoof', TPJOSInfo.CanSpoof);
   DisplayItem('IsReallyWindows2000OrGreater',
     TPJOSInfo.IsReallyWindows2000OrGreater);

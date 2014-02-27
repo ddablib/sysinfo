@@ -38,7 +38,6 @@ type
     procedure DisplayItem(const Name: string; const Value: Integer); overload;
     procedure DisplayItem(const Name: string; const Value: TPJOSPlatform);
       overload;
-    procedure DisplayItem(const Name: string; const Value: TDateTime); overload;
     procedure DisplayItem(const Name: string; const Value: TPJOSProduct);
       overload;
     procedure ShowContent(Tab: Integer);
@@ -100,14 +99,6 @@ begin
   DisplayItem(Name, cOSProduct[Value]);
 end;
 
-procedure TForm1.DisplayItem(const Name: string; const Value: TDateTime);
-begin
-  if SameDateTime(Value, 0.0) then
-    DisplayItem(Name, 'Unknown')
-  else
-    DisplayItem(Name, DateTimeToStr(Value));
-end;
-
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   TabControl1.ActiveTab := tiComputerInfo;
@@ -156,7 +147,10 @@ begin
   DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
   DisplayItem('Description', TPJOSInfo.Description);
   DisplayItem('Edition', TPJOSInfo.Edition);
-  DisplayItem('InstallationDate', TPJOSInfo.InstallationDate);
+  if SameDateTime(TPJOSInfo.InstallationDate, 0.0) then
+    DisplayItem('InstallationDate', 'Unknown')
+  else
+    DisplayItem('InstallationDate', DateTimeToStr(TPJOSInfo.InstallationDate));
   DisplayItem('IsServer', TPJOSInfo.IsServer);
   DisplayItem('IsWin32s', TPJOSInfo.IsWin32s);
   DisplayItem('IsWin9x', TPJOSInfo.IsWin9x);

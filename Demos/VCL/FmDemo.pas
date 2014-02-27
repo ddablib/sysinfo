@@ -37,7 +37,6 @@ type
       overload;
     procedure DisplayItem(const Name: string; const Value: TPJOSProduct);
       overload;
-    procedure DisplayItem(const Name: string; const Value: TDateTime); overload;
     procedure ShowContent(Tab: Integer);
     procedure ShowWin32Globals;
     procedure ShowTPJOSInfo;
@@ -104,15 +103,6 @@ const
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);
-end;
-
-procedure TDemoForm.DisplayItem(const Name: string;
-  const Value: TDateTime);
-begin
-  if SameDateTime(Value, 0.0) then
-    DisplayItem(Name, 'Unknown')
-  else
-    DisplayItem(Name, DateTimeToStr(Value));
 end;
 
 procedure TDemoForm.DisplayRuleOff;
@@ -182,7 +172,10 @@ begin
   DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
   DisplayItem('Description', TPJOSInfo.Description);
   DisplayItem('Edition', TPJOSInfo.Edition);
-  DisplayItem('InstallationDate', TPJOSInfo.InstallationDate);
+  if SameDateTime(TPJOSInfo.InstallationDate, 0.0) then
+    DisplayItem('InstallationDate', 'Unknown')
+  else
+    DisplayItem('InstallationDate', DateTimeToStr(TPJOSInfo.InstallationDate));
   DisplayItem('IsServer', TPJOSInfo.IsServer);
   DisplayItem('IsWin32s', TPJOSInfo.IsWin32s);
   DisplayItem('IsWin9x', TPJOSInfo.IsWin9x);

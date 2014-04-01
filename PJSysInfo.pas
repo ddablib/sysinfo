@@ -1242,7 +1242,7 @@ end;
 procedure NewGetVersion(out Major, Minor: LongWord; out SPMajor, SPMinor: Word);
 begin
   Major := 6;   // lowest version to use this code has major version 6
-  Minor := High(LongWord);
+  Minor := High(Word);
   SPMajor := High(Word);
   SPMinor := High(Word);
   while TestWindowsVersion(Major, Minor, SPMajor, SPMinor, VER_GREATER) do

@@ -61,12 +61,15 @@
 unit PJSysInfo;
 
 
+// Define DEBUG whenever debugging.
+// *** IMPORTANT: Ensure that DEBUG is NOT defined in production code.
+{.$DEFINE DEBUG}
+
 // Define DEBUG_NEW_API if debugging on Windows Vista to Windows 8 in order to
 // check that the new version API used for Windows 8.1 and later is working.
 // This will cause the new API to be used for Windows Vista and later instead
 // of only Windows 8.1 and later.
 // *** IMPORTANT: Ensure that DEBUG_NEW_API is NOT defined in production code.
-
 {.$DEFINE DEBUG_NEW_API}
 
 
@@ -116,6 +119,12 @@ unit PJSysInfo;
 {$IFDEF WARNDIRS}
   {$WARN UNSAFE_TYPE OFF}
   {$WARN UNSAFE_CODE OFF}
+{$ENDIF}
+
+// Switch on range checking when debugging. In production code it's the user's
+// choice whether to use range checking or not
+{$IFDEF DEBUG}
+  {$RANGECHECKS ON}
 {$ENDIF}
 
 
@@ -1238,7 +1247,7 @@ begin
   {$ENDIF}
 end;
 
-// Gets Windows version by probing for possible versions using
+// Gets Windows version by probing for possible versions
 procedure NewGetVersion(out Major, Minor: LongWord; out SPMajor, SPMinor: Word);
 begin
   Major := 6;   // lowest version to use this code has major version 6

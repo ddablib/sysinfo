@@ -11,6 +11,11 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.0.1 of 04 April 2014
++ Fixed issue #29 (http://bit.ly/1eeLnxC) "Out of range error" that occurred when using Windows 8.1 or Windows Server 2012 R2.
++ Added support for DEBUG symbol to force range checking to be on for debugging purposes.
++ Minor changes to documentation.
+
 Release v5.0.0 of 27 February 2014
 + Changed how operating system information is obtained and reported when running on Windows 8.1 (and later) in order to conform to API changes introduced by Microsoft in Windows 8.1. As a consequence when running on Windows 8.1 and later OS information for the installed OS will always be reported regardless of whether the host program is running in compatibility. On Windows 8 and earlier running in a compatibility mode will continue to cause OS information to be "spoofed" to reflect the emulated OS.
 + New compile option to help debug the Windows 8.1 method of OS information when using any OS back to Windows Vista.

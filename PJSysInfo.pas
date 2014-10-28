@@ -36,7 +36,7 @@
  *   - Laurent Pierre (PRODUCT_* constants and suggested GetProductInfo API code
  *     used in v3.0)
  *
- *   - Rich Habedank (bug fix in revision 228)
+ *   - Rich Habedank (bug fix in revision 228 and testing of bug fix in r1967)
  *
  * The project also draws on the work of:
  *
@@ -1210,7 +1210,7 @@ begin
 end;
 
 // Checks if the OS has the given product type.
-// Assumes VerifyVersionInfo API function is available
+// Assumes VerifyVersionInfo and VerSetConditionMask API functions are available
 function IsWindowsProductType(ProductType: Byte): Boolean;
 var
   ConditionalMask: UInt64;
@@ -1233,8 +1233,9 @@ function UseGetVersionAPI: Boolean;
   // given major and minor version numbers
   function TestOSLT(Major, Minor: LongWord): Boolean;
   begin
-    Result := Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo)
-      and TestWindowsVersion(Major, Minor, 0, 0, VER_LESS);
+    Result := not Assigned(VerSetConditionMask)
+      or not Assigned(VerifyVersionInfo)
+      or TestWindowsVersion(Major, Minor, 0, 0, VER_LESS);
   end;
 
 begin
@@ -1438,7 +1439,6 @@ begin
   {$ELSE}
   VerifyVersionInfo := LoadKernelFunc('VerifyVersionInfoA');
   {$ENDIF}
-
   if not UseGetVersionAPI then
   begin
     // Not using GetVersion and GetVersionEx functions to get version info

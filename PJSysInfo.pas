@@ -36,7 +36,9 @@
  *   - Laurent Pierre (PRODUCT_* constants and suggested GetProductInfo API code
  *     used in v3.0)
  *
- *   - Rich Habedank (bug fix in r228 and testing of bug fix in r1967)
+ *   - Rich Habedank (bug fix in r228 and testing of bug fixes reported as
+ *     issues #31 (https://code.google.com/p/ddab-lib/issues/detail?id=31) and
+ *     #33 (https://code.google.com/p/ddab-lib/issues/detail?id=33)
  *
  * The project also draws on the work of:
  *
@@ -51,7 +53,7 @@
  *   - Kendall Sullivan for the code on which TPJComputerInfo.IsAdmin is based.
  *     See http://edn.embarcadero.com/article/26752.
  *
- *   - norgepaul for the code which TPJComputerInfo.IsUACActive is based. See
+ *   - norgepaul for the code on which TPJComputerInfo.IsUACActive is based. See
  *     his answer on Stack Overflow at http://tinyurl.com/avlztmg.
  *
  * ***** END LICENSE BLOCK *****
@@ -1954,9 +1956,13 @@ end;
 
 class function TPJOSInfo.IsServer: Boolean;
 begin
-  if Win32HaveExInfo then
+  if InternalPlatform <> VER_PLATFORM_WIN32_NT then
+    // Not WinNT platform => can't be a server
+    Result := False
+  else if Win32HaveExInfo then
     // Check product type from extended OS info
-    Result := Win32ProductType <> VER_NT_WORKSTATION
+    Result := (Win32ProductType = VER_NT_DOMAIN_CONTROLLER)
+      or (Win32ProductType = VER_NT_SERVER)
   else
     // Check product type stored in registry
     Result := CompareText(ProductTypeFromReg, 'WINNT') <> 0;;

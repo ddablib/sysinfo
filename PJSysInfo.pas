@@ -25,7 +25,7 @@
  *     host program in compatibility mode causes some variables and TPJOSInfo
  *     methods to be "spoofed" into returning information about the emulated
  *     OS. When run on Windows 8.1 and later details of the actual host
- *     operating system are always returned and the emaulated OS is ignored.
+ *     operating system are always returned and the emulated OS is ignored.
  *
  * ACKNOWLEDGEMENTS
  *
@@ -36,7 +36,7 @@
  *   - Laurent Pierre (PRODUCT_* constants and suggested GetProductInfo API code
  *     used in v3.0)
  *
- *   - Rich Habedank (bug fix in revision 228 and testing of bug fix in r1967)
+ *   - Rich Habedank (bug fix in r228 and testing of bug fix in r1967)
  *
  * The project also draws on the work of:
  *
@@ -52,7 +52,7 @@
  *     See http://edn.embarcadero.com/article/26752.
  *
  *   - norgepaul for the code which TPJComputerInfo.IsUACActive is based. See
- *     his anser on Stack Overflow at http://tinyurl.com/avlztmg.
+ *     his answer on Stack Overflow at http://tinyurl.com/avlztmg.
  *
  * ***** END LICENSE BLOCK *****
 }
@@ -198,7 +198,7 @@ const
 
   // Windows constants possibly not defined in all supported Delphi VCLs
 
-  // Conditional consts ued in VerSetConditionMask calls
+  // Conditional consts used in VerSetConditionMask calls
   VER_EQUAL         = 1; // current value = specified value.
   VER_GREATER       = 2; // current value > specified value.
   VER_GREATER_EQUAL = 3; // current value >= specified value.
@@ -255,7 +255,7 @@ const
 
   // These Windows-defined constants are required for use with the
   // GetProductInfo API call used with Windows Vista and later
-  // ** Thanks to Laurent Pierre for providing these defintions.
+  // ** Thanks to Laurent Pierre for providing these definitions.
   // ** Additional definitions were obtained from
   //    http://msdn.microsoft.com/en-us/library/ms724358
   PRODUCT_BUSINESS                            = $00000006;
@@ -579,7 +579,7 @@ type
     ///  platform.</remarks>
     class function Edition: string;
 
-    ///  <summary>Returns a full descriptuon of the host OS.</summary>
+    ///  <summary>Returns a full description of the host OS.</summary>
     class function Description: string;
 
     ///  <summary>Returns the Windows product ID of the host OS.</summary>
@@ -721,7 +721,7 @@ type
     ///  <summary>Returns name of currently logged on user.</summary>
     class function UserName: string;
 
-    ///  <summary>Returns MAC address of 1st ethernet adapter on host computer.
+    ///  <summary>Returns MAC address of 1st Ethernet adapter on host computer.
     ///  or empty string if no such adapter is found.
     ///  </summary>
     ///  <remarks>**WARNING** may be unreliable - see comments in
@@ -918,7 +918,7 @@ uses
 
 resourcestring
   // Error messages
-  sUnknownPlatform = 'Unrecognized operating system platform';
+  sUnknownPlatform = 'Unrecognised operating system platform';
   sUnknownProduct = 'Unrecognised operating system product';
   sBadRegType =  'Unsupported registry type';
   sBadProcHandle = 'Bad process handle';
@@ -1146,8 +1146,8 @@ var
   // Internal variables recording version information.
   // When using the GetVersionEx API function to get version information these
   // variables have the same value as the similarly named Win32XXX function in
-  // SysUtils. When the old API funtion aren't being used these value *may* vary
-  // from the SysUtils versions.
+  // SysUtils. When the old API function aren't being used these value *may* 
+  // vary from the SysUtils versions.
   InternalPlatform: Integer = 0;
   InternalMajorVersion: LongWord = 0;
   InternalMinorVersion: LongWord = 0;
@@ -1320,7 +1320,7 @@ end;
 function RegCreate: TRegistry;
 begin
   {$IFDEF REGACCESSFLAGS}
-  //! Fix for issue #14 (http://bit.ly/eWkw9X) suggested by Steffen Schaff.
+  //! Fix for issue #14 (http://bit.n/eWkw9X) suggested by Steffen Schaff.
   //! Later modified to allow for fact that Windows 2000 fails if
   //! KEY_WOW64_64KEY is used.
   if IsWin2000OrEarlier then
@@ -1579,7 +1579,7 @@ end;
 
 class function TPJOSInfo.Description: string;
 
-  // Adds a non-empty string to end of result, preceeded by space.
+  // Adds a non-empty string to end of result, preceded by space.
   procedure AppendToResult(const Str: string);
   begin
     if Str <> '' then

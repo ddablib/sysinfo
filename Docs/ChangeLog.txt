@@ -11,6 +11,10 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.0.2 of 30 October 2014
++ Fixed issue #31 "PJSysInfo v5.0.1 does not work on earlier OSs" (http://bit.ly/1DyM9BP) where TPJOSInfo was causing an access violation when run on Windows 98.
++ Fixed issue #33 "IsServer and IsWindowsServer return True on Windows 98" (http://bit.ly/101tdPh).
+
 Release v5.0.1 of 04 April 2014
 + Fixed issue #29 (http://bit.ly/1eeLnxC) "Out of range error" that occurred when using Windows 8.1 or Windows Server 2012 R2.
 + Added support for DEBUG symbol to force range checking to be on for debugging purposes.

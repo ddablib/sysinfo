@@ -650,87 +650,102 @@ type
 
     ///  <summary>Checks whether the OS is Windows XP or greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindowsXPOrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows XP Service Pack 1 or greater.
     ///  </summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindowsXPSP1OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows XP Service Pack 2 or greater.
     ///  </summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindowsXPSP2OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows XP Service Pack 3 or greater.
     ///  </summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindowsXPSP3OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows Vista or greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindowsVistaOrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows Vista Service Pack 1 or
     ///  greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindowsVistaSP1OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows Vista Service Pack 2 or
     ///  greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindowsVistaSP2OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows 7 or greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindows7OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows 7 Service Pack 1 or greater.
     ///  </summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindows7SP1OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows 8 or greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindows8OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows 8.1 or greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force or whether a suitable
+    ///  manifest file is present.</remarks>
     class function IsReallyWindows8Point1OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows 10 or greater.</summary>
     ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  regardless of any compatibility mode in force, but DOES require that
+    ///  the correct manifest file is present.</remarks>
     class function IsReallyWindows10OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks if the OS is a server version.</summary>
-    ///  <remarks>For Windows 2000 and later the result always relates to the
+    ///  <remarks>
+    ///  <para>For Windows 2000 and later the result always relates to the
     ///  actual OS, regardless of any compatibility mode in force. For versions
     ///  prior to Windows 2000 this method will take note of compatibility modes
-    ///  and returns the same value as TPJOSInfo.IsServer.</remarks>
+    ///  and returns the same value as TPJOSInfo.IsServer.</para>
+    ///  <para>WARNING: For Windows 10 this method is likely to succeed only if
+    ///  the application is correctly manifested.</para>
     class function IsWindowsServer: Boolean;
   end;
 
@@ -1271,8 +1286,8 @@ function UseGetVersionAPI: Boolean;
 
 begin
   {$IFNDEF DEBUG_NEW_API}
-  // Production code uses GetVersionEx if OS earlier than Windows 8.1
-  Result := TestOSLT(6, 3);
+  // Production code uses GetVersionEx if OS earlier than Windows 8.0
+  Result := TestOSLT(6, 2);
   {$ELSE}
   // Debug code uses GetVersionEx if OS earlier than Windows Vista
   Result := TestOSLT(6, 0);
@@ -2176,9 +2191,9 @@ begin
             3:
               // NOTE: Version 6.3 may only be reported by Windows if the
               // application is "manifested" for Windows 8.1. See
-              // http://bit.ly/MJSO8Q. I'm not clear whether getting the OS
-              // via VerifyVersionInfo instead of GetVersion or GetVersionEx
-              // works round this.
+              // http://bit.ly/MJSO8Q. Getting the OS via VerifyVersionInfo
+              // instead of GetVersion or GetVersionEx should work round this
+              // for Windows 8.1 (i.e. version 6.3).
               if not IsServer then
                 Result := osWin8Point1
               else
@@ -2192,9 +2207,10 @@ begin
         begin
           // NOTE: Version 10 and later may only be reported by Windows if the
           // application is "manifested" for the correct Windows version. See
-          // http://bit.ly/MJSO8Q. I'm not clear whether getting the OS via
-          // VerifyVersionInfo instead of GetVersion or GetVersionEx works round
-          // this.
+          // http://bit.ly/MJSO8Q. Previously, getting the OS from
+          // VerifyVersionInfo instead of GetVersion or GetVersionEx worked
+          // round this, but MS deprecated this in Windows 10, reverting
+          // VerifyVersionInfo to work like GetVersion. WHY????!!!!
           case InternalMinorVersion of
             0:
               if not IsServer then

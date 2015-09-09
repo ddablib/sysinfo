@@ -18,7 +18,8 @@ uses
   FmDemo in 'FmDemo.pas' {DemoForm},
   PJSysInfo in '..\..\PJSysInfo.pas';
 
-{$R *.RES}
+{$R 'MainIcon.res'}
+{$R 'Manifest.res'}
 
 begin
   Application.Initialize;

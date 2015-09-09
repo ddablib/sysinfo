@@ -1,0 +1,47 @@
+An alternative, for now, to the deprecated GetVersionEx API call is
+RtlGetVersion.
+
+Use this as follows:
+
+--------------------------------------------------------------------------------
+
+// After declaration of _OSVERSIONINFOEXW:
+// type
+  RTL_OSVERSIONINFOEXW = _OSVERSIONINFOEXW;
+  PRTL_OSVERSIONINFOEXW = POSVersionInfoExW;
+
+
+// In InitPlatformIdEx:
+
+type
+  ...
+  TRtlGetVersion = function(var RTL_OSVERSIONINFOEXW): LongInt; stdcall;
+  ...
+var
+  RTLVI: RTL_OSVERSIONINFOEXW;
+  RtlGetVersion: TRtlGetVersion;
+  ...
+begin
+
+  ...
+  @RtlGetVersion := GetProcAddress(
+    GetModuleHandle('ntdll.dll'), 'RtlGetVersion'
+  );
+  if Assigned(RtlGetVersion) then
+  begin
+    ZeroMemory(@RTLVI, SizeOf(RTLVI));
+    RTLVI.dwOSVersionInfoSize := SizeOf(RTLVI);
+    if RtlGetVersion(RTLVI) <> 0 then
+      Exit;
+    InternalPlatform := RTLVI.dwPlatformId;
+    InternalMajorVersion := RTLVI.dwMajorVersion;
+    InternalMinorVersion := RTLVI.dwMinorVersion;
+    InternalBuildNumber := RTLVI.dwBuildNumber;
+    InternalCSDVersion := RTLVI.szCSDVersion;
+    Win32ServicePackMajor := RTLVI.wServicePackMajor;
+    Win32ServicePackMinor := RTLVI.wServicePackMinor;
+    Win32SuiteMask := RTLVI.wSuiteMask;
+    Win32HaveExInfo := True;
+    Exit;
+  ...
+end;

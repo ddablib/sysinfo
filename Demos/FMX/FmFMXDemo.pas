@@ -93,7 +93,7 @@ const
     'osWin95', 'osWin98', 'osWinMe', 'osUnknownWin32s', 'osWinSvr2003',
     'osUnknown', 'osWinVista', 'osWinSvr2003R2', 'osWinSvr2008',
     'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012',
-    'osWin8Point1', 'osWinSvr2012R2'
+    'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr'
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);
@@ -204,6 +204,8 @@ begin
     TPJOSInfo.IsReallyWindows8OrGreater);
   DisplayItem('IsReallyWindows8Point1OrGreater',
     TPJOSInfo.IsReallyWindows8Point1OrGreater);
+  DisplayItem('IsReallyWindows10OrGreater',
+    TPJOSInfo.IsReallyWindows8OrGreater);
   DisplayItem('IsWindowsServer', TPJOSInfo.IsWindowsServer);
 end;
 

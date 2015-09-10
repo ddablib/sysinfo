@@ -16,7 +16,8 @@ uses
   FmFMXDemo in 'FmFMXDemo.pas' {Form1},
   PJSysInfo in '..\..\PJSysInfo.pas';
 
-{$R *.res}
+{$R 'MainIcon.res'}
+{$R 'Manifest.res'}
 
 begin
   Application.Initialize;

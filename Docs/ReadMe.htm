@@ -299,10 +299,11 @@
   </li>
   <li>
     For Windows 10 (<var>PJSysInfo</var> v5.1 only) the reported operating
-    system cannot be spoofed, but in the absence of a suitable manifest the
-    version will be reported as Windows 8 instead of Windows 10. This also
-    affects <var>TPJOSInfo.IsReallyWindows10OrGreater</var>, meaning it's not so
-    well named!
+    system cannot be spoofed regardless of whether a suitable manifest is
+    compiled into resource. However, in absence of a such a manifest the version
+    will be reported as Windows 8 instead of Windows 10. This also affects
+    <var>TPJOSInfo.IsReallyWindows10OrGreater</var>, meaning it's not so well
+    named any more!
   </li>
 </ul>
 

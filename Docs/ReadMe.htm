@@ -147,6 +147,7 @@
 <body>
 
 <h1>
+
   <div>System Information Unit</div>
   <div class="subtitle">ReadMe</div>
 </h1>
@@ -214,33 +215,58 @@
 <p>
   With the release of Windows 8.1 Microsoft made a controversial decision to
   deprecate the <var>GetVersion***</var> API functions. These have always been
-  used <em>System Information Unit</em> to get OS information. In addition when
-  interrogated using the <var>GetVersion***</var> functions Windows 8.1
-  represents itself as Windows 8 unless the host program has a <a
+  used by the <em>System Information Unit</em> to get OS information. A new
+  method of checking operating system version was recommended using the
+  <var>VerifyVersionInfo</var> API. Unbelievably, this API itself became
+  deprecated in Windows 10, but no viable alternative was introduced. In fact
+  the Windows 10 SDK still uses the newly deprecated API!
+</p>
+
+<p>
+  If the old <var>GetVersion***</var> approach is used Windows 8.1 represents
+  itself as Windows 8 unless the host program has a <a
     href="http://msdn.microsoft.com/en-us/library/windows/desktop/dn481241.aspx"
-  >special manifest</a>.
+  >special manifest</a>. Using the <var>VerifyVersionInfo</var> API gets round
+  that problem and Windows 8.1 reports itself as the correct version.
 </p>
 
 <p>
-  From release 5.0 the unit has been revised to use an alternative approach for
-  getting operating system information that avoids the use of the deprecated
-  API on Windows 8.1 and later.
+  For this reason release 5 of the System Information Unit was revised to use
+  the <var>VerifyVersionInfo</var> API for Windows 8.1 and later while retaining
+  the <var>GetVersion***</var> API for Windows 8 and earlier.
 </p>
 
 <p>
-  Apart from being more cumbersome and slower, the new approach differs from the
-  old in an important respect. When a program is run in compatibility mode the
-  old <var>GetVersion***</var> API functions would be fooled (or
-  &quot;spoofed&quot;) by Windows into reporting the version of the operating
-  system emulated by the compatibility mode (more or less!). This is the way the
-  unit has always behaved in the past. The new approach used for Windows 8.1
-  always returns information about the true operating system regardless of any
-  active compatibility mode. It is not possible to use the the new approach for
-  older versions of Windows.
+  With Windows 10, the now deprecated <var>VerifyVersionInfo</var> API only
+  reports Windows 10 correctly if the host program is <a
+    href="http://msdn.microsoft.com/en-us/library/windows/desktop/dn481241.aspx"
+  >manifested</a> correctly. If there is no suitable manifest then Windows 10
+  reports itself as Windows 8, regardless of the API used. Believe it or not,
+  this behaviour is as designed by Microsoft.
 </p>
 
 <p>
-  Herein lies an inconsistency. Thanks a bundle Microsoft!
+  Unfortunately, the decision made in release 5.0 of the <var>PJSysInfo</var>
+  unit to apply the <var>VerifyVersionInfo</var> only to Windows 8.1 and later
+  results in un-manifested applications running on Windows 10 reporting Windows
+  7 instead of Windows 8 as documented by Microsoft. To fix this problem the
+  <var>VerifyVersionInfo</var> API is now also used when running on Windows 8.
+</p>
+
+<p>
+  Apart from being more cumbersome and slower, the <var>VerifyVersionInfo</var>
+  API approach differs from the old approach in an important respect. When a
+  program is run in compatibility mode the old <var>GetVersion***</var> API
+  functions would be fooled (or&quot;spoofed&quot;) by Windows into reporting
+  the version of the operating system emulated by the compatibility mode (more
+  or less!). This is the way the unit has always behaved in the past. The new
+  approach used for Windows 8.1 introduced in v5.0 of this unit always returns
+  information about the true operating system regardless of any active
+  compatibility mode. As noted above, when adding support for Windows 10, in
+  version 5.1, the use of <var>VerifyVersionInfo</var> was extended to Windows
+  8, meaning that now Windows 8, 8.1 and 10 cannot be spoofed. This is a change
+  to the behaviour of v5.0 for Windows 8, meaning some code that depended on
+  being able to spoof Windows 8 may no longer work.
 </p>
 
 <p>
@@ -251,15 +277,49 @@
   <var>TPJOSInfo</var>.
 </p>
 
+<p>
+  In summary, we have several inconsistencies in <var>TPJOSInfo</var> all
+  because of some incomprehensible decisions made by Microsoft. They are:
+</p>
+
+<ul>
+  <li>
+    OSs up to and including Windows 7 SP 1 (<var>PJSysInfo</var> v5.1) or
+    Windows 8 (<var>PJSysInfo</var> v5.0) the reported operating system can
+    be &quot;spoofed&quot; by setting the host program's compatibility mode.
+    The exception is that the <var>TPJOSInfo.IsReallyWindowsXXXOrGreater</var>
+    methods for Windows 2000 and later will detect the actual operating system.
+  </li>
+  <li>
+    For Windows 8 and 8.1 (<var>PJSysInfo</var> v5.1) or Windows 8.1 only
+    (<var>PJSysInfo</var> v5.0) the reported operating system cannot be spoofed
+    using compatibility modes, and neither does the presence of a suitable
+    manifest file affect the returned values. This also applies to the relevant
+    <var>TPJOSInfo.IsReallyWindowsXXXOrGreater</var> methods.
+  </li>
+  <li>
+    For Windows 10 (<var>PJSysInfo</var> v5.1 only) the reported operating
+    system cannot be spoofed, but in the absence of a suitable manifest the
+    version will be reported as Windows 8 instead of Windows 10. This also
+    affects <var>TPJOSInfo.IsReallyWindows10OrGreater</var>, meaning it's not so
+    well named!
+  </li>
+</ul>
+
+<p>
+  After exploring and testing a lot of options this really is the best solution
+  I can find. <strong>Thanks a bundle Microsoft!</strong>
+</p>
+
 <h3>
   Debug Mode
 </h3>
 
 <p>
-  To enable the new Windows 8.1 OS information detection code to be debugged on
-  Windows Vista to Windows 8, developers can temporarily define the
-  <code>DEBUG_NEW_API</code> symbol. This causes the Windows 8.1 detection
-  method to used for Windows Vista and later.
+  To enable the new Windows 8 and later OS information detection code to be
+  debugged on Windows Vista and Windows 7, developers can temporarily define the
+  <code>DEBUG_NEW_API</code> symbol. This causes the same method used for
+  Windows 8 and later detection to used for Windows Vista and Windows 7.
 </p>
 
 <p>
@@ -274,8 +334,7 @@
 <p>
   Version 2 and earlier of the unit provided the <em>TPJSysInfo</em> component
   and various <var>SIGetxxx</var> functions. As of v3.0 these were deprecated
-  and included only if a certain symbol was defined. From v4.0 all the
-  deprecated code was removed.
+  and finally removed at v4.0.
 </p>
 
 <h3>
@@ -284,9 +343,9 @@
 
 <p>
   This unit is designed for compilation with the 32 bit and 64 bit Windows
-  Delphi compilers. It has been tested with Delphi 7, 2006, 2007, 2009, 2010,
-  XE and XE2 to XE4. An attempt has been made to retain compatibility back to
-  Delphi 4, but this has not been tested.
+  Delphi compilers. It has been tested with Delphi XE and XE4 only. An attempt
+  has been made to retain compatibility back to Delphi 4, but this has not been
+  tested.
 </p>
 
 <p>
@@ -306,16 +365,20 @@
 
 <ul>
   <li>
-    Windows 95 to Me (but the latest version has not been tested).
+    Windows 95 to Me
   </li>
   <li>
-    All 32 bit NT platform operating systems (tested on Windows Vista).
+    All 32 bit NT platform operating systems.
   </li>
   <li>
-    Windows 64 bit, either as part of a 32 bit or 64 bit process (tested on
-    Windows 7).
+    Windows 64 bit, either as part of a 32 bit or 64 bit process.
   </li>
 </ul>
+
+<p>
+  Operation on a 64 bit OS was last tested with Windows 10. Other OSs have not
+  been tested for release 5.1.
+</p>
 
 <p>
   The code is not suitable for non-Windows operating systems since it depends on
@@ -376,10 +439,7 @@
     it to your project.
   </li>
   <li>
-    For maximum portability you can add the unit to a Delphi package. If you
-    need help doing this <a
-      href="http://www.delphidabbler.com/url/install-comp"
-    >see here</a>.
+    For maximum portability you can add the unit to a Delphi package.
   </li>
 </ol>
 
@@ -393,7 +453,7 @@
 
 <p>
   The <em>System Information Unit</em> is fully <a
-    href="http://delphidabbler.com/url/sysinfo-docs"
+    href="https://github.com/delphidabbler/ddab-lib-docs/blob/master/Docs/SystemInformationUnit.md"
   >documented online</a>.
 </p>
 
@@ -412,7 +472,7 @@
 <p>
   Two demo projects are included in the download in the <code>Demos\VCL</code>
   and the <code>Demos\FMX</code> directories. The former compiles to a VCL
-  application using Delphi 7 or (and possibly even Delphi 4) or later while the
+  application using Delphi XE (and possibly even Delphi 4) or later while the
   latter uses the FireMonkey 2 framework and requires Delphi XE3 as a minimum.
   Both projects can be compiled to either Windows 32 bit or 64 bit targets.
 </p>
@@ -459,7 +519,7 @@
 
 <p>
   Bugs can be reported or new features requested via the <a
-    href="http://www.delphidabbler.com/url/ddlib-issues"
+    href="https://sourceforge.net/p/codesnip/_list/tickets"
   >Issue Tracker</a>.
 </p>
 
@@ -479,32 +539,19 @@
 </h2>
 
 <p>
-  I'm Peter Johnson &ndash; a hobbyist programmer living in Ceredigion in West
-  Wales, UK, writing write mainly in Delphi. My programs and code are available
-  from: <a
-    href="http://www.delphidabbler.com/"
-  >http://www.delphidabbler.com/</a>.
-</p>
-
-<p>
-  I can be <a
-    href="http://www.delphidabbler.com/contact"
-  >contacted via the website.</a>
+  I'm Peter Johnson (@delphidabbler) &ndash; a hobbyist programmer living in
+  Ceredigion in West Wales, UK, writing write mainly in Delphi.
 </p>
 
 <div class="endnotes">
 
   <div class="comments">
-    Please <a
-      href="http://www.delphidabbler.com/contact"
-    >let me know</a> if you have any comments about the component, but please
-    use the Issue Tracker noted above to report bugs and request new features.
+    Please use the Issue Tracker noted above to report bugs and request new
+    features.
   </div>
 
   <div class="copyright">
-    This document is copyright &copy; 2005-2014, P D Johnson, <a
-      href="http://www.delphidabbler.com/"
-    >www.delphidabbler.com</a>.
+    This document is copyright &copy; 2005-2015, P D Johnson (@delphidabbler).
   </div>
 
 </div>

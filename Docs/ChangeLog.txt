@@ -11,6 +11,13 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.1.0 of 11 September 2015
++ Added support for detecting Windows 10 for suitably manifested host applications.
++ Added new TPJOSInfo.IsReallyWindows10OrGreater method.
++ Changed so that Windows 8, in addition to Windows 8.1 and now Windows 10 can't be "spoofed". This was required so that Windows 8 will be reported when an un-manifested application is running on Windows 10, per Microsoft documentation. This is a breaking change from release 5.0.x.
++ Updated demo programs re support for detecting Windows 10 and to display result of new TPJOSInfo.IsReallyWindows10OrGreater method. Also added Windows 10 compatible manifest to each demo's resources.
++ Updated documentation re changes.
+
 Release v5.0.2 of 30 October 2014
 + Fixed issue #31 "PJSysInfo v5.0.1 does not work on earlier OSs" (http://bit.ly/1DyM9BP) where TPJOSInfo was causing an access violation when run on Windows 98.
 + Fixed issue #33 "IsServer and IsWindowsServer return True on Windows 98" (http://bit.ly/101tdPh).

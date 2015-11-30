@@ -166,6 +166,7 @@ begin
   DisplayItem('ProductID', TPJOSInfo.ProductID);
   DisplayItem('ProductName', TPJOSInfo.ProductName);
   DisplayItem('ServicePack', TPJOSInfo.ServicePack);
+  DisplayItem('ServicePackEx', TPJOSInfo.ServicePackEx);
   DisplayItem('ServicePackMajor', TPJOSInfo.ServicePackMajor);
   DisplayItem('ServicePackMinor', TPJOSInfo.ServicePackMinor);
   DisplayItem('HasPenExtensions', TPJOSInfo.HasPenExtensions);

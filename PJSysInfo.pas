@@ -577,11 +577,17 @@ type
     ///  <summary>Returns the name of any installed OS service pack.</summary>
     class function ServicePack: string;
 
-    ///  <summary>Returns any additional information about updates to an OS that
-    ///  are not declared as service packs.</summary>
-    ///  <remarks>At present used only to report known updates to Windows 10.
+    ///  <summary>Returns the name of any installed OS service pack along with
+    ///  other similar, detectable, updates.</summary>
+    ///  <remarks>
+    ///  <para>Windows has added significant OS updates that bump the build
+    ///  number but do not declare themselves as service packs: e.g. the Windows
+    ///  10 TH2 update.</para>
+    ///  <para>This method is used to report such updates in addition to
+    ///  updates that declare themselves as service packs, while the ServicePack
+    ///  method only reports declared 'official' service packs.</para>
     ///  </remarks>
-    class function ExtraUpdateInfo: string;
+    class function ServicePackEx: string;
 
     ///  <summary>Returns the major version number of any NT platform service
     ///  pack.</summary>
@@ -1867,11 +1873,6 @@ begin
   );
 end;
 
-class function TPJOSInfo.ExtraUpdateInfo: string;
-begin
-  Result := InternalExtraUpdateInfo;
-end;
-
 class function TPJOSInfo.HasPenExtensions: Boolean;
 begin
   Result := GetSystemMetrics(SM_PENWINDOWS) <> 0;
@@ -2368,6 +2369,15 @@ begin
       else
         Result := InternalCSDVersion;
   end;
+end;
+
+class function TPJOSInfo.ServicePackEx: string;
+begin
+  Result := ServicePack;
+  if Result = '' then
+    Result := InternalExtraUpdateInfo
+  else
+    Result := Result + ', ' + InternalExtraUpdateInfo;
 end;
 
 class function TPJOSInfo.ServicePackMajor: Integer;

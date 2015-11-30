@@ -11,6 +11,12 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.2.0 of 30 November 2015
++ Added support for detecting build number of Windows 10 TH2 "November Update".
++ Added new TPJOSInfo.ServicePackEx method that reports any OS service packs present just like TPJOSInfo.ServicePack but also returns the name of any significant, detectable, update that does not declare itself as a service pack. This method was added to enable Windows 10 TH2 "November Update" to be reported since it does not report itself as a service pack.
++ Changed behaviour of the TPJOSInfo.BuildNumber method. When not using the GetVersionEx API the code tries to deduce the build number from other information. If this fails BuildNumber now returns 0 instead of attempting to read the build number from the registry. The registry was found to be returning incorrect build numbers.
++ Updated read-me file re changes.
+
 Release v5.1.0 of 11 September 2015
 + Added support for detecting Windows 10 for suitably manifested host applications.
 + Added new TPJOSInfo.IsReallyWindows10OrGreater method.

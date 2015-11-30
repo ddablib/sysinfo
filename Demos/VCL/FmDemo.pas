@@ -190,10 +190,10 @@ begin
   DisplayItem('Product', TPJOSInfo.Product);
   DisplayItem('ProductID', TPJOSInfo.ProductID);
   DisplayItem('ProductName', TPJOSInfo.ProductName);
-  DisplayItem('ServicePackMajor', TPJOSInfo.ServicePackMajor);
-  DisplayItem('ServicePackMinor', TPJOSInfo.ServicePackMinor);
   DisplayItem('ServicePack', TPJOSInfo.ServicePack);
   DisplayItem('ServicePackEx', TPJOSInfo.ServicePackEx);
+  DisplayItem('ServicePackMajor', TPJOSInfo.ServicePackMajor);
+  DisplayItem('ServicePackMinor', TPJOSInfo.ServicePackMinor);
   DisplayItem('HasPenExtensions', TPJOSInfo.HasPenExtensions);
   DisplayItem('RegisteredOrganisation', TPJOSInfo.RegisteredOrganisation);
   DisplayItem('RegisteredOwner', TPJOSInfo.RegisteredOwner);

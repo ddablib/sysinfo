@@ -1499,8 +1499,9 @@ const
   // for Win 8 onwards we just use the build numbers as is
   Win8Build = 9200;         // Only build number used for Win 8 / Svr 2012
   Win8Point1Build = 9600;   // Only build number used for Win 8.1 / Svr 2012 R2
-  Win10TH1Build = 10240;    // Initial Windows 10 release (not Svr 2016)
+  Win10TH1Build = 10240;    // Initial Windows 10 release (not Server 2016)
   Win10TH2Build = 10586;    // Windows 10 TH2 (shared with Win 2016 TP4 - below)
+  Win10RS1Build = 14393;    // Windows 10 RS1
   Win2016TP1Build = 9841;   // Windows 2016 Server Technical Preview 1
   Win2016TP2Build = 10074;  // Windows 2016 Server Technical Preview 2
   Win2016TP3Build = 10514;  // Windows 2016 Server Technical Preview 3
@@ -1598,6 +1599,11 @@ begin
             begin
               InternalBuildNumber := Win10TH2Build;
               InternalExtraUpdateInfo := 'TH2: November Update';
+            end
+            else if IsBuildNumber(Win10RS1Build) then
+            begin
+              InternalBuildNumber := Win10RS1Build;
+              InternalExtraUpdateInfo := 'RS1: Anniversary Update';
             end;
           end
           else
@@ -1751,7 +1757,7 @@ begin
       begin
         // Windows 2000 and later: don't include version number
         AppendToResult(Edition);
-        AppendToResult(ServicePack);  // does nothing if no service pack
+        AppendToResult(ServicePackEx);  // does nothing if no service pack
         AppendToResult(Format('(Build %d)', [BuildNumber]));
       end;
     end;

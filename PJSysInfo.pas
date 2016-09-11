@@ -581,7 +581,7 @@ type
     ///  <remarks>
     ///  <para>Windows has added significant OS updates that bump the build
     ///  number but do not declare themselves as service packs: e.g. the Windows
-    ///  10 TH2 update.</para>
+    ///  10 TH2 update, aka Version 1511.</para>
     ///  <para>This method is used to report such updates in addition to
     ///  updates that declare themselves as service packs, while the ServicePack
     ///  method only reports declared 'official' service packs.</para>
@@ -1598,12 +1598,12 @@ begin
             else if IsBuildNumber(Win10TH2Build) then
             begin
               InternalBuildNumber := Win10TH2Build;
-              InternalExtraUpdateInfo := 'TH2: November Update';
+              InternalExtraUpdateInfo := 'Version 1511';
             end
             else if IsBuildNumber(Win10RS1Build) then
             begin
               InternalBuildNumber := Win10RS1Build;
-              InternalExtraUpdateInfo := 'RS1: Anniversary Update';
+              InternalExtraUpdateInfo := 'Version 1607';
             end;
           end
           else

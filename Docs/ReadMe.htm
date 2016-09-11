@@ -314,13 +314,13 @@
 
 <p>
   To add insult to injury when Microsoft released the Windows 10 &quot;November
-  Update&quot; (TH2) they bumped the OS's build number but didn't update the
-  service pack version information. Therefore existing code didn't report the
-  update other than via the build number. I didn't want to break the existing
-  <var>TPJOSInfo.ServicePack</var> method by pretending that TH2 was really a
-  service pack, so I added a new <var>ServicePackEx</var> method to report any
-  offical services packs and any significant updates that don't declare
-  themselves as service packs. Ho hum!
+  Update&quot; (TH2) &ndash; a.k.a &quot;Version 1511&quot; they bumped the OS's
+  build number but didn't update the service pack version information. Therefore
+  existing code didn't report the update other than via the build number. I
+  didn't want to break the existing <var>TPJOSInfo.ServicePack</var> method by
+  pretending that TH2 was really a service pack, so I added a new
+  <var>ServicePackEx</var> method to report any offical services packs and any
+  significant updates that don't declare themselves as service packs. Ho hum!
 </p>
 
 <p>

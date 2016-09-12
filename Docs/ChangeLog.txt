@@ -3,13 +3,20 @@
 ; v. 2.0. If a copy of the MPL was not distributed with this file, You can
 ; obtain one at http://mozilla.org/MPL/2.0/
 ;
-; Copyright (C) 2013-2015, Peter Johnson (@delphidabbler).
+; Copyright (C) 2013-2016, Peter Johnson (@delphidabbler).
 ;
 ; $Rev$
 ; $Date$
 ;
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
+
+Release v5.3.0 of 12 September 2016
++ Added support for detecting Windows 10 RS1 update - "Version 1607".
++ Renamed name of Windows 10 TH2 update from "November Update" to MSs new name - "Version 1511".
++ Added support for detecting Windows 2016 Server technical previews 1 to 5.
++ Revised TPJOSInfo.Description to include information from ServicePackEx method instead of ServicePack.
++ Minor update to read-me file.
 
 Release v5.2.0 of 30 November 2015
 + Added support for detecting build number of Windows 10 TH2 "November Update".

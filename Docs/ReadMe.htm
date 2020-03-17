@@ -25,7 +25,7 @@
       margin: 1em;
       padding: 0;
       font-family: Verdana, Arial, sans-serif;
-      font-size: 9pt;
+      font-size: 11pt;
       line-height: 150%;
     }
     h1 {
@@ -33,12 +33,13 @@
       padding: 0.5em;
       border: 1px silver solid;
       background-color: #eee;
-      font-size: 13pt;
+      font-size: 180%;
       font-weight: bold;
       text-align: center;
     }
     h1 .subtitle {
       font-style: italic;
+      margin-top: 0.5em;
       color: #336;
     }
     h2 {
@@ -46,13 +47,13 @@
       padding: 0;
       padding-bottom: 6px;
       border-bottom: 1px silver solid;
-      font-size: 11pt;
+      font-size: 140%;
       font-weight: bold;
     }
     h3 {
       margin: 0.5em 0 0 0;
       padding: 0;
-      font-size: 9pt;
+      font-size: 120%;
       font-weight: bold;
     }
     p {
@@ -147,7 +148,6 @@
 <body>
 
 <h1>
-
   <div>System Information Unit</div>
   <div class="subtitle">ReadMe</div>
 </h1>
@@ -166,6 +166,10 @@
   <li><a href="#bugs">Bugs and Feature Requests</a></li>
   <li><a href="#author">About the Author</a></li>
 </ul>
+
+<p class="pullout highlight">
+  This document applies to <em>System Information Unit</em> v5.4.0 and later.
+</p>
 
 <p class="gototop">
   &raquo; <a href="#contents">Contents</a>
@@ -284,24 +288,22 @@
 
 <ul>
   <li>
-    OSs up to and including Windows 7 SP 1 (<var>PJSysInfo</var> v5.1) or
-    Windows 8 (<var>PJSysInfo</var> v5.0) the reported operating system can
+    OSs up to and including Windows 7 SP 1 the reported operating system can
     be &quot;spoofed&quot; by setting the host program's compatibility mode.
     The exception is that the <var>TPJOSInfo.IsReallyWindowsXXXOrGreater</var>
     methods for Windows 2000 and later will detect the actual operating system.
   </li>
   <li>
-    For Windows 8 and 8.1 (<var>PJSysInfo</var> v5.1) or Windows 8.1 only
-    (<var>PJSysInfo</var> v5.0) the reported operating system cannot be spoofed
+    For Windows 8 and 8.1 the reported operating system cannot be spoofed
     using compatibility modes, and neither does the presence of a suitable
     manifest file affect the returned values. This also applies to the relevant
     <var>TPJOSInfo.IsReallyWindowsXXXOrGreater</var> methods.
   </li>
   <li>
-    For Windows 10 (<var>PJSysInfo</var> v5.1 only) the reported operating
-    system cannot be spoofed regardless of whether a suitable manifest is
-    compiled into resource. However, in absence of a such a manifest the version
-    will be reported as Windows 8 instead of Windows 10. This also affects
+    For Windows 10 the reported operating system cannot be spoofed regardless of
+    whether a suitable manifest is compiled into resources. However, in absence
+    of a such a manifest the version will be reported as Windows 8 instead of
+    Windows 10. This also affects
     <var>TPJOSInfo.IsReallyWindows10OrGreater</var>, meaning it's not so well
     named any more!
   </li>
@@ -393,7 +395,7 @@
 
 <p>
   Operation on a 64 bit OS was last tested with Windows 10. Other OSs have not
-  been tested for release 5.1.
+  been tested.
 </p>
 
 <p>
@@ -576,7 +578,10 @@
   </div>
 
   <div class="copyright">
-    This document is copyright &copy; 2005-2015, P D Johnson (@delphidabbler).
+    This document is copyright &copy; 2005-2020, P D Johnson
+    (<a
+      href="http://gravatar.com/delphidabbler"
+    >http://gravatar.com/delphidabbler</a>).
   </div>
 
 </div>

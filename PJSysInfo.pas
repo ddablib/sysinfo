@@ -3,7 +3,7 @@
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
  * obtain one at http://mozilla.org/MPL/2.0/
  *
- * Copyright (C) 2001-2016, Peter Johnson (@delphidabbler).
+ * Copyright (C) 2001-2020, Peter Johnson (@delphidabbler).
  *
  * $Rev$
  * $Date$

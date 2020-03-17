@@ -98,8 +98,8 @@ const
     'osUnknownWinNT', 'osWinNT', 'osWin2K', 'osWinXP', 'osUnknownWin9x',
     'osWin95', 'osWin98', 'osWinMe', 'osUnknownWin32s', 'osWinSvr2003',
     'osUnknown', 'osWinVista', 'osWinSvr2003R2', 'osWinSvr2008',
-    'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012' ,
-    'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr'
+    'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012',
+    'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr', 'osWinSvr2019'
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);
@@ -154,6 +154,7 @@ begin
   DisplayItem('Processor Architecture', cProcessors[TPJComputerInfo.Processor]);
   DisplayItem('Processor Identifier', TPJComputerInfo.ProcessorIdentifier);
   DisplayItem('Processor Name', TPJComputerInfo.ProcessorName);
+  DisplayItem('Processor Speed (MHz)', TPJComputerInfo.ProcessorSpeedMHz);
   DisplayItem('Is 64 Bit?', TPJComputerInfo.Is64Bit);
   DisplayItem('Is Network Present?', TPJComputerInfo.IsNetworkPresent);
   DisplayItem('Boot Mode', cBootModes[TPJComputerInfo.BootMode]);

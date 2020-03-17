@@ -792,6 +792,15 @@ type
     ///  processor.</remarks>
     class function ProcessorName: string;
 
+    ///  <summary>Returns the speed of the computer's processor in MHz.
+    ///  </summary>
+    ///  <remarks>
+    ///  <para>On multi-processor systems this is the speed of the 1st
+    ///  processor.</para>
+    ///  <para>0 is returned if the information is not a available.</para>
+    ///  </remarks>
+    class function ProcessorSpeedMHz: Cardinal;
+
     ///  <summary>Checks if the host computer has a 64 bit processor.</summary>
     class function Is64Bit: Boolean;
 
@@ -968,6 +977,7 @@ resourcestring
   sUnknownPlatform = 'Unrecognised operating system platform';
   sUnknownProduct = 'Unrecognised operating system product';
   sBadRegType =  'Unsupported registry type';
+  sBadRegIntType = 'Integer value expected in registry';
   sBadProcHandle = 'Bad process handle';
 
 
@@ -1517,6 +1527,32 @@ begin
           // unsupported value: raise exception
           raise EPJSysInfo.Create(sBadRegType);
       end;
+    end;
+  finally
+    // Close registry
+    Reg.CloseKey;
+    Reg.Free;
+  end;
+end;
+
+function GetRegistryInt(const RootKey: HKEY; const SubKey, Name: string):
+  Integer;
+var
+  Reg: TRegistry;          // registry access object
+  ValueInfo: TRegDataInfo; // info about registry value
+begin
+  Result := 0;
+  // Open registry at required root key
+  Reg := RegCreate;
+  try
+    Reg.RootKey := RootKey;
+    if RegOpenKeyReadOnly(Reg, SubKey) and Reg.ValueExists(Name) then
+    begin
+      // Check if registry value is integer
+      Reg.GetDataInfo(Name, ValueInfo);
+      if ValueInfo.RegData <> rdInteger then
+        raise EPJSysInfo.Create(sBadRegIntType);
+      Result := Reg.ReadInteger(Name);
     end;
   finally
     // Close registry
@@ -2855,6 +2891,17 @@ begin
     HKEY_LOCAL_MACHINE,
     'HARDWARE\DESCRIPTION\System\CentralProcessor\0\',
     'ProcessorNameString'
+  );
+end;
+
+class function TPJComputerInfo.ProcessorSpeedMHz: Cardinal;
+begin
+  Result := Cardinal(
+    GetRegistryInt(
+      HKEY_LOCAL_MACHINE,
+      'HARDWARE\DESCRIPTION\System\CentralProcessor\0\',
+      '~MHz'
+    )
   );
 end;
 

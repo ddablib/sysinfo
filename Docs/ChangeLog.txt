@@ -3,13 +3,21 @@
 ; v. 2.0. If a copy of the MPL was not distributed with this file, You can
 ; obtain one at http://mozilla.org/MPL/2.0/
 ;
-; Copyright (C) 2013-2016, Peter Johnson (@delphidabbler).
+; Copyright (C) 2013-2020, Peter Johnson (@delphidabbler).
 ;
 ; $Rev$
 ; $Date$
 ;
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
+
+Release v5.4.0 of 19 March 2020
++ Updated to detect Windows 10 updates from RS2 (version 1703) to 20H2 (version 2004) and added "marketing names" for updates from TH2 (version 1511) to 19H2 (version 1909)
++ Updated to detect 1st public release and all updates of Windows 2016 Server (i.e. up to version 1803)
++ Added detection of all Windows 2019 Server previews, 1st public release and all updates up to version 1909.
++ Added new TPJComputerInfo.ProcessorSpeedMHz method to return processor speed in MHz.
++ Updated demo programs re support for detecting Windows 2019 Server and to display result of new TPJComputerInfo.ProcessorSpeedMHz method.
++ Minor update to content and style of read-me file.
 
 Release v5.3.0 of 12 September 2016
 + Added support for detecting Windows 10 RS1 update - "Version 1607".

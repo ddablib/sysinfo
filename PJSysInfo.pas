@@ -1212,7 +1212,9 @@ const
   Win10RS5Build = 17763;        // Windows 10 RS5 - version 1809
   Win1019H1Build = 18362;       // Windows 10 19H1 - version 1903
   Win1019H2Build = 18363;       // Windows 10 19H2 - version 1909
-  Win1020H1Build = 19041;       // Windows 10 20H2 - version 2004
+  Win1020H1Build = 19041;       // Windows 10 20H1 - version 2004
+  // TODO: Add marketing version number to following comment once known
+  Win1020H2Build = 19042;       // Windows 10 20H2 - version TBA
 
   Win2016TP1Build = 9841;       // Win 2016 Server Technical Preview 1
   Win2016TP2Build = 10074;      // Win 2016 Server Technical Preview 2
@@ -1722,13 +1724,18 @@ begin
             else if IsBuildNumber(Win1019H2Build) then
             begin
               InternalBuildNumber := Win1019H2Build;
-              InternalExtraUpdateInfo := 'Version 1909: Novermber 2019 Update';
+              InternalExtraUpdateInfo := 'Version 1909: November 2019 Update';
             end
             else if IsBuildNumber(Win1020H1Build) then
             begin
               InternalBuildNumber := Win1020H1Build;
+              InternalExtraUpdateInfo := 'Version 2004: May 2020 Update';
+            end
+            else if IsBuildNumber(Win1020H2Build) then
+            begin
+              InternalBuildNumber := Win1020H2Build;
               // TODO: Add marketing name below once known
-              InternalExtraUpdateInfo := 'Version 2004';
+              InternalExtraUpdateInfo := 'Version 20H2';
             end
           end
           else

@@ -11,6 +11,9 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.5.0 of 31 October 2020
++ Updated to detect Windows 10 version 20H2, October 2020 update.
+
 Release v5.4.0 of 19 March 2020
 + Updated to detect Windows 10 updates from RS2 (version 1703) to 20H2 (version 2004) and added "marketing names" for updates from TH2 (version 1511) to 19H2 (version 1909)
 + Updated to detect 1st public release and all updates of Windows 2016 Server (i.e. up to version 1803)

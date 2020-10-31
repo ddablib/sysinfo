@@ -446,7 +446,7 @@ type
     osWin10Svr,             // Windows 2016 Server
     osWinSvr2019            // Windows 2019 Server
   );
-  
+
 type
   ///  <summary>Enumeration identifying processor architecture.</summary>
   TPJProcessorArchitecture = (
@@ -1213,8 +1213,7 @@ const
   Win1019H1Build = 18362;       // Windows 10 19H1 - version 1903
   Win1019H2Build = 18363;       // Windows 10 19H2 - version 1909
   Win1020H1Build = 19041;       // Windows 10 20H1 - version 2004
-  // TODO: Add marketing version number to following comment once known
-  Win1020H2Build = 19042;       // Windows 10 20H2 - version TBA
+  Win1020H2Build = 19042;       // Windows 10 20H2 - version 20H2
 
   Win2016TP1Build = 9841;       // Win 2016 Server Technical Preview 1
   Win2016TP2Build = 10074;      // Win 2016 Server Technical Preview 2
@@ -1734,8 +1733,9 @@ begin
             else if IsBuildNumber(Win1020H2Build) then
             begin
               InternalBuildNumber := Win1020H2Build;
-              // TODO: Add marketing name below once known
-              InternalExtraUpdateInfo := 'Version 20H2';
+              // Note: Microsoft announced the official version name is '20H2',
+              //       not '2010' which some had expected it to be
+              InternalExtraUpdateInfo := 'Version 20H2: October 2020 Update';
             end
           end
           else

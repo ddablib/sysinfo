@@ -14,7 +14,7 @@ program FMXDemo;
 uses
   FMX.Forms,
   FmFMXDemo in 'FmFMXDemo.pas' {Form1},
-  PJSysInfo in '..\..\PJSysInfo.pas';
+  PJSysInfo6 in '..\..\PJSysInfo6.pas';
 
 {$R 'MainIcon.res'}
 {$R 'Manifest.res'}

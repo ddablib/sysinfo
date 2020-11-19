@@ -439,7 +439,6 @@ type
   ///  as not to destroy any existing code that depends on the ordinal value of
   ///  the existing values.</remarks>
   TPJOSProduct = (
-    osWin2K,                // Windows 2000
     osWinXP,                // Windows XP
     osWinSvr2003,           // Windows Server 2003
     osUnknown,              // Unrecognised Windows version
@@ -641,29 +640,29 @@ type
 
     ///  <summary>Checks whether the OS is Windows 2000 Service Pack 1 or
     ///  greater.</summary>
-    ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  <remarks>In this version of PJSysInfo this function is a stub that
+    ///  always returns True, since Windows XP or later is required.</remarks>
     class function IsReallyWindows2000SP1OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows 2000 Service Pack 2 or
     ///  greater.</summary>
-    ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  <remarks>In this version of PJSysInfo this function is a stub that
+    ///  always returns True, since Windows XP or later is required.</remarks>
     class function IsReallyWindows2000SP2OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows 2000 Service Pack 3 or
     ///  greater.</summary>
-    ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  <remarks>In this version of PJSysInfo this function is a stub that
+    ///  always returns True, since Windows XP or later is required.</remarks>
     class function IsReallyWindows2000SP3OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows 2000 Service Pack 4 or
     ///  greater.</summary>
-    ///  <remarks>This method always returns information about the true OS,
-    ///  regardless of any compatibility mode in force.</remarks>
+    ///  <remarks>In this version of PJSysInfo this function is a stub that
+    ///  always returns True, since Windows XP or later is required.</remarks>
     class function IsReallyWindows2000SP4OrGreater: Boolean;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
@@ -759,10 +758,8 @@ type
 
     ///  <summary>Checks if the OS is a server version.</summary>
     ///  <remarks>
-    ///  <para>For Windows 2000 and later the result always relates to the
-    ///  actual OS, regardless of any compatibility mode in force. For versions
-    ///  prior to Windows 2000 this method will take note of compatibility modes
-    ///  and returns the same value as TPJOSInfo.IsServer.</para>
+    ///  <para>The result always relates to the actual OS, regardless of any
+    ///  compatibility mode in force.</para>
     ///  <para>WARNING: For Windows 10 this method is likely to succeed only if
     ///  the application is correctly manifested.</para>
     class function IsWindowsServer: Boolean;
@@ -1448,42 +1445,22 @@ begin
     Result := '';
 end;
 
-// Checks if host OS is Windows 2000 or earlier, including any Win9x OS.
-// This is a helper function for RegCreate and RegOpenKeyReadOnly and avoids
-// using TPJOSInfo to ensure that an infinite loop is not set up with TPJOSInfo
-// calling back into RegCreate.
-function IsWin2000OrEarlier: Boolean;
-begin
-  // NOTE: all Win9x OSs have InternalMajorVersion < 5, so we don't need to
-  // check platform.
-  Result := (InternalMajorVersion < 5) or
-    ((InternalMajorVersion = 5) and (InternalMinorVersion = 0));
-end;
-
 // Creates a read only TRegistry instance.
 function RegCreate: TRegistry;
 begin
+  // ** Logic assumes a Windows XP or later OS
   //! Fix for issue #14 (https://sourceforge.net/p/ddablib/tickets/14/)
   //! suggested by Steffen Schaff.
-  //! Later modified to allow for fact that Windows 2000 fails if
-  //! KEY_WOW64_64KEY is used.
-  if IsWin2000OrEarlier then
-    Result := TRegistry.Create
-  else
-    Result := TRegistry.Create(KEY_READ or KEY_WOW64_64KEY);
+  Result := TRegistry.Create(KEY_READ or KEY_WOW64_64KEY);
 end;
 
 // Uses registry object to open a key as read only.
 function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
 begin
+  // ** Logic assumes a Windows XP or later OS
   //! Fix for problem with OpenKeyReadOnly on 64 bit Windows requires Reg has
   //! (KEY_READ or KEY_WOW64_64KEY) access flags.
-  //! Even though these flags aren't provided on Windows 2000 and earlier, the
-  //! following code should still work
-  if IsWin2000OrEarlier then
-    Result := Reg.OpenKeyReadOnly(Key)
-  else
-    Result := Reg.OpenKey(Key, False);
+  Result := Reg.OpenKey(Key, False);
 end;
 
 // Gets a string value from the given registry sub-key and value within the
@@ -1593,6 +1570,7 @@ begin
 
   if not UseGetVersionAPI then
   begin
+    // ** Logic assumes a Windows XP or later OS
     // Not using GetVersion and GetVersionEx functions to get version info
     InternalMajorVersion := 0;
     InternalMinorVersion := 0;
@@ -1602,9 +1580,7 @@ begin
     Win32ServicePackMinor := 0;
     // we don't use suite mask any more!
     Win32SuiteMask := 0;
-    // platform for all OSs tested for this way is always NT: the NewGetVersion
-    // calls below indirectly call VerifyVersionInfo API, which is only defined
-    // for Windows 2000 and later.
+    // platform for all OSs tested for this way is always NT
     InternalPlatform := VER_PLATFORM_WIN32_NT;
     Win32HaveExInfo := True;
     NewGetVersion(
@@ -2043,20 +2019,6 @@ begin
       else
         Result := 'Professional';
     end;
-    osWin2K:
-    begin
-      if IsServer then
-      begin
-        if CheckSuite(VER_SUITE_DATACENTER) then
-          Result := 'Datacenter Server'
-        else if CheckSuite(VER_SUITE_ENTERPRISE) then
-          Result := 'Advanced Server'
-        else
-          Result := 'Server';
-      end
-      else
-        Result := 'Professional';
-    end;
   end;
 end;
 
@@ -2106,37 +2068,32 @@ end;
 
 class function TPJOSInfo.IsReallyWindows2000OrGreater: Boolean;
 begin
-  Result := IsReallyWindowsVersionOrGreater(
-    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 0
-  );
+  // ** Logic assumes a Windows XP or later OS
+  Result := True;
 end;
 
 class function TPJOSInfo.IsReallyWindows2000SP1OrGreater: Boolean;
 begin
-  Result := IsReallyWindowsVersionOrGreater(
-    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 1
-  );
+  // ** Logic assumes a Windows XP or later OS
+  Result := True;
 end;
 
 class function TPJOSInfo.IsReallyWindows2000SP2OrGreater: Boolean;
 begin
-  Result := IsReallyWindowsVersionOrGreater(
-    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 2
-  );
+  // ** Logic assumes a Windows XP or later OS
+  Result := True;
 end;
 
 class function TPJOSInfo.IsReallyWindows2000SP3OrGreater: Boolean;
 begin
-  Result := IsReallyWindowsVersionOrGreater(
-    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 3
-  );
+  // ** Logic assumes a Windows XP or later OS
+  Result := True;
 end;
 
 class function TPJOSInfo.IsReallyWindows2000SP4OrGreater: Boolean;
 begin
-  Result := IsReallyWindowsVersionOrGreater(
-    HiByte(_WIN32_WINNT_WIN2K), LoByte(_WIN32_WINNT_WIN2K), 4
-  );
+  // ** Logic assumes a Windows XP or later OS
+  Result := True;
 end;
 
 class function TPJOSInfo.IsReallyWindows7OrGreater: Boolean;
@@ -2177,7 +2134,7 @@ end;
 class function TPJOSInfo.IsReallyWindowsVersionOrGreater(MajorVersion,
   MinorVersion, ServicePackMajor: Word): Boolean;
 begin
-  Assert(MajorVersion >= HiByte(_WIN32_WINNT_WIN2K));
+  Assert(MajorVersion >= HiByte(_WIN32_WINNT_WINXP));
   if Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo) then
     Result := TestWindowsVersion(
       MajorVersion, MinorVersion, ServicePackMajor, 0, VER_GREATER_EQUAL
@@ -2336,10 +2293,8 @@ begin
   case InternalMajorVersion of
     5:
     begin
-      // Windows 2000 or XP
+      // Windows XP
       case InternalMinorVersion of
-        0:
-          Result := osWin2K;
         1:
           Result := osWinXP;
         2:
@@ -2434,7 +2389,6 @@ class function TPJOSInfo.ProductName: string;
 begin
   case Product of
     osUnknown: Result := '';
-    osWin2K: Result := 'Windows 2000';
     osWinXP: Result := 'Windows XP';
     osWinVista: Result := 'Windows Vista';
     osWinSvr2008: Result := 'Windows Server 2008';

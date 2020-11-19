@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
     <assemblyIdentity
-        name="System Info Demo (FMX)"
+        name="System Info Demo"
         processorArchitecture="*"
         version="1.0.0.0"
         type="*"/>
-    <description>System Info Demo for FireMonkey by DelphiDabbler</description>
+    <description>System Info Demo by DelphiDabbler</description>
     <dependency>
         <dependentAssembly>
             <assemblyIdentity

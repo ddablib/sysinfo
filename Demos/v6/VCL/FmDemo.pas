@@ -1,5 +1,7 @@
 {
- * Main form file for System Information Unit FireMonkey demo program.
+ * FmDemo.pas
+ *
+ * Main form for System Information unit demo program.
  *
  * $Rev: 2022 $
  * $Date: 2020-03-17 04:59:29 +0000 (Tue, 17 Mar 2020) $
@@ -9,30 +11,25 @@
 }
 
 
-unit FmFMXDemo;
+unit FmDemo;
 
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Rtti, System.Classes,
-  System.Variants, FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.TabControl, FMX.Ani, FMX.Layouts, FMX.Memo,
-  PJSysInfo, FMX.ListBox, FMX.TreeView, FMX.Grid;
+  StdCtrls, Classes, Controls, ComCtrls, Forms,
+  PJSysInfo, ExtCtrls;
 
 type
-  TForm1 = class(TForm)
-    Layout1: TLayout;
+  TDemoForm = class(TForm)
     TabControl1: TTabControl;
-    tiComputerInfo: TTabItem;
-    StringGrid1: TStringGrid;
-    NameCol: TStringColumn;
-    ValueCol: TStringColumn;
-    tiSpecialFolders: TTabItem;
-    tiOSInfo: TTabItem;
-    tiWin32Globals: TTabItem;
-    procedure TabControl1Change(Sender: TObject);
+    edDisplay: TMemo;
+    Bevel1: TBevel;
     procedure FormCreate(Sender: TObject);
+    procedure TabControl1Change(Sender: TObject);
   private
+    procedure DisplayRuling;
+    procedure DisplayRuleOff;
+    procedure DisplayHeading(const Title: string);
     procedure DisplayItem(const Name, Value: string); overload;
     procedure DisplayItem(const Name: string; const Value: Boolean); overload;
     procedure DisplayItem(const Name: string; const Value: Integer); overload;
@@ -48,22 +45,45 @@ type
   end;
 
 var
-  Form1: TForm1;
+  DemoForm: TDemoForm;
 
 implementation
 
 uses
-  System.DateUtils;
+  SysUtils;
 
+{$R *.DFM}
 
-{$R *.fmx}
+function SameDateTime(const A, B: TDateTime): Boolean;
+begin
+  Result := Abs(A - B) < (1 / MSecsPerDay);
+end;
 
-procedure TForm1.DisplayItem(const Name: string; const Value: Integer);
+procedure TDemoForm.DisplayHeading(const Title: string);
+begin
+  if edDisplay.Lines.Count > 0 then
+    edDisplay.Lines.Add('');
+  edDisplay.Lines.Add(Title);
+end;
+
+procedure TDemoForm.DisplayItem(const Name, Value: string);
+begin
+  edDisplay.Lines.Add(Format('%-32s| %s', [Name, Value]));
+end;
+
+procedure TDemoForm.DisplayItem(const Name: string; const Value: Boolean);
+const
+  cBoolean: array[Boolean] of string = ('False', 'True');
+begin
+  DisplayItem(Name, cBoolean[Value]);
+end;
+
+procedure TDemoForm.DisplayItem(const Name: string; const Value: Integer);
 begin
   DisplayItem(Name, IntToStr(Value));
 end;
 
-procedure TForm1.DisplayItem(const Name: string; const Value: TPJOSPlatform);
+procedure TDemoForm.DisplayItem(const Name: string; const Value: TPJOSPlatform);
 const
   cOSPlatform: array[TPJOSPlatform] of string = (
     'ospWinNT', 'ospWin9x', 'ospWin32s'
@@ -72,21 +92,7 @@ begin
   DisplayItem(Name, cOSPlatform[Value]);
 end;
 
-procedure TForm1.DisplayItem(const Name, Value: string);
-begin
-  StringGrid1.RowCount := StringGrid1.RowCount + 1;
-  StringGrid1.Cells[0, Pred(StringGrid1.RowCount)] := Name;
-  StringGrid1.Cells[1, Pred(StringGrid1.RowCount)] := Value;
-end;
-
-procedure TForm1.DisplayItem(const Name: string; const Value: Boolean);
-const
-  cBoolean: array[Boolean] of string = ('False', 'True');
-begin
-  DisplayItem(Name, cBoolean[Value]);
-end;
-
-procedure TForm1.DisplayItem(const Name: string; const Value: TPJOSProduct);
+procedure TDemoForm.DisplayItem(const Name: string; const Value: TPJOSProduct);
 const
   cOSProduct: array[TPJOSProduct] of string = (
     'osUnknownWinNT', 'osWinNT', 'osWin2K', 'osWinXP', 'osUnknownWin9x',
@@ -99,24 +105,38 @@ begin
   DisplayItem(Name, cOSProduct[Value]);
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TDemoForm.DisplayRuleOff;
 begin
-  TabControl1.ActiveTab := tiComputerInfo;
+  edDisplay.Lines.Add(StringOfChar('=', 32) + '+' + StringOfChar('=', 55));
+end;
+
+procedure TDemoForm.DisplayRuling;
+begin
+  edDisplay.Lines.Add(StringOfChar('-', 32) + '+' + StringOfChar('-', 55));
+end;
+
+procedure TDemoForm.FormCreate(Sender: TObject);
+begin
   ShowContent(TabControl1.TabIndex);
 end;
 
-procedure TForm1.ShowContent(Tab: Integer);
+procedure TDemoForm.ShowContent(Tab: Integer);
 begin
-  StringGrid1.RowCount := 0;
-  case Tab of
-    0: ShowTPJComputerInfo;
-    1: ShowTPJSystemFolders;
-    2: ShowTPJOSInfo;
-    3: ShowWin32Globals;
+  edDisplay.Lines.BeginUpdate;
+  try
+    edDisplay.Clear;
+    case Tab of
+      0: ShowTPJComputerInfo;
+      1: ShowTPJSystemFolders;
+      2: ShowTPJOSInfo;
+      3: ShowWin32Globals;
+    end;
+  finally
+    edDisplay.Lines.EndUpdate;
   end;
 end;
 
-procedure TForm1.ShowTPJComputerInfo;
+procedure TDemoForm.ShowTPJComputerInfo;
 const
   cProcessors: array[TPJProcessorArchitecture] of string = (
     'paUnknown', 'paX64', 'paIA64', 'paX86'
@@ -125,26 +145,31 @@ const
     'bmUnknown', 'bmNormal', 'bmSafeMode', 'bmSafeModeNetwork'
   );
 begin
-  DisplayItem('ComputerName', TPJComputerInfo.ComputerName);
-  DisplayItem('UserName', TPJComputerInfo.UserName);
-  DisplayItem('MACAddress', TPJComputerInfo.MACAddress);
-  DisplayItem('ProcessorCount', Integer(TPJComputerInfo.ProcessorCount));
-  DisplayItem('Processor', cProcessors[TPJComputerInfo.Processor]);
-  DisplayItem('ProcessorIdentifier', TPJComputerInfo.ProcessorIdentifier);
-  DisplayItem('ProcessorName', TPJComputerInfo.ProcessorName);
+  DisplayHeading('TPJComputerInfo Static Methods');
+  DisplayRuling;
+  DisplayItem('Computer Name', TPJComputerInfo.ComputerName);
+  DisplayItem('User Name', TPJComputerInfo.UserName);
+  DisplayItem('MAC Address', TPJComputerInfo.MACAddress);
+  DisplayItem('Processor Count', Integer(TPJComputerInfo.ProcessorCount));
+  DisplayItem('Processor Architecture', cProcessors[TPJComputerInfo.Processor]);
+  DisplayItem('Processor Identifier', TPJComputerInfo.ProcessorIdentifier);
+  DisplayItem('Processor Name', TPJComputerInfo.ProcessorName);
   DisplayItem('Processor Speed (MHz)', TPJComputerInfo.ProcessorSpeedMHz);
-  DisplayItem('Is64Bit', TPJComputerInfo.Is64Bit);
-  DisplayItem('IsNetworkPresent?', TPJComputerInfo.IsNetworkPresent);
-  DisplayItem('BootMode', cBootModes[TPJComputerInfo.BootMode]);
-  DisplayItem('IsAdmin', TPJComputerInfo.IsAdmin);
-  DisplayItem('IsUACActive', TPJComputerInfo.IsUACActive);
-  DisplayItem('BiosVendor', TPJComputerInfo.BiosVendor);
-  DisplayItem('SystemManufacturer', TPJComputerInfo.SystemManufacturer);
-  DisplayItem('SystemProductName', TPJComputerInfo.SystemProductName);
+  DisplayItem('Is 64 Bit?', TPJComputerInfo.Is64Bit);
+  DisplayItem('Is Network Present?', TPJComputerInfo.IsNetworkPresent);
+  DisplayItem('Boot Mode', cBootModes[TPJComputerInfo.BootMode]);
+  DisplayItem('Is Administrator?', TPJComputerInfo.IsAdmin);
+  DisplayItem('Is UAC active?', TPJComputerInfo.IsUACActive);
+  DisplayItem('BIOS Vender', TPJComputerInfo.BiosVendor);
+  DisplayItem('System Manufacturer', TPJComputerInfo.SystemManufacturer);
+  DisplayItem('System Product Name', TPJComputerInfo.SystemProductName);
+  DisplayRuleOff;
 end;
 
-procedure TForm1.ShowTPJOSInfo;
+procedure TDemoForm.ShowTPJOSInfo;
 begin
+  DisplayHeading('TPJOSInfo Static Methods');
+  DisplayRuling;
   DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
   DisplayItem('Description', TPJOSInfo.Description);
   DisplayItem('Edition', TPJOSInfo.Edition);
@@ -173,6 +198,7 @@ begin
   DisplayItem('HasPenExtensions', TPJOSInfo.HasPenExtensions);
   DisplayItem('RegisteredOrganisation', TPJOSInfo.RegisteredOrganisation);
   DisplayItem('RegisteredOwner', TPJOSInfo.RegisteredOwner);
+  DisplayRuling;
   DisplayItem('CanSpoof', TPJOSInfo.CanSpoof);
   DisplayItem('IsReallyWindows2000OrGreater',
     TPJOSInfo.IsReallyWindows2000OrGreater);
@@ -207,38 +233,50 @@ begin
   DisplayItem('IsReallyWindows8Point1OrGreater',
     TPJOSInfo.IsReallyWindows8Point1OrGreater);
   DisplayItem('IsReallyWindows10OrGreater',
-    TPJOSInfo.IsReallyWindows8OrGreater);
+    TPJOSInfo.IsReallyWindows10OrGreater);
   DisplayItem('IsWindowsServer', TPJOSInfo.IsWindowsServer);
+  DisplayRuleOff;
 end;
 
-procedure TForm1.ShowTPJSystemFolders;
+procedure TDemoForm.ShowTPJSystemFolders;
 begin
+  DisplayHeading('TPJSystemFolders Static Methods');
+  DisplayRuling;
   DisplayItem('CommonFiles', TPJSystemFolders.CommonFiles);
   DisplayItem('CommonFilesX86', TPJSystemFolders.CommonFilesX86);
   DisplayItem('CommonFilesRedirect', TPJSystemFolders.CommonFilesRedirect);
+  DisplayRuling;
   DisplayItem('ProgramFiles', TPJSystemFolders.ProgramFiles);
   DisplayItem('ProgramFilesX86', TPJSystemFolders.ProgramFilesX86);
   DisplayItem('ProgramFilesRedirect', TPJSystemFolders.ProgramFilesRedirect);
+  DisplayRuling;
   DisplayItem('Windows', TPJSystemFolders.Windows);
   DisplayItem('System', TPJSystemFolders.System);
   DisplayItem('SystemWow64', TPJSystemFolders.SystemWow64);
+  DisplayRuling;
   DisplayItem('Temp', TPJSystemFolders.Temp);
+  DisplayRuleOff;
 end;
 
-procedure TForm1.ShowWin32Globals;
+procedure TDemoForm.ShowWin32Globals;
 begin
+  DisplayHeading('SysUtils Win32XXX Variables');
+  DisplayRuling;
   DisplayItem('Win32Platform', Win32Platform);
   DisplayItem('Win32MajorVersion', Win32MajorVersion);
   DisplayItem('Win32MinorVersion', Win32MinorVersion);
   DisplayItem('Win32BuildNumber', Win32BuildNumber);
   DisplayItem('Win32CSDVersion', Win32CSDVersion);
+  DisplayRuleOff;
 
+  DisplayHeading('PJSysInfo Win32XXX Variables');
+  DisplayRuling;
   DisplayItem('Win32PlatformEx', Win32PlatformEx);
   DisplayItem('Win32MajorVersionEx', Win32MajorVersionEx);
   DisplayItem('Win32MinorVersionEx', Win32MinorVersionEx);
   DisplayItem('Win32BuildNumberEx', Win32BuildNumberEx);
   DisplayItem('Win32CSDVersionEx', Win32CSDVersionEx);
-
+  DisplayRuling;
   DisplayItem('Win32HaveExInfo', Win32HaveExInfo);
   DisplayItem('Win32ProductType', Win32ProductType);
   DisplayItem('Win32ServicePackMajor', Win32ServicePackMajor);
@@ -246,12 +284,14 @@ begin
   DisplayItem('Win32SuiteMask', Win32SuiteMask);
   DisplayItem('Win32HaveProductInfo', Win32HaveProductInfo);
   DisplayItem('Win32ProductInfo', Integer(Win32ProductInfo));
+  DisplayRuleOff;
+
 end;
 
-procedure TForm1.TabControl1Change(Sender: TObject);
+procedure TDemoForm.TabControl1Change(Sender: TObject);
 begin
-  StringGrid1.Parent := TabControl1.ActiveTab;
-  ShowContent(TabControl1.ActiveTab.Index);
+  ShowContent(TabControl1.TabIndex);
 end;
 
 end.
+

@@ -702,7 +702,6 @@ type
     ///  regardless of any compatibility mode in force or whether a suitable
     ///  manifest file is present.</remarks>
     class function IsReallyWindowsVistaOrGreater: Boolean;
-      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks whether the OS is Windows Vista Service Pack 1 or
     ///  greater.</summary>
@@ -983,6 +982,8 @@ uses
 resourcestring
   // Error messages
   sUnsupportedPlatform = 'Operating system platform not supported: ' +
+    'Windows XP or later is required to run PJSysInfo6';
+  sUnsupportedOS = 'Operating system version not supported: ' +
     'Windows XP or later is required to run PJSysInfo6';
   sUnknownProduct = 'Unrecognised operating system product';
   sBadRegType =  'Unsupported registry type';
@@ -1892,6 +1893,7 @@ end;
 procedure ValidateOS;
 begin
   Assert(InternalPlatform = VER_PLATFORM_WIN32_NT, sUnsupportedPlatform);
+  Assert(TPJOSInfo.IsReallyWindowsXPOrGreater, sUnsupportedOS);
 end;
 
 { TPJOSInfo }
@@ -2131,7 +2133,6 @@ end;
 class function TPJOSInfo.IsReallyWindowsVersionOrGreater(MajorVersion,
   MinorVersion, ServicePackMajor: Word): Boolean;
 begin
-  Assert(MajorVersion >= HiByte(_WIN32_WINNT_WINXP));
   if Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo) then
     Result := TestWindowsVersion(
       MajorVersion, MinorVersion, ServicePackMajor, 0, VER_GREATER_EQUAL
@@ -2142,9 +2143,13 @@ end;
 
 class function TPJOSInfo.IsReallyWindowsVistaOrGreater: Boolean;
 begin
-  Result := IsReallyWindowsVersionOrGreater(
-    HiByte(_WIN32_WINNT_VISTA), LoByte(_WIN32_WINNT_VISTA), 0
-  );
+  if (MajorVersion >= HiByte(_WIN32_WINNT_WINXP))
+    and Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo) then
+    Result := IsReallyWindowsVersionOrGreater(
+      HiByte(_WIN32_WINNT_VISTA), LoByte(_WIN32_WINNT_VISTA), 0
+    )
+  else
+    Result := False;
 end;
 
 class function TPJOSInfo.IsReallyWindowsVistaSP1OrGreater: Boolean;

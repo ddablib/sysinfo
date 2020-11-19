@@ -16,7 +16,7 @@ program SysInfoDemo;
 uses
   Forms,
   FmDemo in 'FmDemo.pas' {DemoForm},
-  PJSysInfo in '..\..\PJSysInfo.pas';
+  PJSysInfo6 in '..\..\..\PJSysInfo6.pas';
 
 {$R 'MainIcon.res'}
 {$R 'Manifest.res'}

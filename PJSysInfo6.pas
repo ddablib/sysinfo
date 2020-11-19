@@ -1184,12 +1184,9 @@ const
   );
 
 const
-  // Array of "current version" registry sub-keys that vary with platform.
-  // "False" value is for Window 9x and "True" value is for Windows NT.
-  CurrentVersionRegKeys: array[Boolean] of string = (
-    'Software\Microsoft\Windows\CurrentVersion',
-    'Software\Microsoft\Windows NT\CurrentVersion'
-  );
+  // "Current version" registry sub-key
+  // ** Assumes an NT platform OS
+  CurrentVersionRegKey: string = 'Software\Microsoft\Windows NT\CurrentVersion';
 
 const
   // Known windows build numbers.
@@ -2050,7 +2047,7 @@ const
   UnixStartDate: TDateTime = 25569.0; // 1970/01/01
 begin
   DateStr := GetRegistryString(
-    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'InstallDate'
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKey, 'InstallDate'
   );
   Result := 0.0;
   if DateStr = '' then
@@ -2381,7 +2378,7 @@ end;
 class function TPJOSInfo.ProductID: string;
 begin
   Result := GetRegistryString(
-    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'ProductID'
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKey, 'ProductID'
   );
 end;
 
@@ -2414,14 +2411,14 @@ end;
 class function TPJOSInfo.RegisteredOrganisation: string;
 begin
   Result := GetRegistryString(
-    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'RegisteredOrganization'
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKey, 'RegisteredOrganization'
   );
 end;
 
 class function TPJOSInfo.RegisteredOwner: string;
 begin
   Result := GetRegistryString(
-    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'RegisteredOwner'
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKey, 'RegisteredOwner'
   );
 end;
 

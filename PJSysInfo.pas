@@ -2262,8 +2262,8 @@ end;
 class function TPJOSInfo.IsReallyWindowsVersionOrGreater(MajorVersion,
   MinorVersion, ServicePackMajor: Word): Boolean;
 begin
-  Assert(MajorVersion >= HiByte(_WIN32_WINNT_WIN2K));
-  if Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo) then
+  if (MajorVersion >= HiByte(_WIN32_WINNT_WIN2K))
+    and Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo) then
     Result := TestWindowsVersion(
       MajorVersion, MinorVersion, ServicePackMajor, 0, VER_GREATER_EQUAL
     )

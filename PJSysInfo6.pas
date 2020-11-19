@@ -443,11 +443,11 @@ type
     osWinNT,                // Windows NT (up to v4)
     osWin2K,                // Windows 2000
     osWinXP,                // Windows XP
-    osUnknownWin9x,         // Unknown Windows 9x OS
-    osWin95,                // Windows 95
-    osWin98,                // Windows 98
-    osWinMe,                // Windows Me
-    osUnknownWin32s,        // Unknown OS running Win32s
+//    osUnknownWin9x,         // Unknown Windows 9x OS
+//    osWin95,                // Windows 95
+//    osWin98,                // Windows 98
+//    osWinMe,                // Windows Me
+//    osUnknownWin32s,        // Unknown OS running Win32s
     osWinSvr2003,           // Windows Server 2003
     osUnknown,              // Completely unknown Windows
     osWinVista,             // Windows Vista
@@ -2534,15 +2534,12 @@ end;
 class function TPJOSInfo.ProductName: string;
 begin
   case Product of
-    osUnknownWinNT, osUnknownWin9x, osUnknownWin32s: Result := '';
+    osUnknownWinNT: Result := '';
     osWinNT: Result := 'Windows NT';
     osWin2K: Result := 'Windows 2000';
     osWinXP: Result := 'Windows XP';
     osWinVista: Result := 'Windows Vista';
     osWinSvr2008: Result := 'Windows Server 2008';
-    osWin95: Result := 'Windows 95';
-    osWin98: Result := 'Windows 98';
-    osWinMe: Result := 'Windows Me';
     osWinSvr2003: Result := 'Windows Server 2003';
     osWinSvr2003R2: Result := 'Windows Server 2003 R2';
     osWinLater: Result := Format(

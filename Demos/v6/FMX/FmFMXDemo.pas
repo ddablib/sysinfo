@@ -66,7 +66,7 @@ end;
 procedure TForm1.DisplayItem(const Name: string; const Value: TPJOSPlatform);
 const
   cOSPlatform: array[TPJOSPlatform] of string = (
-    'ospWinNT', 'ospWin9x', 'ospWin32s'
+    'ospWinNT'
   );
 begin
   DisplayItem(Name, cOSPlatform[Value]);
@@ -89,11 +89,10 @@ end;
 procedure TForm1.DisplayItem(const Name: string; const Value: TPJOSProduct);
 const
   cOSProduct: array[TPJOSProduct] of string = (
-    'osUnknownWinNT', 'osWinNT', 'osWin2K', 'osWinXP', 'osUnknownWin9x',
-    'osWin95', 'osWin98', 'osWinMe', 'osUnknownWin32s', 'osWinSvr2003',
-    'osUnknown', 'osWinVista', 'osWinSvr2003R2', 'osWinSvr2008',
-    'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012',
-    'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr', 'osWinSvr2019'
+    'osWinXP', 'osWinSvr2003', 'osUnknown', 'osWinVista', 'osWinSvr2003R2',
+    'osWinSvr2008', 'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8',
+    'osWinSvr2012', 'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr',
+    'osWinSvr2019'
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);

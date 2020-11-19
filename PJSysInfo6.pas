@@ -14,14 +14,15 @@
  *
  * NOTES
  *
- *  1: When compiled with old versions of Delphi that do not support setting
- *     registry access flags via the TRegistry object, some of this code may not
- *     work correctly when running on 64 bit Windows.
+ *  1: DO NOT USE in applications designed to run on versions of Windows prior
+ *     to Windows XP.
  *
- *  2: The code has been tested with the Delphi 64 bit compiler (introduced
+ *  2: Requires Delphi 7 or later to compile.
+ *
+ *  3: The code has been tested with the Delphi 64 bit compiler (introduced
  *     in Delphi XE2) and functions correctly.
  *
- *  3: When run on operating systems up to and including Windows 8 running the
+ *  4: When run on operating systems up to and including Windows 8 running the
  *     host program in compatibility mode causes some variables and TPJOSInfo
  *     methods to be "spoofed" into returning information about the emulated
  *     OS. When run on Windows 8.1 and later details of the actual host

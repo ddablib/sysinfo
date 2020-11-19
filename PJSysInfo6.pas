@@ -78,30 +78,48 @@ unit PJSysInfo6;
 // Conditional defines
 // ===================
 
-// Assume all required facilities available
-{$DEFINE REGACCESSFLAGS}      // TRegistry access flags available
-{$DEFINE WARNDIRS}            // $WARN compiler directives available
-{$DEFINE EXCLUDETRAILING}     // SysUtils.ExcludeTrailingPathDelimiter available
-{$UNDEF RTLNAMESPACES}        // No support for RTL namespaces in unit names
-{$UNDEF HASUNIT64}            // UInt64 type not defined
-{$UNDEF INLINEMETHODS}        // No support for inline methods
+// Prevent compilation on un-supported compilers
 
-// Undefine facilities not available in earlier compilers
-// Note: Delphi 1 to 3 is not included since the code will not compile on these
-// compilers
+{$UNDEF DELPHIVERSIONNOTSUPPORTED}  // Delphi version not supported
+{$DEFINE MESSAGEFATALSUPPORTED}     // Fatal message directive supported
+{$IFDEF VER80}  // Delphi 1!!
+  {$DEFINE DELPHIVERSIONNOTSUPPORTED}
+  {$UNDEF MESSAGEFATALSUPPORTED}
+{$ENDIF}
+{$IFDEF VER90}  // Delphi 2
+  {$DEFINE DELPHIVERSIONNOTSUPPORTED}
+  {$UNDEF MESSAGEFATALSUPPORTED}
+{$ENDIF}
+{$IFDEF VER100}  // Delphi 3
+  {$DEFINE DELPHIVERSIONNOTSUPPORTED}
+  {$UNDEF MESSAGEFATALSUPPORTED}
+{$ENDIF}
 {$IFDEF VER120} // Delphi 4
-  {$UNDEF REGACCESSFLAGS}
-  {$UNDEF WARNDIRS}
-  {$UNDEF EXCLUDETRAILING}
+  {$DEFINE DELPHIVERSIONNOTSUPPORTED}
+  {$UNDEF MESSAGEFATALSUPPORTED}
 {$ENDIF}
 {$IFDEF VER130} // Delphi 5
-  {$UNDEF REGACCESSFLAGS}
-  {$UNDEF WARNDIRS}
-  {$UNDEF EXCLUDETRAILING}  // ** fix by Rich Habedank
+  {$DEFINE DELPHIVERSIONNOTSUPPORTED}
+  {$UNDEF MESSAGEFATALSUPPORTED}
 {$ENDIF}
 {$IFDEF VER140} // Delphi 6
-  {$UNDEF WARNDIRS}
+  {$DEFINE DELPHIVERSIONNOTSUPPORTED}
 {$ENDIF}
+
+{$IFDEF DELPHIVERSIONNOTSUPPORTED}
+  {$IFDEF MESSAGEFATALSUPPORTED}
+  {$MESSAGE Fatal 'Sorry, Delphi 7 or later is required to compile this code.'}
+  {$ELSE}
+  Sorry, Delphi 7 or later is required to compile this code.
+  {$ENDIF}
+{$ENDIF}
+
+// Define compiler specific options for supported compilers
+
+{$UNDEF RTLNAMESPACES}        // Assume no support for RTL namespaces
+{$UNDEF HASUNIT64}            // Assume UInt64 type not defined
+{$UNDEF INLINEMETHODS}        // Assume no support for inline methods
+
 {$IFDEF CONDITIONALEXPRESSIONS}
   {$IF CompilerVersion >= 24.0} // Delphi XE3 and later
     {$LEGACYIFEND ON}  // NOTE: this must come before all $IFEND directives
@@ -118,10 +136,8 @@ unit PJSysInfo6;
 {$ENDIF}
 
 // Switch off "unsafe" warnings for this unit
-{$IFDEF WARNDIRS}
-  {$WARN UNSAFE_TYPE OFF}
-  {$WARN UNSAFE_CODE OFF}
-{$ENDIF}
+{$WARN UNSAFE_TYPE OFF}
+{$WARN UNSAFE_CODE OFF}
 
 // Switch on range checking when debugging. In production code it's the user's
 // choice whether to use range checking or not
@@ -1286,10 +1302,9 @@ var
   InternalExtraUpdateInfo: string = '';
 
 // Flag required when opening registry with specified access flags
-{$IFDEF REGACCESSFLAGS}
+// .. not defined in all supported Delphi compilers
 const
-  KEY_WOW64_64KEY = $0100;  // registry access flag not defined in all Delphis
-{$ENDIF}
+  KEY_WOW64_64KEY = $0100;
 
 // Tests Windows version (major, minor, service pack major & service pack minor)
 // against the given values using the given comparison condition and return
@@ -1422,17 +1437,6 @@ begin
   Result := GetProcAddress(GetModuleHandle(cKernel), PChar(FuncName));
 end;
 
-{$IFNDEF EXCLUDETRAILING}
-// Removes any trailing '\' from given directory or path. Used for versions of
-// Delphi that don't implement this routine in SysUtils.
-function ExcludeTrailingPathDelimiter(const DirOrPath: string) : string;
-begin
-  Result := DirOrPath;
-  while (Result <> '') and (Result[Length(Result)] = '\') do
-    Result := Copy(Result, 1, Length(Result) - 1);
-end;
-{$ENDIF}
-
 // Returns the value of the given environment variable.
 function GetEnvVar(const VarName: string): string;
 var
@@ -1460,12 +1464,9 @@ begin
     ((InternalMajorVersion = 5) and (InternalMinorVersion = 0));
 end;
 
-// Creates a read only TRegistry instance. On versions of Delphi or OSs that
-// don't support passing access flags to TRegistry constructor, registry is
-// opened normally for read/write access.
+// Creates a read only TRegistry instance.
 function RegCreate: TRegistry;
 begin
-  {$IFDEF REGACCESSFLAGS}
   //! Fix for issue #14 (https://sourceforge.net/p/ddablib/tickets/14/)
   //! suggested by Steffen Schaff.
   //! Later modified to allow for fact that Windows 2000 fails if
@@ -1474,16 +1475,11 @@ begin
     Result := TRegistry.Create
   else
     Result := TRegistry.Create(KEY_READ or KEY_WOW64_64KEY);
-  {$ELSE}
-  Result := TRegistry.Create;
-  {$ENDIF}
 end;
 
-// Uses registry object to open a key as read only. On versions of Delphi that
-// can't open keys as read only the key is opened normally.
+// Uses registry object to open a key as read only.
 function RegOpenKeyReadOnly(const Reg: TRegistry; const Key: string): Boolean;
 begin
-  {$IFDEF REGACCESSFLAGS}
   //! Fix for problem with OpenKeyReadOnly on 64 bit Windows requires Reg has
   //! (KEY_READ or KEY_WOW64_64KEY) access flags.
   //! Even though these flags aren't provided on Windows 2000 and earlier, the
@@ -1492,11 +1488,6 @@ begin
     Result := Reg.OpenKeyReadOnly(Key)
   else
     Result := Reg.OpenKey(Key, False);
-  {$ELSE}
-  // Can't fix Win 64 problem since this version of Delphi does not support
-  // customisation of registry access flags.
-  Result := Reg.OpenKeyReadOnly(Key);
-  {$ENDIF}
 end;
 
 // Gets a string value from the given registry sub-key and value within the

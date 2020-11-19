@@ -17,7 +17,7 @@ interface
 
 uses
   StdCtrls, Classes, Controls, ComCtrls, Forms,
-  PJSysInfo6, ExtCtrls;
+  PJSysInfo, ExtCtrls;
 
 type
   TDemoForm = class(TForm)

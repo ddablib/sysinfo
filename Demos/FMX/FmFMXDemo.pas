@@ -17,7 +17,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Rtti, System.Classes,
   System.Variants, FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs,
   FMX.TabControl, FMX.Ani, FMX.Layouts, FMX.Memo,
-  PJSysInfo6, FMX.ListBox, FMX.TreeView, FMX.Grid;
+  PJSysInfo, FMX.ListBox, FMX.TreeView, FMX.Grid;
 
 type
   TForm1 = class(TForm)

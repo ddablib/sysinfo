@@ -439,17 +439,10 @@ type
   ///  as not to destroy any existing code that depends on the ordinal value of
   ///  the existing values.</remarks>
   TPJOSProduct = (
-    osUnknownWinNT,         // Unknown Windows NT OS
-    osWinNT,                // Windows NT (up to v4)
     osWin2K,                // Windows 2000
     osWinXP,                // Windows XP
-//    osUnknownWin9x,         // Unknown Windows 9x OS
-//    osWin95,                // Windows 95
-//    osWin98,                // Windows 98
-//    osWinMe,                // Windows Me
-//    osUnknownWin32s,        // Unknown OS running Win32s
     osWinSvr2003,           // Windows Server 2003
-    osUnknown,              // Completely unknown Windows
+    osUnknown,              // Unrecognised Windows version
     osWinVista,             // Windows Vista
     osWinSvr2003R2,         // Windows Server 2003 R2
     osWinSvr2008,           // Windows Server 2008
@@ -496,24 +489,11 @@ type
     ///  from GetProductInfo API.</summary>
     class function EditionFromProductInfo: string;
 
-    ///  <summary>Checks if a given suite is installed on an NT system.
+    ///  <summary>Checks if a given suite is installed.
     ///  </summary>
     ///  <param name="Suite">Integer [in] One of the VER_SUITE_* flags.</param>
-    ///  <returns>True if suite is installed, False if not installed or not an
-    ///  NT platform OS.</returns>
+    ///  <returns>True if suite is installed, False if not installed.</returns>
     class function CheckSuite(const Suite: Integer): Boolean;
-
-    ///  <summary>Gets product edition from registry.</summary>
-    ///  <remarks>Needed to get edition for NT4 pre SP6.</remarks>
-    class function EditionFromReg: string;
-
-    ///  <summary>Checks registry to see if NT4 Service Pack 6a is installed.
-    ///  </summary>
-    class function IsNT4SP6a: Boolean;
-
-    ///  <summary>Gets code describing product type from registry.</summary>
-    ///  <remarks>Used to get product type for NT4 SP5 and earlier.</remarks>
-    class function ProductTypeFromReg: string;
 
     ///  <summary>Checks if the underlying operating system either has the given
     ///  major and minor version number and service pack major version numbers
@@ -1221,7 +1201,7 @@ const
   //   https://en.wikipedia.org/wiki/Windows_10_version_history
   //   https://en.wikipedia.org/wiki/Windows_Server_2019
   //   https://en.wikipedia.org/wiki/Windows_Server_2016
-  //   https://en.wikipedia.org/wiki/Windows_Server_2016
+  //   https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions
   //   https://tinyurl.com/y8tfadm2
 
   // for Vista and Win 7 we have to add service pack number to these values to
@@ -1868,7 +1848,7 @@ begin
     //    So we must now consider a build number of 0 as indicating an unknown
     //    build number.
     //    But note that some users report that their registry is returning
-    //    correct value. I really hate Windows!!!
+    //    the correct value. I really hate Windows!!!
     // ** Seems like more registry spoofing (see above).
 
   end
@@ -1882,7 +1862,9 @@ begin
     InternalMinorVersion := Win32MinorVersion;
     InternalBuildNumber := Win32BuildNumber;
     InternalCSDVersion := Win32CSDVersion;
-    // Try to get extended information
+    // Try to get extended information: we should be able to because
+    // GetVersionEx is implemented from Win 2K onwards. But we play it safe and
+    // use default values just in case it fails.
     {$IFDEF UNICODE}
     GetVersionEx := LoadKernelFunc('GetVersionExW');
     {$ELSE}
@@ -1966,23 +1948,12 @@ class function TPJOSInfo.Description: string;
   end;
 
 begin
-  // Start with product name
-  Result := ProductName;
-  if Product = osWinNT then
-  begin
-    // For NT3/4 append version number after product
-    AppendToResult(Format('%d.%d', [MajorVersion, MinorVersion]));
-    AppendToResult(Edition);
-    AppendToResult(ServicePackEx);  // does nothing if no service pack etc
-    AppendToResult(Format('(Build %d)', [BuildNumber]));
-  end
-  else
-  begin
-    // Windows 2000 and later: don't include version number
-    AppendToResult(Edition);
-    AppendToResult(ServicePackEx);  // does nothing if no service pack
-    AppendToResult(Format('(Build %d)', [BuildNumber]));
-  end;
+  Result := ProductName;          // start with product name
+  AppendToResult(Edition);        // add any edition
+  AppendToResult(ServicePackEx);  // does nothing if no service pack
+  AppendToResult(                 // add build number
+    Format('(Build %d)', [BuildNumber])
+  );
 end;
 
 class function TPJOSInfo.Edition: string;
@@ -2086,25 +2057,6 @@ begin
       else
         Result := 'Professional';
     end;
-    osWinNT:
-    begin
-      if Win32HaveExInfo then
-      begin
-        // This is NT SP6 or later: got info from OS
-        if IsServer then
-        begin
-          if CheckSuite(VER_SUITE_ENTERPRISE) then
-            Result := 'Enterprise Edition'
-          else
-            Result := 'Server';
-        end
-        else
-          Result := 'Workstation'
-      end
-      else
-        // NT before SP6: we read required info from registry
-        Result := EditionFromReg;
-    end;
   end;
 end;
 
@@ -2121,22 +2073,6 @@ begin
       Exit;
     end;
   end;
-end;
-
-class function TPJOSInfo.EditionFromReg: string;
-var
-  EditionCode: string;  // OS product edition code stored in registry
-begin
-  EditionCode := ProductTypeFromReg;
-  if CompareText(EditionCode, 'WINNT') = 0 then
-    Result := 'WorkStation'
-  else if CompareText(EditionCode, 'LANMANNT') = 0 then
-    Result := 'Server'
-  else if CompareText(EditionCode, 'SERVERNT') = 0 then
-    Result := 'Advanced Server';
-  Result := Result + Format(
-    ' %d.%d', [InternalMajorVersion, InternalMinorVersion]
-  );
 end;
 
 class function TPJOSInfo.HasPenExtensions: Boolean;
@@ -2166,31 +2102,6 @@ end;
 class function TPJOSInfo.IsMediaCenter: Boolean;
 begin
   Result := GetSystemMetrics(SM_MEDIACENTER) <> 0;
-end;
-
-class function TPJOSInfo.IsNT4SP6a: Boolean;
-var
-  Reg: TRegistry; // registry access object
-begin
-  if (Product = osWinNT)
-    and (InternalMajorVersion = 4)
-    and (CompareText(InternalCSDVersion, 'Service Pack 6') = 0) then
-  begin
-    // System is reporting NT4 SP6
-    // we have SP 6a if particular registry key exists
-    Reg := RegCreate;
-    try
-      Reg.RootKey := HKEY_LOCAL_MACHINE;
-      Result := Reg.KeyExists(
-        'SOFTWARE\Microsoft\Windows NT\CurrentVersion\Hotfix\Q246009'
-      );
-    finally
-      Reg.Free;
-    end;
-  end
-  else
-    // System not reporting NT4 SP6, so not SP6a!
-    Result := False;
 end;
 
 class function TPJOSInfo.IsReallyWindows2000OrGreater: Boolean;
@@ -2332,13 +2243,9 @@ end;
 class function TPJOSInfo.IsServer: Boolean;
 begin
   // ** Logic assumes a Windows NT platform
-  if Win32HaveExInfo then
-    // Check product type from extended OS info
-    Result := (Win32ProductType = VER_NT_DOMAIN_CONTROLLER)
-      or (Win32ProductType = VER_NT_SERVER)
-  else
-    // Check product type stored in registry
-    Result := CompareText(ProductTypeFromReg, 'WINNT') <> 0;;
+  // Check product type from extended OS info
+  Result := (Win32ProductType = VER_NT_DOMAIN_CONTROLLER)
+    or (Win32ProductType = VER_NT_SERVER)
 end;
 
 class function TPJOSInfo.IsTabletPC: Boolean;
@@ -2424,17 +2331,9 @@ end;
 
 class function TPJOSInfo.Product: TPJOSProduct;
 begin
-  // TODO: Decide which unknown flag to use - probably osUnknown
+  // ** Logic assumes a Windows NT platform
   Result := osUnknown;
-  Result := osUnknownWinNT;
   case InternalMajorVersion of
-    3, 4:
-    begin
-      // NT 3 or 4
-      case InternalMinorVersion of
-        0: Result := osWinNT;
-      end;
-    end;
     5:
     begin
       // Windows 2000 or XP
@@ -2534,8 +2433,7 @@ end;
 class function TPJOSInfo.ProductName: string;
 begin
   case Product of
-    osUnknownWinNT: Result := '';
-    osWinNT: Result := 'Windows NT';
+    osUnknown: Result := '';
     osWin2K: Result := 'Windows 2000';
     osWinXP: Result := 'Windows XP';
     osWinVista: Result := 'Windows Vista';
@@ -2559,15 +2457,6 @@ begin
   end;
 end;
 
-class function TPJOSInfo.ProductTypeFromReg: string;
-begin
-  Result := GetRegistryString(
-    HKEY_LOCAL_MACHINE,
-    'SYSTEM\CurrentControlSet\Control\ProductOptions',
-    'ProductType'
-  );
-end;
-
 class function TPJOSInfo.RegisteredOrganisation: string;
 begin
   Result := GetRegistryString(
@@ -2584,12 +2473,8 @@ end;
 
 class function TPJOSInfo.ServicePack: string;
 begin
-  // On Windows NT we return service pack string, unless NT4 SP6 when we
-  // need to check whether actually SP6 or SP6a
-  if IsNT4SP6a then
-    Result := 'Service Pack 6a' // do not localize
-  else
-    Result := InternalCSDVersion;
+  // ** Logic assumes a Windows NT platform
+  Result := InternalCSDVersion;
 end;
 
 class function TPJOSInfo.ServicePackEx: string;

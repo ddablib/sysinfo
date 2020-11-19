@@ -426,10 +426,11 @@ const
 
 type
   ///  <summary>Enumeration of OS platforms.</summary>
+  ///  <remarks>Since only Windows XP and later are supported, and all such OSs
+  ///  are NT based, there is only one valid value here. Earlier versions of
+  ///  PJSysInfo provided additional values.</remarks>
   TPJOSPlatform = (
-    ospWinNT,               // Windows NT platform
-    ospWin9x,               // Windows 9x platform
-    ospWin32s               // Win32s platform
+    ospWinNT
   );
 
 type
@@ -538,15 +539,24 @@ type
     class function CanSpoof: Boolean;
 
     ///  <summary>Checks if the OS is on the Windows 9x platform.</summary>
+    ///  <remarks>In this version of PJSysInfo this function is a stub that
+    ///  always returns False, since onLy NT platform OSs are supported.
+    ///  </remarks>
     class function IsWin9x: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks if the OS is on the Windows NT platform.</summary>
+    ///  <remarks>In this version of PJSysInfo this function is a stub that
+    ///  always returns True, since no other OS platform is supported.</remarks>
     class function IsWinNT: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks if the program is hosted on Win32s.</summary>
-    ///  <remarks>This is unlikely to ever return True since Delphi does not run
-    ///  on Win32s.</remarks>
+    ///  <remarks>In this version of PJSysInfo this function is a stub that
+    ///  always returns False, since onLy NT platform OSs are supported.
+    ///  </remarks>
     class function IsWin32s: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks if a 32 bit program is running under WOW64 on a 64 bit
     ///  operating system.</summary>
@@ -572,7 +582,11 @@ type
     class function HasPenExtensions: Boolean;
 
     ///  <summary>Returns the host OS platform identifier.</summary>
+    ///  <remarks>In this version of PJSysInfo this function is a stub that
+    ///  always returns ospWinNT, since onLy NT platform OSs are supported.
+    ///  </remarks>
     class function Platform: TPJOSPlatform;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Returns the host OS product identifier.</summary>
     class function Product: TPJOSProduct;
@@ -991,7 +1005,8 @@ uses
 
 resourcestring
   // Error messages
-  sUnknownPlatform = 'Unrecognised operating system platform';
+  sUnsupportedPlatform = 'Operating system platform not supported: ' +
+    'Windows XP or later is required to run PJSysInfo6';
   sUnknownProduct = 'Unrecognised operating system product';
   sBadRegType =  'Unsupported registry type';
   sBadRegIntType = 'Integer value expected in registry';
@@ -1917,6 +1932,13 @@ begin
   InternalProcessorArchitecture := SI.wProcessorArchitecture;
 end;
 
+// Checks if OS is supported by this unit
+// *** Must be called AFTER InitPlatformIdEx.
+procedure ValidateOS;
+begin
+  Assert(InternalPlatform = VER_PLATFORM_WIN32_NT, sUnsupportedPlatform);
+end;
+
 { TPJOSInfo }
 
 class function TPJOSInfo.BuildNumber: Integer;
@@ -1946,30 +1968,20 @@ class function TPJOSInfo.Description: string;
 begin
   // Start with product name
   Result := ProductName;
-  case Platform of
-    ospWinNT:
-    begin
-      // We have an NT OS
-      // append any product type
-      if Product = osWinNT then
-      begin
-        // For NT3/4 append version number after product
-        AppendToResult(Format('%d.%d', [MajorVersion, MinorVersion]));
-        AppendToResult(Edition);
-        AppendToResult(ServicePackEx);  // does nothing if no service pack etc
-        AppendToResult(Format('(Build %d)', [BuildNumber]));
-      end
-      else
-      begin
-        // Windows 2000 and later: don't include version number
-        AppendToResult(Edition);
-        AppendToResult(ServicePackEx);  // does nothing if no service pack
-        AppendToResult(Format('(Build %d)', [BuildNumber]));
-      end;
-    end;
-    ospWin9x:
-      // We have a Win 95 line OS: append service pack
-      AppendToResult(ServicePack);
+  if Product = osWinNT then
+  begin
+    // For NT3/4 append version number after product
+    AppendToResult(Format('%d.%d', [MajorVersion, MinorVersion]));
+    AppendToResult(Edition);
+    AppendToResult(ServicePackEx);  // does nothing if no service pack etc
+    AppendToResult(Format('(Build %d)', [BuildNumber]));
+  end
+  else
+  begin
+    // Windows 2000 and later: don't include version number
+    AppendToResult(Edition);
+    AppendToResult(ServicePackEx);  // does nothing if no service pack
+    AppendToResult(Format('(Build %d)', [BuildNumber]));
   end;
 end;
 
@@ -2319,10 +2331,8 @@ end;
 
 class function TPJOSInfo.IsServer: Boolean;
 begin
-  if InternalPlatform <> VER_PLATFORM_WIN32_NT then
-    // Not WinNT platform => can't be a server
-    Result := False
-  else if Win32HaveExInfo then
+  // ** Logic assumes a Windows NT platform
+  if Win32HaveExInfo then
     // Check product type from extended OS info
     Result := (Win32ProductType = VER_NT_DOMAIN_CONTROLLER)
       or (Win32ProductType = VER_NT_SERVER)
@@ -2338,12 +2348,14 @@ end;
 
 class function TPJOSInfo.IsWin32s: Boolean;
 begin
-  Result := Platform = ospWin32s;
+  // ** Logic assumes a Windows NT platform
+  Result := False;
 end;
 
 class function TPJOSInfo.IsWin9x: Boolean;
 begin
-  Result := Platform = ospWin9x;
+  // ** Logic assumes a Windows NT platform
+  Result := False;
 end;
 
 class function TPJOSInfo.IsWindowsServer: Boolean;
@@ -2365,7 +2377,8 @@ end;
 
 class function TPJOSInfo.IsWinNT: Boolean;
 begin
-  Result := Platform = ospWinNT;
+  // ** Logic assumes a Windows NT platform
+  Result := True;
 end;
 
 class function TPJOSInfo.IsWow64: Boolean;
@@ -2405,136 +2418,109 @@ end;
 
 class function TPJOSInfo.Platform: TPJOSPlatform;
 begin
-  case InternalPlatform of
-    VER_PLATFORM_WIN32_NT: Result := ospWinNT;
-    VER_PLATFORM_WIN32_WINDOWS: Result := ospWin9x;
-    VER_PLATFORM_WIN32s: Result := ospWin32s;
-    else raise EPJSysInfo.Create(sUnknownPlatform);
-  end;
+  // ** Logic assumes a Windows NT platform
+  Result := ospWinNT;
 end;
 
 class function TPJOSInfo.Product: TPJOSProduct;
 begin
+  // TODO: Decide which unknown flag to use - probably osUnknown
   Result := osUnknown;
-  case Platform of
-    ospWin9x:
+  Result := osUnknownWinNT;
+  case InternalMajorVersion of
+    3, 4:
     begin
-      // Win 9x platform: only major version is 4
-      Result := osUnknownWin9x;
-      case InternalMajorVersion of
-        4:
-        begin
-          case InternalMinorVersion of
-            0: Result := osWin95;
-            10: Result := osWin98;
-            90: Result := osWinMe;
-          end;
-        end;
+      // NT 3 or 4
+      case InternalMinorVersion of
+        0: Result := osWinNT;
       end;
     end;
-    ospWinNT:
+    5:
     begin
-      // NT platform OS
-      Result := osUnknownWinNT;
-      case InternalMajorVersion of
-        3, 4:
+      // Windows 2000 or XP
+      case InternalMinorVersion of
+        0:
+          Result := osWin2K;
+        1:
+          Result := osWinXP;
+        2:
         begin
-          // NT 3 or 4
-          case InternalMinorVersion of
-            0: Result := osWinNT;
-          end;
-        end;
-        5:
-        begin
-          // Windows 2000 or XP
-          case InternalMinorVersion of
-            0:
-              Result := osWin2K;
-            1:
-              Result := osWinXP;
-            2:
-            begin
-              if GetSystemMetrics(SM_SERVERR2) <> 0 then
-                Result := osWinSvr2003R2
-              else
-              begin
-                if not IsServer and
-                  (InternalProcessorArchitecture
-                    = PROCESSOR_ARCHITECTURE_AMD64) then
-                  Result := osWinXP // XP Pro X64
-                else
-                  Result := osWinSvr2003
-              end
-            end;
-          end;
-        end;
-        6:
-        begin
-          case InternalMinorVersion of
-            0:
-              if not IsServer then
-                Result := osWinVista
-              else
-                Result := osWinSvr2008;
-            1:
-              if not IsServer then
-                Result := osWin7
-              else
-                Result := osWinSvr2008R2;
-            2:
-              if not IsServer then
-                Result := osWin8
-              else
-                Result := osWinSvr2012;
-            3:
-              // NOTE: Version 6.3 may only be reported by Windows if the
-              // application is "manifested" for Windows 8.1. See
-              // http://bit.ly/MJSO8Q. Getting the OS via VerifyVersionInfo
-              // instead of GetVersion or GetVersionEx should work round this
-              // for Windows 8.1 (i.e. version 6.3).
-              if not IsServer then
-                Result := osWin8Point1
-              else
-                Result := osWinSvr2012R2;
-            4:
-              // Version 6.4 was used for Windows 2016 server tech preview 1.
-              // This version *may* only be detected by Windows if the
-              // application is "manifested" for the correct Windows version.
-              // See http://bit.ly/MJSO8Q.
-              if IsServer then
-                Result := osWin10Svr;
+          if GetSystemMetrics(SM_SERVERR2) <> 0 then
+            Result := osWinSvr2003R2
+          else
+          begin
+            if not IsServer and
+              (InternalProcessorArchitecture
+                = PROCESSOR_ARCHITECTURE_AMD64) then
+              Result := osWinXP // XP Pro X64
             else
-              // Higher minor version: must be an unknown later OS
-              Result := osWinLater
-          end;
+              Result := osWinSvr2003
+          end
         end;
-        10:
-        begin
-          // NOTE: Version 10 and later may only be reported by Windows if the
-          // application is "manifested" for the correct Windows version. See
-          // http://bit.ly/MJSO8Q. Previously, getting the OS from
-          // VerifyVersionInfo instead of GetVersion or GetVersionEx worked
-          // round this, but MS deprecated this in Windows 10, reverting
-          // VerifyVersionInfo to work like GetVersion. WHY????!!!!
-          case InternalMinorVersion of
-            0:
-              if not IsServer then
-                Result := osWin10
-              else
-                if InternalBuildNumber <= Win2016LastBuild then
-                  Result := osWin10Svr
-                else
-                  Result := osWinSvr2019;
-          end;
-        end;
-        else
-          // Higher major version: must be an unknown later OS
-          Result := osWinLater;
       end;
     end;
-    ospWin32s:
-      // Windows 32s: probably won't ever get this
-      Result := osUnknownWin32s;
+    6:
+    begin
+      case InternalMinorVersion of
+        0:
+          if not IsServer then
+            Result := osWinVista
+          else
+            Result := osWinSvr2008;
+        1:
+          if not IsServer then
+            Result := osWin7
+          else
+            Result := osWinSvr2008R2;
+        2:
+          if not IsServer then
+            Result := osWin8
+          else
+            Result := osWinSvr2012;
+        3:
+          // NOTE: Version 6.3 may only be reported by Windows if the
+          // application is "manifested" for Windows 8.1. See
+          // http://bit.ly/MJSO8Q. Getting the OS via VerifyVersionInfo
+          // instead of GetVersion or GetVersionEx should work round this
+          // for Windows 8.1 (i.e. version 6.3).
+          if not IsServer then
+            Result := osWin8Point1
+          else
+            Result := osWinSvr2012R2;
+        4:
+          // Version 6.4 was used for Windows 2016 server tech preview 1.
+          // This version *may* only be detected by Windows if the
+          // application is "manifested" for the correct Windows version.
+          // See http://bit.ly/MJSO8Q.
+          if IsServer then
+            Result := osWin10Svr;
+        else
+          // Higher minor version: must be an unknown later OS
+          Result := osWinLater
+      end;
+    end;
+    10:
+    begin
+      // NOTE: Version 10 and later may only be reported by Windows if the
+      // application is "manifested" for the correct Windows version. See
+      // http://bit.ly/MJSO8Q. Previously, getting the OS from
+      // VerifyVersionInfo instead of GetVersion or GetVersionEx worked
+      // round this, but MS deprecated this in Windows 10, reverting
+      // VerifyVersionInfo to work like GetVersion. WHY????!!!!
+      case InternalMinorVersion of
+        0:
+          if not IsServer then
+            Result := osWin10
+          else
+            if InternalBuildNumber <= Win2016LastBuild then
+              Result := osWin10Svr
+            else
+              Result := osWinSvr2019;
+      end;
+    end;
+    else
+      // Higher major version: must be an unknown later OS
+      Result := osWinLater;
   end;
 end;
 
@@ -2601,38 +2587,12 @@ end;
 
 class function TPJOSInfo.ServicePack: string;
 begin
-  // Assume no service pack
-  Result := '';
-  case Platform of
-    ospWin9x:
-      // On the Windows 9x platform we decode the service pack info
-      if InternalCSDVersion <> '' then
-      begin
-        case Product of
-          osWin95:
-            {$IFDEF UNICODE}
-            if CharInSet(InternalCSDVersion[1], ['B', 'b', 'C', 'c']) then
-            {$ELSE}
-            if InternalCSDVersion[1] in ['B', 'b', 'C', 'c'] then
-            {$ENDIF}
-              Result := 'OSR2';
-          osWin98:
-            {$IFDEF UNICODE}
-            if CharInSet(InternalCSDVersion[1], ['A', 'a']) then
-            {$ELSE}
-            if InternalCSDVersion[1] in ['A', 'a'] then
-            {$ENDIF}
-              Result := 'SE';
-        end;
-      end;
-    ospWinNT:
-      // On Windows NT we return service pack string, unless NT4 SP6 when we
-      // need to check whether actually SP6 or SP6a
-      if IsNT4SP6a then
-        Result := 'Service Pack 6a' // do not localize
-      else
-        Result := InternalCSDVersion;
-  end;
+  // On Windows NT we return service pack string, unless NT4 SP6 when we
+  // need to check whether actually SP6 or SP6a
+  if IsNT4SP6a then
+    Result := 'Service Pack 6a' // do not localize
+  else
+    Result := InternalCSDVersion;
 end;
 
 class function TPJOSInfo.ServicePackEx: string;
@@ -3029,8 +2989,10 @@ end;
 
 initialization
 
-// Initialize global variables from extended OS and product info
+// Initialize global variables from extended OS and product info and check the
+// OS is supported.
 InitPlatformIdEx;
+ValidateOS;
 
 end.
 

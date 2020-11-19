@@ -2556,7 +2556,7 @@ end;
 class function TPJOSInfo.ProductName: string;
 begin
   case Product of
-    osUnknownWinNT, osUnknownWin9x, osUnknownWin32s: Result := '';
+    osUnknown, osUnknownWinNT, osUnknownWin9x, osUnknownWin32s: Result := '';
     osWinNT: Result := 'Windows NT';
     osWin2K: Result := 'Windows 2000';
     osWinXP: Result := 'Windows XP';

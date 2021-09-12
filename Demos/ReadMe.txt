@@ -1,4 +1,5 @@
 Demo Programs for the PJSysInfo unit.
+=====================================
 
 There are two demo programs, one in each of the VCL and FMX directories. Both
 demos display the result of calling every method of TPJComputerInfo, TPJOSInfo
@@ -9,16 +10,18 @@ variables.
 
    The demo in the VCL directory compiles as a VCL program.
 
-   It is known to compile with Delphi XE and later. An attempt has made to make
-   the program compilable with Delphi 4 to 2010 but this has not been tested.
-   Some unsupported form properties may need to be removed when opening the
-   project's form in earlier compilers, but this should do no harm. The program
-   definitely will not compile with Delphi 3.
+   This demo has been designed to be backward compatible with Delphi 4 and,
+   later but this is not guaranteed. The current version has only been tested
+   with Delphi XE, XE4, 10.4 and 11, using Windows 10 Version 20H2.
 
-   Some compilers need some extra steps to be taken to compile the program.
+   Some unsupported form properties may need to be removed when opening the
+   project's form in earlier compilers, but this should do no harm.
+
+   Some compilers need some extra steps to be taken in order to compile the
+   program:
 
    * For Delphi 2006 and earlier you need to manually create a Win32 sub-
-     directory of VCL to receive the output binaries.
+     directory of the VCL directory to receive the output binaries.
 
    * Delphi 2007 cannot understand the project file. Delete the .dproj file and
      open the .bdsproj file instead.
@@ -27,7 +30,13 @@ variables.
    the Win32 sub-directory.
 
    Delphi XE2 and later can also create a 64 bit version of the program if the
-   Windows 64 bit target is selected. This compiles to the Win64 sub-directory.
+   Windows 64 bit target is selected.
+
+   ** BUG **
+   64 bit programs are output to the Win32 sub-directory, not the Win64 sub-
+   directory as may be expected. This bug is not being fixed because doing so
+   **could** make that the project file incompatible with earlier Delphi
+   versions.
 
 2) FMX Directory
 
@@ -35,11 +44,17 @@ variables.
    framework.
 
    The demo was initially created using Delphi XE3 and updated using Delphi XE4.
-   It should compile with Delphi XE3 but some form properties may need to be
-   ignored. Delphi XE2 is not supported.
+   It is believed that the demo is compatible with Delphi XE3 through to Delphi
+   11, but it has only been tested with Delphi XE4, 10.4 and 11 using Windows 10
+   Version 20H2
 
-   Both 32 bit and 64 bit Windows targets are supported, with 64 bit being the
-   default. The binaries are written to the Win32 and Win64 sub-directories
+   When loaded into the IDE of Delphi version other than Delphi XE4, certain
+   form properties may be reported as missing. Ignoring such properties should
+   enable the form to load and the program to compile and run successfully. This
+   is the case with Delphi 10.4 and 11.
+
+   Both 32 bit and 64 bit Windows targets are supported, with 32 bit being the
+   default. Binaries are written to the Win32 or Win64 sub-directories
    respectively.
 
 ## Note about manifests ##

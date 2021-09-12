@@ -576,7 +576,7 @@ type
 
     ///  <summary>Returns the minor version number of any NT platform service
     ///  pack.</summary>
-    ///  <remarks>Invalid is ServicePackMinor returns 0.</remarks>
+    ///  <remarks>Invalid if ServicePackMajor returns 0.</remarks>
     class function ServicePackMinor: Integer;
       {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 

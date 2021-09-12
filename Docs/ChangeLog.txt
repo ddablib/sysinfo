@@ -11,6 +11,20 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.6.0 of 12 September 2021
++  Add detection of following Windows & Windows Server versions:
+  - Windows 10 Version 21H1
+  - Windows 10 Version 21H2 (provisional build number: due late 2021)
+  - DEV, Insider preview and beta versions of Windows 11
+  - Windows 2018 Server Versions 2004 and 20H2
+  - Windows 2022 Server Version 21H2
++ Add new code to get OS' revision number, accessible via:
+  - New TPJOSInfo.RevisionNumber method
+  - New Win32RevisionNumber global variable
++ Modify format TPJOSInfo.Description when returning info about Win 2000 and later
++ Update list of web pages used to source build numbers of various Windows versions
++ Update VCL and FMX demo programs re support for detecting Windows 11 & Windows Server 2022 and to display result of calling new TPJOSInfo.RevisionNumber method and Win32RevisionNumber global variable.
+
 Release v5.5.0 of 31 October 2020
 + Updated to detect Windows 10 version 20H2, October 2020 update.
 

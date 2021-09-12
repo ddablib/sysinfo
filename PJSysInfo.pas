@@ -29,34 +29,7 @@
  *
  * ACKNOWLEDGEMENTS
  *
- * Thanks to the following who have contributed to this project:
- *
- *   - Guillermo Fazzolari (bug fix in v2.0.1)
- *
- *   - Laurent Pierre (Many PRODUCT_* constants and suggested GetProductInfo API
- *     code used in v3.0 and later)
- *
- *   - Rich Habedank (bug fix in r228 and testing of bug fixes reported as
- *     issues #31 (https://sourceforge.net/p/ddablib/tickets/31/) and #33
- *     (https://sourceforge.net/p/ddablib/tickets/33/)
- *
- * The project also draws on the work of:
- *
- *   - Achim Kalwa <delphi@achim-kalwa.de> who translated the versionhelpers.h
- *     header into Pascal. Some of the IsReallyWindowsXXXXOrGreater methods of
- *     TPJOSInfo and the TestWindowsVersion routine are based closely on his
- *     work.
- *
- *   - Brendan grant for his ideas presented in the Code Project article at
- *     http://bit.ly/1mDKTu3
- *
- *   - Kendall Sullivan for the code on which TPJComputerInfo.IsAdmin is based.
- *     See http://edn.embarcadero.com/article/26752.
- *
- *   - norgepaul for the code on which TPJComputerInfo.IsUACActive is based. See
- *     his answer on Stack Overflow at http://tinyurl.com/avlztmg.
- *
- * ***** END LICENSE BLOCK *****
+ * See Docs/Acknowledgements.md
 }
 
 

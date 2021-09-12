@@ -11,6 +11,13 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.6.1 of 12 September 2021
++ Made following methods inline, where supported: TPJOSInfo.IsWin9x, TPJOSInfo.IsWinNT, TPJOSInfo.IsWin32s, TPJOSInfo.ServicePackMajor, TPJOSInfo.ServicePackMinor & TPJComputerInfo.Is64Bit. Did not make any methods inline that would require extra units in uses clause of interface section of including units.
++ Documentation updates:
+  - Fixed bug bug #39 "Change log not updated for sysinfo v5.6" by adding the required release information.
+  - Removed acknowledgements from PJSysUtils.pas header comments into a new Docs/Acknowledgements.md document.
+  - Added new "Acknowledgements" section to Docs/ReadMe.htm that links to Acknowledgements.md on SourceForge.
+
 Release v5.6.0 of 12 September 2021
 +  Add detection of following Windows & Windows Server versions:
   - Windows 10 Version 21H1

@@ -93,7 +93,8 @@ const
     'osWin95', 'osWin98', 'osWinMe', 'osUnknownWin32s', 'osWinSvr2003',
     'osUnknown', 'osWinVista', 'osWinSvr2003R2', 'osWinSvr2008',
     'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012',
-    'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr', 'osWinSvr2019'
+    'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr', 'osWinSvr2019',
+    'osWin11', 'osWinSvr2022'
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);
@@ -146,6 +147,7 @@ end;
 procedure TForm1.ShowTPJOSInfo;
 begin
   DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
+  DisplayItem('RevisionNumber', TPJOSInfo.RevisionNumber);
   DisplayItem('Description', TPJOSInfo.Description);
   DisplayItem('Edition', TPJOSInfo.Edition);
   if SameDateTime(TPJOSInfo.InstallationDate, 0.0) then
@@ -236,8 +238,10 @@ begin
   DisplayItem('Win32PlatformEx', Win32PlatformEx);
   DisplayItem('Win32MajorVersionEx', Win32MajorVersionEx);
   DisplayItem('Win32MinorVersionEx', Win32MinorVersionEx);
-  DisplayItem('Win32BuildNumberEx', Win32BuildNumberEx);
   DisplayItem('Win32CSDVersionEx', Win32CSDVersionEx);
+  DisplayItem('Win32BuildNumberEx', Win32BuildNumberEx);
+
+  DisplayItem('Win32RevisionNumber', Win32RevisionNumber);
 
   DisplayItem('Win32HaveExInfo', Win32HaveExInfo);
   DisplayItem('Win32ProductType', Win32ProductType);

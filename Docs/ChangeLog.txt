@@ -11,6 +11,9 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.6.2 of 14 September 2021
++ Replaced non-ANSI dash characters with ASCII "-" characters to prevent possible problems compiling on old ANSI versions of Delphi. Fixes issue #41 - https://sourceforge.net/p/ddablib/tickets/41/
+
 Release v5.6.1 of 12 September 2021
 + Made following methods inline, where supported: TPJOSInfo.IsWin9x, TPJOSInfo.IsWinNT, TPJOSInfo.IsWin32s, TPJOSInfo.ServicePackMajor, TPJOSInfo.ServicePackMinor & TPJComputerInfo.Is64Bit. Did not make any methods inline that would require extra units in uses clause of interface section of including units.
 + Documentation updates:

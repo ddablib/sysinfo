@@ -1241,15 +1241,15 @@ const
                                   //       - 10.0.22000.194 (Preview Release)
                                   //   Revision # >=185
                                   //     Windows 11 (unknown version)
-  Win11c21H2PreRel1Build = 22449; // Windows 11 version 21H2
+  Win11v21H2PreRel1Build = 22449; // Windows 11 version 21H2
                                   //   - 10.0.22449.000 (RSPRERELEASE)
-  Win11c21H2PreRel2Build = 22454; // Windows 11 version 21H2
+  Win11v21H2PreRel2Build = 22454; // Windows 11 version 21H2
                                   //   - 10.0.22454.1000 (RSPRERELEASE)
-  Win11c21H2PreRel3Build = 22458; // Windows 11 version 21H2
+  Win11v21H2PreRel3Build = 22458; // Windows 11 version 21H2
                                   //   - 10.0.22458.1000 (RSPRERELEASE)
-  Win11c21H2PreRel4Build = 22463; // Windows 11 version 21H2
+  Win11v21H2PreRel4Build = 22463; // Windows 11 version 21H2
                                   //   - 10.0.22463.1000 (RSPRERELEASE)
-  Win11c21H2PreRel5Build = 22468; // Windows 11 version 21H2
+  Win11v21H2PreRel5Build = 22468; // Windows 11 version 21H2
                                   //   - 10.0.22468.1000 (RSPRERELEASE)
 
   Win11FirstBuild = Win11DevBuild;  // First build number of Windows 11
@@ -1860,41 +1860,41 @@ begin
                 );
               end;
             end
-            else if IsBuildNumber(Win11c21H2PreRel1Build) then
+            else if IsBuildNumber(Win11v21H2PreRel1Build) then
             begin
-              InternalBuildNumber := Win11c21H2PreRel1Build;
+              InternalBuildNumber := Win11v21H2PreRel1Build;
               InternalExtraUpdateInfo := Format(
                 'Version 21H2 [RSPRERELEASE v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
-            else if IsBuildNumber(Win11c21H2PreRel2Build) then
+            else if IsBuildNumber(Win11v21H2PreRel2Build) then
             begin
-              InternalBuildNumber := Win11c21H2PreRel2Build;
+              InternalBuildNumber := Win11v21H2PreRel2Build;
               InternalExtraUpdateInfo := Format(
                 'Version 21H2 [RSPRERELEASE v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
-            else if IsBuildNumber(Win11c21H2PreRel3Build) then
+            else if IsBuildNumber(Win11v21H2PreRel3Build) then
             begin
-              InternalBuildNumber := Win11c21H2PreRel3Build;
+              InternalBuildNumber := Win11v21H2PreRel3Build;
               InternalExtraUpdateInfo := Format(
                 'Version 21H2 [RSPRERELEASE v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
-            else if IsBuildNumber(Win11c21H2PreRel4Build) then
+            else if IsBuildNumber(Win11v21H2PreRel4Build) then
             begin
-              InternalBuildNumber := Win11c21H2PreRel4Build;
+              InternalBuildNumber := Win11v21H2PreRel4Build;
               InternalExtraUpdateInfo := Format(
                 'Version 21H2 [RSPRERELEASE v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
-            else if IsBuildNumber(Win11c21H2PreRel5Build) then
+            else if IsBuildNumber(Win11v21H2PreRel5Build) then
             begin
-              InternalBuildNumber := Win11c21H2PreRel5Build;
+              InternalBuildNumber := Win11v21H2PreRel5Build;
               InternalExtraUpdateInfo := Format(
                 'Version 21H2 [RSPRERELEASE v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]

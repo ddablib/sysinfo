@@ -11,6 +11,9 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.7.0 of 05 October 2021
++ Updated to detect 1st release of Windows 11 (i.e. Windows 11 Version 21H2).
+
 Release v5.6.2 of 14 September 2021
 + Replaced non-ANSI dash characters with ASCII "-" characters to prevent possible problems compiling on old ANSI versions of Delphi. Fixes issue #41 - https://sourceforge.net/p/ddablib/tickets/41/
 
@@ -31,7 +34,7 @@ Release v5.6.0 of 12 September 2021
 + Add new code to get OS' revision number, accessible via:
   - New TPJOSInfo.RevisionNumber method
   - New Win32RevisionNumber global variable
-+ Modify format TPJOSInfo.Description when returning info about Win 2000 and later
++ Modify format of TPJOSInfo.Description when returning info about Win 2000 and later
 + Update list of web pages used to source build numbers of various Windows versions
 + Update VCL and FMX demo programs re support for detecting Windows 11 & Windows Server 2022 and to display result of calling new TPJOSInfo.RevisionNumber method and Win32RevisionNumber global variable.
 

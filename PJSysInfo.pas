@@ -1221,15 +1221,11 @@ const
   Win1020H1Build = 19041;       // Windows 10 20H1 - version 2004
   Win1020H2Build = 19042;       // Windows 10 20H2 - version 20H2
   Win1021H1Build = 19043;       // Windows 10 21H1 - version 21H1
-  { TODO: 2021-09-11
-          - Win 21H2 due late 2021
-          - Update following var name once Win21H2 released}
+  // Windows 10 Version 21H2 due late 2021
   _Win1021H2Build = 19044;      // Windows 10 21H2 - version 21H2
 
   // Windows 11 ----------------------------------------------------------------
-  { TODO: 2021-09-11
-          - Add more Win11 versions as discovered. }
-  // NOTE: Preview and beta versions of Windows 11 report version 10.0
+  // NOTE: Preview and beta & release versions of Windows 11 report version 10.0
   Win11DevBuild = 21996;          // Windows 11 version Dev
                                   //   - 10.0.21996.1 (Insider version)
   Win11v21H2Build = 22000;        // Version depends on revision # [Rev#]:
@@ -1241,9 +1237,13 @@ const
                                   //       - 10.0.22000.184 (Beta Version)
                                   //   Revision # 194
                                   //     Windows 11 version 21H2
-                                  //       - 10.0.22000.194 (Preview Release)
-                                  //   Revision # >=185
-                                  //     Windows 11 (unknown version)
+                                  //       - ** 1st Public Release **
+                                  //   Revision # 100
+                                  //     One source claims this is release
+                                  //     version.
+                                  { TODO: 2021-10-05
+                                          reverse implementation if Rev #100
+                                          proves not to be release version }
   Win11v21H2PreRel1Build = 22449; // Windows 11 version 21H2
                                   //   - 10.0.22449.000 (RSPRERELEASE)
   Win11v21H2PreRel2Build = 22454; // Windows 11 version 21H2
@@ -1734,8 +1734,16 @@ begin
       end;
       10:
       begin
+        {TODO: 2021/10/05
+          Rationalise calls to IsBuildNumber - maybe use a table of supported
+          build numbers to look up and a function that searches it and returns
+          build number found. Then use a case statement to take appropriate
+          action for each build number.
+        }
         case InternalMinorVersion of
           0:
+          // ** Note: As of 2021/10/05 all releases of Windows 10 **and**
+          //    Windows 11 report major version 10 and minor version 0
           if (Win32ProductType <> VER_NT_DOMAIN_CONTROLLER)
             and (Win32ProductType <> VER_NT_SERVER) then
           begin
@@ -1813,13 +1821,7 @@ begin
             end
             // As of 2021-09-11, Win 11 pre-releases are reporting v10.0
             // Details taken from: https://tinyurl.com/usupsz4a
-            // Correct according to above web oage as of 2021-09-11
-            { TODO: Added 2021-09-11
-                    - Revisit URL to check for change following official release
-                      of Windows 11
-                    - Add any further pre-release versions
-                    - Check if final release has major version 11
-            }
+            // Correct according to above web page as of 2021-09-11
             else if IsBuildNumber(Win11DevBuild) then
             begin
               InternalBuildNumber := Win11DevBuild;
@@ -1833,6 +1835,8 @@ begin
               // There are several Win 11 releases with this build number
               // Which release we're talking about depends on the revision
               // number.
+              // Amazingly one of them is the 1st public release of Win 11
+              // -- well hidden eh?!
               InternalBuildNumber := Win11v21H2Build;
               if InternalRevisionNumber in [51, 65, 71, 100, 120, 132, 168] then
               begin
@@ -1848,12 +1852,17 @@ begin
                   [InternalBuildNumber, InternalRevisionNumber]
                 );
               end
-              else if InternalRevisionNumber = 194 then
+              else if (InternalRevisionNumber = 194)
+                or (InternalRevisionNumber = 100) then
               begin
-                InternalExtraUpdateInfo := Format(
-                  'Version 21H2 [Preview Release v10.0.%d.%d]',
-                  [InternalBuildNumber, InternalRevisionNumber]
-                );
+                // First public release of Windows 11 (this is Version 21H2)
+                { TODO: 2021/10/05:
+                        There is some doubt whether revision 100 is actually
+                        the release version, so this may need changing.
+                        One source claims this: https://tinyurl.com/usupsz4a
+                        but MS documentation says it's Rev 194.
+                }
+                InternalExtraUpdateInfo := 'Version 21H2';
               end
               else
               begin
@@ -1906,7 +1915,7 @@ begin
           end
           else
           begin
-            // Check for Win Server 2016 echnical previews.
+            // Check for Win Server 2016 technical previews.
             // We don't check for TP1 // here because that reported version 6.4,
             // not version 10!
             if IsBuildNumber(Win2016TP2Build) then
@@ -2728,7 +2737,7 @@ begin
                 if InternalBuildNumber < Win11FirstBuild then
                   Result := osWin10
                 else
-                  // As of 2021-09-11 Win 11 is reporting version 10.0
+                  // ** As of 2021-10-05 Win 11 is reporting version 10.0!
                   Result := osWin11;
               end
               else

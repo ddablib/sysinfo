@@ -3,13 +3,19 @@
 ; v. 2.0. If a copy of the MPL was not distributed with this file, You can
 ; obtain one at http://mozilla.org/MPL/2.0/
 ;
-; Copyright (C) 2013-2020, Peter Johnson (@delphidabbler).
+; Copyright (C) 2013-2021, Peter Johnson (@delphidabbler).
 ;
 ; $Rev$
 ; $Date$
 ;
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
+
+Release v5.7.1 of 27 November 2021
++ Updated internal code following official release of Windows 10 21H2. No change to functionality from user's perspective.
++ Fixed a minor bug in Windows 11 detection code that is unlikely to have had any adverse effect.
++ Some refactoring.
++ General source code tidying.
 
 Release v5.7.0 of 05 October 2021
 + Updated to detect 1st release of Windows 11 (i.e. Windows 11 Version 21H2).

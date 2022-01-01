@@ -11,6 +11,11 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.8.0 of 01 January 2022
++ Fixed bug that was failing to detect KB updates to Windows 11 as valid production Windows 11 OS builds.
++ Added support for detecting newly released Windows 11 pre-release builds.
++ Some refactoring of OS build number detection code.
+
 Release v5.7.1 of 27 November 2021
 + Updated internal code following official release of Windows 10 21H2. No change to functionality from user's perspective.
 + Fixed a minor bug in Windows 11 detection code that is unlikely to have had any adverse effect.

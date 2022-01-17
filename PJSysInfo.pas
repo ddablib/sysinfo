@@ -5,9 +5,6 @@
  *
  * Copyright (C) 2001-2021, Peter Johnson (@delphidabbler).
  *
- * $Rev$
- * $Date$
- *
  * This unit contains various static classes, constants, type definitions and
  * global variables for use in providing information about the host computer and
  * operating system.

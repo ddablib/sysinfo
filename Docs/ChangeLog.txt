@@ -5,9 +5,6 @@
 ;
 ; Copyright (C) 2013-2021, Peter Johnson (@delphidabbler).
 ;
-; $Rev$
-; $Date$
-;
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 

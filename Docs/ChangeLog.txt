@@ -8,6 +8,13 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.9.0 of 02 February 2022
++ Updates to TPJOSInfo:
+  + Fixed mis-named Windows 2019 Server versions that should report as "Windows Server". Added new TPJOSProduct.osWinServer value and ammended code to detect and report the new "Windows Server" product type.
+  + Added support for detecting Windows 10 version 22H1 preview builds.
+  + Changed Windows 11 RSPRERELESE build 22509 to report "Windows 11 Insider Preview" instead of "Windows 11 Version 21H2".
++ Updated demo programs to be able to report osWinServer product type added to TPJOSInfo at this release.
+
 Release v5.8.0 of 01 January 2022
 + Fixed bug that was failing to detect KB updates to Windows 11 as valid production Windows 11 OS builds.
 + Added support for detecting newly released Windows 11 pre-release builds.

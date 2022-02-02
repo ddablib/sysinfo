@@ -3,7 +3,7 @@
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
  * obtain one at http://mozilla.org/MPL/2.0/
  *
- * Copyright (C) 2001-2021, Peter Johnson (@delphidabbler).
+ * Copyright (C) 2001-2022, Peter Johnson (@delphidabbler).
  *
  * This unit contains various static classes, constants, type definitions and
  * global variables for use in providing information about the host computer and

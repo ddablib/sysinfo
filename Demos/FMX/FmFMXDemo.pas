@@ -91,7 +91,7 @@ const
     'osUnknown', 'osWinVista', 'osWinSvr2003R2', 'osWinSvr2008',
     'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012',
     'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr', 'osWinSvr2019',
-    'osWin11', 'osWinSvr2022'
+    'osWin11', 'osWinSvr2022', 'osWinServer'
   );
 begin
   DisplayItem(Name, cOSProduct[Value]);

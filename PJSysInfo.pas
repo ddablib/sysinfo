@@ -416,7 +416,8 @@ type
     osWin10Svr,             // Windows 2016 Server
     osWinSvr2019,           // Windows 2019 Server
     osWin11,                // Windows 11
-    osWinSvr2022            // Windows 2022 Server
+    osWinSvr2022,           // Windows 2022 Server
+    osWinServer             // Windows Server (between Server 2019 & 2022)
   );
 
 type
@@ -1220,6 +1221,8 @@ const
   Win1021H1Build = 19043;       // Windows 10 21H1 - version 21H1
   Win1021H2Build = 19044;       // Windows 10 21H2 - version 21H2
 
+  Win1022H1PrevBuild = 22395;   // Windows 10 22H2 - version 22H2 preview
+
   // Windows 11 ----------------------------------------------------------------
   // NOTE: Preview and beta & release versions of Windows 11 report version 10.0
   Win11DevBuild = 21996;          // Windows 11 version Dev
@@ -1254,7 +1257,7 @@ const
                                   //   - 10.0.22489.1000 (RSPRERELEASE)
   Win11v21H2PreRel10Build = 22494;// Windows 11 version 21H2
                                   //   - 10.0.22494.1000 (RSPRERELEASE)
-  Win11v21H2PreRel11Build = 22509;// Windows 11 version 21H2
+  Win11InsiderPrevBuild = 22509;  // Windows 11 Insider Preview
                                   //   - 10.0.22509.1000 (RSPRERELEASE)
 
   Win11FirstBuild = Win11DevBuild;  // First build number of Windows 11
@@ -1285,10 +1288,15 @@ const
   Win2019v1809Build = 17763;    // Win Server 2019 version 1809
   Win2019v1903Build = 18362;    // Win Server 2019 version 1903
   Win2019v1909Build = 18363;    // Win Server 2019 version 1909
-  Win2019v2004Build = 19041;    // Win Server 2019 version 2004
-  Win2019v20H2Build = 19042;    // Win Server 2019 version 20H2
-  Win2019LastBuild = Win2019v20H2Build; // Last build number of Win 2019 Server
-                                        // After this it's Win 2022 Server
+  Win2019LastBuild = Win2019v1909Build; // Last build number of Win 2019 Server
+                                        // After this it's Windows Server
+
+  // Windows Server ------------------------------------------------------------
+  WinServerv2004Build = 19041;    // Win Server version 2004
+  WinServerv20H2Build = 19042;    // Win Server version 20H2
+  WinServerLastBuild = WinServerv20H2Build; // Last build number of Windows
+                                            // Server. After this it's Window
+                                            // 2022 Sever
 
   // Windows 2022 Server -------------------------------------------------------
   Win2022v21H2Build = 20348;    // Win Server 2022 version 21H2
@@ -1828,7 +1836,12 @@ begin
               InternalBuildNumber := Win1021H2Build;
               InternalExtraUpdateInfo := 'Version 21H2';
             end
-            // As of 2021-09-11, Win 11 pre-releases are reporting v10.0
+            else if IsBuildNumber(Win1022H1PrevBuild) then
+            begin
+              InternalBuildNumber := Win1022H1PrevBuild;
+              InternalExtraUpdateInfo := 'Version 22H2 Preview';
+            end
+            // Win 11 releases are reporting v10.0
             // Details taken from: https://tinyurl.com/usupsz4a
             // Correct according to above web page as of 2021-09-11
             else if IsBuildNumber(Win11DevBuild) then
@@ -1874,8 +1887,7 @@ begin
                 Win11v21H2PreRel3Build, Win11v21H2PreRel4Build,
                 Win11v21H2PreRel5Build, Win11v21H2PreRel6Build,
                 Win11v21H2PreRel7Build, Win11v21H2PreRel8Build,
-                Win11v21H2PreRel9Build, Win11v21H2PreRel10Build,
-                Win11v21H2PreRel11Build
+                Win11v21H2PreRel9Build, Win11v21H2PreRel10Build
               ],
               InternalBuildNumber
             ) then
@@ -1885,6 +1897,14 @@ begin
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
+            else if IsBuildNumber(Win11InsiderPrevBuild) then
+            begin
+              InternalBuildNumber := Win11InsiderPrevBuild;
+              InternalExtraUpdateInfo := Format(
+                'Windows 11 Insider Preview - 10.0.%d.%d (RSPRERELEASE)',
+                [InternalBuildNumber, InternalRevisionNumber]
+              );
+            end;
           end
           else // Win32ProductType in [VER_NT_DOMAIN_CONTROLLER, VER_NT_SERVER]
           begin
@@ -1956,14 +1976,14 @@ begin
               InternalBuildNumber := Win2019v1909Build;
               InternalExtraUpdateInfo := 'Version 1909';
             end
-            else if IsBuildNumber(Win2019v2004Build) then
+            else if IsBuildNumber(WinServerv2004Build) then
             begin
-              InternalBuildNumber := Win2019v2004Build;
+              InternalBuildNumber := WinServerv2004Build;
               InternalExtraUpdateInfo := 'Version 2004';
             end
-            else if IsBuildNumber(Win2019v20H2Build) then
+            else if IsBuildNumber(WinServerv20H2Build) then
             begin
-              InternalBuildNumber := Win2019v20H2Build;
+              InternalBuildNumber := WinServerv20H2Build;
               InternalExtraUpdateInfo := 'Version 20H2';
             end
             else if IsBuildNumber(Win2022v21H2Build) then
@@ -2129,7 +2149,7 @@ begin
     osWin7, osWinSvr2008R2,
     osWin8, osWinSvr2012,
     osWin8Point1, osWinSvr2012R2,
-    osWin10, osWin11, osWin10Svr, osWinSvr2019, osWinSvr2022:
+    osWin10, osWin11, osWin10Svr, osWinSvr2019, osWinSvr2022, osWinServer:
     begin
       // For v6.0 and later we ignore the suite mask and use the new
       // PRODUCT_ flags from the GetProductInfo() function to determine the
@@ -2679,8 +2699,9 @@ begin
                   Result := osWin10Svr
                 else if InternalBuildNumber <= Win2019LastBuild then
                   Result := osWinSvr2019
+                else if InternalBuildNumber <= WinServerLastBuild then
+                  Result := osWinServer
                 else
-                  //
                   Result := osWinSvr2022;
               end;
           end;
@@ -2731,6 +2752,7 @@ begin
     osWinSvr2019: Result := 'Windows Server 2019';
     osWin11: Result := 'Windows 11';
     osWinSvr2022: Result := 'Windows Server 2022';
+    osWinServer: Result := 'Windows Server';
     else
       raise EPJSysInfo.Create(sUnknownProduct);
   end;

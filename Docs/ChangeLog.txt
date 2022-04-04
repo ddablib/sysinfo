@@ -8,6 +8,14 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.10.0
++ Updates to TPJOSInfo:
+  + Adds detection of recent Windows 11 Dev Channel releases.
+  + Removes detection of build 22395 as Windows 10 22H2 preview build - available documentation does not support this.
+  + Revised how Windows 11 Dev Channel builds are processed and reported, in line with newly found documentation.
+  + Added detection of Windows 10 Fast Ring and Dev Channel releases.
+  + Added detection of Windows 10 21H1 beta and 21H2 preview builds.
+
 Release v5.9.0 of 02 February 2022
 + Updates to TPJOSInfo:
   + Fixed mis-named Windows 2019 Server versions that should report as "Windows Server". Added new TPJOSProduct.osWinServer value and ammended code to detect and report the new "Windows Server" product type.

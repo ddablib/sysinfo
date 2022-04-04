@@ -1224,6 +1224,12 @@ const
   Win1021H2Build = 19044;       // Windows 10 21H2 - version 21H2
                                 //   revisions 1147..1266 were previews
 
+  // Fast ring
+  Win10FastRing: array of Integer = [
+    19536, 19541, 19546, 19551, 19555, 19559, 19564, 19569, 19577, 19582, 19587,
+    19592, 19603, 19608, 19613, 19619, 19624, 19628, 19631, 19635, 19640, 19645
+  ];
+
   // Dev channel
   // Assuming all Dev channel releases had version string "Dev"
   Win10DevChannel: array of Integer = [
@@ -1868,6 +1874,14 @@ begin
               // Windows 10 Dev Channel releases
               InternalExtraUpdateInfo := Format(
                 'Dev Channel v10.0.%d.%d (Dev)',
+                [InternalBuildNumber, InternalRevisionNumber]
+              );
+            end
+            else if FindBuildNumberFrom(Win10FastRing, InternalBuildNumber) then
+            begin
+              // Windows 10 Fast Ring releases
+              InternalExtraUpdateInfo := Format(
+                'Fast ring v10.0.%d.%d',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end

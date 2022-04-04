@@ -1224,6 +1224,16 @@ const
   Win1021H2Build = 19044;       // Windows 10 21H2 - version 21H2
                                 //   revisions 1147..1266 were previews
 
+  // Dev channel
+  // Assuming all Dev channel releases had version string "Dev"
+  Win10DevChannel: array of Integer = [
+    20150, 20152, 20161, 20170, 20175, 20180, 20185, 20190, 20197, 20201, 20206,
+    20211, 20215, 20221, 20226, 20231, 20236, 20241, 20246, 20251, 20257, 20262,
+    20270, 20277, 21277, 20279, 21286, 21292, 21296, 21301, 21313, 21318, 21322,
+    21327, 21332, 21337, 21343, 21354, 21359, 21364, 21370, 21376, 21382, 21387,
+    21390 // transitioned to Windows 11 after here
+  ];
+
   // Windows 11 ----------------------------------------------------------------
 
   // NOTE: Preview and beta & release versions of Windows 11 report version 10.0
@@ -1865,6 +1875,16 @@ begin
               if IsInRange(InternalRevisionNumber, 1147, 1266) then
                 InternalExtraUpdateInfo := InternalExtraUpdateInfo
                   + ' (preview)';
+            end
+            else if FindBuildNumberFrom(
+              Win10DevChannel, InternalBuildNumber
+            ) then
+            begin
+              // Windows 10 Dev Channel releases
+              InternalExtraUpdateInfo := Format(
+                'Dev Channel v10.0.%d.%d (Dev)',
+                [InternalBuildNumber, InternalRevisionNumber]
+              );
             end
             // Win 11 releases are reporting v10.0
             // Details taken from: https://tinyurl.com/usupsz4a

@@ -1221,8 +1221,6 @@ const
   Win1021H1Build = 19043;       // Windows 10 21H1 - version 21H1
   Win1021H2Build = 19044;       // Windows 10 21H2 - version 21H2
 
-  Win1022H1PrevBuild = 22395;   // Windows 10 22H2 - version 22H2 preview
-
   // Windows 11 ----------------------------------------------------------------
   // NOTE: Preview and beta & release versions of Windows 11 report version 10.0
   Win11DevBuild = 21996;          // Windows 11 version Dev
@@ -1849,11 +1847,6 @@ begin
               // yearly cycle
               InternalBuildNumber := Win1021H2Build;
               InternalExtraUpdateInfo := 'Version 21H2';
-            end
-            else if IsBuildNumber(Win1022H1PrevBuild) then
-            begin
-              InternalBuildNumber := Win1022H1PrevBuild;
-              InternalExtraUpdateInfo := 'Version 22H2 Preview';
             end
             // Win 11 releases are reporting v10.0
             // Details taken from: https://tinyurl.com/usupsz4a

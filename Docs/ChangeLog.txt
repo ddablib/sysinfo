@@ -8,7 +8,7 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
-Release v5.10.0
+Release v5.10.0 of 04 April 2022
 + Updates to TPJOSInfo:
   + Adds detection of recent Windows 11 Dev Channel releases.
   + Removes detection of build 22395 as Windows 10 22H2 preview build - available documentation does not support this.

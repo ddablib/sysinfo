@@ -1254,38 +1254,23 @@ const
   // From what I can gather (and take this with a pinch of salt!):
   // * Insider Dev channel releases from the RS_PRERELEASE branch weren't
   //   matched to a Windows 11 release and had version string "Dev").
-  // * The NI_RELEASE channel was used from 2022/02/16.
+  // * The NI_RELEASE channel was used from 2022/02/16 (build 2257).
   // * From build 22567 the release string changed from "Dev" to "22H"
 
-  // RS_PRELEASE branch ??
-  Win11DevChannel01 = 22449;  // pre Win 11 release
-  Win11DevChannel02 = 22454;
-  Win11DevChannel03 = 22458;
-  Win11DevChannel04 = 22463;
-  Win11DevChannel05 = 22468;
-  Win11DevChannel06 = 22471;  // post Win 11 release
-  Win11DevChannel07 = 22478;
-  Win11DevChannel08 = 22483;
-  Win11DevChannel09 = 22489;
-  Win11DevChannel10 = 22494;
-  Win11DevChannel11 = 22499;
-  Win11DevChannel12 = 22504;
-  Win11DevChannel13 = 22509;
-
-  Win11DevChannel14 = 22518;
-  Win11DevChannel15 = 22523;
-  Win11DevChannel16 = 22526;
-  Win11DevChannel17 = 22533;
-  Win11DevChannel18 = 22538;
-  Win11DevChannel19 = 22543;
-
-  // NI_RELEASE branch ??
-  Win11DevChannel20 = 22557;
-  Win11DevChannel21 = 22563;
-  Win11DevChannel22 = 22567;  // Version string changes from "Dev" to "22H2"
-  Win11DevChannel23 = 22572;
-  Win11DevChannel24 = 22579;
-  Win11DevChannel25 = 22581;  // Dev & Beta channels
+  // Builds with version string "Dev"
+  Win11DevChannelDevBuilds: array of Integer = [
+    22449, 22454, 22458, 22463, 22468,    // pre Win 11 release
+    22471, 22478, 22483, 22489, 22494, 22499, 22504, 22509, 22518, 22523, 22526,
+    22533, 22538, 22543, 22557, 22563
+  ];
+  // Builds with version string "22H2" in Dev channel
+  Win11DevChannel22H2Builds: array of Integer = [
+    22567, 22572, 22579
+  ];
+  // Builds with version string "22H2" in Dev & Beta channels
+  Win11DevBetaChannels22H2Builds: array of Integer = [
+    22581
+  ];
 
   Win11FirstBuild = Win11DevBuild;  // First build number of Windows 11
 
@@ -1927,39 +1912,30 @@ begin
               end;
             end
             else if FindBuildNumberFrom(
-              [
-                Win11DevChannel01, Win11DevChannel02, Win11DevChannel03,
-                Win11DevChannel04, Win11DevChannel05, Win11DevChannel05,
-                Win11DevChannel06, Win11DevChannel07, Win11DevChannel08,
-                Win11DevChannel09, Win11DevChannel10, Win11DevChannel12,
-                Win11DevChannel11, Win11DevChannel12, Win11DevChannel13,
-                Win11DevChannel14, Win11DevChannel15, Win11DevChannel16,
-                Win11DevChannel17, Win11DevChannel18, Win11DevChannel19,
-                Win11DevChannel20, Win11DevChannel21
-
-              ],
-              InternalBuildNumber
+              Win11DevChannelDevBuilds, InternalBuildNumber
             ) then
             begin
+              // Win11 Dev Channel builds with version string "Dev"
               InternalExtraUpdateInfo := Format(
                 'Dev Channel v10.0.%d.%d (Dev)',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
             else if FindBuildNumberFrom(
-              [
-                Win11DevChannel22, Win11DevChannel23, Win11DevChannel24
-              ],
-              InternalBuildNumber
+              Win11DevChannel22H2Builds, InternalBuildNumber
             ) then
             begin
+              // Win11 Dev channel builds with version string "22H2"
               InternalExtraUpdateInfo := Format(
                 'Dev Channel v10.0.%d.%d (22H2)',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
-            else if IsBuildNumber(Win11DevChannel25) then
+            else if FindBuildNumberFrom(
+              Win11DevBetaChannels22H2Builds, InternalBuildNumber
+            ) then
             begin
+              // Win 11 Dev & Beta channel builds with verison string "22H2"
               InternalExtraUpdateInfo := Format(
                 'Dev & Beta Channels v10.0.%d.%d (22H2)',
                 [InternalBuildNumber, InternalRevisionNumber]

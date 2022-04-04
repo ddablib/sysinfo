@@ -1237,28 +1237,42 @@ const
                                   //   Revision # 194
                                   //     Windows 11 version 21H2
                                   //       - ** 1st Public Release **
-  Win11v21H2PreRel1Build = 22449; // Windows 11 version 21H2
-                                  //   - 10.0.22449.000 (RSPRERELEASE)
-  Win11v21H2PreRel2Build = 22454; // Windows 11 version 21H2
-                                  //   - 10.0.22454.1000 (RSPRERELEASE)
-  Win11v21H2PreRel3Build = 22458; // Windows 11 version 21H2
-                                  //   - 10.0.22458.1000 (RSPRERELEASE)
-  Win11v21H2PreRel4Build = 22463; // Windows 11 version 21H2
-                                  //   - 10.0.22463.1000 (RSPRERELEASE)
-  Win11v21H2PreRel5Build = 22468; // Windows 11 version 21H2
-                                  //   - 10.0.22468.1000 (RSPRERELEASE)
-  Win11v21H2PreRel6Build = 22471; // Windows 11 version 21H2
-                                  //   - 10.0.22471.1000 (RSPRERELEASE)
-  Win11v21H2PreRel7Build = 22478; // Windows 11 version 21H2
-                                  //   - 10.0.22478.1000 (RSPRERELEASE)
-  Win11v21H2PreRel8Build = 22483; // Windows 11 version 21H2
-                                  //   - 10.0.22483.1000 (RSPRERELEASE)
-  Win11v21H2PreRel9Build = 22489; // Windows 11 version 21H2
-                                  //   - 10.0.22489.1000 (RSPRERELEASE)
-  Win11v21H2PreRel10Build = 22494;// Windows 11 version 21H2
-                                  //   - 10.0.22494.1000 (RSPRERELEASE)
-  Win11InsiderPrevBuild = 22509;  // Windows 11 Insider Preview
-                                  //   - 10.0.22509.1000 (RSPRERELEASE)
+  // Dev channel release - different sources give different names.
+  // From what I can gather (and take this with a pinch of salt!):
+  // * Insider Dev channel releases from the RS_PRERELEASE branch weren't
+  //   matched to a Windows 11 release and had version string "Dev").
+  // * The NI_RELEASE channel was used from 2022/02/16.
+  // * From build 22567 the release string changed from "Dev" to "22H"
+
+  // RS_PRELEASE branch ??
+  Win11DevChannel01 = 22449;  // pre Win 11 release
+  Win11DevChannel02 = 22454;
+  Win11DevChannel03 = 22458;
+  Win11DevChannel04 = 22463;
+  Win11DevChannel05 = 22468;
+  Win11DevChannel06 = 22471;  // post Win 11 release
+  Win11DevChannel07 = 22478;
+  Win11DevChannel08 = 22483;
+  Win11DevChannel09 = 22489;
+  Win11DevChannel10 = 22494;
+  Win11DevChannel11 = 22499;
+  Win11DevChannel12 = 22504;
+  Win11DevChannel13 = 22509;
+
+  Win11DevChannel14 = 22518;
+  Win11DevChannel15 = 22523;
+  Win11DevChannel16 = 22526;
+  Win11DevChannel17 = 22533;
+  Win11DevChannel18 = 22538;
+  Win11DevChannel19 = 22543;
+
+  // NI_RELEASE branch ??
+  Win11DevChannel20 = 22557;
+  Win11DevChannel21 = 22563;
+  Win11DevChannel22 = 22567;  // Version string changes from "Dev" to "22H2"
+  Win11DevChannel23 = 22572;
+  Win11DevChannel24 = 22579;
+  Win11DevChannel25 = 22581;  // Dev & Beta channels
 
   Win11FirstBuild = Win11DevBuild;  // First build number of Windows 11
 
@@ -1883,28 +1897,43 @@ begin
             end
             else if FindBuildNumberFrom(
               [
-                Win11v21H2PreRel1Build, Win11v21H2PreRel2Build,
-                Win11v21H2PreRel3Build, Win11v21H2PreRel4Build,
-                Win11v21H2PreRel5Build, Win11v21H2PreRel6Build,
-                Win11v21H2PreRel7Build, Win11v21H2PreRel8Build,
-                Win11v21H2PreRel9Build, Win11v21H2PreRel10Build
+                Win11DevChannel01, Win11DevChannel02, Win11DevChannel03,
+                Win11DevChannel04, Win11DevChannel05, Win11DevChannel05,
+                Win11DevChannel06, Win11DevChannel07, Win11DevChannel08,
+                Win11DevChannel09, Win11DevChannel10, Win11DevChannel12,
+                Win11DevChannel11, Win11DevChannel12, Win11DevChannel13,
+                Win11DevChannel14, Win11DevChannel15, Win11DevChannel16,
+                Win11DevChannel17, Win11DevChannel18, Win11DevChannel19,
+                Win11DevChannel20, Win11DevChannel21
+
               ],
               InternalBuildNumber
             ) then
             begin
               InternalExtraUpdateInfo := Format(
-                'Version 21H2 [RSPRERELEASE v10.0.%d.%d]',
+                'Dev Channel v10.0.%d.%d (Dev)',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
-            else if IsBuildNumber(Win11InsiderPrevBuild) then
+            else if FindBuildNumberFrom(
+              [
+                Win11DevChannel22, Win11DevChannel23, Win11DevChannel24
+              ],
+              InternalBuildNumber
+            ) then
             begin
-              InternalBuildNumber := Win11InsiderPrevBuild;
               InternalExtraUpdateInfo := Format(
-                'Windows 11 Insider Preview - 10.0.%d.%d (RSPRERELEASE)',
+                'Dev Channel v10.0.%d.%d (22H2)',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
-            end;
+            end
+            else if IsBuildNumber(Win11DevChannel25) then
+            begin
+              InternalExtraUpdateInfo := Format(
+                'Dev & Beta Channels v10.0.%d.%d (22H2)',
+                [InternalBuildNumber, InternalRevisionNumber]
+              );
+            end
           end
           else // Win32ProductType in [VER_NT_DOMAIN_CONTROLLER, VER_NT_SERVER]
           begin

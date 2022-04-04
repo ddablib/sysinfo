@@ -1207,6 +1207,7 @@ const
   Win8Point1Build = 9600;       // Build number used for all Win 8.1/Svr 2012 R2
 
   // Windows 10 ----------------------------------------------------------------
+
   Win10TH1Build = 10240;        // Windows 10 TH1 - version 1507 (1st release)
   Win10TH2Build = 10586;        // Windows 10 TH2 - version 1511
   Win10RS1Build = 14393;        // Windows 10 RS1 - version 1607
@@ -1219,9 +1220,12 @@ const
   Win1020H1Build = 19041;       // Windows 10 20H1 - version 2004
   Win1020H2Build = 19042;       // Windows 10 20H2 - version 20H2
   Win1021H1Build = 19043;       // Windows 10 21H1 - version 21H1
+                                //   revisions 844..964 were beta
   Win1021H2Build = 19044;       // Windows 10 21H2 - version 21H2
+                                //   revisions 1147..1266 were previews
 
   // Windows 11 ----------------------------------------------------------------
+
   // NOTE: Preview and beta & release versions of Windows 11 report version 10.0
   Win11DevBuild = 21996;          // Windows 11 version Dev
                                   //   - 10.0.21996.1 (Insider version)
@@ -1235,6 +1239,7 @@ const
                                   //   Revision # 194
                                   //     Windows 11 version 21H2
                                   //       - ** 1st Public Release **
+
   // Dev channel release - different sources give different names.
   // From what I can gather (and take this with a pinch of salt!):
   // * Insider Dev channel releases from the RS_PRERELEASE branch weren't
@@ -1526,6 +1531,14 @@ begin
     Result := Copy(Result, 1, Length(Result) - 1);
 end;
 {$ENDIF}
+
+// Checks if integer V is in the range of values defined by VLo and VHi,
+// inclusive.
+function IsInRange(const V, VLo, VHi: Integer): Boolean;
+begin
+  Assert(VLo <= VHi);
+  Result := (V >= VLo) and (V <= VHi);
+end;
 
 // Returns the value of the given environment variable.
 function GetEnvVar(const VarName: string): string;
@@ -1840,6 +1853,8 @@ begin
             begin
               InternalBuildNumber := Win1021H1Build;
               InternalExtraUpdateInfo := 'Version 21H1';
+              if IsInRange(InternalRevisionNumber, 844, 964) then
+                InternalExtraUpdateInfo := InternalExtraUpdateInfo + ' (beta)';
             end
             else if IsBuildNumber(Win1021H2Build) then
             begin
@@ -1847,6 +1862,9 @@ begin
               // yearly cycle
               InternalBuildNumber := Win1021H2Build;
               InternalExtraUpdateInfo := 'Version 21H2';
+              if IsInRange(InternalRevisionNumber, 1147, 1266) then
+                InternalExtraUpdateInfo := InternalExtraUpdateInfo
+                  + ' (preview)';
             end
             // Win 11 releases are reporting v10.0
             // Details taken from: https://tinyurl.com/usupsz4a

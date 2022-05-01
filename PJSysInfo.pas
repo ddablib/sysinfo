@@ -1275,7 +1275,7 @@ const
   ];
   // Builds with version string "22H2" in Dev & Beta channels
   Win11DevBetaChannels22H2Builds: array of Integer = [
-    22581
+    22581, 22593, 22598, 22610
   ];
 
   Win11FirstBuild = Win11DevBuild;  // First build number of Windows 11

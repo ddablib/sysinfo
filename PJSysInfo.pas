@@ -1293,16 +1293,11 @@ const
                                         // After this it's Win 2019 Server
 
   // Windows 2019 Server -------------------------------------------------------
-  Win2019IP180320Build = 17623; // Win Server 2019 Insider Preview Build 17623
-  Win2019IP180324Build = 17627; // Win Server 2019 Insider Preview Build 17627
-  Win2019IP180515Build = 17666; // Win Server 2019 Insider Preview Build 17666
-  Win2019IP180619Build = 17692; // Win Server 2019 Insider Preview Build 17692
-  Win2019IP180710Build = 17709; // Win Server 2019 Insider Preview Build 17709
-  Win2019IP180716Build = 17713; // Win Server 2019 Insider Preview Build 17713
-  Win2019IP180731Build = 17723; // Win Server 2019 Insider Preview Build 17723
-  Win2019IP180814Build = 17733; // Win Server 2019 Insider Preview Build 17733
-  Win2019IP180821Build = 17738; // Win Server 2019 Insider Preview Build 17738
-  Win2019IP180828Build = 17744; // Win Server 2019 Insider Preview Build 17744
+  // Insider Preview builds
+  Win2019IPBuilds: array[0..9] of Integer = (
+    17623, 17627, 17666, 17692, 17709, 17713, 17723, 17733, 17738, 17744
+  );
+  // Release builds
   Win2019v1809Build = 17763;    // Win Server 2019 version 1809
   Win2019v1903Build = 18362;    // Win Server 2019 version 1903
   Win2019v1909Build = 18363;    // Win Server 2019 version 1909
@@ -1997,14 +1992,7 @@ begin
               InternalExtraUpdateInfo := 'Version 1803';
             end
             else if FindBuildNumberFrom(
-              [
-                Win2019IP180320Build, Win2019IP180324Build,
-                Win2019IP180515Build, Win2019IP180619Build,
-                Win2019IP180710Build, Win2019IP180716Build,
-                Win2019IP180731Build, Win2019IP180814Build,
-                Win2019IP180821Build, Win2019IP180828Build
-              ],
-              InternalBuildNumber
+              Win2019IPBuilds, InternalBuildNumber
             ) then
             begin
               InternalExtraUpdateInfo := Format(

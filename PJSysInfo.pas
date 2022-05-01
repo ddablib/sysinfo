@@ -1225,20 +1225,20 @@ const
                                 //   revisions 1147..1266 were previews
 
   // Fast ring
-  Win10FastRing: array of Integer = [
+  Win10FastRing: array[0..21] of Integer = (
     19536, 19541, 19546, 19551, 19555, 19559, 19564, 19569, 19577, 19582, 19587,
     19592, 19603, 19608, 19613, 19619, 19624, 19628, 19631, 19635, 19640, 19645
-  ];
+  );
 
   // Dev channel
   // Assuming all Dev channel releases had version string "Dev"
-  Win10DevChannel: array of Integer = [
+  Win10DevChannel: array[0..44] of Integer = (
     20150, 20152, 20161, 20170, 20175, 20180, 20185, 20190, 20197, 20201, 20206,
     20211, 20215, 20221, 20226, 20231, 20236, 20241, 20246, 20251, 20257, 20262,
     20270, 20277, 21277, 20279, 21286, 21292, 21296, 21301, 21313, 21318, 21322,
     21327, 21332, 21337, 21343, 21354, 21359, 21364, 21370, 21376, 21382, 21387,
     21390 // transitioned to Windows 11 after here
-  ];
+  );
 
   // Windows 11 ----------------------------------------------------------------
 
@@ -1264,19 +1264,19 @@ const
   // * From build 22567 the release string changed from "Dev" to "22H"
 
   // Builds with version string "Dev"
-  Win11DevChannelDevBuilds: array of Integer = [
+  Win11DevChannelDevBuilds: array[0..20] of Integer = (
     22449, 22454, 22458, 22463, 22468,    // pre Win 11 release
     22471, 22478, 22483, 22489, 22494, 22499, 22504, 22509, 22518, 22523, 22526,
     22533, 22538, 22543, 22557, 22563
-  ];
+  );
   // Builds with version string "22H2" in Dev channel
-  Win11DevChannel22H2Builds: array of Integer = [
+  Win11DevChannel22H2Builds: array[0..2] of Integer = (
     22567, 22572, 22579
-  ];
+  );
   // Builds with version string "22H2" in Dev & Beta channels
-  Win11DevBetaChannels22H2Builds: array of Integer = [
+  Win11DevBetaChannels22H2Builds: array[0..3] of Integer = (
     22581, 22593, 22598, 22610
-  ];
+  );
 
   Win11FirstBuild = Win11DevBuild;  // First build number of Windows 11
 

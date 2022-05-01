@@ -8,6 +8,12 @@
 ; Change Log for System Information Unit
 ; ------------------------------------------------------------------------------
 
+Release v5.11.0 of 01 May 2022
++ Fixed compilation bug that was preventing compilation with older versions of Delphi, probably those before Delphi XE7. Replaced all constant dynamic array declarations with initialised constant fixed size arrays.
++ Updates to TPJOSInfo:
+  + Adds detection of Windows 11 Dev & Beta channel builds released since v5.10.0.
+  + Refactored detection of Windows 2019 Server Insider Preview builds.
+
 Release v5.10.0 of 04 April 2022
 + Updates to TPJOSInfo:
   + Adds detection of recent Windows 11 Dev Channel releases.

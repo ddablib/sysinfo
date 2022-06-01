@@ -1,5 +1,23 @@
 # Change Log for System Information Unit
 
+## v5.12.0 of 01 June 2022
+
++ Updates to TPJOSInfo:
+  + Added support for detecting Dev and Beta releases of Windows 11 made during May 2022.
+  + Refactored some OS detection code to reduce the amount of code used to test for various versions of OSs that report v10.0.
++ Documentation changes:
+  + Replaced `Docs/ReadMe.htm` with markdown formatted `./README.md`. Also expanded, brought up to date with recent changes, and fixed errors.
+  + Replaced `Docs/ChangeLog.txt` with markdown formatted `./CHANGELOG.md`. Also removed or struck out references to issues on Google Code.
+  + Restored MPL v2 license file.
+  + Updated documentation URL in the documentation shortcut file to a redirection URL on `delphidabbler.com`.
+  + Deleted redundant `Docs/Using RtlGetVersion.txt` file.
+  + Fix some errors and omissions in this change log.
++ Revised `Release.bat`:
+  + to take a version number as parameter to use in the release file name
+  + to use the correct file in the release, following renaming.
+  + re change from SVN Git
+  + to permit `Zip.exe` to be called with no directory name when on the path.
+
 ## v5.11.0 of 01 May 2022
 
 + Fixed compilation bug that was preventing compilation with older versions of Delphi, probably those before Delphi XE7. Replaced all constant dynamic array declarations with initialised constant fixed size arrays.
@@ -23,6 +41,7 @@
   + Added support for detecting Windows 10 version 22H1 preview builds.
   + Changed Windows 11 RSPRERELESE build 22509 to report "Windows 11 Insider Preview" instead of "Windows 11 Version 21H2".
 + Updated demo programs to be able to report osWinServer product type added to TPJOSInfo at this release.
++ Removed MPL2 license file.
 
 ## v5.8.0 of 01 January 2022
 
@@ -103,6 +122,7 @@
 + Changed so that Windows 8, in addition to Windows 8.1 and now Windows 10 can't be "spoofed". This was required so that Windows 8 will be reported when an un-manifested application is running on Windows 10, per Microsoft documentation. This is a breaking change from release 5.0.x.
 + Updated demo programs re support for detecting Windows 10 and to display result of new TPJOSInfo.IsReallyWindows10OrGreater method. Also added Windows 10 compatible manifest to each demo's resources.
 + Updated documentation re changes.
++ Updated URL of documentation in Documentation.URL shortcut file to reference `delphidabbler/ddab-lib-docs` repository.
 
 ## v5.0.2 of 30 October 2014
 

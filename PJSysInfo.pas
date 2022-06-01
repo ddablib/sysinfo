@@ -1264,18 +1264,27 @@ const
   // * From build 22567 the release string changed from "Dev" to "22H"
 
   // Builds with version string "Dev"
-  Win11DevChannelDevBuilds: array[0..20] of Integer = (
-    22449, 22454, 22458, 22463, 22468,    // pre Win 11 release
+  Win11DevChannelDevBuilds: array[0..23] of Integer = (
+    // pre Win 11 release
+    22449, 22454, 22458, 22463, 22468,
+    // post Win 11 release, pre Win 11 22H2 beta release
     22471, 22478, 22483, 22489, 22494, 22499, 22504, 22509, 22518, 22523, 22526,
-    22533, 22538, 22543, 22557, 22563
+    22533, 22538, 22543, 22557, 22563,
+    // post Win 11 22H2 beta release
+    25115, 25120, 25126
   );
   // Builds with version string "22H2" in Dev channel
   Win11DevChannel22H2Builds: array[0..2] of Integer = (
     22567, 22572, 22579
   );
   // Builds with version string "22H2" in Dev & Beta channels
-  Win11DevBetaChannels22H2Builds: array[0..3] of Integer = (
-    22581, 22593, 22598, 22610
+  Win11DevBetaChannels22H2Builds: array[0..4] of Integer = (
+    22581, 22593, 22598, 22610, 22616
+  );
+
+  // Builds of 22H2 Beta
+  Win11BetaChannel22H2Builds: array[0..0] of Integer = (
+    22621
   );
 
   Win11FirstBuild = Win11DevBuild;  // First build number of Windows 11
@@ -1947,6 +1956,15 @@ begin
               // Win 11 Dev & Beta channel builds with verison string "22H2"
               InternalExtraUpdateInfo := Format(
                 'Dev & Beta Channels v10.0.%d.%d (22H2)',
+                [InternalBuildNumber, InternalRevisionNumber]
+              );
+            end
+            else if FindBuildNumberFrom(
+              Win11BetaChannel22H2Builds, InternalRevisionNumber
+            ) then
+            begin
+              InternalExtraUpdateInfo := Format(
+                '22H2 Beta v10.0.%d.%d',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end

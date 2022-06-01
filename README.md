@@ -20,7 +20,7 @@ This unit contains a group of static classes and some global variables that prov
 
 * _TPJComputerInfo_ – provides information about the host computer and current user.
 * _TPJSystemFolders_ – gets the full path to certain system folders.
-* _TPJOSInfo_ – supplies information about the operating system information including the platform, product name, product ID code, version and service packs.
+* _TPJOSInfo_ – supplies information about the operating system information including the platform, product name, product ID code, version and service packs. In some cases, mainly for Windows 10 and later, some development and/or beta builds are also detected and reported. Whether or not this is can be done depends on the availability of information about such builds.
 
 In addition, the unit extends and enhances the information provided by the `SysUtils` unit's _Win32xxx_ variables (such as _Win32Platform_) by defining further _Win32xxx_ variables that store the extended operating system information available on later NT platform OSs.
 
@@ -66,19 +66,19 @@ Version 2 and earlier of the unit provided the _TPJSysInfo_ component and variou
 
 ### Compatibility
 
-This unit is designed for compilation with the 32 bit and 64 bit Windows Delphi compilers. The latest version has been tested with Delphi XE and Delphi 11.0 Alexandria only. An attempt has been made to retain compatibility back to Delphi 4, but this has not been tested.
+This unit is designed for compilation with the 32 bit and 64 bit Windows Delphi compilers. The latest version has been tested with Delphi XE and Delphi 11.0 Alexandria only. An attempt has been made to retain compatibility back to Delphi 4, but this has not been tested for some time, so it's not guaranteed.
 
 Compilation on old Delphi versions that do not support setting registry access flags via _TRegistry_ is not recommended since parts of the code may not work correctly on 64 bit Windows.
 
-The unit not compatible with .NET.
+The unit is not compatible with .NET.
 
-The unit should operate correctly on the following platforms:
+The unit _should_ operate correctly on the following platforms:
 
 * Windows 95 to Me
 * All 32 bit NT platform operating systems.
 * Windows 64 bit, either as part of a 32 bit or 64 bit process.
 
-Operation on a 64 bit OS was last tested with Windows 10. Other OSs have not been tested.
+While every effort is made to keep the code as compatible with all OSs as possible, I'm only able to test on my one and only Windows OS: currently Windows 11.
 
 The code is not suitable for non-Windows operating systems since it depends on the Windows API.
 
@@ -99,13 +99,11 @@ There are four possible ways to use the unit.
 1. The simplest way is to add `PJSysInfo.pas` to your projects as you need it.
 2. To make the unit easier to re-use you can either copy it to a folder on your Delphi search path, or add the folder where you extracted the unit to the search path. You then simply use the unit as required without needing to add it to your project.
 3. For maximum portability you can add the unit to a Delphi package.
-4. If you use Git you can added the [`ddablib/sysinfo`](https://github.com/ddablib/sysinfo) GitHub repository as a Git submodule and add it to project from there.
+4. If you use Git you can added the [`ddablib/sysinfo`](https://github.com/ddablib/sysinfo) GitHub repository as a Git submodule and add it to your project. Obviously, it's safer if you fork the repo and use your copy, just in case `ddablib/sysinfo` ever goes away.
 
 ## Documentation
 
 The _System Information Unit_ is fully [documented online](https://delphidabbler.com/url/sysinfo-docs).
-
-There is no help file.
 
 ## Demo Projects
 
@@ -115,7 +113,7 @@ Each project contains a tab set where each tab displays the information from one
 
 ## Update History
 
-A complete change log is provided in `CHANGELOG.md` that is included in the download.
+A complete change log is provided in [`CHANGELOG.md`](https://github.com/ddablib/sysinfo/blob/main/CHANGELOG.md) that is included in the download.
 
 ## Acknowledgements
 
@@ -133,6 +131,6 @@ Bugs can be reported or new features requested via the [Issue Tracker](https://g
 
 ## About the Author
 
-I'm Peter Johnson – a hobbyist programmer living in Ceredigion in West Wales, UK, writing write mainly in Delphi. My programs and other library code are available from: [https://delphidabbler.com/](https://delphidabbler.com/).
+I'm Peter Johnson – a hobbyist programmer living in Ceredigion in West Wales, UK, writing mainly in Delphi. My programs and other library code are available from: [https://delphidabbler.com/](https://delphidabbler.com/).
 
 This document is copyright © 2005-2022, [P D Johnson](https://gravatar.com/delphidabbler).

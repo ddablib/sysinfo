@@ -1,20 +1,32 @@
-; ------------------------------------------------------------------------------
-; This Source Code Form is subject to the terms of the Mozilla Public License,
-; v. 2.0. If a copy of the MPL was not distributed with this file, You can
-; obtain one at http://mozilla.org/MPL/2.0/
-;
-; Copyright (C) 2013-2022, Peter Johnson (@delphidabbler).
-;
-; Change Log for System Information Unit
-; ------------------------------------------------------------------------------
+# Change Log for System Information Unit
 
-Release v5.11.0 of 01 May 2022
+## v5.12.0 of 01 June 2022
+
++ Updates to TPJOSInfo:
+  + Added support for detecting Dev and Beta releases of Windows 11 made during May 2022.
+  + Refactored some OS detection code to reduce the amount of code used to test for various versions of OSs that report v10.0.
++ Documentation changes:
+  + Replaced `Docs/ReadMe.htm` with markdown formatted `./README.md`. Also expanded, brought up to date with recent changes, and fixed errors.
+  + Replaced `Docs/ChangeLog.txt` with markdown formatted `./CHANGELOG.md`. Also removed or struck out references to issues on Google Code.
+  + Restored MPL v2 license file.
+  + Updated documentation URL in the documentation shortcut file to a redirection URL on `delphidabbler.com`.
+  + Deleted redundant `Docs/Using RtlGetVersion.txt` file.
+  + Fix some errors and omissions in this change log.
++ Revised `Release.bat`:
+  + to take a version number as parameter to use in the release file name
+  + to use the correct file in the release, following renaming.
+  + re change from SVN Git
+  + to permit `Zip.exe` to be called with no directory name when on the path.
+
+## v5.11.0 of 01 May 2022
+
 + Fixed compilation bug that was preventing compilation with older versions of Delphi, probably those before Delphi XE7. Replaced all constant dynamic array declarations with initialised constant fixed size arrays.
 + Updates to TPJOSInfo:
   + Adds detection of Windows 11 Dev & Beta channel builds released since v5.10.0.
   + Refactored detection of Windows 2019 Server Insider Preview builds.
 
-Release v5.10.0 of 04 April 2022
+## v5.10.0 of 04 April 2022
+
 + Updates to TPJOSInfo:
   + Adds detection of recent Windows 11 Dev Channel releases.
   + Removes detection of build 22395 as Windows 10 22H2 preview build - available documentation does not support this.
@@ -22,55 +34,65 @@ Release v5.10.0 of 04 April 2022
   + Added detection of Windows 10 Fast Ring and Dev Channel releases.
   + Added detection of Windows 10 21H1 beta and 21H2 preview builds.
 
-Release v5.9.0 of 02 February 2022
+## v5.9.0 of 02 February 2022
+
 + Updates to TPJOSInfo:
   + Fixed mis-named Windows 2019 Server versions that should report as "Windows Server". Added new TPJOSProduct.osWinServer value and ammended code to detect and report the new "Windows Server" product type.
   + Added support for detecting Windows 10 version 22H1 preview builds.
   + Changed Windows 11 RSPRERELESE build 22509 to report "Windows 11 Insider Preview" instead of "Windows 11 Version 21H2".
 + Updated demo programs to be able to report osWinServer product type added to TPJOSInfo at this release.
++ Removed MPL2 license file.
 
-Release v5.8.0 of 01 January 2022
+## v5.8.0 of 01 January 2022
+
 + Fixed bug that was failing to detect KB updates to Windows 11 as valid production Windows 11 OS builds.
 + Added support for detecting newly released Windows 11 pre-release builds.
 + Some refactoring of OS build number detection code.
 
-Release v5.7.1 of 27 November 2021
+## v5.7.1 of 27 November 2021
+
 + Updated internal code following official release of Windows 10 21H2. No change to functionality from user's perspective.
 + Fixed a minor bug in Windows 11 detection code that is unlikely to have had any adverse effect.
 + Some refactoring.
 + General source code tidying.
 
-Release v5.7.0 of 05 October 2021
+## v5.7.0 of 05 October 2021
+
 + Updated to detect 1st release of Windows 11 (i.e. Windows 11 Version 21H2).
 
-Release v5.6.2 of 14 September 2021
-+ Replaced non-ANSI dash characters with ASCII "-" characters to prevent possible problems compiling on old ANSI versions of Delphi. Fixes issue #41 - https://sourceforge.net/p/ddablib/tickets/41/
+## v5.6.2 of 14 September 2021
 
-Release v5.6.1 of 12 September 2021
++ Replaced non-ANSI dash characters with ASCII "-" characters to prevent possible problems compiling on old ANSI versions of Delphi. ~~Fixes issue #41~~
+
+## v5.6.1 of 12 September 2021
+
 + Made following methods inline, where supported: TPJOSInfo.IsWin9x, TPJOSInfo.IsWinNT, TPJOSInfo.IsWin32s, TPJOSInfo.ServicePackMajor, TPJOSInfo.ServicePackMinor & TPJComputerInfo.Is64Bit. Did not make any methods inline that would require extra units in uses clause of interface section of including units.
 + Documentation updates:
-  - Fixed bug bug #39 "Change log not updated for sysinfo v5.6" by adding the required release information.
-  - Removed acknowledgements from PJSysUtils.pas header comments into a new Docs/Acknowledgements.md document.
-  - Added new "Acknowledgements" section to Docs/ReadMe.htm that links to Acknowledgements.md on SourceForge.
+  + Fixed bug ~~#39~~ "Change log not updated for sysinfo v5.6" by adding the required release information.
+  + Removed acknowledgements from PJSysUtils.pas header comments into a new Docs/Acknowledgements.md document.
+  + Added new "Acknowledgements" section to Docs/ReadMe.htm that links to Acknowledgements.md on SourceForge.
 
-Release v5.6.0 of 12 September 2021
-+  Add detection of following Windows & Windows Server versions:
-  - Windows 10 Version 21H1
-  - Windows 10 Version 21H2 (provisional build number: due late 2021)
-  - DEV, Insider preview and beta versions of Windows 11
-  - Windows 2018 Server Versions 2004 and 20H2
-  - Windows 2022 Server Version 21H2
+## v5.6.0 of 12 September 2021
+
++ Add detection of following Windows & Windows Server versions:
+  + Windows 10 Version 21H1
+  + Windows 10 Version 21H2 (provisional build number: due late 2021)
+  + DEV, Insider preview and beta versions of Windows 11
+  + Windows 2018 Server Versions 2004 and 20H2
+  + Windows 2022 Server Version 21H2
 + Add new code to get OS' revision number, accessible via:
-  - New TPJOSInfo.RevisionNumber method
-  - New Win32RevisionNumber global variable
+  + New TPJOSInfo.RevisionNumber method
+  + New Win32RevisionNumber global variable
 + Modify format of TPJOSInfo.Description when returning info about Win 2000 and later
 + Update list of web pages used to source build numbers of various Windows versions
 + Update VCL and FMX demo programs re support for detecting Windows 11 & Windows Server 2022 and to display result of calling new TPJOSInfo.RevisionNumber method and Win32RevisionNumber global variable.
 
-Release v5.5.0 of 31 October 2020
+## v5.5.0 of 31 October 2020
+
 + Updated to detect Windows 10 version 20H2, October 2020 update.
 
-Release v5.4.0 of 19 March 2020
+## v5.4.0 of 19 March 2020
+
 + Updated to detect Windows 10 updates from RS2 (version 1703) to 20H2 (version 2004) and added "marketing names" for updates from TH2 (version 1511) to 19H2 (version 1909)
 + Updated to detect 1st public release and all updates of Windows 2016 Server (i.e. up to version 1803)
 + Added detection of all Windows 2019 Server previews, 1st public release and all updates up to version 1909.
@@ -78,36 +100,43 @@ Release v5.4.0 of 19 March 2020
 + Updated demo programs re support for detecting Windows 2019 Server and to display result of new TPJComputerInfo.ProcessorSpeedMHz method.
 + Minor update to content and style of read-me file.
 
-Release v5.3.0 of 12 September 2016
+## v5.3.0 of 12 September 2016
+
 + Added support for detecting Windows 10 RS1 update - "Version 1607".
 + Renamed name of Windows 10 TH2 update from "November Update" to MSs new name - "Version 1511".
 + Added support for detecting Windows 2016 Server technical previews 1 to 5.
 + Revised TPJOSInfo.Description to include information from ServicePackEx method instead of ServicePack.
 + Minor update to read-me file.
 
-Release v5.2.0 of 30 November 2015
+## v5.2.0 of 30 November 2015
+
 + Added support for detecting build number of Windows 10 TH2 "November Update".
 + Added new TPJOSInfo.ServicePackEx method that reports any OS service packs present just like TPJOSInfo.ServicePack but also returns the name of any significant, detectable, update that does not declare itself as a service pack. This method was added to enable Windows 10 TH2 "November Update" to be reported since it does not report itself as a service pack.
 + Changed behaviour of the TPJOSInfo.BuildNumber method. When not using the GetVersionEx API the code tries to deduce the build number from other information. If this fails BuildNumber now returns 0 instead of attempting to read the build number from the registry. The registry was found to be returning incorrect build numbers.
 + Updated read-me file re changes.
 
-Release v5.1.0 of 11 September 2015
+## v5.1.0 of 11 September 2015
+
 + Added support for detecting Windows 10 for suitably manifested host applications.
 + Added new TPJOSInfo.IsReallyWindows10OrGreater method.
 + Changed so that Windows 8, in addition to Windows 8.1 and now Windows 10 can't be "spoofed". This was required so that Windows 8 will be reported when an un-manifested application is running on Windows 10, per Microsoft documentation. This is a breaking change from release 5.0.x.
 + Updated demo programs re support for detecting Windows 10 and to display result of new TPJOSInfo.IsReallyWindows10OrGreater method. Also added Windows 10 compatible manifest to each demo's resources.
 + Updated documentation re changes.
++ Updated URL of documentation in Documentation.URL shortcut file to reference `delphidabbler/ddab-lib-docs` repository.
 
-Release v5.0.2 of 30 October 2014
-+ Fixed issue #31 "PJSysInfo v5.0.1 does not work on earlier OSs" (http://bit.ly/1DyM9BP) where TPJOSInfo was causing an access violation when run on Windows 98.
-+ Fixed issue #33 "IsServer and IsWindowsServer return True on Windows 98" (http://bit.ly/101tdPh).
+## v5.0.2 of 30 October 2014
 
-Release v5.0.1 of 04 April 2014
-+ Fixed issue #29 (http://bit.ly/1eeLnxC) "Out of range error" that occurred when using Windows 8.1 or Windows Server 2012 R2.
++ Fixed issue ~~#31~~ "PJSysInfo v5.0.1 does not work on earlier OSs" where TPJOSInfo was causing an access violation when run on Windows 98.
++ Fixed issue ~~#33~~ "IsServer and IsWindowsServer return True on Windows 98".
+
+## v5.0.1 of 04 April 2014
+
++ Fixed issue ~~#29~~ "Out of range error" that occurred when using Windows 8.1 or Windows Server 2012 R2.
 + Added support for DEBUG symbol to force range checking to be on for debugging purposes.
 + Minor changes to documentation.
 
-Release v5.0.0 of 27 February 2014
+## v5.0.0 of 27 February 2014
+
 + Changed how operating system information is obtained and reported when running on Windows 8.1 (and later) in order to conform to API changes introduced by Microsoft in Windows 8.1. As a consequence when running on Windows 8.1 and later OS information for the installed OS will always be reported regardless of whether the host program is running in compatibility. On Windows 8 and earlier running in a compatibility mode will continue to cause OS information to be "spoofed" to reflect the emulated OS.
 + New compile option to help debug the Windows 8.1 method of OS information when using any OS back to Windows Vista.
 + Added new TPJOSInfo.CanSpoof method that indicates if compatibility mode will affect (spoof) reported OS information on the current operating system.
@@ -119,45 +148,50 @@ Release v5.0.0 of 27 February 2014
 + New global variables added that are analogues of the SysUtils Win32*** variables but that are not affected by compatibility mode when run on Windows 8.1 or later.
 + New constants relating to obtaining version information not defined by all supported versions of Delphi have been added to the unit's interface section.
 + Updated demos:
-  - Both VCL and FireMonkey 2 demos revised to display output of all new TPJOSInfo methods and new global variables.
-  - VCL demo no longer scrolls when displaying lists of information that exceed window height.
+  + Both VCL and FireMonkey 2 demos revised to display output of all new TPJOSInfo methods and new global variables.
+  + VCL demo no longer scrolls when displaying lists of information that exceed window height.
 + Delphi 3 is no longer supported by the unit.
 + Updated documentation.
 
-Release v4.0.3 of 11 January 2014
+## v4.0.3 of 11 January 2014
+
 + Fixed problem with compiler directives in System Information Unit that was causing compilation to fail on Delphi XE5.
 + Minor documentation tweaks and corrections.
 
-Release v4.0.2 of 29 October 2013
-+ Fixed potential registry access bug that may appear on Windows 2000 and earlier. See comment #1 of issue #14 (http://bit.ly/HqGb00).
+## v4.0.2 of 29 October 2013
 
-Release v4.0.1 of 28 January 2013
-+ Fixed bug in TPJOSInfo.RegisteredOrganisation (issue #23 - http://bit.ly/SZ4ohf)
++ Fixed potential registry access bug that may appear on Windows 2000 and earlier. ~~See comment #1 of issue #14.~~
 
-Release v4.0.0 of 20 January 2013
+## v4.0.1 of 28 January 2013
+
++ Fixed bug in TPJOSInfo.RegisteredOrganisation ~~(issue #23)~~
+
+## v4.0.0 of 20 January 2013
+
 + PJSysInfo.pas is now compatible with Delphi 32 and 64 bit compilers and will compile with both VCL and FireMonkey 2 frameworks on Windows.
 + Added numerous new methods:
-  - TPJComputerInfo: "IsAdmin", "IsUACActive", "BiosVendor", "ProcessorIdentifier", "ProcessorName", "SystemManufacturer" & "SystemProductName".
-  - TPJSystemFolders: "ProgramFilesX86", "ProgramFilesRedirect", "CommonFilesX86" & "CommonFilesRedirect".
-  - TPJOSInfo: "RegisteredOrganisation" & "RegisteredOwner".
+  + TPJComputerInfo: "IsAdmin", "IsUACActive", "BiosVendor", "ProcessorIdentifier", "ProcessorName", "SystemManufacturer" & "SystemProductName".
+  + TPJSystemFolders: "ProgramFilesX86", "ProgramFilesRedirect", "CommonFilesX86" & "CommonFilesRedirect".
+  + TPJOSInfo: "RegisteredOrganisation" & "RegisteredOwner".
 + All previously deprecated code removed, i.e.:
-  - TPJSysInfo component and associated glyph file PJSysInfo.dcr.
-  - All SIGetXXXX functions.
+  + TPJSysInfo component and associated glyph file PJSysInfo.dcr.
+  + All SIGetXXXX functions.
 + Used unit names are now qualified with namespace name on Delphi XE2 and later.
 + Changed original SysInfoDemo VCL project:
-  - Default window font changed.
-  - Form is no longer scaled.
-  - Displayed text no longer word-wraps.
-  - Added example output for all new methods.
-  - Added manifest to resources to request themed controls and set elevation level.
-  - New project configuration files with option to compile for 32 bit or 64 Windows targets on Delphi XE2 and later.
+  + Default window font changed.
+  + Form is no longer scaled.
+  + Displayed text no longer word-wraps.
+  + Added example output for all new methods.
+  + Added manifest to resources to request themed controls and set elevation level.
+  + New project configuration files with option to compile for 32 bit or 64 Windows targets on Delphi XE2 and later.
 + Added new FireMonkey 2 demo project with same basic functionality as revised SysInfoDemo project that can also be compiled for either 32 bit or 64 bit Windows targets.
 + Some refactoring.
 + WinHelp file removed.
 + Revised documentation and changed link to online help.
 + Demos placed in public domain.
 
-Release v3.4.0 of 24 October 2012
+## v3.4.0 of 24 October 2012
+
 + Modified TPJOSInfo to detect Windows 8 and Windows 2012 Server.
 + Added new PRODUCT_* constants and descriptions.
 + Updated demo to display newly added OS versions.
@@ -165,22 +199,27 @@ Release v3.4.0 of 24 October 2012
 + Updated help file re addition of Windows 8 / Windows 20012 Server and re change of license.
 + Updated documentation.
 
-Release v3.3.1 of 07 April 2010
-+ Fixed bug (issue #14) to correctly read from registry on Windows 64 systems. NOTE: This bug may persist when compiled with old Delphis (pre Delphi 6).
+## v3.3.1 of 07 April 2010
+
++ Fixed bug ~~(issue #14)~~ to correctly read from registry on Windows 64 systems. NOTE: This bug may persist when compiled with old Delphis (pre Delphi 6).
 + Corrected buffer sizes used when TPJComputerInfo's ComputerName and UserName methods access Windows API functions.
 
-Release v3.3.0 of 31 December 2009
+## v3.3.0 of 31 December 2009
+
 + Added new TPJOSInfo.IsRemoteSession method to check if the executable is running under Windows Terminal Server as a remote session.
 + Updated help file accordingly.
 
-Release v3.2.2 of 16 December 2009
-+ Fixed bug (issue #1) which prevented the unit from compiling with Delphi 5.
+## v3.2.2 of 16 December 2009
 
-Release v3.2.1 of 14 November 2009
++ Fixed bug ~~(issue #1)~~ which prevented the unit from compiling with Delphi 5.
+
+## v3.2.1 of 14 November 2009
+
 + Prevented warnings on Delphi 4 when compiling without deprecated components.
 + Updated documentation.
 
-Release v3.2.0 of 27 September 2009
+## v3.2.0 of 27 September 2009
+
 + Added some further PRODUCT_* constants that are new for Windows 7 / 2008 Server R2.
 + Changed character set handling to take account of Unicode and non-Unicode compilers.
 + Unit, but not demo, can now be compiled on Delphi 3.
@@ -188,10 +227,11 @@ Release v3.2.0 of 27 September 2009
 + All exceptions raised are now of type EPJsysInfo.
 + Updated documentation.
 
-Release v3.1.0 of 13 April 2009
+## v3.1.0 of 13 April 2009
+
 + Updated help file re revised static classes.
 + Revised demo program by adding output for new methods.
-+ Added further PROCESSOR_ARCHITECTURE_*, PROCESSOR_* and PRODUCT_* constants.
++ Added further PROCESSOR_ARCHITECTURE_XXX, PROCESSOR_XXX and PRODUCT_XXX constants.
 + Made default OS data structures use Unicode versions when UNICODE is defined by compiler.
 + Changed to use GetNativeSystemInfo API function to get processor architecture if possible.
 + Modified TPJOSInfo to detect Windows 7 and Windows 2008 Server R2. Also changed a few OS and product descriptions.
@@ -200,12 +240,13 @@ Release v3.1.0 of 13 April 2009
 + Added TPJSystemFolders.SystemWow64 method.
 + Product name of unknown later Windows version now contains major and minor version numbers.
 
-Release v3.0.0 of 15 April 2008
+## v3.0.0 of 15 April 2008
+
 + Added support for GetProductInfo API (Vista)
 + Added support for Windows 2008 server and 2003 server R2.
 + Rewrote code that gets OS edition.
 + Added further VER_SUITE_ flags.
-+ Added new PRODUCT_ and PROCESSOR_ flags.
++ Added new PRODUCT_XXX and PROCESSOR_XXX flags.
 + Added new SM_STARTER and SM_SERVER2 constants.
 + Added Unicode version of OSVERSIONINFOEX and expanded number of types referring to ANSI and Unicode versions of these structures.
 + Added new methods to TPJOSInfo class.
@@ -214,25 +255,28 @@ Release v3.0.0 of 15 April 2008
 + Deprecated TPJSysInfo component and SIGetXXX are now compiled only if a special symbol is defined. By default they are not compiled and the component is not registered.
 + Updated help file re revised static class and removed topics for deprecated component and functions.
 + Revised demo program:
-  - Added output for new methods.
-  - Removed demo of deprecated code.
+  + Added output for new methods.
+  + Removed demo of deprecated code.
 
-Release v2.1.0 of 15 October 2006
+## v2.1.0 of 15 October 2006
+
 + Added new TPJComputerInfo.MACAddress method that gets the MAC address of the first available network card.
 
-Release v2.0.1 of 07 January 2006
+## v2.0.1 of 07 January 2006
+
 + Fixed bug in TPJOSInfo.ProductName method when running on Windows 2003.
 
-Release v2.0.0 of 13 November 2005
+## v2.0.0 of 13 November 2005
+
 + Added new static classes that duplicate and extend the features of the TPJSysInfo component:
-  - TPJComputerInfo: provides information about the host computer;
-  - TPJSystemFolders: gets paths to system folders;
-  - TPJOSInfo: provides operating system information.
+  + TPJComputerInfo: provides information about the host computer;
+  + TPJSystemFolders: gets paths to system folders;
+  + TPJOSInfo: provides operating system information.
 + Added new features to the TOSInfo classes:
-  - getting Windows product ID;
-  - detection of Windows Vista, XP Media Edition and XP Tablet Edition;
-  - detection of WOW64 sub-system;
-  - further operating system detection features.
+  + getting Windows product ID;
+  + detection of Windows Vista, XP Media Edition and XP Tablet Edition;
+  + detection of WOW64 sub-system;
+  + further operating system detection features.
 + Added new global Win32* variables to provide extended operating system version information in style of variables from SysUtils unit.
 + Re-implemented TPJSysInfo and SIGet* functions in terms of new static classes.
 + Flagged TPJSysInfo and the SIGet* functions as deprecated. New static classes should now be used instead.
@@ -241,7 +285,8 @@ Release v2.0.0 of 13 November 2005
 + Added A-link keywords file for integration into Delphi 6/7 help systems.
 + Updated demo program re new features.
 
-Release v1.2.0 of 30 June 2003
+## v1.2.0 of 30 June 2003
+
 + Updated palette name to "DelphiDabbler" from "PJ Stuff".
 + Added support for Windows 2003 server to OS detection functions.
 + Removed requirement for Registry unit by accessing registry via Windows API where required.
@@ -251,8 +296,10 @@ Release v1.2.0 of 30 June 2003
 + Updated help file.
 + Added new demo application.
 
-Release v1.1.0 of 25 November 2001
+## v1.1.0 of 25 November 2001
+
 + Added functions and component properties to retrieve Program Files and Common Files folders.
 
-Release v1.0.0 of 10 November 2001
+## v1.0.0 of 10 November 2001
+
 + Original version.

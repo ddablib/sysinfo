@@ -1268,6 +1268,11 @@ const
   //  * revision 184 was Beta build
   //  * revision 194 and later were Public Release builds
   Win11v21H2Build = 22000;
+  // Windows 11 version 22H2:
+  //  * revision 1 was Beta & Release Preview build
+  //  * revisions 105 & 169 were Release Preview builds
+  //  * revision 160 was Beta build
+  Win11v22H2Build = 22621;
 
   // Dev channel release - different sources give different names.
   // From what I can gather (and take this with a pinch of salt!):
@@ -1293,11 +1298,6 @@ const
   // Builds with version string "22H2" in Dev & Beta channels
   Win11DevBetaChannels22H2Builds: array[0..4] of Integer = (
     22581, 22593, 22598, 22610, 22616
-  );
-
-  // Builds of 22H2 Beta
-  Win11BetaChannel22H2Builds: array[0..0] of Integer = (
-    22621
   );
 
   Win11FirstBuild = Win11DevBuild;  // First build number of Windows 11
@@ -1923,6 +1923,29 @@ begin
                   );
               end;
             end
+            else if IsBuildNumber(Win11v22H2Build) then
+            begin
+              InternalBuildNumber := Win11v22H2Build;
+              // See comments with declaration of Win11v22H2Build for details
+              // of naming of revisions
+              case InternalRevisionNumber of
+                1:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 22H2 [Beta & Release Preview v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                105, 169:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 22H2 [Release Preview v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                160:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 22H2 [Beta v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
             else if FindBuildNumberFrom(
               Win11DevChannelDevBuilds, InternalBuildNumber
             ) then
@@ -1950,16 +1973,6 @@ begin
               // Win 11 Dev & Beta channel builds with verison string "22H2"
               InternalExtraUpdateInfo := Format(
                 'Dev & Beta Channels v10.0.%d.%d (22H2)',
-                [InternalBuildNumber, InternalRevisionNumber]
-              );
-            end
-            // Win 11 22H2 Beta builds
-            else if FindBuildNumberFrom(
-              Win11BetaChannel22H2Builds, InternalRevisionNumber
-            ) then
-            begin
-              InternalExtraUpdateInfo := Format(
-                '22H2 Beta v10.0.%d.%d',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end

@@ -2719,7 +2719,7 @@ begin
             0:
               if not IsServer then
               begin
-                if InternalBuildNumber < Win11FirstBuild then
+                if TestBuildNumber(VER_LESS, Win11FirstBuild) then
                   Result := osWin10
                 else
                   // ** As of 2021-10-05 Win 11 is reporting version 10.0!
@@ -2727,11 +2727,11 @@ begin
               end
               else
               begin
-                if InternalBuildNumber <= Win2016LastBuild then
+                if TestBuildNumber(VER_LESS_EQUAL, Win2016LastBuild) then
                   Result := osWin10Svr
-                else if InternalBuildNumber <= Win2019LastBuild then
+                else if TestBuildNumber(VER_LESS_EQUAL, Win2019LastBuild) then
                   Result := osWinSvr2019
-                else if InternalBuildNumber <= WinServerLastBuild then
+                else if TestBuildNumber(VER_LESS_EQUAL, WinServerLastBuild) then
                   Result := osWinServer
                 else
                   Result := osWinSvr2022;

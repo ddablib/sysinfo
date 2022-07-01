@@ -1232,10 +1232,14 @@ const
     (Build: 19042; Name: 'Version 20H2: October 2020 Update')
   );
 
-  Win1021H1Build = 19043;       // Windows 10 21H1 - version 21H1
-                                //   revisions 844..964 were beta
-  Win1021H2Build = 19044;       // Windows 10 21H2 - version 21H2
-                                //   revisions 1147..1266 were previews
+  // Windows 10 version 21H1:
+  //  * revisions 844..964 were Beta builds
+  //  * later revisions were Public Release builds
+  Win1021H1Build = 19043;
+  // Windows 10 version 21H2:
+  //  * revisions 1147..1266 were Preview builds
+  //  * later revisions were Public Release builds
+  Win1021H2Build = 19044;
 
   // Fast ring
   Win10FastRing: array[0..21] of Integer = (
@@ -1256,18 +1260,14 @@ const
   // Windows 11 ----------------------------------------------------------------
 
   // NOTE: Preview and beta & release versions of Windows 11 report version 10.0
-  Win11DevBuild = 21996;          // Windows 11 version Dev
-                                  //   - 10.0.21996.1 (Insider version)
-  Win11v21H2Build = 22000;        // Version depends on revision # [Rev#]:
-                                  //   Revision # 51,65,71,100,120,132,168:
-                                  //     Windows 11 version 21H2
-                                  //       - 10.0.22000.[Rev#] (Insider version)
-                                  //   Revision # 184
-                                  //     Windows 11 version 21H2
-                                  //       - 10.0.22000.184 (Beta Version)
-                                  //   Revision # 194
-                                  //     Windows 11 version 21H2
-                                  //       - ** 1st Public Release **
+
+  // Windows 11 version Dev: 10.0.21996.1 (Insider version)
+  Win11DevBuild = 21996;
+  // Windows 11 version 21H2:
+  //  * revisions 51,65,71,100,120,132,168 were Insider builds
+  //  * revision 184 was Beta build
+  //  * revision 194 and later were Public Release builds
+  Win11v21H2Build = 22000;
 
   // Dev channel release - different sources give different names.
   // From what I can gather (and take this with a pinch of salt!):
@@ -1886,7 +1886,6 @@ begin
             end
             // Win 11 releases are reporting v10.0
             // Details taken from: https://tinyurl.com/usupsz4a
-            // Correct according to above web page as of 2021-09-11
             else if IsBuildNumber(Win11DevBuild) then
             begin
               InternalBuildNumber := Win11DevBuild;

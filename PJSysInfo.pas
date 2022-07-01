@@ -1925,7 +1925,7 @@ begin
                   );
                 else
                   InternalExtraUpdateInfo := Format(
-                    'Unknown release v10.0.%d.%d',
+                    'Version 21H2 [Unknown release v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
               end;
@@ -1949,6 +1949,11 @@ begin
                 160:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Beta v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 22H2 [Unknown release v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
               end;

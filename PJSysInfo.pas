@@ -1448,9 +1448,12 @@ begin
   );
 end;
 
-// Checks if given build number matches that of the current OS.
-// Assumes VerifyVersionInfo & VerSetConditionMask APIs functions are available
-function IsBuildNumber(BuildNumber: DWORD): Boolean;
+// Checks how the OS build number compares to the given TestBuildNumber
+// according to operator Op.
+// Op must be one of VER_EQUAL, VER_GREATER, VER_GREATER_EQUAL, VER_LESS or
+// VER_LESS_EQUAL.
+// Assumes VerifyVersionInfo & VerSetConditionMask APIs functions are available.
+function TestBuildNumber(Op, TestBuildNumber: DWORD): Boolean;
 var
   OSVI: TOSVersionInfoEx;
   POSVI: POSVersionInfoEx;
@@ -1459,10 +1462,18 @@ begin
   Assert(Assigned(VerSetConditionMask) and Assigned(VerifyVersionInfo));
   FillChar(OSVI, SizeOf(OSVI), 0);
   OSVI.dwOSVersionInfoSize := SizeOf(OSVI);
-  OSVI.dwBuildNumber := BuildNumber;
+  OSVI.dwBuildNumber := TestBuildNumber;
   POSVI := @OSVI;
-  ConditionalMask := VerSetConditionMask(0, VER_BUILDNUMBER, VER_EQUAL);
+  ConditionalMask := VerSetConditionMask(0, VER_BUILDNUMBER, Op);
   Result := VerifyVersionInfo(POSVI, VER_BUILDNUMBER, ConditionalMask);
+end;
+
+// Checks if given build number matches that of the current OS.
+// Assumes VerifyVersionInfo & VerSetConditionMask APIs functions are available.
+function IsBuildNumber(BuildNumber: DWORD): Boolean;
+  {$IFDEF INLINEMETHODS}inline;{$ENDIF}
+begin
+  Result := TestBuildNumber(VER_EQUAL, BuildNumber);
 end;
 
 // Checks if any of the given build numbers match that of the current OS.

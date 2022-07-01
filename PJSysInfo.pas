@@ -1282,14 +1282,14 @@ const
   // * From build 22567 the release string changed from "Dev" to "22H"
 
   // Builds with version string "Dev"
-  Win11DevChannelDevBuilds: array[0..23] of Integer = (
+  Win11DevChannelDevBuilds: array[0..28] of Integer = (
     // pre Win 11 release
     22449, 22454, 22458, 22463, 22468,
     // post Win 11 release, pre Win 11 22H2 beta release
     22471, 22478, 22483, 22489, 22494, 22499, 22504, 22509, 22518, 22523, 22526,
     22533, 22538, 22543, 22557, 22563,
     // post Win 11 22H2 beta release
-    25115, 25120, 25126
+    25115, 25120, 25126, 25131, 25136, 25140, 25145, 25151
   );
   // Builds with version string "22H2" in Dev channel
   Win11DevChannel22H2Builds: array[0..2] of Integer = (

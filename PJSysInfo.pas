@@ -1902,7 +1902,7 @@ begin
               // *** Amazingly one of them, revision 194, is the 1st public
               //     release of Win 11 -- well hidden eh?!
               InternalBuildNumber := Win11v21H2Build;
-              case InternalBuildNumber of
+              case InternalRevisionNumber of
                 194..MaxInt:
                   // Public releases of Windows 11 have build number >= 194
                   InternalExtraUpdateInfo := 'Version 21H2';

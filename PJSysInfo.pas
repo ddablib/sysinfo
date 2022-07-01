@@ -1216,6 +1216,7 @@ const
 
   // Windows 10 ----------------------------------------------------------------
 
+  // Map of Win 10 builds from 1st release (version 1507) to version 20H2
   Win10BuildMap: array[0..10] of TBuildNameMap = (
     (Build: 10240; Name: 'Version 1507'),
     (Build: 10586; Name: 'Version 1511: November Update'),
@@ -1232,10 +1233,14 @@ const
     (Build: 19042; Name: 'Version 20H2: October 2020 Update')
   );
 
+  // Additional information is available for Win 10 buulds from version 21H1,
+  // as follows:
+
   // Windows 10 version 21H1:
   //  * revisions 844..964 were Beta builds
   //  * later revisions were Public Release builds
   Win1021H1Build = 19043;
+
   // Windows 10 version 21H2:
   //  * revisions 1147..1266 were Preview builds
   //  * later revisions were Public Release builds
@@ -1263,11 +1268,13 @@ const
 
   // Windows 11 version Dev: 10.0.21996.1 (Insider version)
   Win11DevBuild = 21996;
+
   // Windows 11 version 21H2:
   //  * revisions 51,65,71,100,120,132,168 were Insider builds
   //  * revision 184 was Beta build
   //  * revision 194 and later were Public Release builds
   Win11v21H2Build = 22000;
+
   // Windows 11 version 22H2:
   //  * revision 1 was Beta & Release Preview build
   //  * revisions 105 & 169 were Release Preview builds

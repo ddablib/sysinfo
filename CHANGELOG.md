@@ -1,9 +1,19 @@
 # Change Log for System Information Unit
 
+## v5.14.0 of 01 August 2022
+
++ Updates to TPJOSInfo:
+  + Added detection of Win 10 22H2 release preview build.
+  + Added detection of alternative Win 11 22H2 beta build.
+  + Added detection of Win 11 Dev channel and 22H2 revisions released in July 2022
+  + Revised descriptions of Win 11 21H2 and 22H2 dev, beta and release
+    preview revisions.
++ Updated URLs referenced in comments, removing broken URLs.
+
 ## v5.13.0 of 01 July 2022
 
 + Updates to TPJOSInfo:
-  + Added support for detecting Windows 11 Dev channel and 22H2 Beta & Release Preview builds released in July 2022.
+  + Added support for detecting Windows 11 Dev channel and 22H2 Beta & Release Preview builds released in June 2022.
   + Improved reporting of unrecognised Windows 11 21H2 and 22H2 builds.
   + Fixed _**serious bug**_ in detection of known Windows 11 21H2 builds.
   + Fixed bug in detecting various OSs that report  v10.0  (i.e. Windows 10 & 11 along with Windows Server products from Windows Server 2016 to Windows Server 2022). The bug was causing either Windows 10 or Windows 2016 server to be reported if build number detection failed, regardless of the OSs true build number.

@@ -1,9 +1,9 @@
 {
  * This Source Code Form is subject to the terms of the Mozilla Public License,
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
- * obtain one at http://mozilla.org/MPL/2.0/
+ * obtain one at https://mozilla.org/MPL/2.0/
  *
- * Copyright (C) 2001-2022, Peter Johnson (@delphidabbler).
+ * Copyright (C) 2001-2022, Peter Johnson (https://gravatar.com/delphidabbler).
  *
  * This unit contains various static classes, constants, type definitions and
  * global variables for use in providing information about the host computer and
@@ -232,7 +232,7 @@ const
   // GetProductInfo API call used with Windows Vista and later
   // ** Thanks to Laurent Pierre for providing these definitions.
   // ** Additional definitions were obtained from
-  //    http://msdn.microsoft.com/en-us/library/ms724358
+  //    https://msdn.microsoft.com/en-us/library/ms724358
   PRODUCT_BUSINESS                            = $00000006;
   PRODUCT_BUSINESS_N                          = $00000010;
   PRODUCT_CLUSTER_SERVER                      = $00000012;
@@ -324,7 +324,7 @@ const
   // These constants are required for use with GetSystemMetrics to detect
   // certain editions. GetSystemMetrics returns non-zero when passed these flags
   // if the associated edition is present.
-  // Obtained from http://msdn.microsoft.com/en-us/library/ms724385
+  // Obtained from https://msdn.microsoft.com/en-us/library/ms724385
   SM_TABLETPC       = 86;     // Detects XP Tablet Edition
   SM_MEDIACENTER    = 87;     // Detects XP Media Center Edition
   SM_STARTER        = 88;     // Detects XP Starter Edition
@@ -806,7 +806,7 @@ type
     ///  <para>WARNING: True is also returned when running in Windows 9x
     ///  compatibility mode on a Windows NT platform system, regardless of
     ///  whether the user has admin privileges or not.</para>
-    ///  <para>Based on code at http://edn.embarcadero.com/article/26752</para>
+    ///  <para>Based on a former Embarcadero article.</para>
     ///  </remarks>
     class function IsAdmin: Boolean;
 
@@ -818,7 +818,7 @@ type
     ///  earlier compatibility mode on Windows Vista or later, regardless of
     ///  whether UAC is enabled or not.</para>
     ///  <para>Based on code on Stack Overflow, answer by norgepaul, at
-    ///  http://tinyurl.com/avlztmg</para>
+    ///  https://tinyurl.com/avlztmg</para>
     ///  </remarks>
     class function IsUACActive: Boolean;
 
@@ -983,7 +983,7 @@ const
   // Map of product codes per GetProductInfo API to product names
   // ** Laurent Pierre supplied original code on which this map is based
   //    It has been modified and extended using MSDN documentation at
-  //    http://msdn.microsoft.com/en-us/library/ms724358
+  //    https://msdn.microsoft.com/en-us/library/ms724358
   cProductMap: array[1..87] of record
     Id: Cardinal; // product ID
     Name: string; // product name
@@ -1823,7 +1823,7 @@ begin
       Win32ProductType := 0;
     // NOTE: It's going to be very slow to test for all possible build numbers,
     // so I've narrowed the search down using the information at
-    // http://en.wikipedia.org/wiki/Windows_NT
+    // https://en.wikipedia.org/wiki/Windows_NT
     case InternalMajorVersion of
       6:
       begin
@@ -2238,8 +2238,8 @@ begin
     osWinSvr2003, osWinSvr2003R2:
     begin
       // We check different processor architectures and act accordingly
-      // This code closely based on MS's sample code found at
-      // http://msdn2.microsoft.com/en-us/library/ms724429
+      // This code closely based on sample code by Microsoft that is no longer
+      // available
       if InternalProcessorArchitecture = PROCESSOR_ARCHITECTURE_IA64 then
       begin
         if CheckSuite(VER_SUITE_DATACENTER) then
@@ -2730,9 +2730,9 @@ begin
             3:
               // NOTE: Version 6.3 may only be reported by Windows if the
               // application is "manifested" for Windows 8.1. See
-              // http://bit.ly/MJSO8Q. Getting the OS via VerifyVersionInfo
-              // instead of GetVersion or GetVersionEx should work round this
-              // for Windows 8.1 (i.e. version 6.3).
+              // https://tinyurl.com/2s384ha4. Getting the OS via
+              // VerifyVersionInfo instead of GetVersion or GetVersionEx should
+              // work round this for Windows 8.1 (i.e. version 6.3).
               if not IsServer then
                 Result := osWin8Point1
               else
@@ -2741,7 +2741,7 @@ begin
               // Version 6.4 was used for Windows 2016 server tech preview 1.
               // This version *may* only be detected by Windows if the
               // application is "manifested" for the correct Windows version.
-              // See http://bit.ly/MJSO8Q.
+              // See https://bit.ly/MJSO8Q.
               if IsServer then
                 Result := osWin10Svr;
             else
@@ -2753,7 +2753,7 @@ begin
         begin
           // NOTE: Version 10 and later may only be reported by Windows if the
           // application is "manifested" for the correct Windows version. See
-          // http://bit.ly/MJSO8Q. Previously, getting the OS from
+          // https://bit.ly/MJSO8Q. Previously, getting the OS from
           // VerifyVersionInfo instead of GetVersion or GetVersionEx worked
           // round this, but MS deprecated this in Windows 10, reverting
           // VerifyVersionInfo to work like GetVersion. WHY????!!!!
@@ -3043,8 +3043,7 @@ end;
 
 class function TPJComputerInfo.MACAddress: string;
 type
-  // Based on code at MSDN knowledge base Q118623 article at
-  // http://support.microsoft.com/kb/q118623/}
+  // Based on former MSDN knowledge base article Q118623.
   // According to MSDN this method should fail on Windows 6.0 (Vista) and later.
   // It has been known to fail on Vista, but works on Vista Home Premium SP1!
   // It would seem that the call will succeed if there's an active network with

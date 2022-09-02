@@ -78,7 +78,7 @@
 
 ## v5.7.0 of 05 October 2021
 
-+ Updated to detect 1st release of Windows 11 (i.e. Windows 11 Version 21H2).
++ Updated TPJOSInfo to detect 1st release of Windows 11 (i.e. Windows 11 Version 21H2).
 
 ## v5.6.2 of 14 September 2021
 

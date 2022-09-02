@@ -1,5 +1,9 @@
 # Change Log for System Information Unit
 
+## v5.15.0 of 02 September 2022
+
++ Updated TPJOSInfo detection of Win 11 Dev builds, 22H2 beta & release channel and alternative 22H2 beta channel builds to include all those released in August 2022 and on 1st September 2022.
+  
 ## v5.14.0 of 01 August 2022
 
 + Updates to TPJOSInfo:
@@ -78,7 +82,7 @@
 
 ## v5.7.0 of 05 October 2021
 
-+ Updated to detect 1st release of Windows 11 (i.e. Windows 11 Version 21H2).
++ Updated TPJOSInfo to detect 1st release of Windows 11 (i.e. Windows 11 Version 21H2).
 
 ## v5.6.2 of 14 September 2021
 

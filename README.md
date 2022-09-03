@@ -18,11 +18,11 @@ This document applies to _System Information Unit_ v5.4.0 and later.
 
 This unit contains a group of static classes and some global variables that provide information about the user's computer system and operating system. Some useful constants and type definitions are also included. The static classes are:
 
-* _TPJComputerInfo_ – provides information about the host computer and current user.
+* _TPJComputerInfo_ – provides information about the host computer and the current user.
 * _TPJSystemFolders_ – gets the full path to certain system folders.
-* _TPJOSInfo_ – supplies information about the operating system information including the platform, product name, product ID code, version and service packs. In some cases, mainly for Windows 10 and later, some development and/or beta builds are also detected and reported. Whether or not this is can be done depends on the availability of information about such builds.
+* _TPJOSInfo_ – supplies information about the operating system.
 
-In addition, the unit extends and enhances the information provided by the `SysUtils` unit's _Win32xxx_ variables (such as _Win32Platform_) by defining further _Win32xxx_ variables that store the extended operating system information available on later NT platform OSs.
+In addition, the unit extends and enhances the OS version information provided by the `SysUtils` unit's _Win32xxx_ variables (such as _Win32Platform_) by defining further _Win32xxx_ variables that store the extended operating system information available on later OSs.
 
 ### Effect of changes to the Windows API
 
@@ -58,9 +58,9 @@ Sorry that this is all so complicated - but it's ***complicated***!! And, IMHO, 
 
 ### Debug Mode
 
-To enable the new Windows 8 and later OS information detection code to be debugged on Windows Vista and Windows 7, developers can temporarily define the `DEBUG_NEW_API` symbol. This causes the same method used for Windows 8 and later detection to used for Windows Vista and Windows 7.
+To help with debugging, developers can define the `DEBUG` symbol. Range checking is forced on when `DEBUG` is defined.
 
-To help with debugging developers can also define the `DEBUG` symbol. Range checking is forced on when `DEBUG` is defined.
+Normally, the _VerifyVersionInfo_ API is used only when detecting Windows 8 and later. To enable code using this API to be tested on machines running Windows Vista or Windows 7, developers can temporarily define the `DEBUG_NEW_API` symbol. This causes the _VerifyVersionInfo_ API to be used for detection of Windows Vista and Windows 7. `DEBUG_NEW_API` is less useful than it was when Windows 8 was new: the symbol may be removed from future relesses.
 
 ### Deleted Code
 

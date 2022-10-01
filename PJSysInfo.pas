@@ -1186,7 +1186,7 @@ const
     Sources:
       https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions
       https://en.wikipedia.org/wiki/Windows_NT
-      https://en.wikipedia.org/wiki/Windows_10_version_history
+
       https://en.wikipedia.org/wiki/Windows_11_version_history
       https://en.wikipedia.org/wiki/Windows_Server
       https://en.wikipedia.org/wiki/Windows_Server_2019
@@ -1901,9 +1901,12 @@ begin
             else if IsBuildNumber(Win1022H2Build) then
             begin
               InternalBuildNumber := Win1022H2Build;
-              { TODO: As of 1 Aug 2022 all rev numbers are previews.
+              { TODO: As of 1 Oct 2022 all rev numbers are release previews.
                       Change following once this is no longer the case. }
-              InternalExtraUpdateInfo := 'Version 22H2 (preview)';
+              InternalExtraUpdateInfo := Format(
+                'Version 22H2 [Release Preview v10.0.%d.%d]',
+                [InternalBuildNumber, InternalRevisionNumber]
+              );
             end
             else if FindBuildNumberFrom(
               Win10DevChannel, InternalBuildNumber

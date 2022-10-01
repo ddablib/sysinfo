@@ -1284,11 +1284,12 @@ const
   //
   // Build 22631 was the original beta build.
   //  * Beta & Release Preview channels: rev 1
-  //  * Beta channel: revs 160,290,436,440,450,575,586,590
-  //  * Release Preview channel: revs 105,169,232,317,382,457
+  //  * Beta channel: revs 160,290,436,440,450,575,586,590,598,601,730
+  //  * Release Preview channel: revs 105,169,232,317,457,607
+  //  * Public Release: revs 382,521,525,608 & 731 and later
   Win11v22H2Build = 22621;
   // Build 22632 was added as an alternative Beta channel build as of rev 290:
-  //  * Beta channel: revs 290,436,440,450,575,586,590
+  //  * Beta channel: revs 290,436,440,450,575,586,590,598,601
   Win11v22H2BuildAlt = 22622;
 
   // Dev channel release - different sources give different names.
@@ -1299,7 +1300,7 @@ const
   // * From build 22567 the release string changed from "Dev" to "22H"
 
   // Builds with version string "Dev"
-  Win11DevChannelDevBuilds: array[0..36] of Integer = (
+  Win11DevChannelDevBuilds: array[0..41] of Integer = (
     // pre Win 11 release
     22449, 22454, 22458, 22463, 22468,
     // post Win 11 release, pre Win 11 22H2 beta release
@@ -1307,7 +1308,9 @@ const
     22533, 22538, 22543, 22557, 22563,
     // post Win 11 22H2 beta release
     25115, 25120, 25126, 25131, 25136, 25140, 25145, 25151, 25158, 25163, 25169,
-    25174, 25179, 25182, 25188, 25193
+    25174, 25179, 25182, 25188, 25193, 25197, 25201, 25206, 25211,
+    // post Win 11 22H2 release
+    22623
   );
   // Builds with version string "22H2" in Dev channel
   Win11DevChannel22H2Builds: array[0..2] of Integer = (
@@ -1971,17 +1974,19 @@ begin
               // Win11v22H2BuildAlt for details of naming of revisions.
               InternalBuildNumber := Win11v22H2Build;
               case InternalRevisionNumber of
+                731..MaxInt, 382, 521, 525, 608:
+                  InternalExtraUpdateInfo := 'Version 22H2';
                 1:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Beta & Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
-                105, 169, 232, 317, 382, 457:
+                105, 169, 232, 317, 457, 607:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
-                160, 290, 436, 440, 450, 575, 586, 590:
+                160, 290, 436, 440, 450, 575, 586, 590, 598, 601, 730:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Beta v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2000,9 +2005,9 @@ begin
               InternalBuildNumber := Win11v22H2BuildAlt;
               // Set fallback update info for unknown revisions
               case InternalRevisionNumber of
-                290, 436, 440, 450, 575, 586, 590:
+                290, 436, 440, 450, 575, 586, 590, 598, 601:
                   InternalExtraUpdateInfo := Format(
-                    'Version 22H2 [Beta v10.0.%d.%d]',
+                    'Version 22H2 [October Component Update v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 else

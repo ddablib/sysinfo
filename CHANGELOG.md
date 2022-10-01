@@ -1,9 +1,20 @@
 # Change Log for System Information Unit
 
+## v5.16.0 of 01 October 2022
+
++ Updated TPJOSInfo detection of Windows 11 builds re:
+  + Public release of Version 22H2
+  + Beta & release preview channel builds in from 2-30 Sepetember 2022.
++ Add build & revision numbers to text reported for Windows 10 Version 22H2 release previews.
++ Add `.gitignore` file.
++ Update documentation:
+  + Update `README.md` "Effect of changes to the Windows API" sub-section.
+  + Fix errors & update `Acknowledgements .md`.
+
 ## v5.15.0 of 02 September 2022
 
 + Updated TPJOSInfo detection of Win 11 Dev builds, 22H2 beta & release channel and alternative 22H2 beta channel builds to include all those released in August 2022 and on 1st September 2022.
-  
+
 ## v5.14.0 of 01 August 2022
 
 + Updates to TPJOSInfo:

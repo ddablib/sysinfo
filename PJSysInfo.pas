@@ -1295,7 +1295,7 @@ const
   // * From build 22567 the release string changed from "Dev" to "22H"
 
   // Builds with version string "Dev"
-  Win11DevChannelDevBuilds: array[0..43] of Integer = (
+  Win11DevChannelDevBuilds: array[0..46] of Integer = (
     // pre Win 11 release
     22449, 22454, 22458, 22463, 22468,
     // post Win 11 release, pre Win 11 22H2 beta release
@@ -1305,7 +1305,7 @@ const
     25115, 25120, 25126, 25131, 25136, 25140, 25145, 25151, 25158, 25163, 25169,
     25174, 25179, 25182, 25188, 25193, 25197, 25201, 25206, 25211,
     // post Win 11 22H2 release
-    25217, 25227, 25231
+    25217, 25227, 25231, 25236, 25247, 25252
   );
   // Builds with version string "22H2" in Dev channel
   Win11DevChannel22H2Builds: array[0..2] of Integer = (
@@ -1974,20 +1974,20 @@ begin
               // **REF1**
               InternalBuildNumber := Win11v22H2Build;
               case InternalRevisionNumber of
-                876..MaxInt, 382, 521, 525, 608, 674, 675, 755:
+                382, 521, 525, 608, 674, 675, 755, 819, 900:
                   InternalExtraUpdateInfo := 'Version 22H2';
                 1:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Beta & Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
-                105, 169, 232, 317, 457, 607, 754:
+                105, 169, 232, 317, 457, 607, 754, 898:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 160, 290, 436, 440, 450, 575, 586, 590, 598, 601, 730, 741, 746,
-                870, 875:
+                870, 875, 885, 891, 1020:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Beta v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]

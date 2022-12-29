@@ -1188,14 +1188,16 @@ const
     Sources:
       https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions
       https://en.wikipedia.org/wiki/Windows_NT
+      https://en.wikipedia.org/wiki/Windows_10_version_history
+      https://en.wikipedia.org/wiki/Windows_11_version_history
       https://en.wikipedia.org/wiki/Windows_Server
       https://en.wikipedia.org/wiki/Windows_Server_2019
       https://en.wikipedia.org/wiki/Windows_Server_2016
       https://tinyurl.com/y8tfadm2 (MS Windows Server release information)
+      https://tinyurl.com/usupsz4a (Win 11 Version Numbers & Build Versions)
       https://docs.microsoft.com/en-us/lifecycle/products/windows-server-2022
       https://tinyurl.com/yj5e72jt (MS Win 10 release info)
       https://tinyurl.com/kd3weeu7 (MS Server release info)
-
 
     Note:
       For Vista and Win 7 we have to add service pack number to these values to
@@ -1325,18 +1327,13 @@ const
   // Additional information is available for Win 10 builds from version 21H1,
   // as follows:
 
-  // Windows 10 version 21H1:
-  //  * revisions 844..964 were Beta builds
-  //  * later revisions were Public Release builds
+  // Windows 10 version 21H1 - see **REF3** in implementation for details
   Win1021H1Build = 19043;
 
-  // Windows 10 version 21H2:
-  //  * revisions 1147..1266 were Preview builds
-  //  * later revisions were Public Release builds
+  // Windows 10 version 21H2 - see **REF4** in implementation for details
   Win1021H2Build = 19044;
 
-  // Windows 10 version 22H2
-  // * revision 1865 was Release Preview build (KB5015878)
+  // Windows 10 version 22H2 - see **REF5** in implementation for details
   Win1022H2Build = 19045;
 
   // Fast ring
@@ -1362,11 +1359,7 @@ const
   // Windows 11 version Dev: 10.0.21996.1 (Insider version)
   Win11DevBuild = 21996;
 
-  // Windows 11 version 21H2:
-  //  * Dev channel: revs 51,65,71
-  //  * Dev & Beta channels: revs 100,120,132,160,168
-  //  * Beta & Release Preview channels: revs 176,184
-  //  * Public Release: rev 194 and later
+  // Windows 11 version 21H2  - see **REF6** in implementation for details
   Win11v21H2Build = 22000;
 
   // Windows 11 version 22H2
@@ -2008,6 +2001,7 @@ begin
             end
             else if IsBuildNumber(Win1021H1Build) then
             begin
+              // **REF3**
               InternalBuildNumber := Win1021H1Build;
               case InternalRevisionNumber of
                 985, 1023, 1052, 1055, 1081, 1082, 1083, 1110, 1151, 1165, 1202,
@@ -2032,6 +2026,7 @@ begin
             end
             else if IsBuildNumber(Win1021H2Build) then
             begin
+              // **REF4**
               // From 21H2 Windows 10 moves from a 6 monthly update cycle to a
               // yearly cycle
               InternalBuildNumber := Win1021H2Build;
@@ -2057,6 +2052,7 @@ begin
             end
             else if IsBuildNumber(Win1022H2Build) then
             begin
+              // **REF5**
               InternalBuildNumber := Win1022H2Build;
               case InternalBuildNumber of
                 2006, 2130, 2132, 2193, 2194, 2251, 2311, 2364..MaxInt:
@@ -2103,6 +2099,7 @@ begin
             end
             else if IsBuildNumber(Win11v21H2Build) then
             begin
+              // **REF6**
               // There are several Win 11 releases with this build number
               // Which release we're talking about depends on the revision
               // number.

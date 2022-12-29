@@ -1283,8 +1283,8 @@ const
   // various other channels.
   // See **REF1** in implementation
   Win11v22H2Build = 22621;
-  // Build 22632 was added as an alternative Beta channel build as of rev 290:
-  //  * Beta channel: revs 290,436,440,450,575,586,590,598,601
+  // Build 22632 was added as an alternative Beta channel build as of rev 290.
+  // See **REF2** in implementation
   Win11v22H2BuildAlt = 22622;
 
   // Dev channel release - different sources give different names.
@@ -1295,7 +1295,7 @@ const
   // * From build 22567 the release string changed from "Dev" to "22H"
 
   // Builds with version string "Dev"
-  Win11DevChannelDevBuilds: array[0..46] of Integer = (
+  Win11DevChannelDevBuilds: array[0..48] of Integer = (
     // pre Win 11 release
     22449, 22454, 22458, 22463, 22468,
     // post Win 11 release, pre Win 11 22H2 beta release
@@ -1305,7 +1305,7 @@ const
     25115, 25120, 25126, 25131, 25136, 25140, 25145, 25151, 25158, 25163, 25169,
     25174, 25179, 25182, 25188, 25193, 25197, 25201, 25206, 25211,
     // post Win 11 22H2 release
-    25217, 25227, 25231, 25236, 25247, 25252
+    25217, 25227, 25231, 25236, 25247, 25252, 25262, 25267
   );
   // Builds with version string "22H2" in Dev channel
   Win11DevChannel22H2Builds: array[0..2] of Integer = (
@@ -1881,30 +1881,69 @@ begin
             else if IsBuildNumber(Win1021H1Build) then
             begin
               InternalBuildNumber := Win1021H1Build;
-              InternalExtraUpdateInfo := 'Version 21H1';
-              if IsInRange(InternalRevisionNumber, 844, 964) then
-                InternalExtraUpdateInfo := InternalExtraUpdateInfo + ' (beta)';
+              case InternalRevisionNumber of
+                985, 1023, 1052, 1055, 1081, 1082, 1083, 1110, 1151, 1165, 1202,
+                1237, 1266, 1288, 1320, 1348, 1387, 1415..MaxInt:
+                  InternalExtraUpdateInfo := 'Version 21H1';
+                1147, 1149, 1200, 1263, 1319, 1379, 1381:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 21H1 [Release Preview Channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                844, 867, 899, 906, 928, 962, 964:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 21H1 [Beta Channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 21H1 [Unknown release v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
             end
             else if IsBuildNumber(Win1021H2Build) then
             begin
               // From 21H2 Windows 10 moves from a 6 monthly update cycle to a
               // yearly cycle
               InternalBuildNumber := Win1021H2Build;
-              InternalExtraUpdateInfo := 'Version 21H2';
-              if IsInRange(InternalRevisionNumber, 1147, 1266) then
-                InternalExtraUpdateInfo := InternalExtraUpdateInfo
-                  + ' (preview)';
+              case InternalRevisionNumber of
+                1288, 1348, 1387, 1415, 1466, 1469, 1503, 1526, 1566, 1586,
+                1620, 1645, 1682, 1706, 1708, 1741, 1766, 1767, 1806, 1826,
+                1865, 1889, 1949, 2006, 2075, 2130, 2132, 2193, 2194, 2251,
+                2311, 2364..MaxInt:
+                  InternalExtraUpdateInfo := 'Version 21H2';
+                1147, 1149, 1151, 1165, 1200, 1202, 1237, 1263, 1266, 1319,
+                1320, 1379, 1381, 1499, 1618, 1679, 1737, 1739, 1862, 1947,
+                2192:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 21H2 [Release Preview Channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 21H2 [Unknown release v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
             end
             else if IsBuildNumber(Win1022H2Build) then
             begin
               InternalBuildNumber := Win1022H2Build;
-              if IsInRange(InternalRevisionNumber, 1865, 2075) then
-                InternalExtraUpdateInfo := Format(
-                  'Version 22H2 [Release Preview v10.0.%d.%d]',
-                  [InternalBuildNumber, InternalRevisionNumber]
-                )
-              else
-                InternalExtraUpdateInfo := 'Version 22H2';
+              case InternalBuildNumber of
+                2006, 2130, 2132, 2193, 2194, 2251, 2311, 2364..MaxInt:
+                  InternalExtraUpdateInfo := 'Version 22H2';
+                1865, 1889, 1949, 2075, 2301:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 22H2 [Release Preview Channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 22H1 [Unknown release v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
             end
             else if FindBuildNumberFrom(
               Win10DevChannel, InternalBuildNumber
@@ -1943,8 +1982,10 @@ begin
               //     release of Win 11 -- well hidden eh?!
               InternalBuildNumber := Win11v21H2Build;
               case InternalRevisionNumber of
-                194..MaxInt:
-                  // Public releases of Windows 11 have build number >= 194
+                194..345, 347..465, 467..525, 527..587, 589..650, 652..705,
+                707..775, 777..828, 830..916, 918..1040, 1042..1162,
+                1164..1278, 1280..MaxInt:
+                  // Public releases of Windows 11
                   InternalExtraUpdateInfo := 'Version 21H2';
                 51, 65, 71:
                   InternalExtraUpdateInfo := Format(
@@ -1956,10 +1997,15 @@ begin
                     'Version 21H2 [Dev & Beta Channels v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
-                176, 184:
+                176, 184, 346, 466, 526, 588:
                   InternalExtraUpdateInfo := Format(
                     'Version 21H2 '
                       + '[Beta & Release Preview Channels v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                651, 706, 776, 829, 917, 1041, 1163, 1279:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 21H1 Release Preview Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 else
@@ -1974,7 +2020,7 @@ begin
               // **REF1**
               InternalBuildNumber := Win11v22H2Build;
               case InternalRevisionNumber of
-                382, 521, 525, 608, 674, 675, 755, 819, 900:
+                382, 521, 525, 608, 674, 675, 755, 819, 900, 963, 1038..MaxInt:
                   InternalExtraUpdateInfo := 'Version 22H2';
                 1:
                   InternalExtraUpdateInfo := Format(
@@ -1987,7 +2033,7 @@ begin
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 160, 290, 436, 440, 450, 575, 586, 590, 598, 601, 730, 741, 746,
-                870, 875, 885, 891, 1020:
+                870, 875, 885, 891, 1020, 1028, 1037:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Beta v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2001,8 +2047,7 @@ begin
             end
             else if IsBuildNumber(Win11v22H2BuildAlt) then
             begin
-              // See comments with declarations of Win11v22H2Build and
-              // Win11v22H2BuildAlt for details of naming of revisions.
+              // **REF2**
               InternalBuildNumber := Win11v22H2BuildAlt;
               // Set fallback update info for unknown revisions
               case InternalRevisionNumber of

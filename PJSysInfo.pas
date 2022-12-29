@@ -1177,6 +1177,8 @@ type
   // Generally used in arrays
   TBuildNameMap = record
     Build: Integer;
+    LoRev: Integer;
+    HiRev: Integer;
     Name: string;
   end;
 
@@ -1213,24 +1215,114 @@ const
 
   // Windows 10 ----------------------------------------------------------------
 
-  // Map of Win 10 builds from 1st release (version 1507) to version 20H2
-  Win10BuildMap: array[0..10] of TBuildNameMap = (
-    (Build: 10240; Name: 'Version 1507'),
-    (Build: 10586; Name: 'Version 1511: November Update'),
-    (Build: 14393; Name: 'Version 1607: Anniversary Update'),
-    (Build: 15063; Name: 'Version 1703: Creators Update'),
-    (Build: 16299; Name: 'Version 1709: Fall Creators Update'),
-    (Build: 17134; Name: 'Version 1803: April 2018 Update'),
-    (Build: 17763; Name: 'Version 1809: October 2018 Update'),
-    (Build: 18362; Name: 'Version 1903: May 2019 Update'),
-    (Build: 18363; Name: 'Version 1909: November 2019 Update'),
-    (Build: 19041; Name: 'Version 2004: May 2020 Update'),
-    // Note: Microsoft announced the official version name of build 19042 as
-    // '20H2', not '2010' which some had expected it to be
-    (Build: 19042; Name: 'Version 20H2: October 2020 Update')
+  // Version 1507 previews
+  // Preview builds with major/minor version number 6.4
+  Win10_6point4Builds: array[0..2] of Integer = (9841, 9860, 9879);
+  // Preview builds with major/minor version number 10.0
+  Win10_1507_Preview_Builds: array[0..10] of Integer = (
+    9926, 10041, 10049, 10061, 10074, 10122, 10130, 10158, 10159, 10162, 10166
   );
 
-  // Additional information is available for Win 10 buulds from version 21H1,
+  // Version 1511 previews
+  Win10_1511_Preview_Builds: array[0..4] of Integer = (
+    10525, 10532, 10547, 10565, 10576
+  );
+
+  // Version 1607 previews
+  Win10_1607_Preview_Builds: array[0..24] of Integer = (
+    11082, 11099, 11102, 14251, 14257, 14271, 14279, 14291, 14295, 14316,
+    14328, 14332, 14342, 14352, 14361, 14366, 14367, 14371, 14372, 14376,
+    14379, 14383, 14385, 14388, 14390
+  );
+
+  // Version 1703 previews
+  Win10_1703_Preview_Builds: array[0..26] of Integer = (
+    14901, 14905, 14915, 14926, 14931, 14936, 14942, 14946, 14951, 14955,
+    14959, 14965, 14971, 14986, 15002, 15007, 15014, 15019, 15025, 15031,
+    15042, 15046, 15048, 15055, 15058, 15060, 15061
+  );
+
+  // Version 1709 previews
+  Win10_1709_Preview_Builds: array[0..23] of Integer = (
+    16170, 16176, 16179, 16184, 16188, 16193, 16199, 16212, 16215, 16226,
+    16232, 16237, 16241, 16251, 16257, 16273, 16275, 16278, 16281, 16288,
+    16291, 16294, 16296, 16299 {rev 0 only}
+  );
+
+  // Version 1803 previews
+  Win10_1803_Preview_Builds: array[0..21] of Integer = (
+    16353, 16362, 17004, 17017, 17025, 17035, 17040, 17046, 17063, 17074,
+    17083, 17093, 17101, 17107, 17110, 17112, 17115, 17120, 17123, 17127,
+    17128, 17133
+  );
+
+  // Version 1809 previews
+  Win10_1809_Preview_Builds: array[0..33] of Integer = (
+    17604, 17618, 17623, 17627, 17634, 17639, 17643, 17650, 17655, 17661,
+    17666, 17672, 17677, 17682, 17686, 17692, 17704, 17711, 17713, 17723,
+    17728, 17730, 17733, 17735, 17738, 17741, 17744, 17746, 17751, 17754,
+    17755, 17758, 17760, 17763 {rev 0 only}
+  );
+
+  // Version 1903 previews
+  Win10_1903_Preview_Builds: array[0..30] of Integer = (
+    18204, 18214, 18219, 18234, 18237, 18242, 18247, 18252, 18262, 18267,
+    18272, 18277, 18282, 18290, 18298, 18305, 18309, 18312, 18317, 18323,
+    18329, 18334, 18342, 18343, 18346, 18348, 18351, 18353, 18356, 18358,
+    18361
+  );
+
+  // Single build number used for 3 purposes:
+  //   1903 preview - revs 0, 30, 53, 86, 113
+  //   1903 release - revs 116..1256
+  //   1909 preview - revs 10000, 10005, 10006, 10012, 10014, 10015,
+  //                       10019, 10022, 10024
+  Win10_19XX_Shared_Build = 18362;
+
+  // Version 1909 previews used build 18362 rev 10000 and later (see above)
+
+  // Version 2004 previews
+  Win10_2004_Preview_Builds: array[0..43] of Integer = (
+    18836, 18841, 18845, 18850, 18855, 18860, 18865, 18875, 18885, 18890,
+    18894, 18895, 18898, 18908, 18912, 18917, 18922, 18932, 18936, 18941,
+    18945, 18950, 18956, 18963, 18965, 18970, 18975, 18980, 18985, 18990,
+    18995, 18999, 19002, 19008, 19013, 19018, 19023, 19025, 19028, 19030,
+    19033, 19035, 19037,
+    19041 {revs 0, 21, 84, 113, 153, 172, 173, 207, 208 only}
+  );
+
+  // Version 20H2 previews: all used 19042, also used for release
+  Win10_20H2_Preview_Builds: array[0..0] of Integer = (
+    19042
+  );
+
+  // Map of Win 10 builds from 1st release (version 1507) to version 20H2
+  Win10BuildMap: array[0..10] of TBuildNameMap = (
+    (Build: 10240; LoRev: 16484; HiRev: 19624;
+      Name: 'Version 1507'),
+    (Build: 10586; LoRev: 0; HiRev: 1540;
+      Name: 'Version 1511: November Update'),
+    (Build: 14393; LoRev: 0; HiRev: 5582;
+      Name: 'Version 1607: Anniversary Update'),
+    (Build: 15063; LoRev: 0; HiRev: 2679;
+      Name: 'Version 1703: Creators Update'),
+    (Build: 16299; LoRev: 15; HiRev: 2166;
+      Name: 'Version 1709: Fall Creators Update'),
+    (Build: 17134; LoRev: 1; HiRev: 2208;
+      Name: 'Version 1803: April 2018 Update'),
+    (Build: 17763; LoRev: 1; HiRev: MaxInt; {NOTE: still being maintained}
+      Name: 'Version 1809: October 2018 Update'),
+    (Build: Win10_19XX_Shared_Build; LoRev: 116; HiRev: 1256;
+      Name: 'Version 1903: May 2019 Update'),
+    (Build: 18363; LoRev: 327; HiRev: 2274;
+      Name: 'Version 1909: November 2019 Update'),
+    (Build: 19041; LoRev: 264; HiRev: 1415;
+      Name: 'Version 2004: May 2020 Update'),
+    (Build: 19042; LoRev: 572; HiRev: MaxInt; {NOTE: still being maintained}
+      Name: 'Version 20H2: October 2020 Update')
+  );
+
+  // Additional information is available for Win 10 builds from version 21H1,
   // as follows:
 
   // Windows 10 version 21H1:
@@ -1412,6 +1504,14 @@ const
   KEY_WOW64_64KEY = $0100;  // registry access flag not defined in all Delphis
 {$ENDIF}
 
+// Checks if integer V is in the range of values defined by VLo and VHi,
+// inclusive.
+function IsInRange(const V, VLo, VHi: Integer): Boolean;
+begin
+  Assert(VLo <= VHi);
+  Result := (V >= VLo) and (V <= VHi);
+end;
+
 // Tests Windows version (major, minor, service pack major & service pack minor)
 // against the given values using the given comparison condition and return
 // True if the given version matches the current one or False if not
@@ -1510,10 +1610,11 @@ begin
 end;
 
 // Checks if any of the build numbers in the given array match that of the
-// current OS. If so the build number that was found then True is returned, and
-// the build number and it's associated text are passed back in the FoundBN and
-// FoundExtra parameters respectively. Otherwise False is returned, FoundBN is
-// set to 0 and FoundExtra is set to ''.
+// current OS AND if the OS revision number is in the specified range. If so
+// then the build number that was found then True is returned, and the build
+// number and it's associated text are passed back in the FoundBN and FoundExtra
+// parameters respectively. Otherwise False is returned, FoundBN is set to 0 and
+// FoundExtra is set to ''.
 function FindBuildNameAndExtraFrom(const Infos: array of TBuildNameMap;
   var FoundBN: Integer; var FoundExtra: string): Boolean;
 var
@@ -1524,10 +1625,34 @@ begin
   Result := False;
   for I := Low(Infos) to High(Infos) do
   begin
-    if IsBuildNumber(Infos[I].Build) then
+    if IsBuildNumber(Infos[I].Build) and
+      IsInRange(InternalRevisionNumber, Infos[I].LoRev, Infos[I].HiRev) then
     begin
       FoundBN := Infos[I].Build;
       FoundExtra := Infos[I].Name;
+      Result := True;
+      Break;
+    end;
+  end;
+end;
+
+function FindWin10PreviewBuildNameAndExtraFrom(const Builds: array of Integer;
+  const Win10Version: string; var FoundBN: Integer; var FoundExtra: string):
+  Boolean;
+var
+  I: Integer;
+begin
+  FoundBN := 0;
+  FoundExtra := '';
+  Result := False;
+  for I := Low(Builds) to High(Builds) do
+  begin
+    if IsBuildNumber(Builds[I]) then
+    begin
+      FoundBN := Builds[I];
+      FoundExtra := Format(
+        'Version %s Preview Build %d', [Win10Version, FoundBN]
+      );
       Result := True;
       Break;
     end;
@@ -1611,14 +1736,6 @@ begin
     Result := Copy(Result, 1, Length(Result) - 1);
 end;
 {$ENDIF}
-
-// Checks if integer V is in the range of values defined by VLo and VHi,
-// inclusive.
-function IsInRange(const V, VLo, VHi: Integer): Boolean;
-begin
-  Assert(VLo <= VHi);
-  Result := (V >= VLo) and (V <= VHi);
-end;
 
 // Returns the value of the given environment variable.
 function GetEnvVar(const VarName: string): string;
@@ -1850,6 +1967,17 @@ begin
               // Windows 2016 Server tech preview 1
               InternalBuildNumber := Win2016TP1Build;
               InternalExtraUpdateInfo := 'Technical Preview 6';
+            end
+            else
+            begin
+              if FindBuildNumberFrom(
+                Win10_6point4Builds, InternalBuildNumber
+              ) then
+                // Early Win 10 preview builds report v6.4, not v10.0
+                InternalExtraUpdateInfo := Format(
+                  'Version 1507 Preview v6.4.%d.%d',
+                  [InternalBuildNumber, InternalRevisionNumber]
+                )
             end;
         end;
         if Win32ServicePackMajor > 0 then
@@ -2101,7 +2229,99 @@ begin
                 'Future Component Update Beta v10.0.%d.%d',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
-            end;
+            end
+            // End with some much less likely cases
+            // NOTE: All the following tests MUST come after the last call to
+            //       FindBuildNameAndExtraFrom() for non-server OSs because some
+            //       build numbers are common to both sets of tests and the
+            //       following rely on FindBuildNameAndExtraFrom() to have
+            //       filtered out releases.
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_20H2_Preview_Builds, '20H2',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_2004_Preview_Builds, '2004',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if IsBuildNumber(Win10_19XX_Shared_Build) then
+            begin
+              // If we get here the Win10_19XX_Shared_Build will either be a
+              // preview of Version 1903 or 1909
+              InternalBuildNumber := Win10_19XX_Shared_Build;
+              if IsInRange(InternalRevisionNumber, 0, 113) then
+                InternalExtraUpdateInfo := Format(
+                  'Version 1903 Preview Build %d.%d',
+                  [InternalBuildNumber, InternalRevisionNumber]
+                )
+              else if IsInRange(InternalRevisionNumber, 10000, 10024) then
+                InternalExtraUpdateInfo := Format(
+                  'Version 1909 Preview Build %d.%d',
+                  [InternalBuildNumber, InternalRevisionNumber]
+                );
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_1903_Preview_Builds, '1903',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_1809_Preview_Builds, '1809',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_1803_Preview_Builds, '1803',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_1709_Preview_Builds, '1709',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_1703_Preview_Builds, '1703',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_1607_Preview_Builds, '1607',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_1511_Preview_Builds, '1511',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
+            else if FindWin10PreviewBuildNameAndExtraFrom(
+              Win10_1507_Preview_Builds, '1507',
+              InternalBuildNumber, InternalExtraUpdateInfo
+            ) then
+            begin
+              // Nothing to do: required internal variables set in function call
+            end
           end
           else // Win32ProductType in [VER_NT_DOMAIN_CONTROLLER, VER_NT_SERVER]
           begin
@@ -2716,6 +2936,8 @@ begin
 end;
 
 class function TPJOSInfo.Product: TPJOSProduct;
+var
+  DummyBN: Integer;   // dummy build number
 begin
   Result := osUnknown;
   case Platform of
@@ -2799,12 +3021,14 @@ begin
               else
                 Result := osWinSvr2012R2;
             4:
-              // Version 6.4 was used for Windows 2016 server tech preview 1.
-              // This version *may* only be detected by Windows if the
-              // application is "manifested" for the correct Windows version.
-              // See https://bit.ly/MJSO8Q.
               if IsServer then
-                Result := osWin10Svr;
+                // Version 6.4 was used for Windows 2016 server tech preview 1.
+                // This version *may* only be detected by Windows if the
+                // application is "manifested" for the correct Windows version.
+                // See https://bit.ly/MJSO8Q.
+                Result := osWin10Svr
+              else if FindBuildNumberFrom(Win10_6point4Builds, DummyBN) then
+                Result := osWin10;
             else
               // Higher minor version: must be an unknown later OS
               Result := osWinLater

@@ -230,18 +230,19 @@ const
 
   // These Windows-defined constants are required for use with the
   // GetProductInfo API call used with Windows Vista and later
-  // ** Thanks to Laurent Pierre for providing these definitions.
-  // ** Additional definitions were obtained from
-  //    https://msdn.microsoft.com/en-us/library/ms724358
+  // ** Thanks to Laurent Pierre for providing these definitions originally.
+  // ** Subsequent additions were obtained from https://tinyurl.com/3rhhbs2z
   PRODUCT_BUSINESS                            = $00000006;
   PRODUCT_BUSINESS_N                          = $00000010;
   PRODUCT_CLUSTER_SERVER                      = $00000012;
   PRODUCT_CLUSTER_SERVER_V                    = $00000040;
   PRODUCT_CORE                                = $00000065;
-  PRODUCT_CORE_N                              = $00000062;
   PRODUCT_CORE_COUNTRYSPECIFIC                = $00000063;
+  PRODUCT_CORE_N                              = $00000062;
   PRODUCT_CORE_SINGLELANGUAGE                 = $00000064;
   PRODUCT_DATACENTER_EVALUATION_SERVER        = $00000050;
+  PRODUCT_DATACENTER_A_SERVER_CORE            = $00000091;
+  PRODUCT_STANDARD_A_SERVER_CORE              = $00000092;
   PRODUCT_DATACENTER_SERVER                   = $00000008;
   PRODUCT_DATACENTER_SERVER_CORE              = $0000000C;
   PRODUCT_DATACENTER_SERVER_CORE_V            = $00000027;
@@ -250,18 +251,22 @@ const
   PRODUCT_EDUCATION_N                         = $0000007A;
   PRODUCT_ENTERPRISE                          = $00000004;
   PRODUCT_ENTERPRISE_E                        = $00000046;
-  PRODUCT_ENTERPRISE_N_EVALUATION             = $00000054;
-  PRODUCT_ENTERPRISE_N                        = $0000001B;
   PRODUCT_ENTERPRISE_EVALUATION               = $00000048;
+  PRODUCT_ENTERPRISE_N                        = $0000001B;
+  PRODUCT_ENTERPRISE_N_EVALUATION             = $00000054;
+  PRODUCT_ENTERPRISE_S                        = $0000007D;
+  PRODUCT_ENTERPRISE_S_EVALUATION             = $00000081;
+  PRODUCT_ENTERPRISE_S_N                      = $0000007E;
+  PRODUCT_ENTERPRISE_S_N_EVALUATION           = $00000082;
   PRODUCT_ENTERPRISE_SERVER                   = $0000000A;
   PRODUCT_ENTERPRISE_SERVER_CORE              = $0000000E;
   PRODUCT_ENTERPRISE_SERVER_CORE_V            = $00000029;
   PRODUCT_ENTERPRISE_SERVER_IA64              = $0000000F;
   PRODUCT_ENTERPRISE_SERVER_V                 = $00000026;
-  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT       = $0000003B;
   PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL       = $0000003C;
-  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC    = $0000003D;
   PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC    = $0000003E;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT       = $0000003B;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC    = $0000003D;
   PRODUCT_HOME_BASIC                          = $00000002;
   PRODUCT_HOME_BASIC_E                        = $00000043;
   PRODUCT_HOME_BASIC_N                        = $00000005;
@@ -271,13 +276,19 @@ const
   PRODUCT_HOME_PREMIUM_SERVER                 = $00000022;
   PRODUCT_HOME_SERVER                         = $00000013;
   PRODUCT_HYPERV                              = $0000002A;
+  PRODUCT_IOTENTERPRISE                       = $000000BC;
+  PRODUCT_IOTENTERPRISE_S                     = $000000BF;
+  PRODUCT_IOTUAP                              = $0000007B;
+  PRODUCT_IOTUAPCOMMERCIAL                    = $00000083;
   PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT    = $0000001E;
   PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING     = $00000020;
   PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY      = $0000001F;
   PRODUCT_MOBILE_CORE                         = $00000068;
   PRODUCT_MOBILE_ENTERPRISE                   = $00000085;
-  PRODUCT_MULTIPOINT_STANDARD_SERVER          = $0000004C;
   PRODUCT_MULTIPOINT_PREMIUM_SERVER           = $0000004D;
+  PRODUCT_MULTIPOINT_STANDARD_SERVER          = $0000004C;
+  PRODUCT_PRO_WORKSTATION                     = $000000A1;
+  PRODUCT_PRO_WORKSTATION_N                   = $000000A2;
   PRODUCT_PROFESSIONAL                        = $00000030;
   PRODUCT_PROFESSIONAL_E                      = $00000045;
   PRODUCT_PROFESSIONAL_N                      = $00000031;
@@ -296,8 +307,8 @@ const
   PRODUCT_STANDARD_EVALUATION_SERVER          = $0000004F;
   PRODUCT_STANDARD_SERVER                     = $00000007;
   PRODUCT_STANDARD_SERVER_CORE                = $0000000D;
-  PRODUCT_STANDARD_SERVER_V                   = $00000024;
   PRODUCT_STANDARD_SERVER_CORE_V              = $00000028;
+  PRODUCT_STANDARD_SERVER_V                   = $00000024;
   PRODUCT_STANDARD_SERVER_SOLUTIONS           = $00000034;
   PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE      = $00000035;
   PRODUCT_STARTER                             = $0000000B;
@@ -313,10 +324,10 @@ const
   PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER = $0000005F;
   PRODUCT_STORAGE_WORKGROUP_SERVER            = $00000016;
   PRODUCT_STORAGE_WORKGROUP_SERVER_CORE       = $0000002D;
-  PRODUCT_UNDEFINED                           = $00000000;
   PRODUCT_ULTIMATE                            = $00000001;
   PRODUCT_ULTIMATE_E                          = $00000047;
   PRODUCT_ULTIMATE_N                          = $0000001C;
+  PRODUCT_UNDEFINED                           = $00000000;
   PRODUCT_WEB_SERVER                          = $00000011;
   PRODUCT_WEB_SERVER_CORE                     = $0000001D;
   PRODUCT_UNLICENSED                          = $ABCDABCD;
@@ -333,19 +344,20 @@ const
 
   // These constants are required when examining the
   // TSystemInfo.wProcessorArchitecture member.
-  // Only constants marked * are defined in the MS 2008 SDK
-  PROCESSOR_ARCHITECTURE_UNKNOWN    = $FFFF; // Unknown architecture.
+  // Only constants marked ** are defined in MS docs at 2022-12-31
+  PROCESSOR_ARCHITECTURE_UNKNOWN    = $FFFF; // Unknown architecture *
   PROCESSOR_ARCHITECTURE_INTEL          = 0; // x86 *
   PROCESSOR_ARCHITECTURE_MIPS           = 1; // MIPS architecture
   PROCESSOR_ARCHITECTURE_ALPHA          = 2; // Alpha architecture
   PROCESSOR_ARCHITECTURE_PPC            = 3; // PPC architecture
   PROCESSOR_ARCHITECTURE_SHX            = 4; // SHX architecture
-  PROCESSOR_ARCHITECTURE_ARM            = 5; // ARM  architecture
-  PROCESSOR_ARCHITECTURE_IA64           = 6; // Intel Itanium Processor Family *
+  PROCESSOR_ARCHITECTURE_ARM            = 5; // ARM architecture *
+  PROCESSOR_ARCHITECTURE_IA64           = 6; // Intel Itanium based *
   PROCESSOR_ARCHITECTURE_ALPHA64        = 7; // Alpha64 architecture
   PROCESSOR_ARCHITECTURE_MSIL           = 8; // MSIL architecture
   PROCESSOR_ARCHITECTURE_AMD64          = 9; // x64 (AMD or Intel) *
   PROCESSOR_ARCHITECTURE_IA32_ON_WIN64 = 10; // IA32 on Win64 architecture
+  PROCESSOR_ARCHITECTURE_ARM64         = 12; // ARM64 architecture *
 
   // These constants are provided in case the obsolete
   // TSystemInfo.dwProcessorType needs to be used.
@@ -984,7 +996,7 @@ const
   // ** Laurent Pierre supplied original code on which this map is based
   //    It has been modified and extended using MSDN documentation at
   //    https://msdn.microsoft.com/en-us/library/ms724358
-  cProductMap: array[1..87] of record
+  cProductMap: array[1..99] of record
     Id: Cardinal; // product ID
     Name: string; // product name
   end = (
@@ -997,23 +1009,19 @@ const
     (Id: PRODUCT_CLUSTER_SERVER_V;
       Name: 'Server Hyper Core V';),
     (Id: PRODUCT_CORE;
-      Name: 'Core / Home';),
-    (Id: PRODUCT_CORE_N;
-      Name: 'Core N or Home N';),
+      Name: 'Home (Core)';),
     (Id: PRODUCT_CORE_COUNTRYSPECIFIC;
-      Name: 'Core / Home China';),
+      Name: 'Home (Core) China';),
+    (Id: PRODUCT_CORE_N;
+      Name: 'Home (Core) N';),
     (Id: PRODUCT_CORE_SINGLELANGUAGE;
-      Name: 'Core / Home Single Language';),
-    (Id: PRODUCT_MOBILE_CORE;
-      Name: 'Mobile'),
-    (Id: PRODUCT_MOBILE_ENTERPRISE;
-      Name: 'Mobile Enterprise'),
-    (Id: PRODUCT_EDUCATION;
-      Name: 'Education'),
-    (Id: PRODUCT_EDUCATION_N;
-      Name: 'Education N'),
+      Name: 'Home (Core) Single Language';),
     (Id: PRODUCT_DATACENTER_EVALUATION_SERVER;
       Name: 'Server Datacenter (evaluation installation)';),
+    (Id: PRODUCT_DATACENTER_A_SERVER_CORE;
+      Name: 'Server Datacenter, Semi-Annual Channel (core installation)';),
+    (Id: PRODUCT_STANDARD_A_SERVER_CORE;
+      Name: 'Server Standard, Semi-Annual Channel (core installation)';),
     (Id: PRODUCT_DATACENTER_SERVER;
       Name: 'Server Datacenter (full installation)';),
     (Id: PRODUCT_DATACENTER_SERVER_CORE;
@@ -1022,16 +1030,28 @@ const
       Name: 'Server Datacenter without Hyper-V (core installation)';),
     (Id: PRODUCT_DATACENTER_SERVER_V;
       Name: 'Server Datacenter without Hyper-V (full installation)';),
+    (Id: PRODUCT_EDUCATION;
+      Name: 'Education'),
+    (Id: PRODUCT_EDUCATION_N;
+      Name: 'Education N'),
     (Id: PRODUCT_ENTERPRISE;
       Name: 'Enterprise';),
     (Id: PRODUCT_ENTERPRISE_E;
       Name: 'Enterprise E';),
-    (Id: PRODUCT_ENTERPRISE_N_EVALUATION;
-      Name: 'Enterprise N (evaluation installation)';),
-    (Id: PRODUCT_ENTERPRISE_N;
-      Name: 'Enterprise N';),
     (Id: PRODUCT_ENTERPRISE_EVALUATION;
       Name: 'Server Enterprise (evaluation installation)';),
+    (Id: PRODUCT_ENTERPRISE_N;
+      Name: 'Enterprise N';),
+    (Id: PRODUCT_ENTERPRISE_N_EVALUATION;
+      Name: 'Enterprise N (evaluation installation)';),
+    (Id: PRODUCT_ENTERPRISE_S;
+      Name: 'Enterprise 2015 LTSB';),
+    (Id: PRODUCT_ENTERPRISE_S_EVALUATION;
+      Name: 'Enterprise 2015 LTSB Evaluation';),
+    (Id: PRODUCT_ENTERPRISE_S_N;
+      Name: 'Enterprise 2015 LTSB N';),
+    (Id: PRODUCT_ENTERPRISE_S_N_EVALUATION;
+      Name: 'Enterprise 2015 LTSB N Evaluation';),
     (Id: PRODUCT_ENTERPRISE_SERVER;
       Name: 'Server Enterprise (full installation)';),
     (Id: PRODUCT_ENTERPRISE_SERVER_CORE;
@@ -1042,14 +1062,14 @@ const
       Name: 'Server Enterprise for Itanium-based Systems';),
     (Id: PRODUCT_ENTERPRISE_SERVER_V;
       Name: 'Server Enterprise without Hyper-V (full installation)';),
-    (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT;
-      Name: 'Windows Essential Server Solution Management'),
     (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL;
       Name: 'Windows Essential Server Solution Additional'),
-    (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC;
-      Name: 'Windows Essential Server Solution Management SVC'),
     (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC;
       Name: 'Windows Essential Server Solution Additional SVC'),
+    (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT;
+      Name: 'Windows Essential Server Solution Management'),
+    (Id: PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC;
+      Name: 'Windows Essential Server Solution Management SVC'),
     (Id: PRODUCT_HOME_BASIC;
       Name: 'Home Basic';),
     (Id: PRODUCT_HOME_BASIC_E;
@@ -1067,25 +1087,43 @@ const
     (Id: PRODUCT_HOME_SERVER;
       Name: 'Home Storage Server';),
     (Id: PRODUCT_HYPERV;
-      Name: 'Hyper-V Server'),
+      Name: 'Hyper-V Server';),
+    (Id: PRODUCT_IOTENTERPRISE;
+      Name: 'IoT Enterprise';),
+    (Id: PRODUCT_IOTENTERPRISE_S;
+      Name: 'IoT Enterprise LTSC'),
+    (Id: PRODUCT_IOTUAP;
+      Name: 'IoT Core';),
+    (Id: PRODUCT_IOTUAPCOMMERCIAL;
+      Name: 'IoT Core Commercial';),
     (Id: PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT;
       Name: 'Essential Business Server Management Server';),
     (Id: PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING;
       Name: 'Essential Business Server Messaging Server';),
     (Id: PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY;
       Name: 'Essential Business Server Security Server';),
-    (Id: PRODUCT_MULTIPOINT_STANDARD_SERVER;
-      Name: 'MultiPoint Server Standard (full installation)';),
+    (Id: PRODUCT_MOBILE_CORE;
+      Name: 'Mobile'),
+    (Id: PRODUCT_MOBILE_ENTERPRISE;
+      Name: 'Mobile Enterprise'),
     (Id: PRODUCT_MULTIPOINT_PREMIUM_SERVER;
       Name: 'MultiPoint Server Premium (full installation)';),
+    (Id: PRODUCT_MULTIPOINT_STANDARD_SERVER;
+      Name: 'MultiPoint Server Standard (full installation)';),
+    (Id: PRODUCT_PRO_WORKSTATION;
+      Name: 'Pro for Workstations';),
+    (Id: PRODUCT_PRO_WORKSTATION_N;
+      Name: 'Pro for Workstations N';),
     (Id: PRODUCT_PROFESSIONAL;
-      Name: 'Professional';),
+      Name: 'Pro (Professional)';),
     (Id: PRODUCT_PROFESSIONAL_E;
       Name: 'Professional E';),
     (Id: PRODUCT_PROFESSIONAL_N;
-      Name: 'Professional N';),
+      Name: 'Pro (Professional) N';),
     (Id: PRODUCT_PROFESSIONAL_WMC;
       Name: 'Professional with Media Center';),
+    (Id: PRODUCT_SB_SOLUTION_SERVER;
+      Name: 'Small Business Server Essentials';),
     (Id: PRODUCT_SB_SOLUTION_SERVER_EM;
       Name: 'Server For SB Solutions EM';),
     (Id: PRODUCT_SERVER_FOR_SB_SOLUTIONS;
@@ -1095,11 +1133,9 @@ const
     (Id: PRODUCT_SERVER_FOR_SMALLBUSINESS;
       Name: 'Server for Essential Server Solutions';),
     (Id: PRODUCT_SERVER_FOR_SMALLBUSINESS_V;
-      Name: 'Server 2008 without Hyper-V for Essential Server Solutions';),
+      Name: 'Server without Hyper-V for Essential Server Solutions';),
     (Id: PRODUCT_SERVER_FOUNDATION;
       Name: 'Server Foundation';),
-    (Id: PRODUCT_SB_SOLUTION_SERVER;
-      Name: 'Small Business Server Essentials';),
     (Id: PRODUCT_SMALLBUSINESS_SERVER;
       Name: 'Small Business Server';),
     (Id: PRODUCT_SMALLBUSINESS_SERVER_PREMIUM;
@@ -1117,7 +1153,7 @@ const
     (Id: PRODUCT_STANDARD_SERVER_CORE_V;
       Name: 'Server Standard without Hyper-V (core installation)';),
     (Id: PRODUCT_STANDARD_SERVER_V;
-      Name: 'Server Standard without Hyper-V (full installation)';),
+      Name: 'Server Standard without Hyper-V';),
     (Id: PRODUCT_STANDARD_SERVER_SOLUTIONS;
       Name: 'Server Solutions Premium';),
     (Id: PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE;
@@ -1148,14 +1184,14 @@ const
       Name: 'Storage Server Workgroup';),
     (Id: PRODUCT_STORAGE_WORKGROUP_SERVER_CORE;
       Name: 'Storage Server Workgroup (core installation)';),
-    (Id: PRODUCT_UNDEFINED;
-      Name: 'An unknown product';),
     (Id: PRODUCT_ULTIMATE;
       Name: 'Ultimate';),
     (Id: PRODUCT_ULTIMATE_E;
       Name: 'Ultimate E';),
     (Id: PRODUCT_ULTIMATE_N;
       Name: 'Ultimate N';),
+    (Id: PRODUCT_UNDEFINED;
+      Name: 'An unknown product';),
     (Id: PRODUCT_WEB_SERVER;
       Name: 'Web Server (full installation)';),
     (Id: PRODUCT_WEB_SERVER_CORE;

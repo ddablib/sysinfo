@@ -1,5 +1,9 @@
 # Change Log for System Information Unit
 
+## v5.19.0 of 01 January 2023
+
+
+
 ## v5.18.0 of 01 December 2022
 
 + Updated TPJOSInfo to detect various builds of Windows 11 Version 22H2 that were released, either to the public or on the dev and release preview channels, in November 2022.

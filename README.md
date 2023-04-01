@@ -125,7 +125,7 @@ Full details are provided in the file [`Acknowledgements.md`](https://github.com
 
 ## License
 
-The _System Information Unit_ is released under the terms of the [Mozilla Public License, v2.0](https://www.mozilla.org/MPL/2.0/).
+The _System Information Unit_ is copyright © 2001-2023 [Peter D Johnson](https://gravatar.com/delphidabbler) and is released under the terms of the [Mozilla Public License, v2.0](https://www.mozilla.org/MPL/2.0/).
 
 ## Bugs and Feature Requests
 
@@ -135,4 +135,4 @@ Bugs can be reported or new features requested via the [Issue Tracker](https://g
 
 I'm Peter Johnson – a hobbyist programmer living in Ceredigion in West Wales, UK, writing mainly in Delphi. My programs and other library code are available from: [https://delphidabbler.com/](https://delphidabbler.com/).
 
-This document is copyright © 2005-2022, [P D Johnson](https://gravatar.com/delphidabbler).
+This document is copyright © 2005-2023, [Peter D Johnson](https://gravatar.com/delphidabbler).

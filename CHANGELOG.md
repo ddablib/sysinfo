@@ -1,16 +1,23 @@
 # Change Log for System Information Unit
 
+## v5.20.0 of 01 April 2023
+
++ Updated TPJOSInfo to detect various Windows 10 and 11 builds released between 1 January and 31st March 2023, including:
+  + public patches
+  + release previews
+  + Dev and Canary channel preview builds
+
 ## v5.19.0 of 01 January 2023
 
 + Updated TPJOSInfo OS detection:
   + Updated Windows 10 21H1, 21H2 & 22H2 and Windows 11 21H2 & 22H2 with pre-release & public builds released in December 2022.
-  + Added detection of preview builds for Windows 10 Version 1507 through to Version 20H2. 
+  + Added detection of preview builds for Windows 10 Version 1507 through to Version 20H2.
   + Removed detection of expired Windows 10 & Windows 11 builds in Fast Ring and Dev channels.
   + Generally improved accuracy in detection of Windows 10 & 11 release & preview builds, reducing liklihood of false positives for unknown releases.
   + Changed to report certain v6.4 builds as being Windows 10 Version 1507 pre-releases. Reported OS for such builds is now Windows 10.
   + Added PROCESSOR_ARCHITECTURE_ARM64 constant.
   + Added some PRODUCT_* constants defined by Microsoft but missing from `PJSysInfo.pas`.
-  + Updated and corrected product descriptions so there is a decription for each PRODUCT_* constant. 
+  + Updated and corrected product descriptions so there is a decription for each PRODUCT_* constant.
   + Fixed problem, starting from Windows 10 21H1, where some un-released preview builds were being reported as public releases.
 + Updated and tidied commenting in `PJSysInfo.pas`, including:
   + Added back URLs of some sources that were removed in a previous release.

@@ -1,5 +1,9 @@
 # Change Log for System Information Unit
 
+## v5.21.1 of 02 May 2023
+
++ Fixed bug in TPJOSInfo where one of the build numbers used to detect Windows 11 Canary channel builds was wrong.
+
 ## v5.21.0 of 01 May 2023
 
 + Updated TPJOSInfo to detect various Windows builds and revisions released between 1 April and 30th April 2023, including:

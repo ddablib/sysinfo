@@ -1240,6 +1240,9 @@ const
       For Vista and Win 7 we have to add service pack number to these values to
       get actual build number. For Win 8 onwards we just use the build numbers
       as is.
+
+    References:
+      [^1] MS community blog post https://tinyurl.com/3c8e3hsc
   }
 
   {
@@ -1268,24 +1271,30 @@ const
 
   // Windows 10 ----------------------------------------------------------------
 
-  // Version 1507 previews
-  // Preview builds with major/minor version number 6.4
-  Win10_6point4Builds: array[0..2] of Integer = (9841, 9860, 9879);
-  // Preview builds with major/minor version number 10.0
-  Win10_1507_Preview_Builds: array[0..10] of Integer = (
-    9926, 10041, 10049, 10061, 10074, 10122, 10130, 10158, 10159, 10162, 10166
-  );
+  // Version 1507 preview builds
+  //   Preview builds with major/minor version number 6.4
+  //     Expired by 2015-04-30 [^1]:
+  //       9841, 9860, 9879
+  //   Preview builds with major/minor version number 10.0
+  //     Expired by 2015-10-15 [^1]:
+  //       9926, 10041, 10049, 10061, 10074, 10122, 10130, 10158, 10159, 10162,
+  //       10166
 
-  // Version 1511 previews
-  Win10_1511_Preview_Builds: array[0..4] of Integer = (
-    10525, 10532, 10547, 10565, 10576
-  );
+  // Version 1511 preview builds
+  //   Expired by 2016-07-30 [^1]:
+  //     10525, 10532, 10547, 10565, 10576
 
   // Version 1607 previews
-  Win10_1607_Preview_Builds: array[0..24] of Integer = (
-    11082, 11099, 11102, 14251, 14257, 14271, 14279, 14291, 14295, 14316,
-    14328, 14332, 14342, 14352, 14361, 14366, 14367, 14371, 14372, 14376,
-    14379, 14383, 14385, 14388, 14390
+  Win10_1607_Preview_Builds: array[0..5] of Integer = (
+    // Expired 2016-07-30 [^1]:
+    //   11082, 11099
+    // Expired 2016-08-01 [^1]:
+    //   11102, 14251, 14257, 14267, 14271, 14279, 14291, 14295, 14316, 14328,
+    //   14332, 14342, 14352, 14361
+    // Expired 2016-10-15 [^1]:
+    //   14366, 14367, 14371, 14372,
+    14376, 14379, 14383, 14385, // unknown expiry date [^1]
+    14388, 14390                // permanently activated [^1]
   );
 
   // Version 1703 previews
@@ -2082,17 +2091,6 @@ begin
               // Windows 2016 Server tech preview 1
               InternalBuildNumber := Win2016TP1Build;
               InternalExtraUpdateInfo := 'Technical Preview 6';
-            end
-            else
-            begin
-              if FindBuildNumberFrom(
-                Win10_6point4Builds, InternalBuildNumber
-              ) then
-                // Early Win 10 preview builds report v6.4, not v10.0
-                InternalExtraUpdateInfo := Format(
-                  'Version 1507 Preview v6.4.%d.%d',
-                  [InternalBuildNumber, InternalRevisionNumber]
-                )
             end;
         end;
         if Win32ServicePackMajor > 0 then
@@ -2438,20 +2436,6 @@ begin
             end
             else if FindWin10PreviewBuildNameAndExtraFrom(
               Win10_1607_Preview_Builds, '1607',
-              InternalBuildNumber, InternalExtraUpdateInfo
-            ) then
-            begin
-              // Nothing to do: required internal variables set in function call
-            end
-            else if FindWin10PreviewBuildNameAndExtraFrom(
-              Win10_1511_Preview_Builds, '1511',
-              InternalBuildNumber, InternalExtraUpdateInfo
-            ) then
-            begin
-              // Nothing to do: required internal variables set in function call
-            end
-            else if FindWin10PreviewBuildNameAndExtraFrom(
-              Win10_1507_Preview_Builds, '1507',
               InternalBuildNumber, InternalExtraUpdateInfo
             ) then
             begin
@@ -3071,8 +3055,6 @@ begin
 end;
 
 class function TPJOSInfo.Product: TPJOSProduct;
-var
-  DummyBN: Integer;   // dummy build number
 begin
   Result := osUnknown;
   case Platform of
@@ -3162,8 +3144,10 @@ begin
                 // application is "manifested" for the correct Windows version.
                 // See https://bit.ly/MJSO8Q.
                 Result := osWin10Svr
-              else if FindBuildNumberFrom(Win10_6point4Builds, DummyBN) then
-                Result := osWin10;
+                // Version 6.4 was also used for some early Windows 10 preview
+                // builds, but they have all expired so detection has been
+                // removed.
+                // See https://tinyurl.com/3c8e3hsc
             else
               // Higher minor version: must be an unknown later OS
               Result := osWinLater

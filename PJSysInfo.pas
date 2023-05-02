@@ -1482,7 +1482,7 @@ const
   // For details see https://en.wikipedia.org/wiki/Windows_11_version_history
   Win11CanaryPreviewBuilds: array[0..5] of Integer = (
     // expiring 2023/09/15:
-    25314, 25324, 25330, 25336, 25346, 26352
+    25314, 25324, 25330, 25336, 25346, 25352
   );
 
   // Windows 11 Dev channel builds with version string "22H2"

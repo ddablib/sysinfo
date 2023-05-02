@@ -1226,6 +1226,7 @@ const
       https://en.wikipedia.org/wiki/Windows_NT
       https://en.wikipedia.org/wiki/Windows_10_version_history
       https://en.wikipedia.org/wiki/Windows_11_version_history
+      https://blogs.windows.com/windows-insider/tag/windows-insider-program/
       https://en.wikipedia.org/wiki/Windows_Server
       https://en.wikipedia.org/wiki/Windows_Server_2019
       https://en.wikipedia.org/wiki/Windows_Server_2016
@@ -1490,8 +1491,10 @@ const
   //   22567, 22572, 22579
 
   // Windows 11 Dev & Beta channel builds with version string "22H2"
+  // For details see https://en.wikipedia.org/wiki/Windows_11_version_history
   Win11DevBetaChannels22H2Builds: array[0..1] of Integer = (
     // expired 2022/09/15: 22581, 22593, 22598,
+    // unknown expiry date:
     22610, 22616
   );
 

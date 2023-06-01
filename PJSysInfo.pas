@@ -21,8 +21,12 @@
  *  3: When run on operating systems up to and including Windows 8 running the
  *     host program in compatibility mode causes some variables and TPJOSInfo
  *     methods to be "spoofed" into returning information about the emulated
- *     OS. When run on Windows 8.1 and later details of the actual host
- *     operating system are always returned and the emulated OS is ignored.
+ *     OS. When run on Windows 8.1 details of the actual host operating system
+ *     are always returned and the emulated OS is ignored.
+ *
+ *  4: On Windows 10 and later the correct operating system will only be
+ *     reported if the application declares the operating systems it supports
+ *     in its manifest.
  *
  * ACKNOWLEDGEMENTS
  *

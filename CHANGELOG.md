@@ -1,5 +1,17 @@
 # Change Log for System Information Unit
 
+## v5.22.0 of 01 June 2023
+
++ Updated TPJOSInfo to detect various Windows 10 and 11 build released in April 2023:
+  + Final release of Windows 10 20H2.
+  + Windows 11 build 22624 becomes "Windows 11 May 23 Component Update".
+  + New Windows 11 build 22631 "Windows 11 Future Component Update".
+  + Windows 11 22H2 public, release preview channel & beta channel revisions.
+  + Windows 11 21H2 public & release preview channel revisions.
+  + Added detection and reporting of Windows 11 22H2 "Moment" releases 1, 2 and 3.
+  + Removed detection of expired Win 10 versions 1507, 1511 and 1607 preview builds.
++ Update comments to TPJOSInfo comment with new references.
+
 ## v5.21.1 of 02 May 2023
 
 + Fixed bug in TPJOSInfo where one of the build numbers used to detect Windows 11 Canary channel builds was wrong.

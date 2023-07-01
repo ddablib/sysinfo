@@ -2,7 +2,7 @@
 
 ## v5.22.0 of 01 June 2023
 
-+ Updated TPJOSInfo to detect various Windows 10 and 11 build released in April 2023:
++ Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in May 2023:
   + Final release of Windows 10 20H2.
   + Windows 11 build 22624 becomes "Windows 11 May 23 Component Update".
   + New Windows 11 build 22631 "Windows 11 Future Component Update".

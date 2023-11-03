@@ -65,3 +65,9 @@
 __history/
 __recovery/
 *.~*
+
+# -------------
+# Release files
+# -------------
+
+Release

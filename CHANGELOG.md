@@ -1,5 +1,20 @@
 # Change Log for System Information Unit
 
+## v5.24.0 of 03 November 2023
+
++ Updated TPJOSInfo:
+  + Added detection of various Windows 10 and 11 builds and revisions released between 01 July and 02 November 2023:
+    + Windows 10 21H2 public & release preview revisions.
+    + Windows 10 22H2 public & release preview revisions.
+    + Windows 11 21H2 public & release preview revisions.
+    + Windows 11 22H2 public, release preview & beta channel revisions.
+    + New Windows 11 22H3 public, release preview & beta channel revisions.
+    + Windows 11 Dev & Canary channel builds.
+    + Windows 11 Future Component Update Beta builds.
+  + Removed support for detecting Windows Dev channel builds that expired in September 2023.
++ Updated some comments.
++ Minor fomratting inconsistencies fixed in `CHANGELOG.md`.
+
 ## v5.23.0 of 01 July 2023
 
 + Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in June 2023:
@@ -7,7 +22,8 @@
   + Windows 10 22H2 public & release preview revisions.
   + Windows 11 21H2 public revisions.
   + Windows 11 22H2 public, release preview, beta channel revisions.
-  * Windows 11 Future Component Update Beta builds.
+  + Added detection and reporting of Windows 11 22H2 "Moment 4".
+  + Windows 11 Future Component Update Beta builds.
   + Windows 11 Dev & Canary channel builds.
   + Changed from version string 22H2 to 22H3 for Canary channel builds from build 25375.
 + Fixed TPJOSInfo errors re:
@@ -84,9 +100,9 @@
   + Windows 11 Beta & release preview channel builds in from 2-30 Sepetember 2022.
   + Added build & revision numbers to text reported for Windows 10 Version 22H2 release previews.
 + Add `.gitignore` file.
-+ Update documentation:
-  + Update `README.md` "Effect of changes to the Windows API" sub-section.
-  + Fix errors & update `Acknowledgements .md`.
++ Updated documentation:
+  + Updated `README.md` "Effect of changes to the Windows API" sub-section.
+  + Fix errors & update `Acknowledgements.md`.
 
 ## v5.15.0 of 02 September 2022
 
@@ -118,11 +134,11 @@
   + Added support for detecting Dev and Beta releases of Windows 11 made during May 2022.
   + Refactored some OS detection code to reduce the amount of code used to test for various versions of OSs that report v10.0.
 + Documentation changes:
-  + Replaced `Docs/ReadMe.htm` with markdown formatted `./README.md`. Also expanded, brought up to date with recent changes, and fixed errors.
-  + Replaced `Docs/ChangeLog.txt` with markdown formatted `./CHANGELOG.md`. Also removed or struck out references to issues on Google Code.
+  + Replaced `/Docs/ReadMe.htm` with markdown formatted `/README.md`. Also expanded, brought up to date with recent changes, and fixed errors.
+  + Replaced `/Docs/ChangeLog.txt` with markdown formatted `/CHANGELOG.md`. Also removed or struck out references to issues on Google Code.
   + Restored MPL v2 license file.
   + Updated documentation URL in the documentation shortcut file to a redirection URL on `delphidabbler.com`.
-  + Deleted redundant `Docs/Using RtlGetVersion.txt` file.
+  + Deleted redundant `/Docs/Using RtlGetVersion.txt` file.
   + Fix some errors and omissions in this change log.
 + Revised `Release.bat`:
   + to take a version number as parameter to use in the release file name
@@ -182,7 +198,7 @@
 + Documentation updates:
   + Fixed bug ~~#39~~ "Change log not updated for sysinfo v5.6" by adding the required release information.
   + Removed acknowledgements from PJSysUtils.pas header comments into a new Docs/Acknowledgements.md document.
-  + Added new "Acknowledgements" section to Docs/ReadMe.htm that links to Acknowledgements.md on SourceForge.
+  + Added new "Acknowledgements" section to `Docs/ReadMe.htm` that links to Acknowledgements.md on SourceForge.
 
 ## v5.6.0 of 12 September 2021
 
@@ -280,13 +296,13 @@
 
 ## v4.0.0 of 20 January 2013
 
-+ PJSysInfo.pas is now compatible with Delphi 32 and 64 bit compilers and will compile with both VCL and FireMonkey 2 frameworks on Windows.
++ `PJSysInfo.pas` is now compatible with Delphi 32 and 64 bit compilers and will compile with both VCL and FireMonkey 2 frameworks on Windows.
 + Added numerous new methods:
   + TPJComputerInfo: "IsAdmin", "IsUACActive", "BiosVendor", "ProcessorIdentifier", "ProcessorName", "SystemManufacturer" & "SystemProductName".
   + TPJSystemFolders: "ProgramFilesX86", "ProgramFilesRedirect", "CommonFilesX86" & "CommonFilesRedirect".
   + TPJOSInfo: "RegisteredOrganisation" & "RegisteredOwner".
 + All previously deprecated code removed, i.e.:
-  + TPJSysInfo component and associated glyph file PJSysInfo.dcr.
+  + TPJSysInfo component and associated glyph file `PJSysInfo.dcr`.
   + All SIGetXXXX functions.
 + Used unit names are now qualified with namespace name on Delphi XE2 and later.
 + Changed original SysInfoDemo VCL project:

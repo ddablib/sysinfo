@@ -1234,8 +1234,8 @@ const
       https://en.wikipedia.org/wiki/Windows_Server
       https://en.wikipedia.org/wiki/Windows_Server_2019
       https://en.wikipedia.org/wiki/Windows_Server_2016
+      https://en.wikipedia.org/wiki/Windows_Server_2022
       https://tinyurl.com/y8tfadm2 (MS Windows Server release information)
-      https://tinyurl.com/usupsz4a (Win 11 Version Numbers & Build Versions)
       https://docs.microsoft.com/en-us/lifecycle/products/windows-server-2022
       https://tinyurl.com/yj5e72jt (MS Win 10 release info)
       https://tinyurl.com/kd3weeu7 (MS Server release info)
@@ -1445,6 +1445,7 @@ const
     --------|------------|------------
     21H2    | 2023-10-10 | 2024-10-08
     22H2    | 2024-10-08 | 2025-10-14
+    23H2    | 2025-11-11 | 2026-11-10
   }
 
   // 1st build released branded as Windows 11
@@ -1461,6 +1462,10 @@ const
   // See **REF1** in implementation
   Win11v22H2Build = 22621;
 
+  // Windows 11 version 22H3
+  // See **REF10** in implementation
+  Win11v23H2Build = 22631;
+
   // "Preview Builds of October 2022 component update in Beta Channel"
   // See **REF2** in implementation
   Win11Oct22ComponentBetaChannelBuild = 22622;
@@ -1469,7 +1474,7 @@ const
   // See **REF7** in implementation
   Win11Feb23ComponentBetaChannelBuild = 22623;
 
-  // "Preview builds of future component update in Beta Channel"
+  // "Preview builds of May 2023 component update in Beta Channel"
   // See **REF8** in implementation
   Win11May23ComponentBetaChannelBuild = 22624;
 
@@ -1479,7 +1484,7 @@ const
 
   // Windows 11 Dev channel releases (with version string "Dev", changing to
   // 22H2 at build 22567) [^2].
-  Win11DevChannelDevBuilds: array[0..35] of Integer = (
+  Win11DevChannelDevBuilds: array[0..11] of Integer = (
     // pre Win 11 release (expired 2021/10/31):
     //   22449, 22454, 22458, 22463,
     // pre Win 11 release (expired 2022/09/15):
@@ -1492,20 +1497,26 @@ const
     // post Win 11 22H2 beta release (expired 2022/09/15):
     //   25115, 25120, 25126, 25131, 25136, 25140, 25145, 25151, 25158, 25163,
     //   25169, 25174, 25179,
-    // post Win 11 22H2 beta release (expiring 2023/09/15):
-    25182, 25188, 25193, 25197, 25201, 25206, 25211,
-    // post Win 11 22H2 release (expiring 2023/09/15):
-    25217, 25227, 25231, 25236, 25247, 25252, 25262, 25267, 25272, 25276, 25281,
-    25284, 25290, 25295, 25300, 25309, 23403, 23419, 23424, 23430, 23435, 23440,
-    23451, 23466, 23471, 23475, 23481, 23486, 23493
+    // post Win 11 22H2 beta release (expired 2023/09/15):
+    //    25182, 25188, 25193, 25197, 25201, 25206, 25211,
+    // post Win 11 22H2 release (expired 2023/09/15):
+    //    25217, 25227, 25231, 25236, 25247, 25252, 25262, 25267, 25272, 25276,
+    //    25281, 25284, 25290, 25295, 25300, 25309, 23403, 23419, 23424, 23430,
+    //    23435, 23440, 23451, 23466, 23471, 23475, 23481, 23486, 23493, 23506,
+    //    23511, 23516, 23521,
+    // (expiring 2024-09-15)
+    23526, 23531, 23536, 23541, 23545, 23550, 23555, 23560, 23565, 23570, 23575,
+    23580
   );
 
   // Preview builds of Windows 11 in the Canary Channel [^2]
-  Win11CanaryPreviewBuilds: array[0..11] of Integer = (
-    // With version string "22H2" (expiring 2023/09/15):
-    25314, 25324, 25330, 25336, 25346, 25352, 25357, 25370,
-    // With version string "22H3" (expiring 2023/09/15):
-    25375, 25381, 25387, 25393
+  Win11CanaryPreviewBuilds: array[0..8] of Integer = (
+    // With version string "22H2" (expired 2023-09-15):
+    //    25314, 25324, 25330, 25336, 25346, 25352, 25357, 25370,
+    // With version string "22H3" (expired 2023-09-15):
+    //    25375, 25381, 25387, 25393, 25905, 25915, 25921, 25926,
+    // With version string "22H3" (expires 2024-09-15):
+    25931, 25936, 25941, 25947, 25951, 25967, 25977, 25982, 25987
   );
 
   // Windows 11 Dev & Beta channel builds with version string "22H2" [^2]
@@ -2174,11 +2185,11 @@ begin
                 1620, 1645, 1682, 1706, 1708, 1741, 1766, 1767, 1806, 1826,
                 1865, 1889, 1949, 2006, 2075, 2130, 2132, 2193, 2194, 2251,
                 2311, 2364, 2486, 2546, 2604, 2673, 2728, 2788, 2846, 2965,
-                3086 .. MaxInt:
+                3086, 3208, 3324, 3448, 3570 .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 21H2';
                 1147, 1149, 1151, 1165, 1200, 1202, 1237, 1263, 1266, 1319,
-                1320, 1379, 1381, 1499, 1618, 1679, 1737, 1739, 1862, 1947,
-                2192, 2545:
+                1320, 1379, 1381, 1499, 1618, 1679, 1737, 1739, 1862,
+                1947, 2192, 2545:
                   InternalExtraUpdateInfo := Format(
                     'Version 21H2 [Release Preview Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2197,10 +2208,10 @@ begin
               case InternalBuildNumber of
                 2006, 2130, 2132, 2193, 2194, 2251, 2311, 2364, 2486, 2546,
                 2604, 2673, 2728, 2788, 2846, 2913, 2965, 3031, 3086,
-                3156 {placeholder} .. MaxInt:
+                3208, 3271, 3324, 3393, 3448, 3516, 3570, 3636 .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 22H2';
                 1865, 1889, 1949, 2075, 2301, 2670, 2787, 2908, 3030, 3154,
-                3155:
+                3155, 3269, 3391, 3513:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Release Preview Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2235,7 +2246,8 @@ begin
                 194, 258, 282, 348, 376, 434, 438, 469, 493, 527, 556, 593, 613,
                 652, 675, 708, 739, 740, 778, 795, 832, 856, 918, 978, 1042,
                 1098, 1100, 1165, 1219, 1281, 1335, 1455, 1516, 1574, 1641,
-                1696, 1761, 1817, 1880, 1936, 2003, 2057, 2124 .. MaxInt:
+                1696, 1761, 1817, 1880, 1936, 2003, 2057, 2124, 2176, 2245,
+                2295, 2360, 2416, 2482, 2538 .. MaxInt:
                   // Public releases of Windows 11
                   InternalExtraUpdateInfo := 'Version 21H2';
                 51, 65, 71:
@@ -2255,7 +2267,7 @@ begin
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 651, 706, 776, 829, 917, 1041, 1163, 1279, 1515, 1639, 1757,
-                1879, 2001, 2121:
+                1879, 2001, 2121, 2243, 2359, 2479:
                   InternalExtraUpdateInfo := Format(
                     'Version 21H2 Release Preview Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2274,13 +2286,14 @@ begin
               case InternalRevisionNumber of
                 382, 521, 525, 608, 674, 675, 755, 819, 900, 963, 1105, 1194,
                 1265, 1344, 1413, 1485, 1555, 1635, 1702, 1778, 1848, 1926,
-                1928, {placeholder->}1973 .. MaxInt:
+                1928, 1992, 2070, 2134, 2215, 2283, 2361, 2428, 2506 .. MaxInt:
                 begin
                   InternalExtraUpdateInfo := 'Version 22H2';
                   case InternalRevisionNumber of
                     675:  AppendMomentToInternalExtraUpdateInfo(1);
                     1344: AppendMomentToInternalExtraUpdateInfo(2);
                     1778: AppendMomentToInternalExtraUpdateInfo(3);
+                    2361: AppendMomentToInternalExtraUpdateInfo(4);
                   end;
                 end;
                 1:
@@ -2289,7 +2302,7 @@ begin
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 105, 169, 232, 317, 457, 607, 754, 898, 1192, 1343, 1483, 1631,
-                1776:
+                1776, 2066, 2213, 2359, 2500:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2297,7 +2310,8 @@ begin
                 160, 290, 436, 440, 450, 575, 586, 590, 598, 601, 730, 741, 746,
                 870, 875, 885, 891, 1020, 1028, 1037, 1095, 1180, 1245, 1250,
                 1255, 1325, 1391, 1465, 1470, 1537, 1546, 1616, 1680, 1690,
-                1755, 1825, 1830, 1835, 1900, 1906, 1972:
+                1755, 1825, 1830, 1835, 1900, 1906, 1972, 2048, 2050, 2115,
+                2129, 2191, 2199, 2262, 2265, 2271, 2338:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Beta v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2305,6 +2319,36 @@ begin
                 else
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 [Unknown release v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
+            else if IsBuildNumber(Win11v23H2Build) then
+            begin
+              // **REF10**
+              InternalBuildNumber := Win11v23H2Build;
+              case InternalRevisionNumber of
+                2428, 2506:
+                  InternalExtraUpdateInfo := 'Version 23H2';
+                1825, 1830, 1835, 1900, 1906, 1972:
+                  // revisions 1825..1972 had version string "22H2"
+                  InternalExtraUpdateInfo := Format(
+                    'Version 22H2 [Beta v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                2048, 2050, 2115, 2129, 2191, 2199, 2262, 2265, 2271, 2338:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 23H2 [Beta v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                2361:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 23H2 [Release Preview v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 23H2 [Unknown release v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
               end;
@@ -2404,7 +2448,7 @@ begin
               // **REF9**
               InternalBuildNumber := Win11FutureComponentBetaChannelBuild;
               case InternalRevisionNumber of
-                1825, 1830, 1835, 1900, 1906, 1972 .. MaxInt:
+                2419, 2483, 2486, 2552, 2700 .. MaxInt:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Beta v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]

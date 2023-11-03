@@ -1234,8 +1234,8 @@ const
       https://en.wikipedia.org/wiki/Windows_Server
       https://en.wikipedia.org/wiki/Windows_Server_2019
       https://en.wikipedia.org/wiki/Windows_Server_2016
+      https://en.wikipedia.org/wiki/Windows_Server_2022
       https://tinyurl.com/y8tfadm2 (MS Windows Server release information)
-      https://tinyurl.com/usupsz4a (Win 11 Version Numbers & Build Versions)
       https://docs.microsoft.com/en-us/lifecycle/products/windows-server-2022
       https://tinyurl.com/yj5e72jt (MS Win 10 release info)
       https://tinyurl.com/kd3weeu7 (MS Server release info)

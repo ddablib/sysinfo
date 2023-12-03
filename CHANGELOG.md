@@ -1,5 +1,15 @@
 # Change Log for System Information Unit
 
+## v5.25.0 of 03 December 2023
+
+Update OS detection of Win10/11 in Nov 23 re:
+
++ Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions release in November 2023:
+  + Windows 10 version 21H2 & 22H2 public & release preview revisions.
+  + Windows 11 21H2, 22H2 & 23H2 public, beta & release preview channel revisions.
+  + Windows 11 Dev & Canary channel revisions.
+  + Windows 11 Future Component Update Beta builds.
+
 ## v5.24.0 of 03 November 2023
 
 + Updated TPJOSInfo:

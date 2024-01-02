@@ -1,5 +1,9 @@
 # Change Log for System Information Unit
 
+## _Next Release_
+
++ Fixed error in `CHANGLOG.md` relating to release v5.26.0.
+
 ## v5.26.0 of 02 January 2024
 
 + Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in December 2023:

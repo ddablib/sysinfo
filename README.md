@@ -12,7 +12,7 @@
 * [Bugs and Feature Requests](#bugs-and-feature-requests)
 * [About the Author](#about-the-author)
 
-This document applies to _System Information Unit_ v5.4.0 and later.
+This document applies to _System Information Unit_ v5.25.0 and later.
 
 ## Description
 
@@ -68,7 +68,7 @@ Version 2 and earlier of the unit provided the _TPJSysInfo_ component and variou
 
 ### Compatibility
 
-This unit is designed for compilation with the 32 bit and 64 bit Windows Delphi compilers. The latest version has been tested with Delphi XE and Delphi 11.0 Alexandria only. An attempt has been made to retain compatibility back to Delphi 4, but this has not been tested for some time, so it's not guaranteed.
+This unit is designed for compilation with the 32 bit and 64 bit Windows Delphi compilers. The latest version has been tested with Delphi XE, Delphi 11.0 Alexandria and Delphi 12 Athens only. An attempt has been made to retain compatibility back to Delphi 4, but this has not been tested for some time, so it's not guaranteed.
 
 Compilation on old Delphi versions that do not support setting registry access flags via _TRegistry_ is not recommended since parts of the code may not work correctly on 64 bit Windows.
 
@@ -125,7 +125,7 @@ Full details are provided in the file [`Acknowledgements.md`](https://github.com
 
 ## License
 
-The _System Information Unit_ is copyright © 2001-2023 [Peter D Johnson](https://gravatar.com/delphidabbler) and is released under the terms of the [Mozilla Public License, v2.0](https://www.mozilla.org/MPL/2.0/).
+The _System Information Unit_ is copyright © 2001-2024 [Peter D Johnson](https://gravatar.com/delphidabbler) and is released under the terms of the [Mozilla Public License, v2.0](https://www.mozilla.org/MPL/2.0/).
 
 ## Bugs and Feature Requests
 
@@ -135,4 +135,4 @@ Bugs can be reported or new features requested via the [Issue Tracker](https://g
 
 I'm Peter Johnson – a hobbyist programmer living in Ceredigion in West Wales, UK, writing mainly in Delphi. My programs and other library code are available from: [https://delphidabbler.com/](https://delphidabbler.com/).
 
-This document is copyright © 2005-2023, [Peter D Johnson](https://gravatar.com/delphidabbler).
+This document is copyright © 2005-2024, [Peter D Johnson](https://gravatar.com/delphidabbler).

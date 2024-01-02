@@ -7,7 +7,8 @@
   + Windows 11 21H2, 22H2 & 23H2 public release revisions.
   + Windows 11 Dev & Canary channel revisions.
   + Windows Future Component Update builds.
-+ Brought testing information and copyright date up to date in `README.md` and `Docs/ReadMe.txt`.
++ Brought testing information up to date in `README.md` and `Docs/ReadMe.txt`.
++ Updated license copyright date in `README.md` and `PJSysInfo.pas`.
 + Fixed some errors in `CHANGELOG.md`.
 
 ## v5.25.0 of 03 December 2023

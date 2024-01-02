@@ -1,10 +1,18 @@
 # Change Log for System Information Unit
 
+## v5.26.0 of 02 January 2024
+
++ Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in December 2023:
+  + Windows 10 version 21H2 & 22H2 public release revisions.
+  + Windows 11 21H2, 22H2 & 23H2 public release revisions.
+  + Windows 11 Dev & Canary channel revisions.
+  + Windows Future Component Update builds.
++ Brought testing information and copyright date up to date in `README.md` and `Docs/ReadMe.txt`.
++ Fixed some errors in `CHANGELOG.md`.
+
 ## v5.25.0 of 03 December 2023
 
-Update OS detection of Win10/11 in Nov 23 re:
-
-+ Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions release in November 2023:
++ Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in November 2023:
   + Windows 10 version 21H2 & 22H2 public & release preview revisions.
   + Windows 11 21H2, 22H2 & 23H2 public, beta & release preview channel revisions.
   + Windows 11 Dev & Canary channel revisions.
@@ -23,7 +31,7 @@ Update OS detection of Win10/11 in Nov 23 re:
     + Windows 11 Future Component Update Beta builds.
   + Removed support for detecting Windows Dev channel builds that expired in September 2023.
 + Updated some comments.
-+ Minor fomratting inconsistencies fixed in `CHANGELOG.md`.
++ Minor formatting inconsistencies fixed in `CHANGELOG.md`.
 
 ## v5.23.0 of 01 July 2023
 

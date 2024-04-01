@@ -2,6 +2,18 @@
 
 ## _Next Release_
 
++ Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in January to March 2024:
+  + Windows 10 version 21H2 public release changes
+  + Windows 10 version 22H2 public release and release preview channel changes
+  + Windows 11 21H2, 22H2 & 23H2 public release changes
+  + Windows 11 22H2 & 23H2 release preview channel changes
+  + Windows 11 Moment 5 release
+  + Windows 11 future component update changes
+  + Windows 11 Dev channel 22H2 changes
+  + Dropped support Windows 11 22H2 Canary channel builds now all are expired
+  + Windows 11 23H2 Cannary channel changes
+  + New Windows 11 24H2 Dev & Canary channel builds
+  + Fixed bug re incorrect future component update build number
 + Fixed error in `CHANGLOG.md` relating to release v5.26.0.
 
 ## v5.26.0 of 02 January 2024

@@ -1,6 +1,19 @@
 # Change Log for System Information Unit
 
-## _Next Release_
+## v5.28.0 of 01 July 2024
+
++ Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in April to June 2024:
+  + Windows 10 21H2 public release changes
+  + Windows 10 22H2 public release, release preview & beta channel changes
+  + Windows 11 21H2 public release changes
+  + Windows 11 22H2 public release & release preview channel changes
+  + Windows 11 23H2 public release & release preview channel changes
+  + Windows 11 24H2 public release, release preview, dev & canary channel changes & corrections
+  + Windows 11 future component update beta channel changes
+  + Windows 11 future component update dev channel information added
++ Added missing version number and release date information to `CHANGLOG.md` relating to release v5.27.0.
+
+## v5.27.0 of 01 April 2024
 
 + Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in January to March 2024:
   + Windows 10 version 21H2 public release changes

@@ -1,6 +1,6 @@
 # Change Log for System Information Unit
 
-## _Next Release_
+## v5.27.0 of 01 April 2024
 
 + Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in January to March 2024:
   + Windows 10 version 21H2 public release changes

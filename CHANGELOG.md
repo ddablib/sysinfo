@@ -1,5 +1,20 @@
 # Change Log for System Information Unit
 
+## v5.29.0 of 01 October 2024
+
++ Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in July to September 2024:
+  + Updated Windows 10 21H2 public release build information.
+  + Updated Windows 10 22H2 public release & release preview & beta channel build information.
+  + Updated Windows 11 21H2 public release build information.
+  + Updated Windows 11 22H2 public release & release preview channel build information.
+  + Updated Windows 11 23H2 public release & release preview channel build information.
+  + Updated Windows 11 24H2 public release, release preview, dev & canary channel build information.
+  + Updated Windows 11 Future component updates in dev & beta channel build information.
+  + Removed numerous expired Windows 11 Dev, Beta and Canary Channel builds.
+  + Fixed bug where Future Component in Dev Channel Builds were never being found.
+  + Updated documentation comments re expired versions and product lifecycle.
+  + Renamed some constant names for consistency and readability.
+
 ## v5.28.0 of 01 July 2024
 
 + Updated TPJOSInfo to detect various Windows 10 and 11 builds and revisions released in April to June 2024:

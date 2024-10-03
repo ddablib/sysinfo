@@ -234,107 +234,190 @@ const
 
   // These Windows-defined constants are required for use with the
   // GetProductInfo API call used with Windows Vista and later
+  // NOTE: PRODUCT_xxx constants marked with an asterisk comment have no
+  //       associated description hard wired into this unit.
   // ** Thanks to Laurent Pierre for providing these definitions originally.
   // ** Subsequent additions were obtained from https://tinyurl.com/3rhhbs2z
-  PRODUCT_BUSINESS                            = $00000006;
-  PRODUCT_BUSINESS_N                          = $00000010;
-  PRODUCT_CLUSTER_SERVER                      = $00000012;
-  PRODUCT_CLUSTER_SERVER_V                    = $00000040;
-  PRODUCT_CORE                                = $00000065;
-  PRODUCT_CORE_COUNTRYSPECIFIC                = $00000063;
-  PRODUCT_CORE_N                              = $00000062;
-  PRODUCT_CORE_SINGLELANGUAGE                 = $00000064;
-  PRODUCT_DATACENTER_EVALUATION_SERVER        = $00000050;
-  PRODUCT_DATACENTER_A_SERVER_CORE            = $00000091;
-  PRODUCT_STANDARD_A_SERVER_CORE              = $00000092;
-  PRODUCT_DATACENTER_SERVER                   = $00000008;
-  PRODUCT_DATACENTER_SERVER_CORE              = $0000000C;
-  PRODUCT_DATACENTER_SERVER_CORE_V            = $00000027;
-  PRODUCT_DATACENTER_SERVER_V                 = $00000025;
-  PRODUCT_EDUCATION                           = $00000079;
-  PRODUCT_EDUCATION_N                         = $0000007A;
-  PRODUCT_ENTERPRISE                          = $00000004;
-  PRODUCT_ENTERPRISE_E                        = $00000046;
-  PRODUCT_ENTERPRISE_EVALUATION               = $00000048;
-  PRODUCT_ENTERPRISE_N                        = $0000001B;
-  PRODUCT_ENTERPRISE_N_EVALUATION             = $00000054;
-  PRODUCT_ENTERPRISE_S                        = $0000007D;
-  PRODUCT_ENTERPRISE_S_EVALUATION             = $00000081;
-  PRODUCT_ENTERPRISE_S_N                      = $0000007E;
-  PRODUCT_ENTERPRISE_S_N_EVALUATION           = $00000082;
-  PRODUCT_ENTERPRISE_SERVER                   = $0000000A;
-  PRODUCT_ENTERPRISE_SERVER_CORE              = $0000000E;
-  PRODUCT_ENTERPRISE_SERVER_CORE_V            = $00000029;
-  PRODUCT_ENTERPRISE_SERVER_IA64              = $0000000F;
-  PRODUCT_ENTERPRISE_SERVER_V                 = $00000026;
-  PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL       = $0000003C;
-  PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC    = $0000003E;
-  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT       = $0000003B;
-  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC    = $0000003D;
-  PRODUCT_HOME_BASIC                          = $00000002;
-  PRODUCT_HOME_BASIC_E                        = $00000043;
-  PRODUCT_HOME_BASIC_N                        = $00000005;
-  PRODUCT_HOME_PREMIUM                        = $00000003;
-  PRODUCT_HOME_PREMIUM_E                      = $00000044;
-  PRODUCT_HOME_PREMIUM_N                      = $0000001A;
-  PRODUCT_HOME_PREMIUM_SERVER                 = $00000022;
-  PRODUCT_HOME_SERVER                         = $00000013;
-  PRODUCT_HYPERV                              = $0000002A;
-  PRODUCT_IOTENTERPRISE                       = $000000BC;
-  PRODUCT_IOTENTERPRISE_S                     = $000000BF;
-  PRODUCT_IOTUAP                              = $0000007B;
-  PRODUCT_IOTUAPCOMMERCIAL                    = $00000083;
-  PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT    = $0000001E;
-  PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING     = $00000020;
-  PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY      = $0000001F;
-  PRODUCT_MOBILE_CORE                         = $00000068;
-  PRODUCT_MOBILE_ENTERPRISE                   = $00000085;
-  PRODUCT_MULTIPOINT_PREMIUM_SERVER           = $0000004D;
-  PRODUCT_MULTIPOINT_STANDARD_SERVER          = $0000004C;
-  PRODUCT_PRO_WORKSTATION                     = $000000A1;
-  PRODUCT_PRO_WORKSTATION_N                   = $000000A2;
-  PRODUCT_PROFESSIONAL                        = $00000030;
-  PRODUCT_PROFESSIONAL_E                      = $00000045;
-  PRODUCT_PROFESSIONAL_N                      = $00000031;
-  PRODUCT_PROFESSIONAL_WMC                    = $00000067;
-  PRODUCT_SB_SOLUTION_SERVER                  = $00000032;
-  PRODUCT_SB_SOLUTION_SERVER_EM               = $00000036;
-  PRODUCT_SERVER_FOR_SB_SOLUTIONS             = $00000033;
-  PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM          = $00000037;
-  PRODUCT_SERVER_FOR_SMALLBUSINESS            = $00000018;
-  PRODUCT_SERVER_FOR_SMALLBUSINESS_V          = $00000023;
-  PRODUCT_SERVER_FOUNDATION                   = $00000021;
-  PRODUCT_SMALLBUSINESS_SERVER                = $00000009;
-  PRODUCT_SMALLBUSINESS_SERVER_PREMIUM        = $00000019;
-  PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE   = $0000003F;
-  PRODUCT_SOLUTION_EMBEDDEDSERVER             = $00000038;
-  PRODUCT_STANDARD_EVALUATION_SERVER          = $0000004F;
-  PRODUCT_STANDARD_SERVER                     = $00000007;
-  PRODUCT_STANDARD_SERVER_CORE                = $0000000D;
-  PRODUCT_STANDARD_SERVER_CORE_V              = $00000028;
-  PRODUCT_STANDARD_SERVER_V                   = $00000024;
-  PRODUCT_STANDARD_SERVER_SOLUTIONS           = $00000034;
-  PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE      = $00000035;
-  PRODUCT_STARTER                             = $0000000B;
-  PRODUCT_STARTER_E                           = $00000042;
-  PRODUCT_STARTER_N                           = $0000002F;
-  PRODUCT_STORAGE_ENTERPRISE_SERVER           = $00000017;
-  PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE      = $0000002E;
-  PRODUCT_STORAGE_EXPRESS_SERVER              = $00000014;
-  PRODUCT_STORAGE_EXPRESS_SERVER_CORE         = $0000002B;
-  PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER  = $00000060;
-  PRODUCT_STORAGE_STANDARD_SERVER             = $00000015;
-  PRODUCT_STORAGE_STANDARD_SERVER_CORE        = $0000002C;
-  PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER = $0000005F;
-  PRODUCT_STORAGE_WORKGROUP_SERVER            = $00000016;
-  PRODUCT_STORAGE_WORKGROUP_SERVER_CORE       = $0000002D;
-  PRODUCT_ULTIMATE                            = $00000001;
-  PRODUCT_ULTIMATE_E                          = $00000047;
-  PRODUCT_ULTIMATE_N                          = $0000001C;
-  PRODUCT_UNDEFINED                           = $00000000;
-  PRODUCT_WEB_SERVER                          = $00000011;
-  PRODUCT_WEB_SERVER_CORE                     = $0000001D;
-  PRODUCT_UNLICENSED                          = $ABCDABCD;
+  // ** and the Windows 11 24H2 SDK
+  PRODUCT_UNDEFINED                             = $00000000;
+  PRODUCT_ULTIMATE                              = $00000001;
+  PRODUCT_HOME_BASIC                            = $00000002;
+  PRODUCT_HOME_PREMIUM                          = $00000003;
+  PRODUCT_ENTERPRISE                            = $00000004;
+  PRODUCT_HOME_BASIC_N                          = $00000005;
+  PRODUCT_BUSINESS                              = $00000006;
+  PRODUCT_STANDARD_SERVER                       = $00000007;
+  PRODUCT_DATACENTER_SERVER                     = $00000008;
+  PRODUCT_SMALLBUSINESS_SERVER                  = $00000009;
+  PRODUCT_ENTERPRISE_SERVER                     = $0000000A;
+  PRODUCT_STARTER                               = $0000000B;
+  PRODUCT_DATACENTER_SERVER_CORE                = $0000000C;
+  PRODUCT_STANDARD_SERVER_CORE                  = $0000000D;
+  PRODUCT_ENTERPRISE_SERVER_CORE                = $0000000E;
+  PRODUCT_ENTERPRISE_SERVER_IA64                = $0000000F;
+  PRODUCT_BUSINESS_N                            = $00000010;
+  PRODUCT_WEB_SERVER                            = $00000011;
+  PRODUCT_CLUSTER_SERVER                        = $00000012;
+  PRODUCT_HOME_SERVER                           = $00000013;
+  PRODUCT_STORAGE_EXPRESS_SERVER                = $00000014;
+  PRODUCT_STORAGE_STANDARD_SERVER               = $00000015;
+  PRODUCT_STORAGE_WORKGROUP_SERVER              = $00000016;
+  PRODUCT_STORAGE_ENTERPRISE_SERVER             = $00000017;
+  PRODUCT_SERVER_FOR_SMALLBUSINESS              = $00000018;
+  PRODUCT_SMALLBUSINESS_SERVER_PREMIUM          = $00000019;
+  PRODUCT_HOME_PREMIUM_N                        = $0000001A;
+  PRODUCT_ENTERPRISE_N                          = $0000001B;
+  PRODUCT_ULTIMATE_N                            = $0000001C;
+  PRODUCT_WEB_SERVER_CORE                       = $0000001D;
+  PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT      = $0000001E;
+  PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY        = $0000001F;
+  PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING       = $00000020;
+  PRODUCT_SERVER_FOUNDATION                     = $00000021;
+  PRODUCT_HOME_PREMIUM_SERVER                   = $00000022;
+  PRODUCT_SERVER_FOR_SMALLBUSINESS_V            = $00000023;
+  PRODUCT_STANDARD_SERVER_V                     = $00000024;
+  PRODUCT_DATACENTER_SERVER_V                   = $00000025;
+  PRODUCT_ENTERPRISE_SERVER_V                   = $00000026;
+  PRODUCT_DATACENTER_SERVER_CORE_V              = $00000027;
+  PRODUCT_STANDARD_SERVER_CORE_V                = $00000028;
+  PRODUCT_ENTERPRISE_SERVER_CORE_V              = $00000029;
+  PRODUCT_HYPERV                                = $0000002A;
+  PRODUCT_STORAGE_EXPRESS_SERVER_CORE           = $0000002B;
+  PRODUCT_STORAGE_STANDARD_SERVER_CORE          = $0000002C;
+  PRODUCT_STORAGE_WORKGROUP_SERVER_CORE         = $0000002D;
+  PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE        = $0000002E;
+  PRODUCT_STARTER_N                             = $0000002F;
+  PRODUCT_PROFESSIONAL                          = $00000030;
+  PRODUCT_PROFESSIONAL_N                        = $00000031;
+  PRODUCT_SB_SOLUTION_SERVER                    = $00000032;
+  PRODUCT_SERVER_FOR_SB_SOLUTIONS               = $00000033;
+  PRODUCT_STANDARD_SERVER_SOLUTIONS             = $00000034;
+  PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE        = $00000035;
+  PRODUCT_SB_SOLUTION_SERVER_EM                 = $00000036;
+  PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM            = $00000037;
+  PRODUCT_SOLUTION_EMBEDDEDSERVER               = $00000038;
+  PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE          = $00000039; // *
+  PRODUCT_PROFESSIONAL_EMBEDDED                 = $0000003A; // *
+  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT         = $0000003B;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL         = $0000003C;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC      = $0000003D;
+  PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC      = $0000003E;
+  PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE     = $0000003F;
+  PRODUCT_CLUSTER_SERVER_V                      = $00000040;
+  PRODUCT_EMBEDDED                              = $00000041; // *
+  PRODUCT_STARTER_E                             = $00000042;
+  PRODUCT_HOME_BASIC_E                          = $00000043;
+  PRODUCT_HOME_PREMIUM_E                        = $00000044;
+  PRODUCT_PROFESSIONAL_E                        = $00000045;
+  PRODUCT_ENTERPRISE_E                          = $00000046;
+  PRODUCT_ULTIMATE_E                            = $00000047;
+  PRODUCT_ENTERPRISE_EVALUATION                 = $00000048;
+  PRODUCT_MULTIPOINT_STANDARD_SERVER            = $0000004C;
+  PRODUCT_MULTIPOINT_PREMIUM_SERVER             = $0000004D;
+  PRODUCT_STANDARD_EVALUATION_SERVER            = $0000004F;
+  PRODUCT_DATACENTER_EVALUATION_SERVER          = $00000050;
+  PRODUCT_ENTERPRISE_N_EVALUATION               = $00000054;
+  PRODUCT_EMBEDDED_AUTOMOTIVE                   = $00000055; // *
+  PRODUCT_EMBEDDED_INDUSTRY_A                   = $00000056; // *
+  PRODUCT_THINPC                                = $00000057; // *
+  PRODUCT_EMBEDDED_A                            = $00000058; // *
+  PRODUCT_EMBEDDED_INDUSTRY                     = $00000059; // *
+  PRODUCT_EMBEDDED_E                            = $0000005A; // *
+  PRODUCT_EMBEDDED_INDUSTRY_E                   = $0000005B; // *
+  PRODUCT_EMBEDDED_INDUSTRY_A_E                 = $0000005C; // *
+  PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER   = $0000005F;
+  PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER    = $00000060;
+  PRODUCT_CORE_ARM                              = $00000061;
+  PRODUCT_CORE_N                                = $00000062;
+  PRODUCT_CORE_COUNTRYSPECIFIC                  = $00000063;
+  PRODUCT_CORE_SINGLELANGUAGE                   = $00000064;
+  PRODUCT_CORE                                  = $00000065;
+  PRODUCT_PROFESSIONAL_WMC                      = $00000067;
+  PRODUCT_MOBILE_CORE                           = $00000068;
+  PRODUCT_EMBEDDED_INDUSTRY_EVAL                = $00000069; // *
+  PRODUCT_EMBEDDED_INDUSTRY_E_EVAL              = $0000006A; // *
+  PRODUCT_EMBEDDED_EVAL                         = $0000006B; // *
+  PRODUCT_EMBEDDED_E_EVAL                       = $0000006C; // *
+  PRODUCT_NANO_SERVER                           = $0000006D; // *
+  PRODUCT_CLOUD_STORAGE_SERVER                  = $0000006E; // *
+  PRODUCT_CORE_CONNECTED                        = $0000006F; // *
+  PRODUCT_PROFESSIONAL_STUDENT                  = $00000070; // *
+  PRODUCT_CORE_CONNECTED_N                      = $00000071; // *
+  PRODUCT_PROFESSIONAL_STUDENT_N                = $00000072; // *
+  PRODUCT_CORE_CONNECTED_SINGLELANGUAGE         = $00000073; // *
+  PRODUCT_CORE_CONNECTED_COUNTRYSPECIFIC        = $00000074; // *
+  PRODUCT_CONNECTED_CAR                         = $00000075; // *
+  PRODUCT_INDUSTRY_HANDHELD                     = $00000076; // *
+  PRODUCT_PPI_PRO                               = $00000077; // *
+  PRODUCT_ARM64_SERVER                          = $00000078; // *
+  PRODUCT_EDUCATION                             = $00000079;
+  PRODUCT_EDUCATION_N                           = $0000007A;
+  PRODUCT_IOTUAP                                = $0000007B;
+  PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER      = $0000007C; // *
+  PRODUCT_ENTERPRISE_S                          = $0000007D;
+  PRODUCT_ENTERPRISE_S_N                        = $0000007E;
+  PRODUCT_PROFESSIONAL_S                        = $0000007F; // *
+  PRODUCT_PROFESSIONAL_S_N                      = $00000080; // *
+  PRODUCT_ENTERPRISE_S_EVALUATION               = $00000081;
+  PRODUCT_ENTERPRISE_S_N_EVALUATION             = $00000082;
+  PRODUCT_IOTUAPCOMMERCIAL                      = $00000083;
+  PRODUCT_MOBILE_ENTERPRISE                     = $00000085;
+  PRODUCT_HOLOGRAPHIC                           = $00000087; // *
+  PRODUCT_HOLOGRAPHIC_BUSINESS                  = $00000088; // *
+  PRODUCT_PRO_SINGLE_LANGUAGE                   = $0000008A; // *
+  PRODUCT_PRO_CHINA                             = $0000008B; // *
+  PRODUCT_ENTERPRISE_SUBSCRIPTION               = $0000008C; // *
+  PRODUCT_ENTERPRISE_SUBSCRIPTION_N             = $0000008D; // *
+  PRODUCT_DATACENTER_NANO_SERVER                = $0000008F;
+  PRODUCT_STANDARD_NANO_SERVER                  = $00000090;
+  PRODUCT_DATACENTER_A_SERVER_CORE              = $00000091;
+  PRODUCT_STANDARD_A_SERVER_CORE                = $00000092;
+  PRODUCT_DATACENTER_WS_SERVER_CORE             = $00000093;
+  PRODUCT_STANDARD_WS_SERVER_CORE               = $00000094;
+  PRODUCT_UTILITY_VM                            = $00000095; // *
+  PRODUCT_DATACENTER_EVALUATION_SERVER_CORE     = $0000009F; // *
+  PRODUCT_STANDARD_EVALUATION_SERVER_CORE       = $000000A0; // *
+  PRODUCT_PRO_WORKSTATION                       = $000000A1;
+  PRODUCT_PRO_WORKSTATION_N                     = $000000A2;
+  PRODUCT_PRO_FOR_EDUCATION                     = $000000A4;
+  PRODUCT_PRO_FOR_EDUCATION_N                   = $000000A5; // *
+  PRODUCT_AZURE_SERVER_CORE                     = $000000A8; // *
+  PRODUCT_AZURE_NANO_SERVER                     = $000000A9; // *
+  PRODUCT_ENTERPRISEG                           = $000000AB; // *
+  PRODUCT_ENTERPRISEGN                          = $000000AC; // *
+  PRODUCT_SERVERRDSH                            = $000000AF;
+  PRODUCT_CLOUD                                 = $000000B2; // *
+  PRODUCT_CLOUDN                                = $000000B3; // *
+  PRODUCT_HUBOS                                 = $000000B4; // *
+  PRODUCT_ONECOREUPDATEOS                       = $000000B6; // *
+  PRODUCT_CLOUDE                                = $000000B7; // *
+  PRODUCT_IOTOS                                 = $000000B9; // *
+  PRODUCT_CLOUDEN                               = $000000BA; // *
+  PRODUCT_IOTEDGEOS                             = $000000BB; // *
+  PRODUCT_IOTENTERPRISE                         = $000000BC;
+  PRODUCT_LITE                                  = $000000BD; // *
+  PRODUCT_IOTENTERPRISE_S                       = $000000BF;
+  PRODUCT_XBOX_SYSTEMOS                         = $000000C0; // *
+  PRODUCT_XBOX_GAMEOS                           = $000000C2; // *
+  PRODUCT_XBOX_ERAOS                            = $000000C3; // *
+  PRODUCT_XBOX_DURANGOHOSTOS                    = $000000C4; // *
+  PRODUCT_XBOX_SCARLETTHOSTOS                   = $000000C5; // *
+  PRODUCT_XBOX_KEYSTONE                         = $000000C6; // *
+  PRODUCT_AZURE_SERVER_CLOUDHOST                = $000000C7; // *
+  PRODUCT_AZURE_SERVER_CLOUDMOS                 = $000000C8; // *
+  PRODUCT_CLOUDEDITIONN                         = $000000CA; // *
+  PRODUCT_CLOUDEDITION                          = $000000CB; // *
+  PRODUCT_VALIDATION                            = $000000CC; // *
+  PRODUCT_IOTENTERPRISESK                       = $000000CD; // *
+  PRODUCT_IOTENTERPRISEK                        = $000000CE; // *
+  PRODUCT_IOTENTERPRISESEVAL                    = $000000CF; // *
+  PRODUCT_AZURE_SERVER_AGENTBRIDGE              = $000000D0; // *
+  PRODUCT_AZURE_SERVER_NANOHOST                 = $000000D1; // *
+  PRODUCT_WNC                                   = $000000D2; // *
+  PRODUCT_AZURESTACKHCI_SERVER_CORE             = $00000196; // *
+  PRODUCT_DATACENTER_SERVER_AZURE_EDITION       = $00000197;
+  PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION  = $00000198; // *
+  PRODUCT_UNLICENSED                            = $ABCDABCD;
 
   // These constants are required for use with GetSystemMetrics to detect
   // certain editions. GetSystemMetrics returns non-zero when passed these flags
@@ -997,10 +1080,12 @@ type
 
 const
   // Map of product codes per GetProductInfo API to product names
+  // Names are not available for all PRODUCT_xxx values.
   // ** Laurent Pierre supplied original code on which this map is based
   //    It has been modified and extended using MSDN documentation at
-  //    https://msdn.microsoft.com/en-us/library/ms724358
-  cProductMap: array[1..99] of record
+  //    https://msdn.microsoft.com/en-us/library/ms724358 and
+  //    https://tinyurl.com/5684558v (learn.microsoft.com)
+  cProductMap: array[1..107] of record
     Id: Cardinal; // product ID
     Name: string; // product name
   end = (
@@ -1200,6 +1285,22 @@ const
       Name: 'Web Server (full installation)';),
     (Id: PRODUCT_WEB_SERVER_CORE;
       Name: 'Web Server (core installation)';),
+    (Id: PRODUCT_CORE_ARM;
+      Name: 'Windows RT';),
+    (Id: PRODUCT_DATACENTER_NANO_SERVER;
+      Name: 'Windows Server Datacenter Edition (Nano Server installation)';),
+    (Id: PRODUCT_STANDARD_NANO_SERVER;
+      Name: 'Windows Server Standard Edition (Nano Server installation)';),
+    (Id: PRODUCT_DATACENTER_WS_SERVER_CORE;
+      Name: 'Windows Server Datacenter Edition (Server Core installation)';),
+    (Id: PRODUCT_STANDARD_WS_SERVER_CORE;
+      Name: 'Windows Server Standard Edition (Server Core installation)';),
+    (Id: PRODUCT_PRO_FOR_EDUCATION;
+      Name: 'Windows 10 Pro Education';),
+    (Id: PRODUCT_SERVERRDSH;
+      Name: 'Windows 10 Enterprise for Virtual Desktops';),
+    (Id: PRODUCT_DATACENTER_SERVER_AZURE_EDITION;
+      Name: 'Windows Server Datacenter: Azure Edition';),
     (Id: Cardinal(PRODUCT_UNLICENSED);
       Name: 'Unlicensed product';)
   );

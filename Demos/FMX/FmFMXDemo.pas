@@ -40,6 +40,7 @@ type
       overload;
     procedure DisplayItem(const Name: string; const Value: TPJOSProduct);
       overload;
+    procedure DisplayItem(const Name: string; const Value: TBytes); overload;
     procedure ShowContent(Tab: Integer);
     procedure ShowWin32Globals;
     procedure ShowTPJOSInfo;
@@ -168,6 +169,7 @@ begin
   DisplayItem('Platform', TPJOSInfo.Platform);
   DisplayItem('Product', TPJOSInfo.Product);
   DisplayItem('ProductID', TPJOSInfo.ProductID);
+  DisplayItem('DigitalProductID', TPJOSInfo.DigitalProductID);
   DisplayItem('ProductName', TPJOSInfo.ProductName);
   DisplayItem('ServicePack', TPJOSInfo.ServicePack);
   DisplayItem('ServicePackEx', TPJOSInfo.ServicePackEx);
@@ -257,6 +259,18 @@ procedure TForm1.TabControl1Change(Sender: TObject);
 begin
   StringGrid1.Parent := TabControl1.ActiveTab;
   ShowContent(TabControl1.ActiveTab.Index);
+end;
+
+procedure TForm1.DisplayItem(const Name: string; const Value: TBytes);
+var
+  B: Byte;
+  S: string;
+begin
+  S := '';
+  for B in Value do
+    S := S + IntToHex(B) + ' ';
+  S := Trim(S);
+  DisplayItem(Name, S);
 end;
 
 end.

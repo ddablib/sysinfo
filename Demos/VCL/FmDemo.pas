@@ -13,7 +13,7 @@ unit FmDemo;
 interface
 
 uses
-  StdCtrls, Classes, Controls, ComCtrls, Forms,
+  SysUtils, StdCtrls, Classes, Controls, ComCtrls, Forms,
   PJSysInfo, ExtCtrls;
 
 type
@@ -34,6 +34,7 @@ type
       overload;
     procedure DisplayItem(const Name: string; const Value: TPJOSProduct);
       overload;
+    procedure DisplayItem(const Name: string; const Value: TBytes); overload;
     procedure ShowContent(Tab: Integer);
     procedure ShowWin32Globals;
     procedure ShowTPJOSInfo;
@@ -45,9 +46,6 @@ var
   DemoForm: TDemoForm;
 
 implementation
-
-uses
-  SysUtils;
 
 {$R *.DFM}
 
@@ -191,6 +189,7 @@ begin
   DisplayItem('Platform', TPJOSInfo.Platform);
   DisplayItem('Product', TPJOSInfo.Product);
   DisplayItem('ProductID', TPJOSInfo.ProductID);
+  DisplayItem('DigitalProductID', TPJOSInfo.DigitalProductID);
   DisplayItem('ProductName', TPJOSInfo.ProductName);
   DisplayItem('ServicePack', TPJOSInfo.ServicePack);
   DisplayItem('ServicePackEx', TPJOSInfo.ServicePackEx);
@@ -293,6 +292,18 @@ end;
 procedure TDemoForm.TabControl1Change(Sender: TObject);
 begin
   ShowContent(TabControl1.TabIndex);
+end;
+
+procedure TDemoForm.DisplayItem(const Name: string; const Value: TBytes);
+var
+  B: Byte;
+  S: string;
+begin
+  S := '';
+  for B in Value do
+    S := S + IntToHex(Integer(B), 2) + ' ';
+  S := Trim(S);
+  DisplayItem(Name, S);
 end;
 
 end.

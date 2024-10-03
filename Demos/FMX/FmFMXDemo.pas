@@ -148,6 +148,7 @@ procedure TForm1.ShowTPJOSInfo;
 begin
   DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
   DisplayItem('RevisionNumber', TPJOSInfo.RevisionNumber);
+  DisplayItem('BuildBranch', TPJOSInfo.BuildBranch);
   DisplayItem('Description', TPJOSInfo.Description);
   DisplayItem('Edition', TPJOSInfo.Edition);
   if SameDateTime(TPJOSInfo.InstallationDate, 0.0) then

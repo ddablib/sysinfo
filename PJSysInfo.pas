@@ -843,6 +843,12 @@ type
     ///  that this value could be spoofed.</para>
     ///  </remarks>
     class function RevisionNumber: Integer;
+
+    ///  <summary>Returns the repository branch from which the OS release was]
+    ///  built.</summary>
+    ///  <remarks>Returns the empty string if no build branch information is
+    ///  available.</remarks>
+    class function BuildBranch: string;
   end;
 
 type
@@ -2872,6 +2878,13 @@ begin
 end;
 
 { TPJOSInfo }
+
+class function TPJOSInfo.BuildBranch: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'BuildBranch'
+  );
+end;
 
 class function TPJOSInfo.BuildNumber: Integer;
 begin

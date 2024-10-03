@@ -560,6 +560,9 @@ type
     ///  <summary>Gets product edition from registry for NT4 pre SP6.</remarks>
     class function NTEditionFromReg: string;
 
+    ///  <summary>Gets edition ID from registry.</summary>
+    class function EditionIDFromReg: string;
+
     ///  <summary>Checks registry to see if NT4 Service Pack 6a is installed.
     ///  </summary>
     class function IsNT4SP6a: Boolean;
@@ -2949,7 +2952,11 @@ begin
       // For v6.0 and later we ignore the suite mask and use the new
       // PRODUCT_ flags from the GetProductInfo() function to determine the
       // edition
+      // 1st try to find edition name from lookup table
       Result := EditionFromProductInfo;
+      if Result = '' then
+        // no matching entry in lookup: get from registry
+        Result := EditionIDFromReg;
       // append 64-bit if 64 bit system
       if InternalProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64 then
         Result := Result + ' (64-bit)';
@@ -3071,6 +3078,13 @@ begin
       Exit;
     end;
   end;
+end;
+
+class function TPJOSInfo.EditionIDFromReg: string;
+begin
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'EditionID'
+  );
 end;
 
 class function TPJOSInfo.HasPenExtensions: Boolean;

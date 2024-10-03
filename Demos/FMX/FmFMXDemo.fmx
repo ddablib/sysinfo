@@ -2,19 +2,21 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 480
-  ClientWidth = 640
+  ClientHeight = 508
+  ClientWidth = 688
   FormFactor.Width = 1920
   FormFactor.Height = 1080
   FormFactor.Devices = [Desktop, iPhone, iPad]
   OnCreate = FormCreate
   DesignerMasterStyle = 0
   object Layout1: TLayout
-    Size.Width = 640.000000000000000000
-    Size.Height = 480.000000000000000000
+    Align = Client
+    Size.Width = 688.000000000000000000
+    Size.Height = 508.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object TabControl1: TTabControl
+      Align = Client
       Padding.Left = 4.000000000000000000
       Padding.Top = 4.000000000000000000
       Padding.Right = 4.000000000000000000
@@ -23,22 +25,22 @@ object Form1: TForm1
       Margins.Top = 4.000000000000000000
       Margins.Right = 4.000000000000000000
       Margins.Bottom = 4.000000000000000000
-      Size.Width = 632.000000000000000000
-      Size.Height = 472.000000000000000000
+      Size.Width = 680.000000000000000000
+      Size.Height = 500.000000000000000000
       Size.PlatformDefault = False
       TabIndex = 0
       TabOrder = 0
       TabPosition = Top
       OnChange = TabControl1Change
       Sizes = (
-        624s
-        438s
-        624s
-        438s
-        624s
-        438s
-        624s
-        438s)
+        672s
+        466s
+        672s
+        466s
+        672s
+        466s
+        672s
+        466s)
       object tiComputerInfo: TTabItem
         CustomIcon = <
           item
@@ -53,24 +55,26 @@ object Form1: TForm1
         Text = 'TPJComputerInfo'
         ExplicitSize.cx = 50.000000000000000000
         ExplicitSize.cy = 50.000000000000000000
-        object StringGrid1: TStringGrid
+        object sgComputerInfo: TStringGrid
+          Align = Client
           CanFocus = True
           ClipChildren = True
-          Size.Width = 624.000000000000000000
-          Size.Height = 441.000000000000000000
+          Size.Width = 672.000000000000000000
+          Size.Height = 466.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
           RowHeight = 21.000000000000000000
           Options = [ColumnResize, ColumnMove, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
-          Viewport.Width = 604.000000000000000000
-          Viewport.Height = 416.000000000000000000
-          object NameCol: TStringColumn
+          OnResized = sgResized
+          Viewport.Width = 652.000000000000000000
+          Viewport.Height = 441.000000000000000000
+          object StringColumn1: TStringColumn
             Header = 'Method'
             HeaderSettings.TextSettings.WordWrap = False
             ReadOnly = True
             Size.Width = 185.000000000000000000
           end
-          object ValueCol: TStringColumn
+          object StringColumn2: TStringColumn
             Header = 'Value'
             HeaderSettings.TextSettings.WordWrap = False
             ReadOnly = True
@@ -92,6 +96,32 @@ object Form1: TForm1
         Text = 'TPJSpecialFolders'
         ExplicitSize.cx = 50.000000000000000000
         ExplicitSize.cy = 50.000000000000000000
+        object sgSpecialFolders: TStringGrid
+          Align = Client
+          CanFocus = True
+          ClipChildren = True
+          Size.Width = 672.000000000000000000
+          Size.Height = 466.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          RowHeight = 21.000000000000000000
+          Options = [ColumnResize, ColumnMove, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
+          OnResized = sgResized
+          Viewport.Width = 652.000000000000000000
+          Viewport.Height = 441.000000000000000000
+          object StringColumn5: TStringColumn
+            Header = 'Method'
+            HeaderSettings.TextSettings.WordWrap = False
+            ReadOnly = True
+            Size.Width = 185.000000000000000000
+          end
+          object StringColumn6: TStringColumn
+            Header = 'Value'
+            HeaderSettings.TextSettings.WordWrap = False
+            ReadOnly = True
+            Size.Width = 400.000000000000000000
+          end
+        end
       end
       object tiOSInfo: TTabItem
         CustomIcon = <
@@ -107,6 +137,32 @@ object Form1: TForm1
         Text = 'TPJOSInfo'
         ExplicitSize.cx = 50.000000000000000000
         ExplicitSize.cy = 50.000000000000000000
+        object sgOSInfo: TStringGrid
+          Align = Client
+          CanFocus = True
+          ClipChildren = True
+          Size.Width = 672.000000000000000000
+          Size.Height = 466.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          RowHeight = 21.000000000000000000
+          Options = [ColumnResize, ColumnMove, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
+          OnResized = sgResized
+          Viewport.Width = 652.000000000000000000
+          Viewport.Height = 441.000000000000000000
+          object StringColumn3: TStringColumn
+            Header = 'Method'
+            HeaderSettings.TextSettings.WordWrap = False
+            ReadOnly = True
+            Size.Width = 185.000000000000000000
+          end
+          object StringColumn4: TStringColumn
+            Header = 'Value'
+            HeaderSettings.TextSettings.WordWrap = False
+            ReadOnly = True
+            Size.Width = 400.000000000000000000
+          end
+        end
       end
       object tiWin32Globals: TTabItem
         CustomIcon = <
@@ -122,6 +178,32 @@ object Form1: TForm1
         Text = 'Win32 Globals'
         ExplicitSize.cx = 50.000000000000000000
         ExplicitSize.cy = 50.000000000000000000
+        object sgWin32Globals: TStringGrid
+          Align = Client
+          CanFocus = True
+          ClipChildren = True
+          Size.Width = 672.000000000000000000
+          Size.Height = 466.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          RowHeight = 21.000000000000000000
+          Options = [ColumnResize, ColumnMove, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
+          OnResized = sgResized
+          Viewport.Width = 652.000000000000000000
+          Viewport.Height = 441.000000000000000000
+          object StringColumn7: TStringColumn
+            Header = 'Method'
+            HeaderSettings.TextSettings.WordWrap = False
+            ReadOnly = True
+            Size.Width = 185.000000000000000000
+          end
+          object StringColumn8: TStringColumn
+            Header = 'Value'
+            HeaderSettings.TextSettings.WordWrap = False
+            ReadOnly = True
+            Size.Width = 400.000000000000000000
+          end
+        end
       end
     end
   end

@@ -14,7 +14,10 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Rtti, System.Classes,
   System.Variants, FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs,
   FMX.TabControl, FMX.Ani, FMX.Layouts, FMX.Memo,
-  PJSysInfo, FMX.ListBox, FMX.TreeView, FMX.Grid;
+  FMX.ListBox, FMX.TreeView, FMX.Grid, FMX.Grid.Style,
+  FMX.Controls.Presentation, FMX.ScrollBox,
+
+  PJSysInfo;
 
 type
   TForm1 = class(TForm)
@@ -145,6 +148,7 @@ procedure TForm1.ShowTPJOSInfo;
 begin
   DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
   DisplayItem('RevisionNumber', TPJOSInfo.RevisionNumber);
+  DisplayItem('BuildBranch', TPJOSInfo.BuildBranch);
   DisplayItem('Description', TPJOSInfo.Description);
   DisplayItem('Edition', TPJOSInfo.Edition);
   if SameDateTime(TPJOSInfo.InstallationDate, 0.0) then

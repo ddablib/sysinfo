@@ -23,7 +23,7 @@
 *.a
 *.o
 *.ocx
-#*.res
+*.res
 *.tlb
 *.obj
 

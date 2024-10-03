@@ -14,7 +14,10 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Rtti, System.Classes,
   System.Variants, FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs,
   FMX.TabControl, FMX.Ani, FMX.Layouts, FMX.Memo,
-  PJSysInfo, FMX.ListBox, FMX.TreeView, FMX.Grid;
+  FMX.ListBox, FMX.TreeView, FMX.Grid, FMX.Grid.Style,
+  FMX.Controls.Presentation, FMX.ScrollBox,
+
+  PJSysInfo;
 
 type
   TForm1 = class(TForm)

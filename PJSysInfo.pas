@@ -59,6 +59,7 @@ unit PJSysInfo;
 {$UNDEF RTLNAMESPACES}        // No support for RTL namespaces in unit names
 {$UNDEF HASUNIT64}            // UInt64 type not defined
 {$UNDEF INLINEMETHODS}        // No support for inline methods
+{$UNDEF HASTBYTES}            // TBytes not defined
 
 // Undefine facilities not available in earlier compilers
 // Note: Delphi 1 to 3 is not included since the code will not compile on these
@@ -79,6 +80,9 @@ unit PJSysInfo;
 {$IFDEF CONDITIONALEXPRESSIONS}
   {$IF CompilerVersion >= 24.0} // Delphi XE3 and later
     {$LEGACYIFEND ON}  // NOTE: this must come before all $IFEND directives
+  {$IFEND}
+  {$IF CompilerVersion >= 18.5} // Delphi 2007 Win32 and later
+    {$DEFINE HASTBYTES}
   {$IFEND}
   {$IF CompilerVersion >= 23.0} // Delphi XE2 and later
     {$DEFINE RTLNAMESPACES}
@@ -115,6 +119,11 @@ uses
   System.SysUtils, System.Classes, Winapi.Windows;
   {$ENDIF}
 
+{$IFNDEF HASTBYTES}
+// Compiler doesn't have TBytes: define it
+type
+  TBytes = array of Byte;
+{$ENDIF}
 
 type
   // Windows types not defined in all supported Delphi VCLs
@@ -690,6 +699,9 @@ type
     ///  <summary>Returns the Windows product ID of the host OS.</summary>
     class function ProductID: string;
 
+    ///  <summary>Returns the digital product ID of the host OS.</summary>
+    class function DigitalProductID: TBytes;
+
     ///  <summary>Organisation to which Windows is registered, if any.</summary>
     class function RegisteredOrganisation: string;
 
@@ -1075,6 +1087,7 @@ resourcestring
   sUnknownProduct = 'Unrecognised operating system product';
   sBadRegType =  'Unsupported registry type';
   sBadRegIntType = 'Integer value expected in registry';
+  sBadRegBinType = 'Binary value expected in registry';
   sBadProcHandle = 'Bad process handle';
 
 
@@ -1084,7 +1097,6 @@ resourcestring
 type
   UInt64 = Int64;
 {$ENDIF}
-
 
 const
   // Map of product codes per GetProductInfo API to product names
@@ -2148,6 +2160,33 @@ begin
   end;
 end;
 
+function GetRegistryBytes(const RootKey: HKEY; const SubKey, Name: string):
+  TBytes;
+var
+  Reg: TRegistry;          // registry access object
+  ValueInfo: TRegDataInfo; // info about registry value
+begin
+  SetLength(Result, 0);
+  // Open registry at required root key
+  Reg := RegCreate;
+  try
+    Reg.RootKey := RootKey;
+    if RegOpenKeyReadOnly(Reg, SubKey) and Reg.ValueExists(Name) then
+    begin
+      // Check if registry value is integer
+      Reg.GetDataInfo(Name, ValueInfo);
+      if ValueInfo.RegData <> rdBinary then
+        raise EPJSysInfo.Create(sBadRegBinType);
+      SetLength(Result, ValueInfo.DataSize);
+      Reg.ReadBinaryData(Name, Result[0], Length(Result));
+    end;
+  finally
+    // Close registry
+    Reg.CloseKey;
+    Reg.Free;
+  end;
+end;
+
 // Gets string info for given value from Windows current version key in
 // registry.
 function GetCurrentVersionRegStr(ValName: string): string;
@@ -2949,6 +2988,13 @@ begin
       // We have a Win 95 line OS: append service pack
       AppendToResult(ServicePack);
   end;
+end;
+
+class function TPJOSInfo.DigitalProductID: TBytes;
+begin
+  Result := GetRegistryBytes(
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'DigitalProductId'
+  );
 end;
 
 class function TPJOSInfo.Edition: string;

@@ -557,9 +557,8 @@ type
     ///  NT platform OS.</returns>
     class function CheckSuite(const Suite: Integer): Boolean;
 
-    ///  <summary>Gets product edition from registry.</summary>
-    ///  <remarks>Needed to get edition for NT4 pre SP6.</remarks>
-    class function EditionFromReg: string;
+    ///  <summary>Gets product edition from registry for NT4 pre SP6.</remarks>
+    class function NTEditionFromReg: string;
 
     ///  <summary>Checks registry to see if NT4 Service Pack 6a is installed.
     ///  </summary>
@@ -3054,7 +3053,7 @@ begin
       end
       else
         // NT before SP6: we read required info from registry
-        Result := EditionFromReg;
+        Result := NTEditionFromReg;
     end;
   end;
 end;
@@ -3072,22 +3071,6 @@ begin
       Exit;
     end;
   end;
-end;
-
-class function TPJOSInfo.EditionFromReg: string;
-var
-  EditionCode: string;  // OS product edition code stored in registry
-begin
-  EditionCode := ProductTypeFromReg;
-  if CompareText(EditionCode, 'WINNT') = 0 then
-    Result := 'WorkStation'
-  else if CompareText(EditionCode, 'LANMANNT') = 0 then
-    Result := 'Server'
-  else if CompareText(EditionCode, 'SERVERNT') = 0 then
-    Result := 'Advanced Server';
-  Result := Result + Format(
-    ' %d.%d', [InternalMajorVersion, InternalMinorVersion]
-  );
 end;
 
 class function TPJOSInfo.HasPenExtensions: Boolean;
@@ -3364,6 +3347,22 @@ end;
 class function TPJOSInfo.MinorVersion: Integer;
 begin
   Result := InternalMinorVersion;
+end;
+
+class function TPJOSInfo.NTEditionFromReg: string;
+var
+  EditionCode: string;  // OS product edition code stored in registry
+begin
+  EditionCode := ProductTypeFromReg;
+  if CompareText(EditionCode, 'WINNT') = 0 then
+    Result := 'WorkStation'
+  else if CompareText(EditionCode, 'LANMANNT') = 0 then
+    Result := 'Server'
+  else if CompareText(EditionCode, 'SERVERNT') = 0 then
+    Result := 'Advanced Server';
+  Result := Result + Format(
+    ' %d.%d', [InternalMajorVersion, InternalMinorVersion]
+  );
 end;
 
 class function TPJOSInfo.Platform: TPJOSPlatform;

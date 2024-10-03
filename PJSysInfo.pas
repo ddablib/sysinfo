@@ -557,9 +557,11 @@ type
     ///  NT platform OS.</returns>
     class function CheckSuite(const Suite: Integer): Boolean;
 
-    ///  <summary>Gets product edition from registry.</summary>
-    ///  <remarks>Needed to get edition for NT4 pre SP6.</remarks>
-    class function EditionFromReg: string;
+    ///  <summary>Gets product edition from registry for NT4 pre SP6.</remarks>
+    class function NTEditionFromReg: string;
+
+    ///  <summary>Gets edition ID from registry.</summary>
+    class function EditionIDFromReg: string;
 
     ///  <summary>Checks registry to see if NT4 Service Pack 6a is installed.
     ///  </summary>
@@ -2950,7 +2952,11 @@ begin
       // For v6.0 and later we ignore the suite mask and use the new
       // PRODUCT_ flags from the GetProductInfo() function to determine the
       // edition
+      // 1st try to find edition name from lookup table
       Result := EditionFromProductInfo;
+      if Result = '' then
+        // no matching entry in lookup: get from registry
+        Result := EditionIDFromReg;
       // append 64-bit if 64 bit system
       if InternalProcessorArchitecture = PROCESSOR_ARCHITECTURE_AMD64 then
         Result := Result + ' (64-bit)';
@@ -3054,7 +3060,7 @@ begin
       end
       else
         // NT before SP6: we read required info from registry
-        Result := EditionFromReg;
+        Result := NTEditionFromReg;
     end;
   end;
 end;
@@ -3074,19 +3080,10 @@ begin
   end;
 end;
 
-class function TPJOSInfo.EditionFromReg: string;
-var
-  EditionCode: string;  // OS product edition code stored in registry
+class function TPJOSInfo.EditionIDFromReg: string;
 begin
-  EditionCode := ProductTypeFromReg;
-  if CompareText(EditionCode, 'WINNT') = 0 then
-    Result := 'WorkStation'
-  else if CompareText(EditionCode, 'LANMANNT') = 0 then
-    Result := 'Server'
-  else if CompareText(EditionCode, 'SERVERNT') = 0 then
-    Result := 'Advanced Server';
-  Result := Result + Format(
-    ' %d.%d', [InternalMajorVersion, InternalMinorVersion]
+  Result := GetRegistryString(
+    HKEY_LOCAL_MACHINE, CurrentVersionRegKeys[IsWinNT], 'EditionID'
   );
 end;
 
@@ -3364,6 +3361,22 @@ end;
 class function TPJOSInfo.MinorVersion: Integer;
 begin
   Result := InternalMinorVersion;
+end;
+
+class function TPJOSInfo.NTEditionFromReg: string;
+var
+  EditionCode: string;  // OS product edition code stored in registry
+begin
+  EditionCode := ProductTypeFromReg;
+  if CompareText(EditionCode, 'WINNT') = 0 then
+    Result := 'WorkStation'
+  else if CompareText(EditionCode, 'LANMANNT') = 0 then
+    Result := 'Server'
+  else if CompareText(EditionCode, 'SERVERNT') = 0 then
+    Result := 'Advanced Server';
+  Result := Result + Format(
+    ' %d.%d', [InternalMajorVersion, InternalMinorVersion]
+  );
 end;
 
 class function TPJOSInfo.Platform: TPJOSPlatform;

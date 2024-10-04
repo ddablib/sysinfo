@@ -981,6 +981,7 @@ type
 
     ///  <summary>Checks if a network is present on host computer.</summary>
     class function IsNetworkPresent: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Returns the OS mode used when host computer was last booted.
     ///  </summary>

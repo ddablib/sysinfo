@@ -2703,17 +2703,6 @@ begin
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
-//            else if FindBuildNumberFrom(
-//              Win11PreviewCanaryChannel24H2Builds, InternalBuildNumber
-//            ) then
-//            begin
-//              // Win11 builds in Canary & Preview channels with version string
-//              // "24H2"
-//              InternalExtraUpdateInfo := Format(
-//                'Preview or Canary Channel Version 24H2 v10.0.%d.%d',
-//                [InternalBuildNumber, InternalRevisionNumber]
-//              );
-//            end
             else if FindBuildNumberFrom(
               Win11_24H2_CanaryChannel_Builds, InternalBuildNumber
             ) then
@@ -2743,26 +2732,6 @@ begin
                   );
               end;
             end
-//            else if FindBuildNumberFrom(
-//              Win1122H2DevChannelDevBuilds, InternalBuildNumber
-//            ) then
-//            begin
-//              // Win11 Dev Channel builds with version string "22H2"
-//              InternalExtraUpdateInfo := Format(
-//                'Dev Channel Version 22H2 v10.0.%d.%d',
-//                [InternalBuildNumber, InternalRevisionNumber]
-//              );
-//            end
-//            else if FindBuildNumberFrom(
-//              Win11Canary23H2PreviewBuilds, InternalBuildNumber
-//            ) then
-//            begin
-//              // Win11 Canary Channel builds with version string "23H2"
-//              InternalExtraUpdateInfo := Format(
-//                'Canary Channel Version 23H2 v10.0.%d.%d',
-//                [InternalBuildNumber, InternalRevisionNumber]
-//              );
-//            end
             else if FindBuildNumberFrom(
               Win11_22H2_DevAndBetaChannel_Builds, InternalBuildNumber
             ) then

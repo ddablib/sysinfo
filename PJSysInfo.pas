@@ -4047,18 +4047,17 @@ begin
     if NetBiosSucceeded(Netbios(@Ncb)) then
     begin
       // we have a MAC address: return it
-      with Adapter.Adapt do
-        Result := Format(
-          '%.2x-%.2x-%.2x-%.2x-%.2x-%.2x',
-          [
-            Ord(adapter_address[0]),
-            Ord(adapter_address[1]),
-            Ord(adapter_address[2]),
-            Ord(adapter_address[3]),
-            Ord(adapter_address[4]),
-            Ord(adapter_address[5])
-          ]
-        );
+      Result := Format(
+        '%.2x-%.2x-%.2x-%.2x-%.2x-%.2x',
+        [
+          Ord(Adapter.Adapt.adapter_address[0]),
+          Ord(Adapter.Adapt.adapter_address[1]),
+          Ord(Adapter.Adapt.adapter_address[2]),
+          Ord(Adapter.Adapt.adapter_address[3]),
+          Ord(Adapter.Adapt.adapter_address[4]),
+          Ord(Adapter.Adapt.adapter_address[5])
+        ]
+      );
       Exit;
     end;
   end;

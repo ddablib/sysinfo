@@ -70,6 +70,7 @@ var
 implementation
 
 uses
+  Winapi.Windows,   // for inlining
   System.DateUtils;
 
 

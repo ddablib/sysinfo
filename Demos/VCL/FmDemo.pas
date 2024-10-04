@@ -13,8 +13,9 @@ unit FmDemo;
 interface
 
 uses
-  SysUtils, StdCtrls, Classes, Controls, ComCtrls, Forms,
-  PJSysInfo, ExtCtrls;
+  SysUtils, StdCtrls, Classes, Controls, ComCtrls, Forms, ExtCtrls,
+  Windows, {for inlining}
+  PJSysInfo;
 
 type
   TDemoForm = class(TForm)

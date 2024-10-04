@@ -55,6 +55,8 @@ type
       const Value: TPJOSProduct); overload;
     procedure DisplayItem(const SG: TStringGrid; const Name: string;
       const Value: TBytes); overload;
+    procedure DisplayItem(const SG: TStringGrid; const Name: string;
+      const Value: TPJWin10PlusVersion); overload;
     procedure ShowContent(Tab: Integer);
     procedure ShowWin32Globals;
     procedure ShowTPJOSInfo;
@@ -102,6 +104,20 @@ const
   cBoolean: array[Boolean] of string = ('False', 'True');
 begin
   DisplayItem(SG, Name, cBoolean[Value]);
+end;
+
+procedure TForm1.DisplayItem(const SG: TStringGrid; const Name: string;
+  const Value: TPJWin10PlusVersion);
+const
+  cVersions: array[TPJWin10PlusVersion] of string = (
+    'win10plusNA', 'win10plusUnknown',
+    'win10v1507', 'win10v1511', 'win10v1607', 'win10v1703', 'win10v1709',
+    'win10v1803', 'win10v1809', 'win10v1903', 'win10v1909', 'win10v2004',
+    'win10v20H2', 'win10v21H1', 'win10v21H2', 'win10v22H2',
+    'win11v21H2', 'win11v22H2', 'win11v23H2', 'win11v24H2'
+  );
+begin
+  DisplayItem(SG, Name, cVersions[Value]);
 end;
 
 procedure TForm1.DisplayItem(const SG: TStringGrid; const Name: string;
@@ -266,6 +282,18 @@ begin
     TPJOSInfo.IsReallyWindows8Point1OrGreater);
   DisplayItem(sgOSInfo, 'IsReallyWindows10OrGreater',
     TPJOSInfo.IsReallyWindows8OrGreater);
+  DisplayItem(sgOSInfo, 'Windows10PlusVersion',
+    TPJOSInfo.Windows10PlusVersion);
+  DisplayItem(sgOSInfo, 'Windows10PlusVersionName',
+    TPJOSInfo.Windows10PlusVersionName);
+  DisplayItem(sgOSInfo, 'IsWindows10VersionOrLater(win10v1809)',
+    TPJOSInfo.IsWindows10VersionOrLater(win10v1809));
+  DisplayItem(sgOSInfo, 'IsWindows10VersionOrLater(win10v22H2)',
+    TPJOSInfo.IsWindows10VersionOrLater(win10v22H2));
+  DisplayItem(sgOSInfo, 'IsWindows11VersionOrLater(win11v23H2)',
+    TPJOSInfo.IsWindows11VersionOrLater(win11v23H2));
+  DisplayItem(sgOSInfo, 'IsWindows11VersionOrLater(win11v24H2)',
+    TPJOSInfo.IsWindows11VersionOrLater(win11v24H2));
   DisplayItem(sgOSInfo, 'IsWindowsServer', TPJOSInfo.IsWindowsServer);
 end;
 

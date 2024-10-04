@@ -576,6 +576,7 @@ type
     ///  <returns>True if suite is installed, False if not installed or not an
     ///  NT platform OS.</returns>
     class function CheckSuite(const Suite: Integer): Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Gets product edition from registry for NT4 pre SP6.</remarks>
     class function NTEditionFromReg: string;
@@ -651,17 +652,21 @@ type
 
     ///  <summary>Checks if Windows Media Center is installed.</summary>
     class function IsMediaCenter: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks if the program is running on a tablet PC OS.</summary>
     class function IsTabletPC: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks if the program is running under Windows Terminal Server
     ///  as a client session.</summary>
     class function IsRemoteSession: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Checks of the host operating system has pen extensions
     ///  installed.</summary>
     class function HasPenExtensions: Boolean;
+      {$IFDEF INLINEMETHODS}inline;{$ENDIF}
 
     ///  <summary>Returns the host OS platform identifier.</summary>
     class function Platform: TPJOSPlatform;

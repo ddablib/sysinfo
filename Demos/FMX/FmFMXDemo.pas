@@ -14,29 +14,49 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Rtti, System.Classes,
   System.Variants, FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs,
   FMX.TabControl, FMX.Ani, FMX.Layouts, FMX.Memo,
-  PJSysInfo, FMX.ListBox, FMX.TreeView, FMX.Grid;
+  FMX.ListBox, FMX.TreeView, FMX.Grid, FMX.Grid.Style,
+  FMX.Controls.Presentation, FMX.ScrollBox,
+
+  PJSysInfo;
 
 type
   TForm1 = class(TForm)
     Layout1: TLayout;
     TabControl1: TTabControl;
     tiComputerInfo: TTabItem;
-    StringGrid1: TStringGrid;
-    NameCol: TStringColumn;
-    ValueCol: TStringColumn;
     tiSpecialFolders: TTabItem;
     tiOSInfo: TTabItem;
     tiWin32Globals: TTabItem;
+    sgComputerInfo: TStringGrid;
+    StringColumn1: TStringColumn;
+    StringColumn2: TStringColumn;
+    sgOSInfo: TStringGrid;
+    StringColumn3: TStringColumn;
+    StringColumn4: TStringColumn;
+    sgSpecialFolders: TStringGrid;
+    StringColumn5: TStringColumn;
+    StringColumn6: TStringColumn;
+    sgWin32Globals: TStringGrid;
+    StringColumn7: TStringColumn;
+    StringColumn8: TStringColumn;
     procedure TabControl1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure sgResized(Sender: TObject);
   private
-    procedure DisplayItem(const Name, Value: string); overload;
-    procedure DisplayItem(const Name: string; const Value: Boolean); overload;
-    procedure DisplayItem(const Name: string; const Value: Integer); overload;
-    procedure DisplayItem(const Name: string; const Value: TPJOSPlatform);
+    procedure DisplayItem(const SG: TStringGrid; const Name, Value: string);
       overload;
-    procedure DisplayItem(const Name: string; const Value: TPJOSProduct);
-      overload;
+    procedure DisplayItem(const SG: TStringGrid; const Name: string;
+      const Value: Boolean); overload;
+    procedure DisplayItem(const SG: TStringGrid; const Name: string;
+      const Value: Integer); overload;
+    procedure DisplayItem(const SG: TStringGrid; const Name: string;
+      const Value: TPJOSPlatform); overload;
+    procedure DisplayItem(const SG: TStringGrid; const Name: string;
+      const Value: TPJOSProduct); overload;
+    procedure DisplayItem(const SG: TStringGrid; const Name: string;
+      const Value: TBytes); overload;
+    procedure DisplayItem(const SG: TStringGrid; const Name: string;
+      const Value: TPJWin10PlusVersion); overload;
     procedure ShowContent(Tab: Integer);
     procedure ShowWin32Globals;
     procedure ShowTPJOSInfo;
@@ -50,40 +70,59 @@ var
 implementation
 
 uses
+  Winapi.Windows,   // for inlining
   System.DateUtils;
 
 
 {$R *.fmx}
 
-procedure TForm1.DisplayItem(const Name: string; const Value: Integer);
+procedure TForm1.DisplayItem(const SG: TStringGrid; const Name: string;
+  const Value: Integer);
 begin
-  DisplayItem(Name, IntToStr(Value));
+  DisplayItem(SG, Name, IntToStr(Value));
 end;
 
-procedure TForm1.DisplayItem(const Name: string; const Value: TPJOSPlatform);
+procedure TForm1.DisplayItem(const SG: TStringGrid; const Name: string;
+  const Value: TPJOSPlatform);
 const
   cOSPlatform: array[TPJOSPlatform] of string = (
     'ospWinNT', 'ospWin9x', 'ospWin32s'
   );
 begin
-  DisplayItem(Name, cOSPlatform[Value]);
+  DisplayItem(SG, Name, cOSPlatform[Value]);
 end;
 
-procedure TForm1.DisplayItem(const Name, Value: string);
+procedure TForm1.DisplayItem(const SG: TStringGrid; const Name, Value: string);
 begin
-  StringGrid1.RowCount := StringGrid1.RowCount + 1;
-  StringGrid1.Cells[0, Pred(StringGrid1.RowCount)] := Name;
-  StringGrid1.Cells[1, Pred(StringGrid1.RowCount)] := Value;
+  SG.RowCount := SG.RowCount + 1;
+  SG.Cells[0, Pred(SG.RowCount)] := Name;
+  SG.Cells[1, Pred(SG.RowCount)] := Value;
 end;
 
-procedure TForm1.DisplayItem(const Name: string; const Value: Boolean);
+procedure TForm1.DisplayItem(const SG: TStringGrid; const Name: string;
+  const Value: Boolean);
 const
   cBoolean: array[Boolean] of string = ('False', 'True');
 begin
-  DisplayItem(Name, cBoolean[Value]);
+  DisplayItem(SG, Name, cBoolean[Value]);
 end;
 
-procedure TForm1.DisplayItem(const Name: string; const Value: TPJOSProduct);
+procedure TForm1.DisplayItem(const SG: TStringGrid; const Name: string;
+  const Value: TPJWin10PlusVersion);
+const
+  cVersions: array[TPJWin10PlusVersion] of string = (
+    'win10plusNA', 'win10plusUnknown',
+    'win10v1507', 'win10v1511', 'win10v1607', 'win10v1703', 'win10v1709',
+    'win10v1803', 'win10v1809', 'win10v1903', 'win10v1909', 'win10v2004',
+    'win10v20H2', 'win10v21H1', 'win10v21H2', 'win10v22H2',
+    'win11v21H2', 'win11v22H2', 'win11v23H2', 'win11v24H2'
+  );
+begin
+  DisplayItem(SG, Name, cVersions[Value]);
+end;
+
+procedure TForm1.DisplayItem(const SG: TStringGrid; const Name: string;
+  const Value: TPJOSProduct);
 const
   cOSProduct: array[TPJOSProduct] of string = (
     'osUnknownWinNT', 'osWinNT', 'osWin2K', 'osWinXP', 'osUnknownWin9x',
@@ -94,7 +133,20 @@ const
     'osWin11', 'osWinSvr2022', 'osWinServer'
   );
 begin
-  DisplayItem(Name, cOSProduct[Value]);
+  DisplayItem(SG, Name, cOSProduct[Value]);
+end;
+
+procedure TForm1.DisplayItem(const SG: TStringGrid; const Name: string;
+  const Value: TBytes);
+var
+  B: Byte;
+  S: string;
+begin
+  S := '';
+  for B in Value do
+    S := S + IntToHex(B) + ' ';
+  S := Trim(S);
+  DisplayItem(SG, Name, S);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -103,9 +155,16 @@ begin
   ShowContent(TabControl1.TabIndex);
 end;
 
+procedure TForm1.sgResized(Sender: TObject);
+var
+  SG: TStringGrid;
+begin
+  SG := Sender as TStringGrid;
+  SG.Columns[1].Width := SG.Width - SG.Columns[0].Width - 8;
+end;
+
 procedure TForm1.ShowContent(Tab: Integer);
 begin
-  StringGrid1.RowCount := 0;
   case Tab of
     0: ShowTPJComputerInfo;
     1: ShowTPJSystemFolders;
@@ -123,135 +182,171 @@ const
     'bmUnknown', 'bmNormal', 'bmSafeMode', 'bmSafeModeNetwork'
   );
 begin
-  DisplayItem('ComputerName', TPJComputerInfo.ComputerName);
-  DisplayItem('UserName', TPJComputerInfo.UserName);
-  DisplayItem('MACAddress', TPJComputerInfo.MACAddress);
-  DisplayItem('ProcessorCount', Integer(TPJComputerInfo.ProcessorCount));
-  DisplayItem('Processor', cProcessors[TPJComputerInfo.Processor]);
-  DisplayItem('ProcessorIdentifier', TPJComputerInfo.ProcessorIdentifier);
-  DisplayItem('ProcessorName', TPJComputerInfo.ProcessorName);
-  DisplayItem('Processor Speed (MHz)', TPJComputerInfo.ProcessorSpeedMHz);
-  DisplayItem('Is64Bit', TPJComputerInfo.Is64Bit);
-  DisplayItem('IsNetworkPresent?', TPJComputerInfo.IsNetworkPresent);
-  DisplayItem('BootMode', cBootModes[TPJComputerInfo.BootMode]);
-  DisplayItem('IsAdmin', TPJComputerInfo.IsAdmin);
-  DisplayItem('IsUACActive', TPJComputerInfo.IsUACActive);
-  DisplayItem('BiosVendor', TPJComputerInfo.BiosVendor);
-  DisplayItem('SystemManufacturer', TPJComputerInfo.SystemManufacturer);
-  DisplayItem('SystemProductName', TPJComputerInfo.SystemProductName);
+  sgComputerInfo.RowCount := 0;
+  DisplayItem(sgComputerInfo, 'ComputerName',
+    TPJComputerInfo.ComputerName);
+  DisplayItem(sgComputerInfo, 'UserName',
+    TPJComputerInfo.UserName);
+  DisplayItem(sgComputerInfo, 'MACAddress',
+    TPJComputerInfo.MACAddress);
+  DisplayItem(sgComputerInfo, 'ProcessorCount',
+    Integer(TPJComputerInfo.ProcessorCount));
+  DisplayItem(sgComputerInfo, 'Processor',
+    cProcessors[TPJComputerInfo.Processor]);
+  DisplayItem(sgComputerInfo, 'ProcessorIdentifier',
+    TPJComputerInfo.ProcessorIdentifier);
+  DisplayItem(sgComputerInfo, 'ProcessorName', TPJComputerInfo.ProcessorName);
+  DisplayItem(sgComputerInfo, 'Processor Speed (MHz)',
+    TPJComputerInfo.ProcessorSpeedMHz);
+  DisplayItem(sgComputerInfo, 'Is64Bit',
+    TPJComputerInfo.Is64Bit);
+  DisplayItem(sgComputerInfo, 'IsNetworkPresent?',
+    TPJComputerInfo.IsNetworkPresent);
+  DisplayItem(sgComputerInfo, 'BootMode', cBootModes[TPJComputerInfo.BootMode]);
+  DisplayItem(sgComputerInfo, 'IsAdmin', TPJComputerInfo.IsAdmin);
+  DisplayItem(sgComputerInfo, 'IsUACActive', TPJComputerInfo.IsUACActive);
+  DisplayItem(sgComputerInfo, 'BiosVendor', TPJComputerInfo.BiosVendor);
+  DisplayItem(sgComputerInfo, 'SystemManufacturer',
+    TPJComputerInfo.SystemManufacturer);
+  DisplayItem(sgComputerInfo, 'SystemProductName',
+    TPJComputerInfo.SystemProductName);
 end;
 
 procedure TForm1.ShowTPJOSInfo;
 begin
-  DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
-  DisplayItem('RevisionNumber', TPJOSInfo.RevisionNumber);
-  DisplayItem('Description', TPJOSInfo.Description);
-  DisplayItem('Edition', TPJOSInfo.Edition);
+  sgOSInfo.RowCount := 0;
+  DisplayItem(sgOSInfo, 'BuildNumber', TPJOSInfo.BuildNumber);
+  DisplayItem(sgOSInfo, 'RevisionNumber', TPJOSInfo.RevisionNumber);
+  DisplayItem(sgOSInfo, 'BuildBranch', TPJOSInfo.BuildBranch);
+  DisplayItem(sgOSInfo, 'Description', TPJOSInfo.Description);
+  DisplayItem(sgOSInfo, 'Edition', TPJOSInfo.Edition);
   if SameDateTime(TPJOSInfo.InstallationDate, 0.0) then
-    DisplayItem('InstallationDate', 'Unknown')
+    DisplayItem(sgOSInfo, 'InstallationDate', 'Unknown')
   else
-    DisplayItem('InstallationDate', DateTimeToStr(TPJOSInfo.InstallationDate));
-  DisplayItem('IsServer', TPJOSInfo.IsServer);
-  DisplayItem('IsWin32s', TPJOSInfo.IsWin32s);
-  DisplayItem('IsWin9x', TPJOSInfo.IsWin9x);
-  DisplayItem('IsWinNT', TPJOSInfo.IsWinNT);
-  DisplayItem('IsWow64', TPJOSInfo.IsWow64);
-  DisplayItem('IsMediaCenter', TPJOSInfo.IsMediaCenter);
-  DisplayItem('IsTabletPC', TPJOSInfo.IsTabletPC);
-  DisplayItem('IsRemoteSession', TPJOSInfo.IsRemoteSession);
-  DisplayItem('MajorVersion', TPJOSInfo.MajorVersion);
-  DisplayItem('MinorVersion', TPJOSInfo.MinorVersion);
-  DisplayItem('Platform', TPJOSInfo.Platform);
-  DisplayItem('Product', TPJOSInfo.Product);
-  DisplayItem('ProductID', TPJOSInfo.ProductID);
-  DisplayItem('ProductName', TPJOSInfo.ProductName);
-  DisplayItem('ServicePack', TPJOSInfo.ServicePack);
-  DisplayItem('ServicePackEx', TPJOSInfo.ServicePackEx);
-  DisplayItem('ServicePackMajor', TPJOSInfo.ServicePackMajor);
-  DisplayItem('ServicePackMinor', TPJOSInfo.ServicePackMinor);
-  DisplayItem('HasPenExtensions', TPJOSInfo.HasPenExtensions);
-  DisplayItem('RegisteredOrganisation', TPJOSInfo.RegisteredOrganisation);
-  DisplayItem('RegisteredOwner', TPJOSInfo.RegisteredOwner);
-  DisplayItem('CanSpoof', TPJOSInfo.CanSpoof);
-  DisplayItem('IsReallyWindows2000OrGreater',
+    DisplayItem(sgOSInfo, 'InstallationDate',
+      DateTimeToStr(TPJOSInfo.InstallationDate));
+  DisplayItem(sgOSInfo, 'IsServer', TPJOSInfo.IsServer);
+  DisplayItem(sgOSInfo, 'IsWin32s', TPJOSInfo.IsWin32s);
+  DisplayItem(sgOSInfo, 'IsWin9x', TPJOSInfo.IsWin9x);
+  DisplayItem(sgOSInfo, 'IsWinNT', TPJOSInfo.IsWinNT);
+  DisplayItem(sgOSInfo, 'IsWow64', TPJOSInfo.IsWow64);
+  DisplayItem(sgOSInfo, 'IsMediaCenter', TPJOSInfo.IsMediaCenter);
+  DisplayItem(sgOSInfo, 'IsTabletPC', TPJOSInfo.IsTabletPC);
+  DisplayItem(sgOSInfo, 'IsRemoteSession', TPJOSInfo.IsRemoteSession);
+  DisplayItem(sgOSInfo, 'MajorVersion', TPJOSInfo.MajorVersion);
+  DisplayItem(sgOSInfo, 'MinorVersion', TPJOSInfo.MinorVersion);
+  DisplayItem(sgOSInfo, 'Platform', TPJOSInfo.Platform);
+  DisplayItem(sgOSInfo, 'Product', TPJOSInfo.Product);
+  DisplayItem(sgOSInfo, 'ProductID', TPJOSInfo.ProductID);
+  DisplayItem(sgOSInfo, 'DigitalProductID', TPJOSInfo.DigitalProductID);
+  DisplayItem(sgOSInfo, 'ProductName', TPJOSInfo.ProductName);
+  DisplayItem(sgOSInfo, 'ServicePack', TPJOSInfo.ServicePack);
+  DisplayItem(sgOSInfo, 'ServicePackEx', TPJOSInfo.ServicePackEx);
+  DisplayItem(sgOSInfo, 'ServicePackMajor', TPJOSInfo.ServicePackMajor);
+  DisplayItem(sgOSInfo, 'ServicePackMinor', TPJOSInfo.ServicePackMinor);
+  DisplayItem(sgOSInfo, 'HasPenExtensions', TPJOSInfo.HasPenExtensions);
+  DisplayItem(sgOSInfo, 'RegisteredOrganisation',
+    TPJOSInfo.RegisteredOrganisation);
+  DisplayItem(sgOSInfo, 'RegisteredOwner', TPJOSInfo.RegisteredOwner);
+  DisplayItem(sgOSInfo, 'CanSpoof', TPJOSInfo.CanSpoof);
+  DisplayItem(sgOSInfo, 'IsReallyWindows2000OrGreater',
     TPJOSInfo.IsReallyWindows2000OrGreater);
-  DisplayItem('IsReallyWindows2000SP1OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows2000SP1OrGreater',
     TPJOSInfo.IsReallyWindows2000SP1OrGreater);
-  DisplayItem('IsReallyWindows2000SP2OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows2000SP2OrGreater',
     TPJOSInfo.IsReallyWindows2000SP2OrGreater);
-  DisplayItem('IsReallyWindows2000SP3OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows2000SP3OrGreater',
     TPJOSInfo.IsReallyWindows2000SP3OrGreater);
-  DisplayItem('IsReallyWindows2000SP4OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows2000SP4OrGreater',
     TPJOSInfo.IsReallyWindows2000SP4OrGreater);
-  DisplayItem('IsReallyWindowsXPOrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindowsXPOrGreater',
     TPJOSInfo.IsReallyWindowsXPOrGreater);
-  DisplayItem('IsReallyWindowsXPSP1OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindowsXPSP1OrGreater',
     TPJOSInfo.IsReallyWindowsXPSP1OrGreater);
-  DisplayItem('IsReallyWindowsXPSP2OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindowsXPSP2OrGreater',
     TPJOSInfo.IsReallyWindowsXPSP2OrGreater);
-  DisplayItem('IsReallyWindowsXPSP3OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindowsXPSP3OrGreater',
     TPJOSInfo.IsReallyWindowsXPSP3OrGreater);
-  DisplayItem('IsReallyWindowsVistaOrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindowsVistaOrGreater',
     TPJOSInfo.IsReallyWindowsVistaOrGreater);
-  DisplayItem('IsReallyWindowsVistaSP1OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindowsVistaSP1OrGreater',
     TPJOSInfo.IsReallyWindowsVistaSP1OrGreater);
-  DisplayItem('IsReallyWindowsVistaSP2OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindowsVistaSP2OrGreater',
     TPJOSInfo.IsReallyWindowsVistaSP2OrGreater);
-  DisplayItem('IsReallyWindows7OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows7OrGreater',
     TPJOSInfo.IsReallyWindows7OrGreater);
-  DisplayItem('IsReallyWindows7SP1OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows7SP1OrGreater',
     TPJOSInfo.IsReallyWindows7SP1OrGreater);
-  DisplayItem('IsReallyWindows8OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows8OrGreater',
     TPJOSInfo.IsReallyWindows8OrGreater);
-  DisplayItem('IsReallyWindows8Point1OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows8Point1OrGreater',
     TPJOSInfo.IsReallyWindows8Point1OrGreater);
-  DisplayItem('IsReallyWindows10OrGreater',
+  DisplayItem(sgOSInfo, 'IsReallyWindows10OrGreater',
     TPJOSInfo.IsReallyWindows8OrGreater);
-  DisplayItem('IsWindowsServer', TPJOSInfo.IsWindowsServer);
+  DisplayItem(sgOSInfo, 'Windows10PlusVersion',
+    TPJOSInfo.Windows10PlusVersion);
+  DisplayItem(sgOSInfo, 'Windows10PlusVersionName',
+    TPJOSInfo.Windows10PlusVersionName);
+  DisplayItem(sgOSInfo, 'IsWindows10VersionOrLater(win10v1809)',
+    TPJOSInfo.IsWindows10VersionOrLater(win10v1809));
+  DisplayItem(sgOSInfo, 'IsWindows10VersionOrLater(win10v22H2)',
+    TPJOSInfo.IsWindows10VersionOrLater(win10v22H2));
+  DisplayItem(sgOSInfo, 'IsWindows11VersionOrLater(win11v23H2)',
+    TPJOSInfo.IsWindows11VersionOrLater(win11v23H2));
+  DisplayItem(sgOSInfo, 'IsWindows11VersionOrLater(win11v24H2)',
+    TPJOSInfo.IsWindows11VersionOrLater(win11v24H2));
+  DisplayItem(sgOSInfo, 'IsWindowsServer', TPJOSInfo.IsWindowsServer);
 end;
 
 procedure TForm1.ShowTPJSystemFolders;
 begin
-  DisplayItem('CommonFiles', TPJSystemFolders.CommonFiles);
-  DisplayItem('CommonFilesX86', TPJSystemFolders.CommonFilesX86);
-  DisplayItem('CommonFilesRedirect', TPJSystemFolders.CommonFilesRedirect);
-  DisplayItem('ProgramFiles', TPJSystemFolders.ProgramFiles);
-  DisplayItem('ProgramFilesX86', TPJSystemFolders.ProgramFilesX86);
-  DisplayItem('ProgramFilesRedirect', TPJSystemFolders.ProgramFilesRedirect);
-  DisplayItem('Windows', TPJSystemFolders.Windows);
-  DisplayItem('System', TPJSystemFolders.System);
-  DisplayItem('SystemWow64', TPJSystemFolders.SystemWow64);
-  DisplayItem('Temp', TPJSystemFolders.Temp);
+  sgSpecialFolders.RowCount := 0;
+  DisplayItem(sgSpecialFolders, 'CommonFiles',
+    TPJSystemFolders.CommonFiles);
+  DisplayItem(sgSpecialFolders, 'CommonFilesX86',
+    TPJSystemFolders.CommonFilesX86);
+  DisplayItem(sgSpecialFolders, 'CommonFilesRedirect',
+    TPJSystemFolders.CommonFilesRedirect);
+  DisplayItem(sgSpecialFolders, 'ProgramFiles',
+    TPJSystemFolders.ProgramFiles);
+  DisplayItem(sgSpecialFolders, 'ProgramFilesX86',
+    TPJSystemFolders.ProgramFilesX86);
+  DisplayItem(sgSpecialFolders, 'ProgramFilesRedirect',
+    TPJSystemFolders.ProgramFilesRedirect);
+  DisplayItem(sgSpecialFolders, 'Windows', TPJSystemFolders.Windows);
+  DisplayItem(sgSpecialFolders, 'System', TPJSystemFolders.System);
+  DisplayItem(sgSpecialFolders, 'SystemWow64', TPJSystemFolders.SystemWow64);
+  DisplayItem(sgSpecialFolders, 'Temp', TPJSystemFolders.Temp);
 end;
 
 procedure TForm1.ShowWin32Globals;
 begin
-  DisplayItem('Win32Platform', Win32Platform);
-  DisplayItem('Win32MajorVersion', Win32MajorVersion);
-  DisplayItem('Win32MinorVersion', Win32MinorVersion);
-  DisplayItem('Win32BuildNumber', Win32BuildNumber);
-  DisplayItem('Win32CSDVersion', Win32CSDVersion);
+  sgWin32Globals.RowCount := 0;
+  DisplayItem(sgWin32Globals, 'Win32Platform', Win32Platform);
+  DisplayItem(sgWin32Globals, 'Win32MajorVersion', Win32MajorVersion);
+  DisplayItem(sgWin32Globals, 'Win32MinorVersion', Win32MinorVersion);
+  DisplayItem(sgWin32Globals, 'Win32BuildNumber', Win32BuildNumber);
+  DisplayItem(sgWin32Globals, 'Win32CSDVersion', Win32CSDVersion);
 
-  DisplayItem('Win32PlatformEx', Win32PlatformEx);
-  DisplayItem('Win32MajorVersionEx', Win32MajorVersionEx);
-  DisplayItem('Win32MinorVersionEx', Win32MinorVersionEx);
-  DisplayItem('Win32CSDVersionEx', Win32CSDVersionEx);
-  DisplayItem('Win32BuildNumberEx', Win32BuildNumberEx);
+  DisplayItem(sgWin32Globals, 'Win32PlatformEx', Win32PlatformEx);
+  DisplayItem(sgWin32Globals, 'Win32MajorVersionEx', Win32MajorVersionEx);
+  DisplayItem(sgWin32Globals, 'Win32MinorVersionEx', Win32MinorVersionEx);
+  DisplayItem(sgWin32Globals, 'Win32CSDVersionEx', Win32CSDVersionEx);
+  DisplayItem(sgWin32Globals, 'Win32BuildNumberEx', Win32BuildNumberEx);
 
-  DisplayItem('Win32RevisionNumber', Win32RevisionNumber);
+  DisplayItem(sgWin32Globals, 'Win32RevisionNumber', Win32RevisionNumber);
 
-  DisplayItem('Win32HaveExInfo', Win32HaveExInfo);
-  DisplayItem('Win32ProductType', Win32ProductType);
-  DisplayItem('Win32ServicePackMajor', Win32ServicePackMajor);
-  DisplayItem('Win32ServicePackMinor', Win32ServicePackMinor);
-  DisplayItem('Win32SuiteMask', Win32SuiteMask);
-  DisplayItem('Win32HaveProductInfo', Win32HaveProductInfo);
-  DisplayItem('Win32ProductInfo', Integer(Win32ProductInfo));
+  DisplayItem(sgWin32Globals, 'Win32HaveExInfo', Win32HaveExInfo);
+  DisplayItem(sgWin32Globals, 'Win32ProductType', Win32ProductType);
+  DisplayItem(sgWin32Globals, 'Win32ServicePackMajor', Win32ServicePackMajor);
+  DisplayItem(sgWin32Globals, 'Win32ServicePackMinor', Win32ServicePackMinor);
+  DisplayItem(sgWin32Globals, 'Win32SuiteMask', Win32SuiteMask);
+  DisplayItem(sgWin32Globals, 'Win32HaveProductInfo', Win32HaveProductInfo);
+  DisplayItem(sgWin32Globals, 'Win32ProductInfo', Integer(Win32ProductInfo));
 end;
 
 procedure TForm1.TabControl1Change(Sender: TObject);
 begin
-  StringGrid1.Parent := TabControl1.ActiveTab;
   ShowContent(TabControl1.ActiveTab.Index);
 end;
 

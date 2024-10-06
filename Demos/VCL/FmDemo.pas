@@ -13,8 +13,9 @@ unit FmDemo;
 interface
 
 uses
-  StdCtrls, Classes, Controls, ComCtrls, Forms,
-  PJSysInfo, ExtCtrls;
+  SysUtils, StdCtrls, Classes, Controls, ComCtrls, Forms, ExtCtrls,
+  Windows, {for inlining}
+  PJSysInfo;
 
 type
   TDemoForm = class(TForm)
@@ -34,6 +35,9 @@ type
       overload;
     procedure DisplayItem(const Name: string; const Value: TPJOSProduct);
       overload;
+    procedure DisplayItem(const Name: string; const Value: TPJWin10PlusVersion);
+      overload;
+    procedure DisplayItem(const Name: string; const Value: TBytes); overload;
     procedure ShowContent(Tab: Integer);
     procedure ShowWin32Globals;
     procedure ShowTPJOSInfo;
@@ -46,10 +50,10 @@ var
 
 implementation
 
-uses
-  SysUtils;
-
 {$R *.DFM}
+
+const
+  Column1Width = 38;  // characters
 
 function SameDateTime(const A, B: TDateTime): Boolean;
 begin
@@ -65,7 +69,7 @@ end;
 
 procedure TDemoForm.DisplayItem(const Name, Value: string);
 begin
-  edDisplay.Lines.Add(Format('%-32s| %s', [Name, Value]));
+  edDisplay.Lines.Add(Format('%-*s| %s', [Column1Width, Name, Value]));
 end;
 
 procedure TDemoForm.DisplayItem(const Name: string; const Value: Boolean);
@@ -104,14 +108,42 @@ begin
   DisplayItem(Name, cOSProduct[Value]);
 end;
 
+procedure TDemoForm.DisplayItem(const Name: string; const Value: TBytes);
+var
+  B: Byte;
+  S: string;
+begin
+  S := '';
+  for B in Value do
+    S := S + IntToHex(Integer(B), 2) + ' ';
+  S := Trim(S);
+  DisplayItem(Name, S);
+end;
+
+procedure TDemoForm.DisplayItem(const Name: string;
+  const Value: TPJWin10PlusVersion);
+const
+  cVersions: array[TPJWin10PlusVersion] of string = (
+    'win10plusNA', 'win10plusUnknown',
+    'win10v1507', 'win10v1511', 'win10v1607', 'win10v1703', 'win10v1709',
+    'win10v1803', 'win10v1809', 'win10v1903', 'win10v1909', 'win10v2004',
+    'win10v20H2', 'win10v21H1', 'win10v21H2', 'win10v22H2',
+    'win11v21H2', 'win11v22H2', 'win11v23H2', 'win11v24H2'
+  );
+begin
+  DisplayItem(Name, cVersions[Value]);
+end;
+
 procedure TDemoForm.DisplayRuleOff;
 begin
-  edDisplay.Lines.Add(StringOfChar('=', 32) + '+' + StringOfChar('=', 55));
+  edDisplay.Lines.Add(StringOfChar('=', Column1Width) + '+'
+    + StringOfChar('=', 55));
 end;
 
 procedure TDemoForm.DisplayRuling;
 begin
-  edDisplay.Lines.Add(StringOfChar('-', 32) + '+' + StringOfChar('-', 55));
+  edDisplay.Lines.Add(StringOfChar('-', Column1Width) + '+'
+    + StringOfChar('-', 55));
 end;
 
 procedure TDemoForm.FormCreate(Sender: TObject);
@@ -171,6 +203,7 @@ begin
   DisplayRuling;
   DisplayItem('BuildNumber', TPJOSInfo.BuildNumber);
   DisplayItem('RevisionNumber', TPJOSInfo.RevisionNumber);
+  DisplayItem('BuildBranch', TPJOSInfo.BuildBranch);
   DisplayItem('Description', TPJOSInfo.Description);
   DisplayItem('Edition', TPJOSInfo.Edition);
   if SameDateTime(TPJOSInfo.InstallationDate, 0.0) then
@@ -190,6 +223,7 @@ begin
   DisplayItem('Platform', TPJOSInfo.Platform);
   DisplayItem('Product', TPJOSInfo.Product);
   DisplayItem('ProductID', TPJOSInfo.ProductID);
+  DisplayItem('DigitalProductID', TPJOSInfo.DigitalProductID);
   DisplayItem('ProductName', TPJOSInfo.ProductName);
   DisplayItem('ServicePack', TPJOSInfo.ServicePack);
   DisplayItem('ServicePackEx', TPJOSInfo.ServicePackEx);
@@ -234,6 +268,18 @@ begin
     TPJOSInfo.IsReallyWindows8Point1OrGreater);
   DisplayItem('IsReallyWindows10OrGreater',
     TPJOSInfo.IsReallyWindows10OrGreater);
+  DisplayItem('Windows10PlusVersion',
+    TPJOSInfo.Windows10PlusVersion);
+  DisplayItem('Windows10PlusVersionName',
+    TPJOSInfo.Windows10PlusVersionName);
+  DisplayItem('IsWindows10VersionOrLater(win10v1809)',
+    TPJOSInfo.IsWindows10VersionOrLater(win10v1809));
+  DisplayItem('IsWindows10VersionOrLater(win10v22H2)',
+    TPJOSInfo.IsWindows10VersionOrLater(win10v22H2));
+  DisplayItem('IsWindows11VersionOrLater(win11v23H2)',
+    TPJOSInfo.IsWindows11VersionOrLater(win11v23H2));
+  DisplayItem('IsWindows11VersionOrLater(win11v24H2)',
+    TPJOSInfo.IsWindows11VersionOrLater(win11v24H2));
   DisplayItem('IsWindowsServer', TPJOSInfo.IsWindowsServer);
   DisplayRuleOff;
 end;

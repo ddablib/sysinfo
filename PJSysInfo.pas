@@ -5,6 +5,9 @@
  *
  * Copyright (C) 2001-2024, Peter Johnson (https://gravatar.com/delphidabbler).
  *
+ * Except TPJOSInfo.DecodedDigitalProductIDWin8AndUp which is copyright (c) 2020
+ * Pavel Hruska, MIT license (See https://tinyurl.com/35jybnem).
+ *
  * This unit contains various static classes, constants, type definitions and
  * global variables for use in providing information about the host computer and
  * operating system.
@@ -94,6 +97,8 @@ unit PJSysInfo;
     {$DEFINE HASUINT64}
   {$IFEND}
 {$ENDIF}
+
+{$WRITEABLECONST OFF}
 
 // Switch off "unsafe" warnings for this unit
 {$IFDEF WARNDIRS}
@@ -616,6 +621,20 @@ type
     class function IsWindows10PlusVersionOrLater(
       const AVersion: TPJWin10PlusVersion): Boolean;
 
+    ///  <summary>Returns the string containing the decoded digital product ID
+    ///  of the host OS on Windows 8 and later only, or an empty string if
+    ///  the digital product ID is not valid.</summary>
+    ///  <remarks>The caller must check the OS version before calling this
+    ///  method.</remarks>
+    class function DecodedDigitalProductIDWin8AndUp: string;
+
+    ///  <summary>Returns the string containing the decoded digital product ID
+    ///  of the host OS on Windows 7 and earlier only, or an empty string if
+    ///  the digital product ID is not valid.</summary>
+    ///  <remarks>The caller must check the OS version before calling this
+    ///  method.</remarks>
+    class function DecodedDigitalProductIDWin7AndDown: string;
+
   public
 
     ///  <summary>Checks if the OS can be "spoofed" by specifying a
@@ -729,6 +748,11 @@ type
 
     ///  <summary>Returns the digital product ID of the host OS.</summary>
     class function DigitalProductID: TBytes;
+
+    ///  <summary>Returns the string containing the decoded digital product ID
+    ///  of the host OS, or an empty string if the digital product ID contains
+    ///  insufficient data.</summary>
+    class function DecodedDigitalProductID: string;
 
     ///  <summary>Organisation to which Windows is registered, if any.</summary>
     class function RegisteredOrganisation: string;
@@ -3035,6 +3059,140 @@ end;
 class function TPJOSInfo.CheckSuite(const Suite: Integer): Boolean;
 begin
   Result := Win32SuiteMask and Suite <> 0;
+end;
+
+class function TPJOSInfo.DecodedDigitalProductID: string;
+begin
+  if IsReallyWindows8OrGreater then
+    Result := DecodedDigitalProductIDWin8AndUp
+  else
+    Result := DecodedDigitalProductIDWin7AndDown;
+end;
+
+class function TPJOSInfo.DecodedDigitalProductIDWin7AndDown: string;
+  {
+    This method based on C++ code by Richard MacCutchan, posted by enhzflep on
+    CodeProject as Solution 4 at https://tinyurl.com/3n7fbt3h
+  }
+var
+  KeyData: TBytes;    // copy of digital product ID
+  KeyBlock: TBytes;   // block of significant key data extracted from KeyData
+  I, J: Integer;      // loop indices
+  KeyCharIndex: Byte; // index into key character array
+  Value: Cardinal;    // temp value used when decoding
+const
+  // Length & indices of first/last significant bytes of key (contiguous block)
+  KeyBlockLength = 16;
+  KeyBlockStartIndex = 52;
+  KeyBlockEndIndex = KeyBlockStartIndex + KeyBlockLength - 1;
+  // Valid product key characters
+  ValidKeyChars: array[0..23] of Char = (
+    'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'M', 'P', 'Q', 'R',
+    'T', 'V', 'W', 'X', 'Y', '2', '3', '4', '6', '7', '8', '9'
+  );
+  ValidKeyCharCount = Cardinal(Length(ValidKeyChars));
+  // Length of decoded product key: stored in Result
+  DecodedStringLength = 29;
+begin
+  // Record and check digital product ID
+  KeyData := DigitalProductID;
+  // Bail out if we have insufficient key data
+  if Length(KeyData) <= KeyBlockEndIndex then
+    Exit('');
+
+  // Length of decoded product key: stored in Result
+  SetLength(Result, DecodedStringLength);
+  FillChar(Result[1], Length(Result), 0);
+
+  // Copy block of bytes to be decoded into an array
+  SetLength(KeyBlock, KeyBlockLength);
+  for I := KeyBlockStartIndex to KeyBlockEndIndex do
+    KeyBlock[I - KeyBlockStartIndex] := KeyData[I];
+
+  // Calculate each character of decoded string and place in Result
+  // Since Result is a string, string index I is 1-based
+  // Symbols are decoded from last to first
+  for I := DecodedStringLength downto 1 do
+  begin
+    if I mod 6 = 0 then
+      // Every 6th character is a seperator
+      Result[I] := '-'
+    else
+    begin
+      // Decode the current symbol
+      KeyCharIndex := 0;
+      for J := Pred(Length(KeyBlock)) downto 0 do
+      begin
+        Value := (KeyCharIndex shl 8) or KeyBlock[J];
+        KeyBlock[J] := Byte(Value div ValidKeyCharCount);
+        KeyCharIndex := Value mod ValidKeyCharCount;
+      end;
+      Result[I] := ValidKeyChars[KeyCharIndex];
+    end;
+  end;
+end;
+
+class function TPJOSInfo.DecodedDigitalProductIDWin8AndUp: string;
+  {
+    This method based on C# code from WinProdKeyFinder
+    Copyright (c) 2020 Pavel Hruska
+    MIT license
+    https://github.com/mrpeardotnet/WinProdKeyFinder
+  }
+var
+  KeyData: TBytes;    // copy of digital product ID
+  IsWin8: Byte;       // bit set if Windows 8
+  Cut: Integer;       // point at which key is cut to insert 'N' character
+  I, J, K: Integer;   // loop control
+  Value: Cardinal;  // temp value used in decoding
+const
+  // start and end indices of siginificant data in KeyData
+  KeyOffset = 52;
+  EndKeyIndex = 66;
+  // Valid product key characters
+  ValidKeyChars: array[0..23] of Char = (
+    'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'M', 'P', 'Q', 'R',
+    'T', 'V', 'W', 'X', 'Y', '2', '3', '4', '6', '7', '8', '9'
+  );
+  ValidKeyCharCount = Cardinal(Length(ValidKeyChars));
+begin
+  // Record and check digital product ID
+  KeyData := DigitalProductID;
+  // Bail out if we have insufficient key data
+  if Length(KeyData) <= EndKeyIndex then
+    Exit('');
+
+  // Initialise
+  IsWin8 := Byte((KeyData[EndKeyIndex] div 6) and 1);
+  KeyData[EndKeyIndex] := Byte(
+    (KeyData[EndKeyIndex] and $f7) or (IsWin8 and 2) * 4
+  );
+  Result := '';
+
+  // Do decoding
+  for I := ValidKeyCharCount downto 0 do
+  begin
+    Value := 0;
+    for J := 14 downto 0 do
+    begin
+      Value := KeyData[J + KeyOffset] + 256 * Value;
+      KeyData[J + KeyOffset] := Byte(Value div ValidKeyCharCount);
+      Value := Value mod ValidKeyCharCount;
+      Cut := Value;
+    end;
+    Result := ValidKeyChars[Value] + Result;
+  end;
+
+  // Insert 'N' at cut position
+  Result := Copy(Result, 2, Cut) + 'N' + Copy(Result, Cut + 2, MaxInt);
+
+  // Insert separator every 6th character
+  K := 6;
+  while (K < Length(Result)) do
+  begin
+    Insert('-', Result, K);
+    Inc(K, 6);
+  end;
 end;
 
 class function TPJOSInfo.Description: string;

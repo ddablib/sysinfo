@@ -222,14 +222,19 @@ begin
   DisplayItem('MinorVersion', TPJOSInfo.MinorVersion);
   DisplayItem('Platform', TPJOSInfo.Platform);
   DisplayItem('Product', TPJOSInfo.Product);
-  DisplayItem('ProductID', TPJOSInfo.ProductID);
-  DisplayItem('DigitalProductID', TPJOSInfo.DigitalProductID);
   DisplayItem('ProductName', TPJOSInfo.ProductName);
   DisplayItem('ServicePack', TPJOSInfo.ServicePack);
   DisplayItem('ServicePackEx', TPJOSInfo.ServicePackEx);
   DisplayItem('ServicePackMajor', TPJOSInfo.ServicePackMajor);
   DisplayItem('ServicePackMinor', TPJOSInfo.ServicePackMinor);
+  DisplayItem('Windows10PlusVersion',
+    TPJOSInfo.Windows10PlusVersion);
+  DisplayItem('Windows10PlusVersionName',
+    TPJOSInfo.Windows10PlusVersionName);
   DisplayItem('HasPenExtensions', TPJOSInfo.HasPenExtensions);
+  DisplayItem('ProductID', TPJOSInfo.ProductID);
+  DisplayItem('DigitalProductID', TPJOSInfo.DigitalProductID);
+  DisplayItem('DecodedDigitalProductID', TPJOSInfo.DecodedDigitalProductID);
   DisplayItem('RegisteredOrganisation', TPJOSInfo.RegisteredOrganisation);
   DisplayItem('RegisteredOwner', TPJOSInfo.RegisteredOwner);
   DisplayRuling;
@@ -268,10 +273,6 @@ begin
     TPJOSInfo.IsReallyWindows8Point1OrGreater);
   DisplayItem('IsReallyWindows10OrGreater',
     TPJOSInfo.IsReallyWindows10OrGreater);
-  DisplayItem('Windows10PlusVersion',
-    TPJOSInfo.Windows10PlusVersion);
-  DisplayItem('Windows10PlusVersionName',
-    TPJOSInfo.Windows10PlusVersionName);
   DisplayItem('IsWindows10VersionOrLater(win10v1809)',
     TPJOSInfo.IsWindows10VersionOrLater(win10v1809));
   DisplayItem('IsWindows10VersionOrLater(win10v22H2)',

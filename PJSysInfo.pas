@@ -3,7 +3,7 @@
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
  * obtain one at https://mozilla.org/MPL/2.0/
  *
- * Copyright (C) 2001-2024, Peter Johnson (https://gravatar.com/delphidabbler).
+ * Copyright (C) 2001-2025, Peter Johnson (https://gravatar.com/delphidabbler).
  *
  * Except TPJOSInfo.DecodedDigitalProductIDWin8AndUp which is copyright (c) 2020
  * Pavel Hruska, MIT license (See https://tinyurl.com/35jybnem).
@@ -530,7 +530,9 @@ type
     osWinSvr2019,           // Windows 2019 Server
     osWin11,                // Windows 11
     osWinSvr2022,           // Windows 2022 Server
-    osWinServer             // Windows Server (between Server 2019 & 2022)
+    osWinServer,            // Windows Server (between Server 2019 & 2022)
+    osWinSvr2025,           // Windows 2025 Server
+    osWinSvrLater           // Later Windows Server
   );
 
 type
@@ -1452,8 +1454,10 @@ const
       https://en.wikipedia.org/wiki/Windows_Server_2019
       https://en.wikipedia.org/wiki/Windows_Server_2016
       https://en.wikipedia.org/wiki/Windows_Server_2022
+      https://en.wikipedia.org/wiki/Windows_Server_2025
       https://tinyurl.com/y8tfadm2 (MS Windows Server release information)
       https://docs.microsoft.com/en-us/lifecycle/products/windows-server-2022
+      https://learn.microsoft.com/en-us/lifecycle/products/windows-server-2025
       https://tinyurl.com/yj5e72jt (MS Win 10 release info)
       https://tinyurl.com/kd3weeu7 (MS Server release info)
 
@@ -1672,8 +1676,8 @@ const
             | etc EOS    | Enterprise
             |            | etc EOS
     --------|------------|------------
-    21H2    | ENDED      | 2024-10-08
-    22H2    | 2024-10-08 | 2025-10-14
+    21H2    | ENDED      | ENDED
+    22H2    | ENDED      | 2025-10-14
     23H2    | 2025-11-11 | 2026-11-10
     24H2    | 2026-10-13 | 2027-10-12
   }
@@ -1682,7 +1686,8 @@ const
   // Insider version, Dev channel, v10.0.21996.1
   Win11_Dev_Build = 21996;
 
-  // Windows 11 version 21H2  - see **REF6** in implementation for details
+  // Windows 11 version 21H2 - reached end of service
+  // See **REF6** in implementation for details
   Win11_21H2_Build = 22000;
 
   // Windows 11 version 22H2
@@ -1779,12 +1784,17 @@ const
     26100 {Dev revs:1,268; Canary revs: 1}
   );
 
-  Win11_24H2_CanaryChannel_Builds: array[0..0] of Integer = (
+  Win11_24H2_CanaryChannel_Builds: array[0..8] of Integer = (
     // expiring 2025-09-15:
-    27695
+    27695, 27718, 27723, 27729, 27744, 27749, 27754, 27758, 27764
   );
 
   Win11_First_Build = Win11_Dev_Build;  // First build number of Windows 11
+
+  // Set of Windows 10 version identifiers
+  Win11_Versions: TWin10PlusVersionSet = [
+    win11v21H2, win11v22H2, win11v23H2, win11v24H2
+  ];
 
   // Windows server v10.0 version ----------------------------------------------
 
@@ -1795,11 +1805,8 @@ const
   Win2016_Last_Build = 17134;
   Win2019_Last_Build = 18363;
   WinServer_Last_Build = 19042;
-
-  // Set of Windows 10 version identifiers
-  Win11_Versions: TWin10PlusVersionSet = [
-    win11v21H2, win11v22H2, win11v23H2, win11v24H2
-  ];
+  Win2022_Build = 20348;
+  Win2025_Build = 26100;
 
   {
     End of support information for all Windows Server versions.
@@ -1826,10 +1833,11 @@ const
     Windows Server, version 2004       | 2021-12-14
     Windows Server, version 20H2       | 2022-08-09
     Windows Server 2022, version 21H2  | 2031-10-14
+    Windows Server 2025                | 2034-10-10
   }
 
   // Map of Windows server releases that are named straightforwardly
-  WinServerSimpleBuildMap: array[0..12] of TBuildNameMap = (
+  WinServerSimpleBuildMap: array[0..13] of TBuildNameMap = (
     // Windows Server 2016
     (Build: 10074; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 2';
       Version: 0),
@@ -1853,7 +1861,10 @@ const
     (Build: WinServer_Last_Build; LoRev: 0; HiRev: MaxInt;
       Name: 'Version 20H2'; Version: 0),
     // Windows Server 2022
-    (Build: 20348; LoRev: 0; HiRev: MaxInt; Name: 'Version 21H2'; Version: 0)
+    (Build: Win2022_Build; LoRev: 0; HiRev: MaxInt; Name: 'Version 21H2';
+      Version: 0),
+    // Windows Server 2025
+    (Build: Win2025_Build; LoRev: 0; HiRev: MaxInt; Name: '')
   );
 
   // Windows server releases needing special handling
@@ -2038,6 +2049,7 @@ var
 begin
   FoundBN := 0;
   FoundExtra := '';
+  FoundVersion := 0;
   Result := False;
   for I := Low(Infos) to High(Infos) do
   begin
@@ -2490,8 +2502,8 @@ begin
                 1620, 1645, 1682, 1706, 1708, 1741, 1766, 1767, 1806, 1826,
                 1865, 1889, 1949, 2006, 2075, 2130, 2132, 2193, 2194, 2251,
                 2311, 2364, 2486, 2546, 2604, 2673, 2728, 2788, 2846, 2965,
-                3086, 3208, 3324, 3448, 3570, 3693, 3803, 3930, 4046,
-                4170, 4291, 4412, 4529, 4651, 4780, 4894 .. MaxInt:
+                3086, 3208, 3324, 3448, 3570, 3693, 3803, 3930, 4046, 4170,
+                4291, 4412, 4529, 4651, 4780, 4894, 5011, 5131, 5247 .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 21H2';
                 1147, 1149, 1151, 1165, 1200, 1202, 1237, 1263, 1266, 1319,
                 1320, 1379, 1381, 1499, 1618, 1679, 1737, 1739, 1862,
@@ -2517,7 +2529,8 @@ begin
                 2604, 2673, 2728, 2788, 2846, 2913, 2965, 3031, 3086, 3208,
                 3271, 3324, 3393, 3448, 3516, 3570, 3636, 3693, 3758, 3803,
                 3930, 3996, 4046, 4123, 4170, 4239, 4291, 4355, 4412, 4474,
-                4529, 4598, 4651, 4717, 4780, 4842, 4894, 4957 .. MaxInt:
+                4529, 4598, 4651, 4717, 4780, 4842, 4894, 4957, 5011, 5073,
+                5131, 5198, 5247 .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 22H2';
                 1865, 1889, 1949, 2075, 2301, 2670, 2787, 2908, 3030, 3154,
                 3155, 3269, 3391, 3513, 3754, 3757, 3992, 4116, 4233, 4235,
@@ -2526,7 +2539,7 @@ begin
                     'Version 22H2 [Release Preview Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
-                4593, 4713, 4955:
+                4593, 4713, 4955, 5070, 5194, 5196:
                   InternalExtraUpdateInfo := Format(
                     'Version 22H2 '
                     + '[Beta and Release Preview Channels v10.0.%d.%d]',
@@ -2558,6 +2571,7 @@ begin
               // number.
               // *** Amazingly one of them, revision 194, is the 1st public
               //     release of Win 11 -- well hidden eh?!
+              // *** Reached end of support 2024-10-08
               InternalBuildNumber := Win11_21H2_Build;
               InternalWin1011Version := win11v21H2;
               case InternalRevisionNumber of
@@ -2566,7 +2580,7 @@ begin
                 1098, 1100, 1165, 1219, 1281, 1335, 1455, 1516, 1574, 1641,
                 1696, 1761, 1817, 1880, 1936, 2003, 2057, 2124, 2176, 2245,
                 2295, 2360, 2416, 2482, 2538, 2600, 2652, 2713, 2777,
-                2836, 2899, 2960, 3019, 3079, 3147, 3197 .. MaxInt:
+                2836, 2899, 2960, 3019, 3079, 3147, 3197, 3260:
                   // Public releases of Windows 11
                   InternalExtraUpdateInfo := 'Version 21H2';
                 51, 65, 71:
@@ -2608,8 +2622,8 @@ begin
                 1265, 1344, 1413, 1485, 1555, 1635, 1702, 1778, 1848, 1926,
                 1928, 1992, 2070, 2134, 2215, 2283, 2361, 2428, 2506, 2715,
                 2792, 2861, 3007, 3085, 3155, 3235, 3296, 3374, 3447, 3527,
-                3593, 3672, 3737, 3810, 3880, 3958, 4037, 4112, 4169, 4249
-                .. MaxInt:
+                3593, 3672, 3737, 3810, 3880, 3958, 4037, 4112, 4169, 4249,
+                4317, 4391, 4460, 4541, 4602 .. MaxInt:
                 begin
                   InternalExtraUpdateInfo := 'Version 22H2';
                   case InternalRevisionNumber of
@@ -2656,7 +2670,7 @@ begin
               case InternalRevisionNumber of
                 2428, 2506, 2715, 2792, 2861, 3007, 3085, 3155, 3235 {Moment 5},
                 3296, 3374, 3447, 3527, 3593, 3672, 3737, 3810, 3880, 3958,
-                4037, 4112, 4169, 4249 .. MaxInt:
+                4037, 4112, 4169, 4249, 4317, 4391, 4460, 4541, 4602 .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 23H2';
                 1825, 1830, 1835, 1900, 1906, 1972:
                 begin
@@ -2673,7 +2687,7 @@ begin
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 2361, 2787, 3078, 3227, 3371, 3520, 3668, 3807, 3951, 4108,
-                4247:
+                4247, 4387, 4534:
                   InternalExtraUpdateInfo := Format(
                     'Version 23H2 [Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2691,9 +2705,10 @@ begin
               InternalBuildNumber := Win11_24H2_Build;
               InternalWin1011Version := win11v24H2;
               case InternalRevisionNumber of
-                1742, 1882 .. MaxInt:
+                1742, 1882, 2033, 2161, 2314, 2454, 2605 .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 24H2';
-                560, 712, 863, 994, 1000, 1150, 1297, 1301, 1457, 1586, 1591:
+                560, 712, 863, 994, 1000, 1150, 1297, 1301, 1457, 1586, 1591,
+                2152, 2448:
                   InternalExtraUpdateInfo := Format(
                     'Version 24H2 [Release Preview v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2815,7 +2830,8 @@ begin
                 2921, 3061, 3066, 3130, 3139, 3140, 3209, 3212, 3276, 3286,
                 3350, 3420, 3430, 3495, 3500, 3566, 3570, 3575, 3640, 3646,
                 3720, 3785, 3790, 3858, 3930, 3936, 4000, 4005, 4010, 4076,
-                4082, 4145, 4225, 4291 .. MaxInt:
+                4082, 4145, 4225, 4291, 4300, 4367, 4371, 4435, 4440, 4445,
+                4510, 4515, 4580, 4655 .. MaxInt:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Beta v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2834,7 +2850,8 @@ begin
               InternalWin1011Version := win10plusUnknown;
               case InternalRevisionNumber of
                  461, 470, 670, 751, 770, 961, 1252, 1330, 1340, 1350, 1542,
-                 1843, 1912  .. MaxInt:
+                 1843, 1912, 1930, 2122, 2130, 2200, 2213, 2222, 2415, 2510,
+                 2702, 2705 .. MaxInt:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Dev Channel v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -3261,7 +3278,8 @@ begin
     osWin7, osWinSvr2008R2,
     osWin8, osWinSvr2012,
     osWin8Point1, osWinSvr2012R2,
-    osWin10, osWin11, osWin10Svr, osWinSvr2019, osWinSvr2022, osWinServer:
+    osWin10, osWin11, osWin10Svr, osWinSvr2019, osWinSvr2022, osWinServer,
+    osWinSvr2025, osWinSvrLater:
     begin
       // For v6.0 and later we ignore the suite mask and use the new
       // PRODUCT_ flags from the GetProductInfo() function to determine the
@@ -3857,8 +3875,16 @@ begin
                   VER_LESS_EQUAL, WinServer_Last_Build
                 ) then
                   Result := osWinServer
+                else if TestBuildNumber(
+                  VER_EQUAL, Win2022_Build
+                ) then
+                  Result := osWinSvr2022
+                else if TestBuildNumber(
+                  VER_EQUAL, Win2025_Build
+                ) then
+                  Result := osWinSvr2025
                 else
-                  Result := osWinSvr2022;
+                  Result := osWinSvrLater
               end;
           end;
         end;
@@ -3909,6 +3935,14 @@ begin
     osWin11: Result := 'Windows 11';
     osWinSvr2022: Result := 'Windows Server 2022';
     osWinServer: Result := 'Windows Server';
+    osWinSvr2025: Result := 'Windows Server 2025';
+    osWinSvrLater: Result := Format(
+      'Windows Server Version %d.%d',
+      [
+        InternalMajorVersion, InternalMinorVersion,
+        InternalBuildNumber, InternalRevisionNumber
+      ]
+    );
     else
       raise EPJSysInfo.Create(sUnknownProduct);
   end;

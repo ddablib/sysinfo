@@ -130,7 +130,7 @@ const
     'osUnknown', 'osWinVista', 'osWinSvr2003R2', 'osWinSvr2008',
     'osWinLater', 'osWin7', 'osWinSvr2008R2', 'osWin8', 'osWinSvr2012',
     'osWin8Point1', 'osWinSvr2012R2', 'osWin10', 'osWin10Svr', 'osWinSvr2019',
-    'osWin11', 'osWinSvr2022', 'osWinServer'
+    'osWin11', 'osWinSvr2022', 'osWinServer', 'osWinSvr2025', 'osWinSvrLater'
   );
 begin
   DisplayItem(SG, Name, cOSProduct[Value]);
@@ -237,14 +237,20 @@ begin
   DisplayItem(sgOSInfo, 'MinorVersion', TPJOSInfo.MinorVersion);
   DisplayItem(sgOSInfo, 'Platform', TPJOSInfo.Platform);
   DisplayItem(sgOSInfo, 'Product', TPJOSInfo.Product);
-  DisplayItem(sgOSInfo, 'ProductID', TPJOSInfo.ProductID);
-  DisplayItem(sgOSInfo, 'DigitalProductID', TPJOSInfo.DigitalProductID);
   DisplayItem(sgOSInfo, 'ProductName', TPJOSInfo.ProductName);
   DisplayItem(sgOSInfo, 'ServicePack', TPJOSInfo.ServicePack);
   DisplayItem(sgOSInfo, 'ServicePackEx', TPJOSInfo.ServicePackEx);
   DisplayItem(sgOSInfo, 'ServicePackMajor', TPJOSInfo.ServicePackMajor);
   DisplayItem(sgOSInfo, 'ServicePackMinor', TPJOSInfo.ServicePackMinor);
+  DisplayItem(sgOSInfo, 'Windows10PlusVersion',
+    TPJOSInfo.Windows10PlusVersion);
+  DisplayItem(sgOSInfo, 'Windows10PlusVersionName',
+    TPJOSInfo.Windows10PlusVersionName);
   DisplayItem(sgOSInfo, 'HasPenExtensions', TPJOSInfo.HasPenExtensions);
+  DisplayItem(sgOSInfo, 'ProductID', TPJOSInfo.ProductID);
+  DisplayItem(sgOSInfo, 'DigitalProductID', TPJOSInfo.DigitalProductID);
+  DisplayItem(sgOSInfo, 'DecodedDigitalProductID',
+    TPJOSInfo.DecodedDigitalProductID);
   DisplayItem(sgOSInfo, 'RegisteredOrganisation',
     TPJOSInfo.RegisteredOrganisation);
   DisplayItem(sgOSInfo, 'RegisteredOwner', TPJOSInfo.RegisteredOwner);
@@ -283,10 +289,6 @@ begin
     TPJOSInfo.IsReallyWindows8Point1OrGreater);
   DisplayItem(sgOSInfo, 'IsReallyWindows10OrGreater',
     TPJOSInfo.IsReallyWindows8OrGreater);
-  DisplayItem(sgOSInfo, 'Windows10PlusVersion',
-    TPJOSInfo.Windows10PlusVersion);
-  DisplayItem(sgOSInfo, 'Windows10PlusVersionName',
-    TPJOSInfo.Windows10PlusVersionName);
   DisplayItem(sgOSInfo, 'IsWindows10VersionOrLater(win10v1809)',
     TPJOSInfo.IsWindows10VersionOrLater(win10v1809));
   DisplayItem(sgOSInfo, 'IsWindows10VersionOrLater(win10v22H2)',

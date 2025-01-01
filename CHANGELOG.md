@@ -1,5 +1,23 @@
 # Change Log for System Information Unit
 
+## v5.31.0 of 01 January 2025
+
++ Updated TPJOSInfo to detect Windows builds and revisions released in October to December 2024:
+  + Added support for detecting Windows Server 2025: added added osWinSvr2025
+to TPJOSInfoProduct enumeration.
+  + Added support for detecting any Windows Server versions later than Windows Server 2025: added osWinSvrLater to TPJOSInfoProduct
+enumeration.
+  + Updated Windows 10 21H2 public release build information.
+  + Updated Windows 10 22H2 public release, release preview & beta channel build information.
+  + Updated Windows 11 21H2 public release build information.
+  + Updated Windows 11 22H2 public release build information.
+  + Updated Windows 11 23H2 public release & release preview channel build information.
+  + Updated Windows 11 24H2 public release, release preview & canary channel build information.
+  + Updated Windows 11 Future component updates in dev & beta channel build information.
++ Modified code that detects Windows Server 2022.
++ Fixed uninitialised variable error in a helper function.
++ Updated the demo projects to display the newly added osWinSvr2025 & osWinSvrLater values of the TPJOSProduct enumeration that identify Windows Server 2005 and later Windows Server OSs.
+
 ## v5.30.0 of 06 October 2024
 
 + Updated PRODUCT_xxx constant definitions to include all those defined in the Windows 11 24H2 SDK.

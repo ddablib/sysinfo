@@ -258,7 +258,7 @@ begin
   DisplayItem('Boot Mode', cBootModes[TPJComputerInfo.BootMode]);
   DisplayItem('Is Administrator?', TPJComputerInfo.IsAdmin);
   DisplayItem('Is UAC active?', TPJComputerInfo.IsUACActive);
-  DisplayItem('BIOS Vender', TPJComputerInfo.BiosVendor);
+  DisplayItem('BIOS Vendor', TPJComputerInfo.BiosVendor);
   DisplayItem('System Manufacturer', TPJComputerInfo.SystemManufacturer);
   DisplayItem('System Product Name', TPJComputerInfo.SystemProductName);
   DisplayRuleOff;

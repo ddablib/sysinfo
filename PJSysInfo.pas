@@ -3407,8 +3407,9 @@ begin
   // Record and check digital product ID
   KeyData := DigitalProductID;
   // Bail out if we have insufficient key data
+  Result := '';
   if Length(KeyData) <= KeyBlockEndIndex then
-    Exit('');
+    Exit;
 
   // Length of decoded product key: stored in Result
   SetLength(Result, DecodedStringLength);
@@ -3466,18 +3467,18 @@ const
   );
   ValidKeyCharCount = Cardinal(Length(ValidKeyChars));
 begin
+  Result := '';
   // Record and check digital product ID
   KeyData := DigitalProductID;
   // Bail out if we have insufficient key data
   if Length(KeyData) <= EndKeyIndex then
-    Exit('');
+    Exit;
 
   // Initialise
   IsWin8 := Byte((KeyData[EndKeyIndex] div 6) and 1);
   KeyData[EndKeyIndex] := Byte(
     (KeyData[EndKeyIndex] and $f7) or (IsWin8 and 2) * 4
   );
-  Result := '';
 
   // Do decoding
   for I := ValidKeyCharCount downto 0 do

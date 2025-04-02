@@ -1,5 +1,18 @@
 # Change Log for System Information Unit
 
+## v5.32.0 of 02 April 2025
+
++ Added new TPJBiosInfo class that provides access to some of the information contained in the host computer's BIOS, providing that the BIOS supports the SMBIOS reference specification v2.0 or later.
++ Updated both the VCL and FMX demo programs to add a new tab that displays the results of calling each of the methods of TPJBiosInfo.
++ Removed return values from Exit statements in the PJSysInfo unit to enable compilation with older Delphis.
++ Fixed bug in TPJOSInfo.ProductName where a format string had an incorrect number of placeholders for version numbers.
++ Fixed spelling mistake in the VCL demo project's TPJComputerInfo tab.
++ Changed the descriptive text on the TPJComputerInfo tab of the VCL demo program to refer to the each method's name rather than describing the purpose of the method.
++ Updated documentation:
+  + Updated `README.md` re the addition of the TPJBiosInfo class.
+  + Updated copyright dates in `README.md` to include 2025.
+  + Acknowleged the author of some C code that formed the basis of some of Pascal code in TPJBiosInfo.
+
 ## v5.31.0 of 01 January 2025
 
 + Updated TPJOSInfo to detect Windows builds and revisions released in October to December 2024:

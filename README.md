@@ -16,11 +16,12 @@ This document applies to _System Information Unit_ v5.25.0 and later.
 
 ## Description
 
-This unit contains a group of static classes and some global variables that provide information about the user's computer system and operating system. Some useful constants and type definitions are also included. The static classes are:
+This unit contains a group of classes and some global variables that provide information about the user's computer system and operating system. Some useful constants and type definitions are also included. The classes are:
 
-* _TPJComputerInfo_ – provides information about the host computer and the current user.
-* _TPJSystemFolders_ – gets the full path to certain system folders.
-* _TPJOSInfo_ – supplies information about the operating system.
+* _TPJComputerInfo_ – static class that provides information about the host computer and the current user.
+* _TPJSystemFolders_ – static class that gets the full path to certain system folders.
+* _TPJOSInfo_ – static class that supplies information about the operating system.
+* _TPJBiosInfo_ - class that provides information about the computer's BIOS.
 
 In addition, the unit extends and enhances the OS version information provided by the `SysUtils` unit's _Win32xxx_ variables (such as _Win32Platform_) by defining further _Win32xxx_ variables that store the extended operating system information available on later OSs.
 
@@ -88,7 +89,7 @@ The code is not suitable for non-Windows operating systems since it depends on t
 
 The _System Information Unit_ and demo programs are supplied in a zip file. Before installing you need to extract all the files, preserving the directory structure. The following files will be extracted:
 
-* **`PJSysInfo.pas`** – Source code of the static classes, global variables, constants and type definitions.
+* **`PJSysInfo.pas`** – Source code of the classes, global variables, constants and type definitions.
 * `README.md` – This read-me file.
 * `CHANGELOG.md` – The unit's change log.
 * `MPL-2.0.txt` – Mozilla Public Licence v2.0.
@@ -125,7 +126,7 @@ Full details are provided in the file [`Acknowledgements.md`](https://github.com
 
 ## License
 
-The _System Information Unit_ is copyright © 2001-2024 [Peter D Johnson](https://gravatar.com/delphidabbler) and is released under the terms of the [Mozilla Public License, v2.0](https://www.mozilla.org/MPL/2.0/).
+The _System Information Unit_ is copyright © 2001-2025 [Peter D Johnson](https://gravatar.com/delphidabbler) and is released under the terms of the [Mozilla Public License, v2.0](https://www.mozilla.org/MPL/2.0/).
 
 ## Bugs and Feature Requests
 
@@ -135,4 +136,4 @@ Bugs can be reported or new features requested via the [Issue Tracker](https://g
 
 I'm Peter Johnson – a hobbyist programmer living in Ceredigion in West Wales, UK, writing mainly in Delphi. My programs and other library code are available from: [https://delphidabbler.com/](https://delphidabbler.com/).
 
-This document is copyright © 2005-2024, [Peter D Johnson](https://gravatar.com/delphidabbler).
+This document is copyright © 2005-2025, [Peter D Johnson](https://gravatar.com/delphidabbler).

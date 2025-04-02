@@ -28,11 +28,13 @@ object Form1: TForm1
       Size.Width = 680.000000000000000000
       Size.Height = 500.000000000000000000
       Size.PlatformDefault = False
-      TabIndex = 0
+      TabIndex = 4
       TabOrder = 0
       TabPosition = Top
       OnChange = TabControl1Change
       Sizes = (
+        672s
+        466s
         672s
         466s
         672s
@@ -46,7 +48,7 @@ object Form1: TForm1
           item
           end>
         TextSettings.Trimming = None
-        IsSelected = True
+        IsSelected = False
         Size.Width = 111.000000000000000000
         Size.Height = 26.000000000000000000
         Size.PlatformDefault = False
@@ -75,6 +77,45 @@ object Form1: TForm1
             Size.Width = 240.000000000000000000
           end
           object StringColumn2: TStringColumn
+            Header = 'Value'
+            HeaderSettings.TextSettings.WordWrap = False
+            ReadOnly = True
+            Size.Width = 400.000000000000000000
+          end
+        end
+      end
+      object tiBiosInfo: TTabItem
+        CustomIcon = <
+          item
+          end>
+        TextSettings.Trimming = None
+        IsSelected = False
+        Size.Width = 79.000000000000000000
+        Size.Height = 26.000000000000000000
+        Size.PlatformDefault = False
+        StyleLookup = ''
+        TabOrder = 0
+        Text = 'TPJBiosInfo'
+        object sgBiosInfo: TStringGrid
+          Align = Client
+          CanFocus = True
+          ClipChildren = True
+          Size.Width = 672.000000000000000000
+          Size.Height = 466.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          RowHeight = 21.000000000000000000
+          Options = [ColumnResize, ColumnMove, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
+          OnResized = sgResized
+          Viewport.Width = 652.000000000000000000
+          Viewport.Height = 441.000000000000000000
+          object StringColumn9: TStringColumn
+            Header = 'Method'
+            HeaderSettings.TextSettings.WordWrap = False
+            ReadOnly = True
+            Size.Width = 240.000000000000000000
+          end
+          object StringColumn10: TStringColumn
             Header = 'Value'
             HeaderSettings.TextSettings.WordWrap = False
             ReadOnly = True
@@ -169,7 +210,7 @@ object Form1: TForm1
           item
           end>
         TextSettings.Trimming = None
-        IsSelected = False
+        IsSelected = True
         Size.Width = 97.000000000000000000
         Size.Height = 26.000000000000000000
         Size.PlatformDefault = False

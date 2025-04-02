@@ -63,6 +63,7 @@ unit PJSysInfo;
 {$UNDEF HASUNIT64}            // UInt64 type not defined
 {$UNDEF INLINEMETHODS}        // No support for inline methods
 {$UNDEF HASTBYTES}            // TBytes not defined
+{$UNDEF STRLENDEPRECATED}     // StrLen in SysUtils moved to AnsiStrings
 
 // Undefine facilities not available in earlier compilers
 // Note: Delphi 1 to 3 is not included since the code will not compile on these
@@ -83,6 +84,9 @@ unit PJSysInfo;
 {$IFDEF CONDITIONALEXPRESSIONS}
   {$IF CompilerVersion >= 24.0} // Delphi XE3 and later
     {$LEGACYIFEND ON}  // NOTE: this must come before all $IFEND directives
+  {$IFEND}
+  {$IF CompilerVersion >= 25.0}
+    {$DEFINE STRLENDEPRECATED}  // Delphi XE4 and later
   {$IFEND}
   {$IF CompilerVersion >= 18.5} // Delphi 2007 Win32 and later
     {$DEFINE HASTBYTES}
@@ -121,7 +125,12 @@ uses
   {$IFNDEF RTLNAMESPACES}
   SysUtils, Classes, Windows;
   {$ELSE}
-  System.SysUtils, System.Classes, Winapi.Windows;
+  System.SysUtils,
+  {$IFDEF STRLENDEPRECATED}
+  System.AnsiStrings,
+  {$ENDIF}
+  System.Classes,
+  Winapi.Windows;
   {$ENDIF}
 
 {$IFNDEF HASTBYTES}
@@ -489,7 +498,6 @@ const
   PROCESSOR_ARM_7TDMI     = 70001; // ARM 7TDMI processor (Windows CE)
   PROCESSOR_OPTIL         = $494F; // MSIL processor
 
-
 type
   ///  <summary>Enumeration of OS platforms.</summary>
   TPJOSPlatform = (
@@ -551,6 +559,23 @@ type
     bmNormal,               // Normal boot
     bmSafeMode,             // Booted in safe mode
     bmSafeModeNetwork       // Booted in safe node with networking
+  );
+
+type
+  ///  <summary>Enumeration identifying the possible reasons for a computer to
+  ///  be powered on.</summary>
+  ///  <remarks>For details of the values see the SMBIOS reference specification
+  ///  v3.7.0 at https://tinyurl.com/4mhpy4xz, section 7.2.2.</remarks>
+  TPJBiosWakeupType = (
+    wutReserved,        // 0
+    wutOther,           // 1
+    wutUnknown,         // 2
+    wutAPMTimer,        // 3
+    wutModemRing,       // 4
+    wutLANRemote,       // 5
+    wutPowerSwitch,     // 6
+    wutPCIPME,          // 7
+    wutACPowerRestored  // 8
   );
 
 type
@@ -1046,6 +1071,260 @@ type
     class function SystemProductName: string;
 
   end;
+
+type
+  ///  <summary>Structure of SMBIOS data.</summary>
+  ///  <remarks>The <c>Data</c> field is a placeholder for the variable length
+  ///  BIOS data.</remarks>
+  TPJSMBiosData = packed record
+    Used20CallingMethod: Byte;
+    MajorVersion: Byte;
+    MinorVersion: Byte;
+    Revision: Byte;
+    Length: DWORD;
+    Data: array[0..0] of Byte;
+  end;
+  ///  <summary>Pointer to a <c>TPJSMBiosData</c> structure of SMBIOS data
+  ///  </summary>
+  PPJSMBiosData = ^TPJSMBiosData;
+
+type
+  ///  <summary>Class that returns information extracted from the computer BIOS.
+  ///  </summary>
+  ///  <remarks>
+  ///  <para>Portions of the code of this class are based on code by Strive Sun
+  ///  of their answer to the question on Stack Overflow:
+  ///  https://tinyurl.com/cvbx792t.</para>
+  ///  <para>NOTE 1: Requires a BIOS that conforms the the SMBIOS reference
+  ///  specification v2.0 or later (see https://tinyurl.com/4mhpy4xz). Some
+  ///  features require compliance with later versions of the specification.
+  ///  Many methods of this class also require that the BIOS supports the SMBIOS
+  ///  System Information structure (type 1).</para>
+  ///  <para>NOTE 2: Requires operating system support for the Windows kernel
+  ///  <c>GetSystemFirmwareTable</c> API function.</para>
+  ///  </remarks>
+  TPJBiosInfo = class(TObject)
+  private
+    ///  <summary>Pointer to memory storing the SMBIOS data or <c>nil</c> if the
+    ///  data cannot be read.</summary>
+    fData: PPJSMBiosData;
+    ///  <summary>Size of the memory block pointed to by <c>fData</c> or 0 if
+    ///  the data cannot be read.</summary>
+    fDataSize: Cardinal;
+    ///  <summary>Loads the SMBIOS data.</summary>
+    ///  <returns><c>Boolean</c>. <c>True</c> if the data was loaded
+    ///  successfully or <c>False</c> on error.</returns>
+    function LoadData: Boolean;
+    ///  <summary>Frees the memory used to store the SMBIOS data.</summary>
+    procedure FreeData;
+    ///  <summary>Returns a pointer to a given SMBIOS structure in the SMBIOS
+    ///  data table.</summary>
+    ///  <param name="StructType"><c>Byte</c>. Type number of the required
+    ///  SMBIOS structure.</param>
+    function FindStruct(const StructType: Byte): PByte;
+    ///  <summary>Returns a specified string from a given SMBIOS structure.
+    ///  </summary>
+    ///  <param name="StructType"><c>Byte</c>. Type number of the SMBIOS
+    ///  structure containing the string.</param>
+    ///  <param name="Offset"><c>Byte</c> [in] Offset in the required structure
+    ///  of the byte that identifies the correct string.</param>
+    ///  <param name="MinVer"><c>Word</c> [in] Minimum version of the SMBIOS
+    ///  specification that supports the required string.</param>
+    ///  <returns><c>string</c>. The required string or an empty string if an
+    ///  error occurred or if the required SMBIOS specification version is not
+    ///  supported.</returns>
+    function GetString(const StructType, Offset: Byte; const MinVer: Word):
+      string;
+  public
+    ///  <summary>Object constructor. Reads BIOS information into memory.
+    ///  </summary>
+    constructor Create;
+
+    ///  <summary>Object destructor. Tidies up memory allocations.</summary>
+    destructor Destroy; override;
+
+    ///  <summary>Checks whether the BIOS is supported or not.</summary>
+    ///  <returns><c>Boolean</c>. <c>True</c> if the BIOS is supported,
+    ///  <c>False</c> if not.</returns>
+    ///  <remarks>If this method returns <c>False</c> then no BIOS information
+    ///  is returned and all methods return suitable null values.</remarks>
+    function IsBiosSupported: Boolean;
+
+    ///  <summary>Returns the version of the SMBIOS specification supported by
+    ///  the BIOS.</summary>
+    ///  <returns><c>Word</c>. The version number is encoded into a <c>Word</c>
+    ///  value. The high byte contains the major version number and the low byte
+    ///  contains the minor version number. Returns <c>0</c> if the BIOS is not
+    ///  supported.</returns>
+    function SMBiosSpecVersion: Word;
+
+    ///  <summary>Returns the name of the BIOS vendor.</summary>
+    ///  <returns><c>string</c>. Name of the BIOS vendor or an empty string on
+    ///  failure or if no name is provided.</returns>
+    ///  <remarks>
+    ///  <para>The returned value may be the same as that returned by
+    ///  <c>TPJComputerInfo.BiosVendor</c>.</para>
+    ///  <para>Requires support for SMBIOS v2.0 or later.</para>
+    ///  </remarks>
+    function BiosVendor: string;
+
+    ///  <summary>Returns the BIOS release version number.</summary>
+    ///  <returns><c>Word</c>. The version number encoded into a <c>Word</c>
+    ///  value. The high byte contains the major version number and the low byte
+    ///  contains the minor version number. <c>0</c> is returned on failure or
+    ///  if no value is provided by the BIOS.</returns>
+    ///  <remarks>Requires support for SMBIOS v2.4 or later.</remarks>
+    function BiosVersion: Word;
+
+    ///  <summary>Returns a string representation of the BIOS version.</summary>
+    ///  <returns><c>string</c>. Version string or an empty string on failure or
+    ///  if no version string is provided by the BIOS.</returns>
+    ///  <remarks>
+    ///  <para>The version number returned in this string may not necessarily
+    ///  align with that returned by <c>BiosVersion</c>.</para>
+    ///  <para>Requires support for SMBIOS v2.0 or later.</para>
+    ///  </remarks>
+    function BiosVersionStr: string;
+
+    ///  <summary>Returns the release version number of the BIOS' Embedded
+    ///  Controller Firmware.</summary>
+    ///  <returns><c>Word</c>. The version number encoded into a <c>Word</c>
+    ///  value. The high byte contains the major version number and the low byte
+    ///  contains the minor version number. <c>$FFFF</c> is returned if the
+    ///  system does not have field upgradeable embedded controller firmware.
+    ///  <c>0</c> is returned on failure or if no version number is provided by
+    ///  the BIOS.</returns>
+    ///  <remarks>Requires support for SMBIOS v2.4 or later.</remarks>
+    function BiosECFirmwareVersion: Word;
+
+    ///  <summary>Returns the BIOS release date.</summary>
+    ///  <returns><c>TDate</c>. The required date or <c>0.0</c> on failure or if
+    ///  no release date is provided by the BIOS.</returns>
+    ///  <remarks>
+    ///  <para>Use this method to get the release date in a format suitable for
+    ///  formatting correctly for a specific locale.</para>
+    ///  <para>If the date string is required in exactly the same format as used
+    ///  in the BIOS use the <c>BiosReleaseDateInvariant</c> method instead.
+    ///  </para>
+    ///  <para>Requires support for SMBIOS v2.0 or later.</para>
+    ///  </remarks>
+    function BiosReleaseDate: TDate;
+
+    ///  <summary>Returns a string representation of the BIOS release date in
+    ///  USA format, regardless of the locale.</summary>
+    ///  <returns><c>string</c>. A date string in mm/dd/yyyy or mm/dd/yy format
+    ///  or an empty string on failure or if no release date is provided by the
+    ///  BIOS.</returns>
+    ///  <remarks>
+    ///  <para>This method returns the date string exactly as stored in the
+    ///  BIOS. To get the date in binary format suitable for formatting
+    ///  correctly for any locale, use the <c>BiosReleaseDate</c> method
+    ///  instead.</para>
+    ///  <para>If the returned date is in mm/dd/yy format the year is assumed to
+    ///  be 19yy. mm/dd/yyyy format is required for SMBIOS v2.3 or later.</para>
+    ///  <para>Requires support for SMBIOS v2.0 or later.</para>
+    ///  </remarks>
+    function BiosReleaseDateInvariant: string;
+
+    ///  <summary>Returns the BIOS' UUID as an array of bytes.</summary>
+    ///  <returns><c>TBytes</c>. A sixteen byte array on success or an empty
+    ///  array on failure.</returns>
+    ///  <remarks>
+    ///  <para>If all 16 bytes of the returned array are <c>0</c> then the BIOS
+    ///  has no UUID.</para>
+    ///  <para>If all 16 bytes of the returned array are <c>$FF</c> then the
+    ///  BIOS does not currently have a UUID but one could be set in future.
+    ///  </para>
+    ///  <para>Requires support for SMBIOS v2.1 or later.</para>
+    ///  </remarks>
+    function SystemUuidRaw: TBytes;
+
+    ///  <summary>Returns the BIOS' ID encoded in the format required by the
+    ///  SMBIOS specification.</summary>
+    ///  <returns><c>TGUID</c>. The required UUID on success or a <c>TGUID</c>
+    ///  with all elements set to zero on failure.</returns>
+    ///  <remarks>
+    ///  <para>If all bytes of the returned <c>TGUID</c> are <c>0</c> then
+    ///  either the method call failed or the call succeeded but the BIOS has no
+    ///  UUID.</para>
+    ///  <para>If all bytes of the returned <c>TGUID</c> are <c>$FF</c> then the
+    ///  BIOS does not currently have a UUID but one could be set in future.
+    ///  </para>
+    ///  <para>Requires support for SMBIOS v2.1 or later.</para>
+    ///  </remarks>
+    function SystemUuid: TGUID;
+
+    ///  <summary>Returns the BIOS' ID as a string formatted according to the
+    ///  one of the two formats required by the SMBIOS specification.</summary>
+    ///  <param name="UseRFC4122ByteOrdering"><c>Boolean</c>. When <c>True</c>
+    ///  the returned string is formatted according to RFC4122, with all bytes
+    ///  in network order. When <c>False</c> (the default) the string is
+    ///  formatted according PC industry practice, with the 1st three fields of
+    ///  the UUID formatted in little endian byte encoding and the remaining
+    ///  fields formatted in network byte order.</param>
+    ///  <returns><c>string</c>. The formatted string on success or an empty
+    ///  string on failure.</returns>
+    ///  <remarks>Requires support for SMBIOS v2.1 or later.</remarks>
+    function SystemUuidStr(const UseRFC4122ByteOrdering: Boolean = False):
+      string;
+
+    ///  <summary>Returns the name of the computer's manufacturer.</summary>
+    ///  <returns><c>string</c>. Name of the manufacturer or an empty string on
+    ///  failure or if no name is provided by the BIOS.</returns>
+    ///  <remarks>
+    ///  <para>The returned value may be the same as that returned by
+    ///  <c>TPJComputerInfo.SystemManufacturer</c>.</para>
+    ///  <para>Requires support for SMBIOS v2.0 or later.</para>
+    ///  </remarks>
+    function SystemManufacturer: string;
+
+    ///  <summary>Returns the computer's product name.</summary>
+    ///  <returns><c>string</c>. Product name or an empty string on failure or
+    ///  if no name is provided by the BIOS.</returns>
+    ///  <remarks>
+    ///  <para>The returned value may be the same as that returned by
+    ///  <c>TPJComputerInfo.SystemProductName</c>.</para>
+    ///  <para>Requires support for SMBIOS v2.0 or later.</para>
+    ///  </remarks>
+    function SystemProductName: string;
+
+    ///  <summary>Returns an OEM specific version number.</summary>
+    ///  <returns><c>string</c>. An OEM specific version string or an empty
+    ///  string on failure or if no version string is provided by the BIOS.
+    ///  </returns>
+    ///  <remarks>
+    ///  <para>This value does not relate to the BIOS version or the SMBIOS
+    ///  specification version.</para>
+    ///  <para>Requires support for SMBIOS v2.0 or later.</para>
+    ///  </remarks>
+    function SystemOEMVersion: string;
+
+    ///  <summary>Returns the computer's serial number.</summary>
+    ///  <returns><c>string</c>. The serial number or an empty string on
+    ///  failure or if no serial number is provided by the BIOS.</returns>
+    ///  <remarks>Requires support for SMBIOS v2.0 or later.</remarks>
+    function SystemSerialNumber: string;
+
+    ///  <summary>Returns the computer's SKU number, aka product ID.</summary>
+    ///  <returns><c>string</c>. The SKU number or an empty string on failure or
+    ///  if no SKU number is provided by the BIOS.</returns>
+    ///  <remarks>Requires support for SMBIOS v2.4 or later.</remarks>
+    function SystemSKUNumber: string;
+
+    ///  <summary>Returns the name of the computer's product family.</summary>
+    ///  <returns><c>string</c>. The product family or an empty string on
+    ///  failure or if no value is provided by the BIOS.</returns>
+    ///  <remarks>Requires support for SMBIOS v2.4 or later.</remarks>
+    function SystemFamily: string;
+
+    ///  <summary>Identifies the event that caused the computer to power up.
+    ///  </summary>
+    ///  <returns><c>TPJBiosWakeupType</c>. Value that describes the type of
+    ///  of wake-up event. <c>wutUnknown</c> is returned on failure.</returns>
+    ///  <remarks>Requires support for SMBIOS v2.1 or later.</remarks>
+    function SystemWakeupType: TPJBiosWakeupType;
+  end;
+
 
 type
   ///  <summary>Static class that provides the paths of the system's standard
@@ -1887,6 +2166,20 @@ type
   // Function type of the VerifyVersionInfo API function
   TVerifyVersionInfo = function(lpVersionInfo: POSVersionInfoEx;
     dwTypeMask: LongWord; dwlConditionMask: UInt64): LongBool; stdcall;
+
+  // Header of a structure within SMBIOS data
+  TSMBiosStructureHeader = packed record
+    Kind: Byte;
+    Length: Byte;
+    Handle: Word;
+  end;
+  PSMBiosStructureHeader = ^TSMBiosStructureHeader;
+
+const
+  // SMBIOS related constants
+  SMBiosMinVersion = Word($0200);       // min SMBIOS version supported
+  UuidSupportMinVersion = Word($0201);  // min SMBIOS version that supports UUID
+  UuidDataSize = 16;                    // size of BIOS UUID in bytes
 
 var
   // Function used to get system info: initialised to GetNativeSystemInfo API
@@ -3114,8 +3407,9 @@ begin
   // Record and check digital product ID
   KeyData := DigitalProductID;
   // Bail out if we have insufficient key data
+  Result := '';
   if Length(KeyData) <= KeyBlockEndIndex then
-    Exit('');
+    Exit;
 
   // Length of decoded product key: stored in Result
   SetLength(Result, DecodedStringLength);
@@ -3173,18 +3467,18 @@ const
   );
   ValidKeyCharCount = Cardinal(Length(ValidKeyChars));
 begin
+  Result := '';
   // Record and check digital product ID
   KeyData := DigitalProductID;
   // Bail out if we have insufficient key data
   if Length(KeyData) <= EndKeyIndex then
-    Exit('');
+    Exit;
 
   // Initialise
   IsWin8 := Byte((KeyData[EndKeyIndex] div 6) and 1);
   KeyData[EndKeyIndex] := Byte(
     (KeyData[EndKeyIndex] and $f7) or (IsWin8 and 2) * 4
   );
-  Result := '';
 
   // Do decoding
   for I := ValidKeyCharCount downto 0 do
@@ -3937,7 +4231,7 @@ begin
     osWinServer: Result := 'Windows Server';
     osWinSvr2025: Result := 'Windows Server 2025';
     osWinSvrLater: Result := Format(
-      'Windows Server Version %d.%d',
+      'Windows Server Version %d.%d.%d.%d',
       [
         InternalMajorVersion, InternalMinorVersion,
         InternalBuildNumber, InternalRevisionNumber
@@ -4423,6 +4717,374 @@ begin
     Result := ExcludeTrailingPathDelimiter(PFolder)
   else
     Result := '';
+end;
+
+{ TPJBiosInfo }
+
+function TPJBiosInfo.BiosECFirmwareVersion: Word;
+var
+  StructPtr: PByte;
+  PMajor, PMinor: PByte;
+begin
+  Result := 0;
+  StructPtr := FindStruct(0);
+  if not Assigned(StructPtr) or (SMBiosSpecVersion < $0204) then
+    Exit;
+  PMajor := StructPtr + $16;
+  PMinor := StructPtr + $17;
+  Result := PMajor^ shl 8 + PMinor^;
+end;
+
+function TPJBiosInfo.BiosReleaseDate: TDate;
+var
+  USADateStr: string;
+  D, M, Y: Integer;
+  DStr, MStr, YStr: string;
+  SepPos: Integer;
+  Res: TDateTime;
+begin
+  USADateStr := Trim(BiosReleaseDateInvariant);
+  Result := 0.0;
+  if USADateStr = '' then
+    Exit;
+  SepPos := Pos('/', USADateStr);
+  if SepPos = 0 then
+    Exit;
+  MStr := Copy(USADateStr, 1, SepPos - 1);
+  USADateStr := Copy(USADateStr, SepPos + 1, $FF);
+  SepPos := Pos('/', USADateStr);
+  if SepPos = 0 then
+    Exit;
+  DStr := Copy(USADateStr, 1, SepPos - 1);
+  YStr := Copy(USADateStr, SepPos + 1, $FF);
+  if Length(YStr) = 2 then
+    YStr := '19' + YStr;
+  if (Length(MStr) > 2) or (Length(DStr) > 2) or (Length(YStr) <> 4) then
+    Exit;
+  if not TryStrToInt(DStr, D) or not TryStrToInt(MStr, M)
+    or not TryStrToInt(YStr, Y) then
+    Exit;
+  if TryEncodeDate(Word(Y), Word(M), Word(D), Res) then
+    Result := Res;
+end;
+
+function TPJBiosInfo.BiosReleaseDateInvariant: string;
+begin
+  Result := GetString(0, $08, $0200);
+end;
+
+function TPJBiosInfo.BiosVendor: string;
+begin
+  Result := GetString(0, $04, $0200);
+end;
+
+function TPJBiosInfo.BiosVersion: Word;
+var
+  StructPtr: PByte;
+  PMajor, PMinor: PByte;
+begin
+  Result := 0;
+  StructPtr := FindStruct(0);
+  if not Assigned(StructPtr) or (SMBiosSpecVersion < $0204) then
+    Exit;
+  PMajor := StructPtr + $14;
+  PMinor := StructPtr + $15;
+  Result := PMajor^ shl 8 + PMinor^;
+end;
+
+function TPJBiosInfo.BiosVersionStr: string;
+begin
+  Result := GetString(0, $05, $0200);
+end;
+
+constructor TPJBiosInfo.Create;
+begin
+  inherited Create;
+  if not LoadData then
+    FreeData;
+end;
+
+destructor TPJBiosInfo.Destroy;
+begin
+  FreeData;
+  inherited;
+end;
+
+function TPJBiosInfo.FindStruct(const StructType: Byte): PByte;
+var
+  NextStructPtr: PByte;
+  StructHeader: PSMBiosStructureHeader;
+  I: Cardinal;
+begin
+  Result := nil;
+  if not IsBiosSupported then
+    Exit;
+
+  // Scan through table data, looking for system information structure (type 1)
+  NextStructPtr := @(fData^.Data[0]);
+  for I := 0 to Pred(fData^.Length) do
+  begin
+    StructHeader := PSMBiosStructureHeader(NextStructPtr);
+    if StructHeader^.Kind = StructType then
+    begin
+      Result := NextStructPtr;
+      Exit;
+    end;
+    Inc(NextStructPtr, StructHeader^.Length);
+    while PWord(NextStructPtr)^ <> 0 do
+      Inc(NextStructPtr);
+    Inc(NextStructPtr, 2);
+  end;
+end;
+
+procedure TPJBiosInfo.FreeData;
+begin
+  if Assigned(fData) then
+    FreeMem(fData, fDataSize);
+  fData := nil;
+  fDataSize := 0;
+end;
+
+function TPJBiosInfo.GetString(const StructType, Offset: Byte;
+  const MinVer: Word): string;
+var
+  StructPtr: PByte;
+  StructHeader: PSMBiosStructureHeader;
+  StrIdx: Byte;
+  StrPtr: PAnsiChar;
+  {$IFDEF UNICODE}
+  RawResult: RawByteString;
+  {$ELSE}
+  RawResult: AnsiString;
+  {$ENDIF}
+begin
+  Result := '';
+  if Offset = 0 then
+    Exit;
+  if SMBiosSpecVersion < MinVer then
+    Exit;
+  StructPtr := FindStruct(StructType);
+  if not Assigned(StructPtr) then
+    Exit;
+  StructHeader := PSMBiosStructureHeader(StructPtr);
+  // Get the 1-based index of the string in system information structure
+  StrIdx := (StructPtr + Offset)^;
+  // Find start of required string in system info structure
+  StrPtr := PAnsiChar(StructHeader);
+  Inc(StrPtr, StructHeader^.Length);  // *** assumes SizeOf(StrPtr^) = 1
+  // Skip over preceeding strings strings in the structure
+  while (StrIdx > 1) and (StrPtr^ <> #0) do
+  begin
+    Inc(
+      StrPtr,
+      {$IFDEF STRLENDEPRECATED}
+      System.AnsiStrings.StrLen(StrPtr)
+      {$ELSE}
+      StrLen(StrPtr)
+      {$ENDIF}
+    );
+    Inc(StrPtr);
+    Dec(StrIdx);
+  end;
+  // Build required string from the zero terminated character sequence
+  // According to the SMBIOS specification strings are UTF-8 with no BOM
+  // On compilers that support Unicode we treat RawResult as a string of UTF-8
+  // characters and convert to the resulting UnicodeString, otherwise we simply
+  // return the string as an ANSI string & hope for the best!
+  RawResult := '';
+  while StrPtr^ <> #0 do
+  begin
+    RawResult := RawResult + StrPtr^;
+    Inc(StrPtr);
+  end;
+  {$IFDEF UNICODE}
+  Result := UTF8ToUnicodeString(RawResult);
+  {$ELSE}
+  Result := RawResult;
+  {$ENDIF}
+end;
+
+function TPJBiosInfo.IsBiosSupported: Boolean;
+begin
+  Result := Assigned(fData) and (fDataSize > 0)
+    and (SMBiosSpecVersion >= SMBiosMinVersion);
+end;
+
+function TPJBiosInfo.LoadData: Boolean;
+type
+  TGetSystemFirmwareTable = function(FirmwareTableProviderSignature: DWORD;
+    FirmwareTableID: DWORD; pFirmwareTableBuffer: PVOID; BufferSize: DWORD):
+    UInt; stdcall;
+const
+  RSMB: DWORD = (Ord('R') shl 24) or (Ord('S') shl 16) or (Ord('M') shl 8)
+    or Ord('B');
+  // Fixed fields of
+  SMBiosFixedFieldSize = SizeOf(fData^) - SizeOf(fData^.Data);
+var
+  GetSystemFirmwareTable: TGetSystemFirmwareTable;
+begin
+  Result := False;
+  fData := nil;
+  fDataSize := 0;
+  GetSystemFirmwareTable := LoadKernelFunc('GetSystemFirmwareTable');
+  if not Assigned(GetSystemFirmwareTable) then
+    Exit;
+  fDataSize := GetSystemFirmwareTable(RSMB, 0, nil, 0);
+  if fDataSize = 0 then
+    Exit;
+  fData := AllocMem(fDataSize);
+  if GetSystemFirmwareTable(RSMB, 0, fData, fDataSize) = 0 then
+    Exit;
+  if fData^.Length <> fDataSize - SMBiosFixedFieldSize then
+    Exit;
+  Result := True;
+end;
+
+function TPJBiosInfo.SMBiosSpecVersion: Word;
+begin
+  if Assigned(fData) and (fDataSize >= SizeOf(fData) - SizeOf(fData^.Data)) then
+    Result := fData.MajorVersion shl 8 + fData.MinorVersion
+  else
+    Result := 0;
+end;
+
+function TPJBiosInfo.SystemFamily: string;
+begin
+  Result := GetString(1, $1A, $0204);
+end;
+
+function TPJBiosInfo.SystemManufacturer: string;
+begin
+  Result := GetString(1, $04, $0200);
+end;
+
+function TPJBiosInfo.SystemOEMVersion: string;
+begin
+  Result := GetString(1, $6, $0200);
+end;
+
+function TPJBiosInfo.SystemProductName: string;
+begin
+  Result := GetString(1, $05, $0200);
+end;
+
+function TPJBiosInfo.SystemSerialNumber: string;
+begin
+  Result := GetString(1, $07, $0200);
+end;
+
+function TPJBiosInfo.SystemSKUNumber: string;
+begin
+  Result := GetString(1, $19, $0204);
+end;
+
+function TPJBiosInfo.SystemUuid: TGUID;
+var
+  ResBytes: TBytes;
+begin
+  ZeroMemory(@Result, SizeOf(Result));
+  if not IsBiosSupported or (SMBiosSpecVersion < UuidSupportMinVersion) then
+    Exit;
+  ResBytes := SystemUuidRaw;
+  if Length(ResBytes) <> SizeOf(TGUID) then
+    Exit;
+  MoveMemory(@Result, @ResBytes[0], SizeOf(Result));
+end;
+
+function TPJBiosInfo.SystemUuidRaw: TBytes;
+var
+  SysInfoStructPtr: PByte;
+  UuidOffset: Cardinal;
+  PUuid: PByte;
+begin
+  SysInfoStructPtr := FindStruct(1);
+  if not Assigned(SysInfoStructPtr)
+    or (SMBiosSpecVersion < UuidSupportMinVersion) then
+  begin
+    SetLength(Result, 0);
+    Exit;
+  end;
+  // UUID is at byte offset 8 in system information block
+  SetLength(Result, UuidDataSize);
+  PUuid := SysInfoStructPtr + $8;
+  for UuidOffset := Low(Result) to High(Result) do
+  begin
+    Result[UuidOffset] := PUuid^;
+    Inc(PUuid);
+  end;
+end;
+
+function TPJBiosInfo.SystemUuidStr(const UseRFC4122ByteOrdering: Boolean):
+  string;
+var
+  Uuid: TBytes;
+const
+  // Defines fields for displaying the UUID. Fields are 4 byte, 2 byte, 2 byte,
+  // 2 byte, 6 byte.
+  UuidFmtStr = '%.2X%.2X%.2X%.2X-%.2X%.2X-%.2X%.2X-%.2X%.2X-'
+    + '%.2X%.2X%.2X%.2X%.2X%.2X';
+begin
+  Result := '';
+  if not IsBiosSupported or (SMBiosSpecVersion < UuidSupportMinVersion) then
+    // UUID not supported: return empty string
+    Exit;
+
+  Uuid := SystemUuidRaw;
+  if Length(Uuid) <> UuidDataSize then
+    // Corrupt UUID returned: return empty string
+    Exit;
+
+  if UseRFC4122ByteOrdering then
+    // When using the byte ordering specified by RFC4122 all fields are in
+    // network byte order.
+    Result := Format(
+      UuidFmtStr,
+      [
+        Uuid[0], Uuid[1], Uuid[2], Uuid[3],
+        Uuid[4], Uuid[5],
+        Uuid[6], Uuid[7],
+        Uuid[8], Uuid[9],
+        Uuid[10], Uuid[11], Uuid[12], Uuid[13], Uuid[14], Uuid[15]
+      ]
+    )
+  else
+    // When not using RFC4122 byte ordering, the byte ordering mandated by
+    // documentation for SMBIOS v2.6 and later is used, i.e. the first three
+    // fields (4 bytes, 2 bytes, 2 bytes) are in little endian format, while
+    // subsequent fields are in network byte order (2 bytes, 6 bytes).
+    Result := Format(
+      UuidFmtStr,
+      [
+        Uuid[3], Uuid[2], Uuid[1], Uuid[0],
+        Uuid[5], Uuid[4],
+        Uuid[7], Uuid[6],
+        Uuid[8], Uuid[9],
+        Uuid[10], Uuid[11], Uuid[12], Uuid[13], Uuid[14], Uuid[15]
+      ]
+    );
+end;
+
+function TPJBiosInfo.SystemWakeupType: TPJBiosWakeupType;
+var
+  SysInfoStructPtr: PByte;
+  PWakeupType: PByte;
+begin
+  Result := wutUnknown;
+  SysInfoStructPtr := FindStruct(1);
+  if not Assigned(SysInfoStructPtr) or (SMBiosSpecVersion < $0201) then
+    Exit;
+  PWakeupType := SysInfoStructPtr + $18;
+  case PWakeupType^ of
+    0: Result := wutReserved;
+    1: Result := wutOther;
+    2: Result := wutUnknown;
+    3: Result := wutAPMTimer;
+    4: Result := wutModemRing;
+    5: Result := wutLANRemote;
+    6: Result := wutPowerSwitch;
+    7: Result := wutPCIPME;
+    8: Result := wutACPowerRestored;
+  end;
 end;
 
 initialization

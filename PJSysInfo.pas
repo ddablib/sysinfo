@@ -4231,7 +4231,7 @@ begin
     osWinServer: Result := 'Windows Server';
     osWinSvr2025: Result := 'Windows Server 2025';
     osWinSvrLater: Result := Format(
-      'Windows Server Version %d.%d',
+      'Windows Server Version %d.%d.%d.%d',
       [
         InternalMajorVersion, InternalMinorVersion,
         InternalBuildNumber, InternalRevisionNumber

@@ -245,22 +245,22 @@ const
 begin
   DisplayHeading('TPJComputerInfo Static Methods');
   DisplayRuling;
-  DisplayItem('Computer Name', TPJComputerInfo.ComputerName);
-  DisplayItem('User Name', TPJComputerInfo.UserName);
-  DisplayItem('MAC Address', TPJComputerInfo.MACAddress);
-  DisplayItem('Processor Count', Integer(TPJComputerInfo.ProcessorCount));
-  DisplayItem('Processor Architecture', cProcessors[TPJComputerInfo.Processor]);
-  DisplayItem('Processor Identifier', TPJComputerInfo.ProcessorIdentifier);
-  DisplayItem('Processor Name', TPJComputerInfo.ProcessorName);
-  DisplayItem('Processor Speed (MHz)', TPJComputerInfo.ProcessorSpeedMHz);
-  DisplayItem('Is 64 Bit?', TPJComputerInfo.Is64Bit);
-  DisplayItem('Is Network Present?', TPJComputerInfo.IsNetworkPresent);
-  DisplayItem('Boot Mode', cBootModes[TPJComputerInfo.BootMode]);
-  DisplayItem('Is Administrator?', TPJComputerInfo.IsAdmin);
-  DisplayItem('Is UAC active?', TPJComputerInfo.IsUACActive);
-  DisplayItem('BIOS Vendor', TPJComputerInfo.BiosVendor);
-  DisplayItem('System Manufacturer', TPJComputerInfo.SystemManufacturer);
-  DisplayItem('System Product Name', TPJComputerInfo.SystemProductName);
+  DisplayItem('ComputerName', TPJComputerInfo.ComputerName);
+  DisplayItem('UserName', TPJComputerInfo.UserName);
+  DisplayItem('MACAddress', TPJComputerInfo.MACAddress);
+  DisplayItem('ProcessorCount', Integer(TPJComputerInfo.ProcessorCount));
+  DisplayItem('Processor', cProcessors[TPJComputerInfo.Processor]);
+  DisplayItem('ProcessorIdentifier', TPJComputerInfo.ProcessorIdentifier);
+  DisplayItem('ProcessorName', TPJComputerInfo.ProcessorName);
+  DisplayItem('ProcessorSpeedMHz', TPJComputerInfo.ProcessorSpeedMHz);
+  DisplayItem('Is64Bit', TPJComputerInfo.Is64Bit);
+  DisplayItem('IsNetworkPresent', TPJComputerInfo.IsNetworkPresent);
+  DisplayItem('BootMode', cBootModes[TPJComputerInfo.BootMode]);
+  DisplayItem('IsAdmin', TPJComputerInfo.IsAdmin);
+  DisplayItem('IsUACActive', TPJComputerInfo.IsUACActive);
+  DisplayItem('BiosVendor', TPJComputerInfo.BiosVendor);
+  DisplayItem('SystemManufacturer', TPJComputerInfo.SystemManufacturer);
+  DisplayItem('SystemProductName', TPJComputerInfo.SystemProductName);
   DisplayRuleOff;
 end;
 

@@ -211,8 +211,7 @@ begin
   sgBiosInfo.RowCount := 0;
   BIOS := TPJBIOSInfo.Create;
   try
-    DisplayItem(sgBiosInfo, 'IsBIOSSupported',
-      BoolToStr(BIOS.IsBIOSSupported, True));
+    DisplayItem(sgBiosInfo, 'IsBIOSSupported', BIOS.IsBIOSSupported);
     DisplayItem(sgBiosInfo, 'SMBIOSSpecVersion',
       FmtVersionWord(BIOS.SMBIOSSpecVersion));
     DisplayItem(sgBiosInfo, 'BIOSVendor', BIOS.BIOSVendor);

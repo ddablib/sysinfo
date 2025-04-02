@@ -204,7 +204,7 @@ begin
   try
     DisplayHeading('TPJBIOSInfo Methods');
     DisplayRuling;
-    DisplayItem('IsBIOSSupported', BoolToStr(BIOS.IsBIOSSupported, True));
+    DisplayItem('IsBIOSSupported', BIOS.IsBIOSSupported);
     DisplayItem('SMBIOSSpecVersion', FmtVersionWord(BIOS.SMBIOSSpecVersion));
     DisplayRuling;
     DisplayItem('BIOSVendor', BIOS.BIOSVendor);

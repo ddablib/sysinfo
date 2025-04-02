@@ -39,6 +39,10 @@ type
     sgWin32Globals: TStringGrid;
     StringColumn7: TStringColumn;
     StringColumn8: TStringColumn;
+    tiBiosInfo: TTabItem;
+    sgBiosInfo: TStringGrid;
+    StringColumn9: TStringColumn;
+    StringColumn10: TStringColumn;
     procedure TabControl1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure sgResized(Sender: TObject);
@@ -62,6 +66,7 @@ type
     procedure ShowTPJOSInfo;
     procedure ShowTPJComputerInfo;
     procedure ShowTPJSystemFolders;
+    procedure ShowTPJBiosInfo;
   end;
 
 var
@@ -167,9 +172,73 @@ procedure TForm1.ShowContent(Tab: Integer);
 begin
   case Tab of
     0: ShowTPJComputerInfo;
-    1: ShowTPJSystemFolders;
-    2: ShowTPJOSInfo;
-    3: ShowWin32Globals;
+    1: ShowTPJBiosInfo;
+    2: ShowTPJSystemFolders;
+    3: ShowTPJOSInfo;
+    4: ShowWin32Globals;
+  end;
+end;
+
+procedure TForm1.ShowTPJBiosInfo;
+const
+  cWakeupTypes: array[TPJBIOSWakeupType] of string = (
+    'wutReserved', 'wutOther', 'wutUnknown', 'wutAPMTimer', 'wutModemRing',
+    'wutLANRemote', 'wutPowerSwitch', 'wutPCIPME', 'wutACPowerRestored'
+  );
+
+  function FmtVersionWord(const V: Word): string;
+  begin
+    if V <> 0 then
+      Result := Format('$%.4x (v%d.%d)', [V, V shr 8, V and $FF])
+    else
+      Result := 'Unknown or error';
+  end;
+
+  function FmtDate(const D: TDate): string;
+  var
+    Fmt: TFormatSettings;
+  begin
+    // Use locale date format
+    if SameDate(0.0, D) then
+      Exit('Unknown or error');
+    Fmt := TFormatSettings.Create;
+    Result := FormatDateTime(Fmt.ShortDateFormat, D);
+  end;
+
+var
+  BIOS: TPJBIOSInfo;
+begin
+  sgBiosInfo.RowCount := 0;
+  BIOS := TPJBIOSInfo.Create;
+  try
+    DisplayItem(sgBiosInfo, 'IsBIOSSupported',
+      BoolToStr(BIOS.IsBIOSSupported, True));
+    DisplayItem(sgBiosInfo, 'SMBIOSSpecVersion',
+      FmtVersionWord(BIOS.SMBIOSSpecVersion));
+    DisplayItem(sgBiosInfo, 'BIOSVendor', BIOS.BIOSVendor);
+    DisplayItem(sgBiosInfo, 'BIOSVersionStr', BIOS.BIOSVersionStr);
+    DisplayItem(sgBiosInfo, 'BIOSVersion', FmtVersionWord(BIOS.BIOSVersion));
+    DisplayItem(sgBiosInfo, 'BIOSECFirmwareVersion',
+      FmtVersionWord(BIOS.BIOSECFirmwareVersion));
+    DisplayItem(sgBiosInfo, 'BIOSReleaseDate [current locale]',
+      FmtDate(BIOS.BIOSReleaseDate));
+    DisplayItem(sgBiosInfo, 'BIOSReleaseDateInvariant',
+      BIOS.BIOSReleaseDateInvariant);
+    DisplayItem(sgBiosInfo, 'SystemUUIDRaw', BIOS.SystemUUIDRaw);
+    DisplayItem(sgBiosInfo, 'SystemUUID [using GUIDToString]',
+      GUIDToString(BIOS.SystemUUID));
+    DisplayItem(sgBiosInfo, 'SystemUUIDStr(False)', BIOS.SystemUUIDStr(False));
+    DisplayItem(sgBiosInfo, 'SystemUUIDStr(True)', BIOS.SystemUUIDStr(True));
+    DisplayItem(sgBiosInfo, 'SystemManufacturer', BIOS.SystemManufacturer);
+    DisplayItem(sgBiosInfo, 'SystemProductName', BIOS.SystemProductName);
+    DisplayItem(sgBiosInfo, 'SystemFamily', BIOS.SystemFamily);
+    DisplayItem(sgBiosInfo, 'SystemOEMVersion', BIOS.SystemOEMVersion);
+    DisplayItem(sgBiosInfo, 'SystemSerialNumber', BIOS.SystemSerialNumber);
+    DisplayItem(sgBiosInfo, 'SystemSKUNumber', BIOS.SystemSKUNumber);
+    DisplayItem(sgBiosInfo, 'SystemWakeupType',
+      cWakeupTypes[BIOS.SystemWakeupType]);
+  finally
+    BIOS.Free;
   end;
 end;
 

@@ -1,5 +1,21 @@
 # Change Log for System Information Unit
 
+## v5.33.0 of 29 November 2025
+
++ Updated TPJOSInfo to detect changes to Windows releases between 1 January and 28 November 2025:
+  + Updated Windows 10 handling code re the end of mainstream support for Windows 10.
+  + Updated Windows 11 22H2 public release build information.
+  + Updated Windows 11 23H2 public and release preview build information.
+  + Updated Windows 11 24H2 public, release preview and canary channel build information.
+  + Updated Windows 11 Future Component Update build information for several Windows 11 versions.
+  + Added support for detecting Windows 11 Version 25H2.
+  + Added support for detecting early development releases of Windows 11 version 26H1.
++ Updated demo programs re the changes required to display Windows 11 25H2 and 26H1 information.
++ Added $EXTERNALSYM compiler directives for symbols that must be available to the C++ Builder compiler (thanks to [_weirdo12_](https://github.com/weirdo12) - see pull request See [pull request #25](https://github.com/ddablib/sysinfo/pull/25)).
++ Updated documentation:
+  + Re change from testing with Delphi 11 and 12 to Delphi 13.
+  + To acknowledge _weirdo12_'s contribution.
+
 ## v5.32.0 of 02 April 2025
 
 + Added new TPJBiosInfo class that provides access to some of the information contained in the host computer's BIOS, providing that the BIOS supports the SMBIOS reference specification v2.0 or later.

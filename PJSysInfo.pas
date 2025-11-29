@@ -157,6 +157,7 @@ type
     wReserved: Byte;                          // reserved for future use
   end;
   OSVERSIONINFOEXA = _OSVERSIONINFOEXA;
+  {$EXTERNALSYM OSVERSIONINFOEXA}
   TOSVersionInfoExA = _OSVERSIONINFOEXA;
   POSVersionInfoExA = ^TOSVersionInfoExA;
 
@@ -175,6 +176,7 @@ type
     wReserved: Byte;                          // reserved for future use
   end;
   OSVERSIONINFOEXW = _OSVERSIONINFOEXW;
+  {$EXTERNALSYM OSVERSIONINFOEXW}
   TOSVersionInfoExW = _OSVERSIONINFOEXW;
   POSVersionInfoExW = ^TOSVersionInfoExW;
 
@@ -183,12 +185,16 @@ type
   // which structure to use as default.
   {$IFDEF UNICODE}
   _OSVERSIONINFOEX = _OSVERSIONINFOEXW;
+  {$EXTERNALSYM _OSVERSIONINFOEXW}
   OSVERSIONINFOEX = OSVERSIONINFOEXW;
+  {$EXTERNALSYM OSVERSIONINFOEX}
   TOSVersionInfoEx = TOSVersionInfoExW;
   POSVersionInfoEx = POSVersionInfoExW;
   {$ELSE}
   _OSVERSIONINFOEX = _OSVERSIONINFOEXA;
+  {$EXTERNALSYM _OSVERSIONINFOEXA}
   OSVERSIONINFOEX = OSVERSIONINFOEXA;
+  {$EXTERNALSYM OSVERSIONINFOEX}
   TOSVersionInfoEx = TOSVersionInfoExA;
   POSVersionInfoEx = POSVersionInfoExA;
   {$ENDIF}
@@ -199,61 +205,107 @@ const
 
   // Conditional consts used in VerSetConditionMask calls
   VER_EQUAL         = 1; // current value = specified value.
+  {$EXTERNALSYM VER_EQUAL}
   VER_GREATER       = 2; // current value > specified value.
+  {$EXTERNALSYM VER_GREATER}
   VER_GREATER_EQUAL = 3; // current value >= specified value.
+  {$EXTERNALSYM VER_GREATER_EQUAL}
   VER_LESS          = 4; // current value < specified value.
+  {$EXTERNALSYM VER_LESS}
   VER_LESS_EQUAL    = 5; // current value <= specified value.
+  {$EXTERNALSYM VER_LESS_EQUAL}
 
   // Platform ID defines
   // these are not included in Windows unit of all supported Delphis
   VER_BUILDNUMBER       = $00000004;
+  {$EXTERNALSYM VER_BUILDNUMBER}
   VER_MAJORVERSION      = $00000002;
+  {$EXTERNALSYM VER_MAJORVERSION}
   VER_MINORVERSION      = $00000001;
+  {$EXTERNALSYM VER_MINORVERSION}
   VER_PLATFORMID        = $00000008;
+  {$EXTERNALSYM VER_PLATFORMID}
   VER_SERVICEPACKMAJOR  = $00000020;
+  {$EXTERNALSYM VER_SERVICEPACKMAJOR}
   VER_SERVICEPACKMINOR  = $00000010;
+  {$EXTERNALSYM VER_SERVICEPACKMINOR}
   VER_SUITENAME         = $00000040;
+  {$EXTERNALSYM VER_SUITENAME}
   VER_PRODUCT_TYPE      = $00000080;
+  {$EXTERNALSYM VER_PRODUCT_TYPE}
 
   // Constants from sdkddkver.h
   _WIN32_WINNT_NT4          = $0400; // Windows NT 4
+  {$EXTERNALSYM _WIN32_WINNT_NT4}
   _WIN32_WINNT_WIN2K        = $0500; // Windows 2000
+  {$EXTERNALSYM _WIN32_WINNT_WIN2K}
   _WIN32_WINNT_WINXP        = $0501; // Windows XP
+  {$EXTERNALSYM _WIN32_WINNT_WINXP}
   _WIN32_WINNT_WS03         = $0502; // Windows Server 2003
+  {$EXTERNALSYM _WIN32_WINNT_WS03}
   _WIN32_WINNT_WIN6         = $0600; // Windows Vista
+  {$EXTERNALSYM _WIN32_WINNT_WIN6}
   _WIN32_WINNT_VISTA        = $0600; // Windows Vista
+  {$EXTERNALSYM _WIN32_WINNT_VISTA}
   _WIN32_WINNT_WS08         = $0600; // Windows Server 2008
+  {$EXTERNALSYM _WIN32_WINNT_WS08}
   _WIN32_WINNT_LONGHORN     = $0600; // Windows Vista
+  {$EXTERNALSYM _WIN32_WINNT_LONGHORN}
   _WIN32_WINNT_WIN7         = $0601; // Windows 7
+  {$EXTERNALSYM _WIN32_WINNT_WIN7}
   _WIN32_WINNT_WIN8         = $0602; // Windows 8
+  {$EXTERNALSYM _WIN32_WINNT_WIN8}
   _WIN32_WINNT_WINBLUE      = $0603; // Windows 8.1
+  {$EXTERNALSYM _WIN32_WINNT_WINBLUE}
   _WIN32_WINNT_WINTHRESHOLD = $0A00; // Windows 10
+  {$EXTERNALSYM _WIN32_WINNT_WINTHRESHOLD}
   _WIN32_WINNT_WIN10        = $0A00; // Windows 10
+  {$EXTERNALSYM _WIN32_WINNT_WIN10}
 
 
   // These Windows-defined constants are required for use with TOSVersionInfoEx
   // NT Product types
   VER_NT_WORKSTATION                          = 1;
+  {$EXTERNALSYM VER_NT_WORKSTATION}
   VER_NT_DOMAIN_CONTROLLER                    = 2;
+  {$EXTERNALSYM VER_NT_DOMAIN_CONTROLLER}
   VER_NT_SERVER                               = 3;
+  {$EXTERNALSYM VER_NT_SERVER}
   // Mask representing NT product suites
   VER_SUITE_SMALLBUSINESS                     = $00000001;
+  {$EXTERNALSYM VER_SUITE_SMALLBUSINESS}
   VER_SUITE_ENTERPRISE                        = $00000002;
+  {$EXTERNALSYM VER_SUITE_ENTERPRISE}
   VER_SUITE_BACKOFFICE                        = $00000004;
+  {$EXTERNALSYM VER_SUITE_BACKOFFICE}
   VER_SUITE_COMMUNICATIONS                    = $00000008;
+  {$EXTERNALSYM VER_SUITE_COMMUNICATIONS}
   VER_SUITE_TERMINAL                          = $00000010;
+  {$EXTERNALSYM VER_SUITE_TERMINAL}
   VER_SUITE_SMALLBUSINESS_RESTRICTED          = $00000020;
+  {$EXTERNALSYM VER_SUITE_SMALLBUSINESS_RESTRICTED}
   VER_SUITE_EMBEDDEDNT                        = $00000040;
+  {$EXTERNALSYM VER_SUITE_EMBEDDEDNT}
   VER_SUITE_DATACENTER                        = $00000080;
+  {$EXTERNALSYM VER_SUITE_DATACENTER}
   VER_SUITE_SINGLEUSERTS                      = $00000100;
+  {$EXTERNALSYM VER_SUITE_SINGLEUSERTS}
   VER_SUITE_PERSONAL                          = $00000200;
+  {$EXTERNALSYM VER_SUITE_PERSONAL}
   VER_SUITE_SERVERAPPLIANCE                   = $00000400;
+  {$EXTERNALSYM VER_SUITE_SERVERAPPLIANCE}
   VER_SUITE_BLADE                             = VER_SUITE_SERVERAPPLIANCE;
+  {$EXTERNALSYM VER_SUITE_BLADE}
   VER_SUITE_EMBEDDED_RESTRICTED               = $00000800;
+  {$EXTERNALSYM VER_SUITE_EMBEDDED_RESTRICTED}
   VER_SUITE_SECURITY_APPLIANCE                = $00001000;
+  {$EXTERNALSYM VER_SUITE_SECURITY_APPLIANCE}
   VER_SUITE_STORAGE_SERVER                    = $00002000;
+  {$EXTERNALSYM VER_SUITE_STORAGE_SERVER}
   VER_SUITE_COMPUTE_SERVER                    = $00004000;
+  {$EXTERNALSYM VER_SUITE_COMPUTE_SERVER}
   VER_SUITE_WH_SERVER                         = $00008000;
+  {$EXTERNALSYM VER_SUITE_WH_SERVER}
 
   // These Windows-defined constants are required for use with the
   // GetProductInfo API call used with Windows Vista and later
@@ -263,211 +315,408 @@ const
   // ** Subsequent additions were obtained from https://tinyurl.com/3rhhbs2z
   // ** and the Windows 11 24H2 SDK
   PRODUCT_UNDEFINED                             = $00000000;
+  {$EXTERNALSYM PRODUCT_UNDEFINED}
   PRODUCT_ULTIMATE                              = $00000001;
+  {$EXTERNALSYM PRODUCT_ULTIMATE}
   PRODUCT_HOME_BASIC                            = $00000002;
+  {$EXTERNALSYM PRODUCT_HOME_BASIC}
   PRODUCT_HOME_PREMIUM                          = $00000003;
+  {$EXTERNALSYM PRODUCT_HOME_PREMIUM}
   PRODUCT_ENTERPRISE                            = $00000004;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE}
   PRODUCT_HOME_BASIC_N                          = $00000005;
+  {$EXTERNALSYM PRODUCT_HOME_BASIC_N}
   PRODUCT_BUSINESS                              = $00000006;
+  {$EXTERNALSYM PRODUCT_BUSINESS}
   PRODUCT_STANDARD_SERVER                       = $00000007;
+  {$EXTERNALSYM PRODUCT_STANDARD_SERVER}
   PRODUCT_DATACENTER_SERVER                     = $00000008;
+  {$EXTERNALSYM PRODUCT_DATACENTER_SERVER}
   PRODUCT_SMALLBUSINESS_SERVER                  = $00000009;
+  {$EXTERNALSYM PRODUCT_SMALLBUSINESS_SERVER}
   PRODUCT_ENTERPRISE_SERVER                     = $0000000A;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_SERVER}
   PRODUCT_STARTER                               = $0000000B;
+  {$EXTERNALSYM PRODUCT_STARTER}
   PRODUCT_DATACENTER_SERVER_CORE                = $0000000C;
+  {$EXTERNALSYM PRODUCT_DATACENTER_SERVER_CORE}
   PRODUCT_STANDARD_SERVER_CORE                  = $0000000D;
+  {$EXTERNALSYM PRODUCT_STANDARD_SERVER_CORE}
   PRODUCT_ENTERPRISE_SERVER_CORE                = $0000000E;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_SERVER_CORE}
   PRODUCT_ENTERPRISE_SERVER_IA64                = $0000000F;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_SERVER_IA64}
   PRODUCT_BUSINESS_N                            = $00000010;
+  {$EXTERNALSYM PRODUCT_BUSINESS_N}
   PRODUCT_WEB_SERVER                            = $00000011;
+  {$EXTERNALSYM PRODUCT_WEB_SERVER}
   PRODUCT_CLUSTER_SERVER                        = $00000012;
+  {$EXTERNALSYM PRODUCT_CLUSTER_SERVER}
   PRODUCT_HOME_SERVER                           = $00000013;
+  {$EXTERNALSYM PRODUCT_HOME_SERVER}
   PRODUCT_STORAGE_EXPRESS_SERVER                = $00000014;
+  {$EXTERNALSYM PRODUCT_STORAGE_EXPRESS_SERVER}
   PRODUCT_STORAGE_STANDARD_SERVER               = $00000015;
+  {$EXTERNALSYM PRODUCT_STORAGE_STANDARD_SERVER}
   PRODUCT_STORAGE_WORKGROUP_SERVER              = $00000016;
+  {$EXTERNALSYM PRODUCT_STORAGE_WORKGROUP_SERVER}
   PRODUCT_STORAGE_ENTERPRISE_SERVER             = $00000017;
+  {$EXTERNALSYM PRODUCT_STORAGE_ENTERPRISE_SERVER}
   PRODUCT_SERVER_FOR_SMALLBUSINESS              = $00000018;
+  {$EXTERNALSYM PRODUCT_SERVER_FOR_SMALLBUSINESS}
   PRODUCT_SMALLBUSINESS_SERVER_PREMIUM          = $00000019;
+  {$EXTERNALSYM PRODUCT_SMALLBUSINESS_SERVER_PREMIUM}
   PRODUCT_HOME_PREMIUM_N                        = $0000001A;
+  {$EXTERNALSYM PRODUCT_HOME_PREMIUM_N}
   PRODUCT_ENTERPRISE_N                          = $0000001B;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_N}
   PRODUCT_ULTIMATE_N                            = $0000001C;
+  {$EXTERNALSYM PRODUCT_ULTIMATE_N}
   PRODUCT_WEB_SERVER_CORE                       = $0000001D;
+  {$EXTERNALSYM PRODUCT_WEB_SERVER_CORE}
   PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT      = $0000001E;
+  {$EXTERNALSYM PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT}
   PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY        = $0000001F;
+  {$EXTERNALSYM PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY}
   PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING       = $00000020;
+  {$EXTERNALSYM PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING}
   PRODUCT_SERVER_FOUNDATION                     = $00000021;
+  {$EXTERNALSYM PRODUCT_SERVER_FOUNDATION}
   PRODUCT_HOME_PREMIUM_SERVER                   = $00000022;
+  {$EXTERNALSYM PRODUCT_HOME_PREMIUM_SERVER}
   PRODUCT_SERVER_FOR_SMALLBUSINESS_V            = $00000023;
+  {$EXTERNALSYM PRODUCT_SERVER_FOR_SMALLBUSINESS_V}
   PRODUCT_STANDARD_SERVER_V                     = $00000024;
+  {$EXTERNALSYM PRODUCT_STANDARD_SERVER_V}
   PRODUCT_DATACENTER_SERVER_V                   = $00000025;
+  {$EXTERNALSYM PRODUCT_DATACENTER_SERVER_V}
   PRODUCT_ENTERPRISE_SERVER_V                   = $00000026;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_SERVER_V}
   PRODUCT_DATACENTER_SERVER_CORE_V              = $00000027;
+  {$EXTERNALSYM PRODUCT_DATACENTER_SERVER_CORE_V}
   PRODUCT_STANDARD_SERVER_CORE_V                = $00000028;
+  {$EXTERNALSYM PRODUCT_STANDARD_SERVER_CORE_V}
   PRODUCT_ENTERPRISE_SERVER_CORE_V              = $00000029;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_SERVER_CORE_V}
   PRODUCT_HYPERV                                = $0000002A;
+  {$EXTERNALSYM PRODUCT_HYPERV}
   PRODUCT_STORAGE_EXPRESS_SERVER_CORE           = $0000002B;
+  {$EXTERNALSYM PRODUCT_STORAGE_EXPRESS_SERVER_CORE}
   PRODUCT_STORAGE_STANDARD_SERVER_CORE          = $0000002C;
+  {$EXTERNALSYM PRODUCT_STORAGE_STANDARD_SERVER_CORE}
   PRODUCT_STORAGE_WORKGROUP_SERVER_CORE         = $0000002D;
+  {$EXTERNALSYM PRODUCT_STORAGE_WORKGROUP_SERVER_CORE}
   PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE        = $0000002E;
+  {$EXTERNALSYM PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE}
   PRODUCT_STARTER_N                             = $0000002F;
+  {$EXTERNALSYM PRODUCT_STARTER_N}
   PRODUCT_PROFESSIONAL                          = $00000030;
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL}
   PRODUCT_PROFESSIONAL_N                        = $00000031;
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL_N}
   PRODUCT_SB_SOLUTION_SERVER                    = $00000032;
+  {$EXTERNALSYM PRODUCT_SB_SOLUTION_SERVER}
   PRODUCT_SERVER_FOR_SB_SOLUTIONS               = $00000033;
+  {$EXTERNALSYM PRODUCT_SERVER_FOR_SB_SOLUTIONS}
   PRODUCT_STANDARD_SERVER_SOLUTIONS             = $00000034;
+  {$EXTERNALSYM PRODUCT_STANDARD_SERVER_SOLUTIONS}
   PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE        = $00000035;
+  {$EXTERNALSYM PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE}
   PRODUCT_SB_SOLUTION_SERVER_EM                 = $00000036;
+  {$EXTERNALSYM PRODUCT_SB_SOLUTION_SERVER_EM}
   PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM            = $00000037;
+  {$EXTERNALSYM PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM}
   PRODUCT_SOLUTION_EMBEDDEDSERVER               = $00000038;
+  {$EXTERNALSYM PRODUCT_SOLUTION_EMBEDDEDSERVER}
   PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE          = $00000039; // *
+  {$EXTERNALSYM PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE}
   PRODUCT_PROFESSIONAL_EMBEDDED                 = $0000003A; // *
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL_EMBEDDED}
   PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT         = $0000003B;
+  {$EXTERNALSYM PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT}
   PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL         = $0000003C;
+  {$EXTERNALSYM PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL}
   PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC      = $0000003D;
+  {$EXTERNALSYM PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC}
   PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC      = $0000003E;
+  {$EXTERNALSYM PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC}
   PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE     = $0000003F;
+  {$EXTERNALSYM PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE}
   PRODUCT_CLUSTER_SERVER_V                      = $00000040;
+  {$EXTERNALSYM PRODUCT_CLUSTER_SERVER_V}
   PRODUCT_EMBEDDED                              = $00000041; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED}
   PRODUCT_STARTER_E                             = $00000042;
+  {$EXTERNALSYM PRODUCT_STARTER_E}
   PRODUCT_HOME_BASIC_E                          = $00000043;
+  {$EXTERNALSYM PRODUCT_HOME_BASIC_E}
   PRODUCT_HOME_PREMIUM_E                        = $00000044;
+  {$EXTERNALSYM PRODUCT_HOME_PREMIUM_E}
   PRODUCT_PROFESSIONAL_E                        = $00000045;
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL_E}
   PRODUCT_ENTERPRISE_E                          = $00000046;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_E}
   PRODUCT_ULTIMATE_E                            = $00000047;
+  {$EXTERNALSYM PRODUCT_ULTIMATE_E}
   PRODUCT_ENTERPRISE_EVALUATION                 = $00000048;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_EVALUATION}
   PRODUCT_MULTIPOINT_STANDARD_SERVER            = $0000004C;
+  {$EXTERNALSYM PRODUCT_MULTIPOINT_STANDARD_SERVER}
   PRODUCT_MULTIPOINT_PREMIUM_SERVER             = $0000004D;
+  {$EXTERNALSYM PRODUCT_MULTIPOINT_PREMIUM_SERVER}
   PRODUCT_STANDARD_EVALUATION_SERVER            = $0000004F;
+  {$EXTERNALSYM PRODUCT_STANDARD_EVALUATION_SERVER}
   PRODUCT_DATACENTER_EVALUATION_SERVER          = $00000050;
+  {$EXTERNALSYM PRODUCT_DATACENTER_EVALUATION_SERVER}
   PRODUCT_ENTERPRISE_N_EVALUATION               = $00000054;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_N_EVALUATION}
   PRODUCT_EMBEDDED_AUTOMOTIVE                   = $00000055; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_AUTOMOTIVE}
   PRODUCT_EMBEDDED_INDUSTRY_A                   = $00000056; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_INDUSTRY_A}
   PRODUCT_THINPC                                = $00000057; // *
+  {$EXTERNALSYM PRODUCT_THINPC}
   PRODUCT_EMBEDDED_A                            = $00000058; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_A}
   PRODUCT_EMBEDDED_INDUSTRY                     = $00000059; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_INDUSTRY}
   PRODUCT_EMBEDDED_E                            = $0000005A; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_E}
   PRODUCT_EMBEDDED_INDUSTRY_E                   = $0000005B; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_INDUSTRY_E}
   PRODUCT_EMBEDDED_INDUSTRY_A_E                 = $0000005C; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_INDUSTRY_A_E}
   PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER   = $0000005F;
+  {$EXTERNALSYM PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER}
   PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER    = $00000060;
+  {$EXTERNALSYM PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER}
   PRODUCT_CORE_ARM                              = $00000061;
+  {$EXTERNALSYM PRODUCT_CORE_ARM}
   PRODUCT_CORE_N                                = $00000062;
+  {$EXTERNALSYM PRODUCT_CORE_N}
   PRODUCT_CORE_COUNTRYSPECIFIC                  = $00000063;
+  {$EXTERNALSYM PRODUCT_CORE_COUNTRYSPECIFIC}
   PRODUCT_CORE_SINGLELANGUAGE                   = $00000064;
+  {$EXTERNALSYM PRODUCT_CORE_SINGLELANGUAGE}
   PRODUCT_CORE                                  = $00000065;
+  {$EXTERNALSYM PRODUCT_CORE}
   PRODUCT_PROFESSIONAL_WMC                      = $00000067;
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL_WMC}
   PRODUCT_MOBILE_CORE                           = $00000068;
+  {$EXTERNALSYM PRODUCT_MOBILE_CORE}
   PRODUCT_EMBEDDED_INDUSTRY_EVAL                = $00000069; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_INDUSTRY_EVAL}
   PRODUCT_EMBEDDED_INDUSTRY_E_EVAL              = $0000006A; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_INDUSTRY_E_EVAL}
   PRODUCT_EMBEDDED_EVAL                         = $0000006B; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_EVAL}
   PRODUCT_EMBEDDED_E_EVAL                       = $0000006C; // *
+  {$EXTERNALSYM PRODUCT_EMBEDDED_E_EVAL}
   PRODUCT_NANO_SERVER                           = $0000006D; // *
+  {$EXTERNALSYM PRODUCT_NANO_SERVER}
   PRODUCT_CLOUD_STORAGE_SERVER                  = $0000006E; // *
+  {$EXTERNALSYM PRODUCT_CLOUD_STORAGE_SERVER}
   PRODUCT_CORE_CONNECTED                        = $0000006F; // *
+  {$EXTERNALSYM PRODUCT_CORE_CONNECTED}
   PRODUCT_PROFESSIONAL_STUDENT                  = $00000070; // *
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL_STUDENT}
   PRODUCT_CORE_CONNECTED_N                      = $00000071; // *
+  {$EXTERNALSYM PRODUCT_CORE_CONNECTED_N}
   PRODUCT_PROFESSIONAL_STUDENT_N                = $00000072; // *
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL_STUDENT_N}
   PRODUCT_CORE_CONNECTED_SINGLELANGUAGE         = $00000073; // *
+  {$EXTERNALSYM PRODUCT_CORE_CONNECTED_SINGLELANGUAGE}
   PRODUCT_CORE_CONNECTED_COUNTRYSPECIFIC        = $00000074; // *
+  {$EXTERNALSYM PRODUCT_CORE_CONNECTED_COUNTRYSPECIFIC}
   PRODUCT_CONNECTED_CAR                         = $00000075; // *
+  {$EXTERNALSYM PRODUCT_CONNECTED_CAR}
   PRODUCT_INDUSTRY_HANDHELD                     = $00000076; // *
+  {$EXTERNALSYM PRODUCT_INDUSTRY_HANDHELD}
   PRODUCT_PPI_PRO                               = $00000077; // *
+  {$EXTERNALSYM PRODUCT_PPI_PRO}
   PRODUCT_ARM64_SERVER                          = $00000078; // *
+  {$EXTERNALSYM PRODUCT_ARM64_SERVER}
   PRODUCT_EDUCATION                             = $00000079;
+  {$EXTERNALSYM PRODUCT_EDUCATION}
   PRODUCT_EDUCATION_N                           = $0000007A;
+  {$EXTERNALSYM PRODUCT_EDUCATION_N}
   PRODUCT_IOTUAP                                = $0000007B;
+  {$EXTERNALSYM PRODUCT_IOTUAP}
   PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER      = $0000007C; // *
+  {$EXTERNALSYM PRODUCT_CLOUD_HOST_INFRASTRUCTURE_SERVER}
   PRODUCT_ENTERPRISE_S                          = $0000007D;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_S}
   PRODUCT_ENTERPRISE_S_N                        = $0000007E;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_S_N}
   PRODUCT_PROFESSIONAL_S                        = $0000007F; // *
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL_S}
   PRODUCT_PROFESSIONAL_S_N                      = $00000080; // *
+  {$EXTERNALSYM PRODUCT_PROFESSIONAL_S_N}
   PRODUCT_ENTERPRISE_S_EVALUATION               = $00000081;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_S_EVALUATION}
   PRODUCT_ENTERPRISE_S_N_EVALUATION             = $00000082;
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_S_N_EVALUATION}
   PRODUCT_IOTUAPCOMMERCIAL                      = $00000083;
+  {$EXTERNALSYM PRODUCT_IOTUAPCOMMERCIAL}
   PRODUCT_MOBILE_ENTERPRISE                     = $00000085;
+  {$EXTERNALSYM PRODUCT_MOBILE_ENTERPRISE}
   PRODUCT_HOLOGRAPHIC                           = $00000087; // *
+  {$EXTERNALSYM PRODUCT_HOLOGRAPHIC}
   PRODUCT_HOLOGRAPHIC_BUSINESS                  = $00000088; // *
+  {$EXTERNALSYM PRODUCT_HOLOGRAPHIC_BUSINESS}
   PRODUCT_PRO_SINGLE_LANGUAGE                   = $0000008A; // *
+  {$EXTERNALSYM PRODUCT_PRO_SINGLE_LANGUAGE}
   PRODUCT_PRO_CHINA                             = $0000008B; // *
+  {$EXTERNALSYM PRODUCT_PRO_CHINA}
   PRODUCT_ENTERPRISE_SUBSCRIPTION               = $0000008C; // *
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_SUBSCRIPTION}
   PRODUCT_ENTERPRISE_SUBSCRIPTION_N             = $0000008D; // *
+  {$EXTERNALSYM PRODUCT_ENTERPRISE_SUBSCRIPTION_N}
   PRODUCT_DATACENTER_NANO_SERVER                = $0000008F;
+  {$EXTERNALSYM PRODUCT_DATACENTER_NANO_SERVER}
   PRODUCT_STANDARD_NANO_SERVER                  = $00000090;
+  {$EXTERNALSYM PRODUCT_STANDARD_NANO_SERVER}
   PRODUCT_DATACENTER_A_SERVER_CORE              = $00000091;
+  {$EXTERNALSYM PRODUCT_DATACENTER_A_SERVER_CORE}
   PRODUCT_STANDARD_A_SERVER_CORE                = $00000092;
+  {$EXTERNALSYM PRODUCT_STANDARD_A_SERVER_CORE}
   PRODUCT_DATACENTER_WS_SERVER_CORE             = $00000093;
+  {$EXTERNALSYM PRODUCT_DATACENTER_WS_SERVER_CORE}
   PRODUCT_STANDARD_WS_SERVER_CORE               = $00000094;
+  {$EXTERNALSYM PRODUCT_STANDARD_WS_SERVER_CORE}
   PRODUCT_UTILITY_VM                            = $00000095; // *
+  {$EXTERNALSYM PRODUCT_UTILITY_VM}
   PRODUCT_DATACENTER_EVALUATION_SERVER_CORE     = $0000009F; // *
+  {$EXTERNALSYM PRODUCT_DATACENTER_EVALUATION_SERVER_CORE}
   PRODUCT_STANDARD_EVALUATION_SERVER_CORE       = $000000A0; // *
+  {$EXTERNALSYM PRODUCT_STANDARD_EVALUATION_SERVER_CORE}
   PRODUCT_PRO_WORKSTATION                       = $000000A1;
+  {$EXTERNALSYM PRODUCT_PRO_WORKSTATION}
   PRODUCT_PRO_WORKSTATION_N                     = $000000A2;
+  {$EXTERNALSYM PRODUCT_PRO_WORKSTATION_N}
   PRODUCT_PRO_FOR_EDUCATION                     = $000000A4;
+  {$EXTERNALSYM PRODUCT_PRO_FOR_EDUCATION}
   PRODUCT_PRO_FOR_EDUCATION_N                   = $000000A5; // *
+  {$EXTERNALSYM PRODUCT_PRO_FOR_EDUCATION_N}
   PRODUCT_AZURE_SERVER_CORE                     = $000000A8; // *
+  {$EXTERNALSYM PRODUCT_AZURE_SERVER_CORE}
   PRODUCT_AZURE_NANO_SERVER                     = $000000A9; // *
+  {$EXTERNALSYM PRODUCT_AZURE_NANO_SERVER}
   PRODUCT_ENTERPRISEG                           = $000000AB; // *
+  {$EXTERNALSYM PRODUCT_ENTERPRISEG}
   PRODUCT_ENTERPRISEGN                          = $000000AC; // *
+  {$EXTERNALSYM PRODUCT_ENTERPRISEGN}
   PRODUCT_SERVERRDSH                            = $000000AF;
+  {$EXTERNALSYM PRODUCT_SERVERRDSH}
   PRODUCT_CLOUD                                 = $000000B2; // *
+  {$EXTERNALSYM PRODUCT_CLOUD}
   PRODUCT_CLOUDN                                = $000000B3; // *
+  {$EXTERNALSYM PRODUCT_CLOUDN}
   PRODUCT_HUBOS                                 = $000000B4; // *
+  {$EXTERNALSYM PRODUCT_HUBOS}
   PRODUCT_ONECOREUPDATEOS                       = $000000B6; // *
+  {$EXTERNALSYM PRODUCT_ONECOREUPDATEOS}
   PRODUCT_CLOUDE                                = $000000B7; // *
+  {$EXTERNALSYM PRODUCT_CLOUDE}
   PRODUCT_IOTOS                                 = $000000B9; // *
+  {$EXTERNALSYM PRODUCT_IOTOS}
   PRODUCT_CLOUDEN                               = $000000BA; // *
+  {$EXTERNALSYM PRODUCT_CLOUDEN}
   PRODUCT_IOTEDGEOS                             = $000000BB; // *
+  {$EXTERNALSYM PRODUCT_IOTEDGEOS}
   PRODUCT_IOTENTERPRISE                         = $000000BC;
+  {$EXTERNALSYM PRODUCT_IOTENTERPRISE}
   PRODUCT_LITE                                  = $000000BD; // *
+  {$EXTERNALSYM PRODUCT_LITE}
   PRODUCT_IOTENTERPRISE_S                       = $000000BF;
+  {$EXTERNALSYM PRODUCT_IOTENTERPRISE_S}
   PRODUCT_XBOX_SYSTEMOS                         = $000000C0; // *
+  {$EXTERNALSYM PRODUCT_XBOX_SYSTEMOS}
   PRODUCT_XBOX_GAMEOS                           = $000000C2; // *
+  {$EXTERNALSYM PRODUCT_XBOX_GAMEOS}
   PRODUCT_XBOX_ERAOS                            = $000000C3; // *
+  {$EXTERNALSYM PRODUCT_XBOX_ERAOS}
   PRODUCT_XBOX_DURANGOHOSTOS                    = $000000C4; // *
+  {$EXTERNALSYM PRODUCT_XBOX_DURANGOHOSTOS}
   PRODUCT_XBOX_SCARLETTHOSTOS                   = $000000C5; // *
+  {$EXTERNALSYM PRODUCT_XBOX_SCARLETTHOSTOS}
   PRODUCT_XBOX_KEYSTONE                         = $000000C6; // *
+  {$EXTERNALSYM PRODUCT_XBOX_KEYSTONE}
   PRODUCT_AZURE_SERVER_CLOUDHOST                = $000000C7; // *
+  {$EXTERNALSYM PRODUCT_AZURE_SERVER_CLOUDHOST}
   PRODUCT_AZURE_SERVER_CLOUDMOS                 = $000000C8; // *
+  {$EXTERNALSYM PRODUCT_AZURE_SERVER_CLOUDMOS}
   PRODUCT_CLOUDEDITIONN                         = $000000CA; // *
+  {$EXTERNALSYM PRODUCT_CLOUDEDITIONN}
   PRODUCT_CLOUDEDITION                          = $000000CB; // *
+  {$EXTERNALSYM PRODUCT_CLOUDEDITION}
   PRODUCT_VALIDATION                            = $000000CC; // *
+  {$EXTERNALSYM PRODUCT_VALIDATION}
   PRODUCT_IOTENTERPRISESK                       = $000000CD; // *
+  {$EXTERNALSYM PRODUCT_IOTENTERPRISESK}
   PRODUCT_IOTENTERPRISEK                        = $000000CE; // *
+  {$EXTERNALSYM PRODUCT_IOTENTERPRISEK}
   PRODUCT_IOTENTERPRISESEVAL                    = $000000CF; // *
+  {$EXTERNALSYM PRODUCT_IOTENTERPRISESEVAL}
   PRODUCT_AZURE_SERVER_AGENTBRIDGE              = $000000D0; // *
+  {$EXTERNALSYM PRODUCT_AZURE_SERVER_AGENTBRIDGE}
   PRODUCT_AZURE_SERVER_NANOHOST                 = $000000D1; // *
+  {$EXTERNALSYM PRODUCT_AZURE_SERVER_NANOHOST}
   PRODUCT_WNC                                   = $000000D2; // *
+  {$EXTERNALSYM PRODUCT_WNC}
   PRODUCT_AZURESTACKHCI_SERVER_CORE             = $00000196; // *
+  {$EXTERNALSYM PRODUCT_AZURESTACKHCI_SERVER_CORE}
   PRODUCT_DATACENTER_SERVER_AZURE_EDITION       = $00000197;
+  {$EXTERNALSYM PRODUCT_DATACENTER_SERVER_AZURE_EDITION}
   PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION  = $00000198; // *
+  {$EXTERNALSYM PRODUCT_DATACENTER_SERVER_CORE_AZURE_EDITION}
   PRODUCT_UNLICENSED                            = $ABCDABCD;
+  {$EXTERNALSYM PRODUCT_UNLICENSED}
 
   // These constants are required for use with GetSystemMetrics to detect
   // certain editions. GetSystemMetrics returns non-zero when passed these flags
   // if the associated edition is present.
   // Obtained from https://msdn.microsoft.com/en-us/library/ms724385
   SM_TABLETPC       = 86;     // Detects XP Tablet Edition
+  {$EXTERNALSYM SM_TABLETPC}
   SM_MEDIACENTER    = 87;     // Detects XP Media Center Edition
+  {$EXTERNALSYM SM_MEDIACENTER}
   SM_STARTER        = 88;     // Detects XP Starter Edition
+  {$EXTERNALSYM SM_STARTER}
   SM_SERVERR2       = 89;     // Detects Windows Server 2003 R2
+  {$EXTERNALSYM SM_SERVERR2}
   SM_REMOTESESSION  = $1000;  // Detects a remote terminal server session
+  {$EXTERNALSYM SM_REMOTESESSION}
 
   // These constants are required when examining the
   // TSystemInfo.wProcessorArchitecture member.
   // Only constants marked ** are defined in MS docs at 2022-12-31
   PROCESSOR_ARCHITECTURE_UNKNOWN    = $FFFF; // Unknown architecture *
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_UNKNOWN}
   PROCESSOR_ARCHITECTURE_INTEL          = 0; // x86 *
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_INTEL}
   PROCESSOR_ARCHITECTURE_MIPS           = 1; // MIPS architecture
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_MIPS}
   PROCESSOR_ARCHITECTURE_ALPHA          = 2; // Alpha architecture
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_ALPHA}
   PROCESSOR_ARCHITECTURE_PPC            = 3; // PPC architecture
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_PPC}
   PROCESSOR_ARCHITECTURE_SHX            = 4; // SHX architecture
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_SHX}
   PROCESSOR_ARCHITECTURE_ARM            = 5; // ARM architecture *
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_ARM}
   PROCESSOR_ARCHITECTURE_IA64           = 6; // Intel Itanium based *
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_IA64}
   PROCESSOR_ARCHITECTURE_ALPHA64        = 7; // Alpha64 architecture
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_ALPHA64}
   PROCESSOR_ARCHITECTURE_MSIL           = 8; // MSIL architecture
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_MSIL}
   PROCESSOR_ARCHITECTURE_AMD64          = 9; // x64 (AMD or Intel) *
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_AMD64}
   PROCESSOR_ARCHITECTURE_IA32_ON_WIN64 = 10; // IA32 on Win64 architecture
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_IA32_ON_WIN64}
   PROCESSOR_ARCHITECTURE_ARM64         = 12; // ARM64 architecture *
+  {$EXTERNALSYM PROCESSOR_ARCHITECTURE_ARM64}
 
   // These constants are provided in case the obsolete
   // TSystemInfo.dwProcessorType needs to be used.
@@ -475,28 +724,51 @@ const
   // provided here for completeness.
   // Only constants marked * are defined in MS SDK 6.1
   PROCESSOR_INTEL_386     = 386;   // Intel i386 processor *
+  {$EXTERNALSYM PROCESSOR_INTEL_386}
   PROCESSOR_INTEL_486     = 486;   // Intel i486 processor *
+  {$EXTERNALSYM PROCESSOR_INTEL_486}
   PROCESSOR_INTEL_PENTIUM = 586;   // Intel Pentium processor *
+  {$EXTERNALSYM PROCESSOR_INTEL_PENTIUM}
   PROCESSOR_INTEL_IA64    = 2200;  // Intel IA64 processor *
+  {$EXTERNALSYM PROCESSOR_INTEL_IA64}
   PROCESSOR_AMD_X8664     = 8664;  // AMD X86 64 processor *
+  {$EXTERNALSYM PROCESSOR_AMD_X8664}
   PROCESSOR_MIPS_R4000    = 4000;  // MIPS R4000, R4101, R3910 processor
+  {$EXTERNALSYM PROCESSOR_MIPS_R4000}
   PROCESSOR_ALPHA_21064   = 21064; // Alpha 210 64 processor
+  {$EXTERNALSYM PROCESSOR_ALPHA_21064}
   PROCESSOR_PPC_601       = 601;   // PPC 601 processor
+  {$EXTERNALSYM PROCESSOR_PPC_601}
   PROCESSOR_PPC_603       = 603;   // PPC 603 processor
+  {$EXTERNALSYM PROCESSOR_PPC_603}
   PROCESSOR_PPC_604       = 604;   // PPC 604 processor
+  {$EXTERNALSYM PROCESSOR_PPC_604}
   PROCESSOR_PPC_620       = 620;   // PPC 620 processor
+  {$EXTERNALSYM PROCESSOR_PPC_620}
   PROCESSOR_HITACHI_SH3   = 10003; // Hitachi SH3 processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_HITACHI_SH3}
   PROCESSOR_HITACHI_SH3E  = 10004; // Hitachi SH3E processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_HITACHI_SH3E}
   PROCESSOR_HITACHI_SH4   = 10005; // Hitachi SH4 processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_HITACHI_SH4}
   PROCESSOR_MOTOROLA_821  = 821;   // Motorola 821 processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_MOTOROLA_821}
   PROCESSOR_SHx_SH3       = 103;   // SHx SH3 processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_SHx_SH3}
   PROCESSOR_SHx_SH4       = 104;   // SHx SH4 processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_SHx_SH4}
   PROCESSOR_STRONGARM     = 2577;  // StrongARM processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_STRONGARM}
   PROCESSOR_ARM720        = 1824;  // ARM 720 processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_ARM720}
   PROCESSOR_ARM820        = 2080;  // ARM 820 processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_ARM820}
   PROCESSOR_ARM920        = 2336;  // ARM 920 processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_ARM920}
   PROCESSOR_ARM_7TDMI     = 70001; // ARM 7TDMI processor (Windows CE)
+  {$EXTERNALSYM PROCESSOR_ARM_7TDMI}
   PROCESSOR_OPTIL         = $494F; // MSIL processor
+  {$EXTERNALSYM PROCESSOR_OPTIL}
 
 type
   ///  <summary>Enumeration of OS platforms.</summary>
@@ -586,7 +858,7 @@ type
     win10v1507, win10v1511, win10v1607, win10v1703, win10v1709, win10v1803,
     win10v1809, win10v1903, win10v1909, win10v2004, win10v20H2, win10v21H1,
     win10v21H2, win10v22H2,
-    win11v21H2, win11v22H2, win11v23H2, win11v24H2
+    win11v21H2, win11v22H2, win11v23H2, win11v24H2, win11v25H2, win11v26H1
   );
 
 type
@@ -1713,7 +1985,6 @@ type
   TBuildNameMap = record
     Build: Integer;
     LoRev: Integer;
-    HiRev: Integer;
     Name: string;
     Version: Word;
   end;
@@ -1839,14 +2110,7 @@ const
     18361
   );
 
-  // Single build number used for 3 purposes:
-  //   1903 preview - revs 0, 30, 53, 86, 113
-  //   1903 release - revs 116..1256
-  //   1909 preview - revs 10000, 10005, 10006, 10012, 10014, 10015,
-  //                       10019, 10022, 10024
-  Win10_19XX_Shared_Build = 18362;
-
-  // Version 1909 previews used build 18362 rev 10000 and later (see above)
+  // Version 1909 previews used version 1903 build 18362 rev 10000 and later
 
   // Version 2004 previews
   Win10_2004_Preview_Builds: array[0..43] of Integer = (
@@ -1894,7 +2158,7 @@ const
   Win10_1709_Build = 16299;
   Win10_1803_Build = 17134;
   Win10_1809_Build = 17763;
-  Win10_1903_Build = Win10_19XX_Shared_Build;
+  Win10_1903_Build = 18362;
   Win10_1909_Build = 18363;
   Win10_2004_Build = 19041;
   Win10_20H2_Build = 19042;
@@ -1902,34 +2166,30 @@ const
   Win10_21H2_Build = 19044; // See **REF4**
   Win10_22H2_Build = 19045; // See **REF5**
 
-  // Map of Win 10 builds from 1st release (version 1507) to version 20H2
-  // Later Win 10 releases have special handling and aren't in the build map
-  //
-  // NOTE: The following versions that are still being maintained per the above
-  // table have HiRev = MaxInt while the unsupported versions have HiRev set to
-  // the final build number.
-  Win10_BuildMap: array[0..10] of TBuildNameMap = (
-    (Build: Win10_1507_Build; LoRev: 16484; HiRev: MaxInt;
+  // Map of Win 10 builds from 1st release (version 1507) to version 20H2,
+  // excluding version 1903.
+  // Version 1903 and Win 10 releases after 20H2 have special handling and
+  // aren't in the build map
+  Win10_BuildMap: array[0..9] of TBuildNameMap = (
+    (Build: Win10_1507_Build; LoRev: 16484;
       Name: 'Version 1507'; Version: Ord(win10v1507)),
-    (Build: Win10_1511_Build; LoRev: 0; HiRev: 1540;
+    (Build: Win10_1511_Build; LoRev: 0;
       Name: 'Version 1511: November Update'; Version: Ord(win10v1511)),
-    (Build: Win10_1607_Build; LoRev: 0; HiRev: MaxInt;
+    (Build: Win10_1607_Build; LoRev: 0;
       Name: 'Version 1607: Anniversary Update'; Version: Ord(win10v1607)),
-    (Build: Win10_1703_Build; LoRev: 0; HiRev: 2679;
+    (Build: Win10_1703_Build; LoRev: 0;
       Name: 'Version 1703: Creators Update'; Version: Ord(win10v1703)),
-    (Build: Win10_1709_Build; LoRev: 15; HiRev: 2166;
+    (Build: Win10_1709_Build; LoRev: 15;
       Name: 'Version 1709: Fall Creators Update'; Version: Ord(win10v1709)),
-    (Build: Win10_1803_Build; LoRev: 1; HiRev: 2208;
+    (Build: Win10_1803_Build; LoRev: 1;
       Name: 'Version 1803: April 2018 Update'; Version: Ord(win10v1803)),
-    (Build: Win10_1809_Build; LoRev: 1; HiRev: MaxInt;
+    (Build: Win10_1809_Build; LoRev: 1;
       Name: 'Version 1809: October 2018 Update'; Version: Ord(win10v1809)),
-    (Build: Win10_1903_Build; LoRev: 116; HiRev: 1256;
-      Name: 'Version 1903: May 2019 Update'; Version: Ord(win10v1903)),
-    (Build: Win10_1909_Build; LoRev: 327; HiRev: 2274;
+    (Build: Win10_1909_Build; LoRev: 327;
       Name: 'Version 1909: November 2019 Update'; Version: Ord(win10v1909)),
-    (Build: Win10_2004_Build; LoRev: 264; HiRev: 1415;
+    (Build: Win10_2004_Build; LoRev: 264;
       Name: 'Version 2004: May 2020 Update'; Version: Ord(win10v2004)),
-    (Build: Win10_20H2_Build; LoRev: 572; HiRev: 2965;
+    (Build: Win10_20H2_Build; LoRev: 572;
       Name: 'Version 20H2: October 2020 Update'; Version: Ord(win10v20H2))
   );
 
@@ -1956,9 +2216,10 @@ const
             |            | etc EOS
     --------|------------|------------
     21H2    | ENDED      | ENDED
-    22H2    | ENDED      | 2025-10-14
-    23H2    | 2025-11-11 | 2026-11-10
+    22H2    | ENDED      | ENDED
+    23H2    | ENDED      | 2026-11-10
     24H2    | 2026-10-13 | 2027-10-12
+    25H2    | 2027-10-12 | 2028-10-10
   }
 
   // 1st build released branded as Windows 11
@@ -1976,33 +2237,47 @@ const
   // See **REF1** in implementation
   Win11_22H2_Build = 22621;
 
-  // Windows 11 version 22H3
+  // Windows 11 version 23H2
   // See **REF10** in implementation
   Win11_23H2_Build = 22631;
 
-  // Windows 11 version 22H4
+  // Windows 11 version 24H2
   // See **REF11** in implementation
   Win11_24H2_Build = 26100;
 
-  // "Preview Builds of October 2022 component update in Beta Channel"
+  // Windows 11 version 25H2
+  // See **REF13** in implementation
+  Win11_25H2_Build = 26200;
+
+  // Windows 11 version 26H1
+  // *** PROVISIONAL BUILD NUMBER ***
+  Win11_26H1_Build = 28000;
+
+  // Preview Builds of October 2022 component update in Beta Channel
   // See **REF2** in implementation
   Win11_Oct22Component_BetaChannel_Build = 22622;
 
-  // "Preview Builds of February 2023 component update in Beta Channel"
+  // Preview Builds of February 2023 component update in Beta Channel
   // See **REF7** in implementation
   Win11_Feb23Component_BetaChannel_Build = 22623;
 
-  // "Preview builds of May 2023 component update in Beta Channel"
+  // Preview builds of May 2023 component update in Beta Channel
   // See **REF8** in implementation
   Win11_May23Component_BetaChannel_Build = 22624;
 
-  // "Preview builds of future component update in Beta Channel"
+  // Preview builds of future component update in Beta Channel
   // See **REF9** in implementation
-  Win11_FutureComponent_BetaChannel_Build = 22635;
+  Win11_23H2_FutureComponent_Beta_Build = 22635;
 
-  // "Preview builds of future component update in Dev Channel"
+  // Preview builds of 24H2 future component update in Dev, Beta or both
+  // channels (ge_release)
   // See **REF12** in implementation
-  Win11_FutureComponent_DevChannel_Build = 26120;
+  Win11_24H2_FutureComponent_Rel_Build = 26120;
+
+  // Preview builds of 24H2 future component update in Dev & Beta channels
+  // (ge_release)
+  // See **REF14** in implementation
+  Win11_25H2_FutureComponent_Rel_Build = 26220;
 
   // Windows 11 Dev channel releases with version string "Dev" [^2]
   // pre Win 11 release (expired 2021/10/31):
@@ -2063,16 +2338,30 @@ const
     26100 {Dev revs:1,268; Canary revs: 1}
   );
 
-  Win11_24H2_CanaryChannel_Builds: array[0..8] of Integer = (
-    // expiring 2025-09-15:
-    27695, 27718, 27723, 27729, 27744, 27749, 27754, 27758, 27764
+  Win11_24H2_CanaryChannel_Builds: array[0..0] of Integer = (
+    // expired 2024-09-15
+    //   27686
+    // expired 2025-09-15:
+    //   27695, 27718, 27723, 27729, 27744, 27749, 27754, 27758, 27764, 27766,
+    //   27768, 27774, 27783, 27788, 27802, 27808, 27813, 27818, 27823, 27842,
+    //   27858, 27863, 27868, 27871
+    // expiring 2026-08-11
+    27881
+  );
+
+  Win11_25H2_CanaryChannel_Builds: array[0..17] of Integer = (
+    // expires 2026-08-11
+    27891, 27898, 27902, 27909, 27913, 27919, 27924, 27928, 27934, 27938, 27943,
+    27950, 27954, 27959, 27965, 27971,
+    // unspecified expiry date:
+    27975, 27982
   );
 
   Win11_First_Build = Win11_Dev_Build;  // First build number of Windows 11
 
   // Set of Windows 10 version identifiers
   Win11_Versions: TWin10PlusVersionSet = [
-    win11v21H2, win11v22H2, win11v23H2, win11v24H2
+    win11v21H2, win11v22H2, win11v23H2, win11v24H2, win11v25H2, win11v26H1
   ];
 
   // Windows server v10.0 version ----------------------------------------------
@@ -2118,32 +2407,24 @@ const
   // Map of Windows server releases that are named straightforwardly
   WinServerSimpleBuildMap: array[0..13] of TBuildNameMap = (
     // Windows Server 2016
-    (Build: 10074; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 2';
-      Version: 0),
-    (Build: 10514; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 3';
-      Version: 0),
-    (Build: 10586; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 4';
-      Version: 0),
-    (Build: 14300; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 5';
-      Version: 0),
-    (Build: 14393; LoRev: 0; HiRev: MaxInt; Name: 'Version 1607'; Version: 0),
-    (Build: 16299; LoRev: 0; HiRev: MaxInt; Name: 'Version 1709'; Version: 0),
-    (Build: Win2016_Last_Build; LoRev: 0; HiRev: MaxInt; Name: 'Version 1803';
-      Version: 0),
+    (Build: 10074; LoRev: 0; Name: 'Technical Preview 2'; Version: 0),
+    (Build: 10514; LoRev: 0; Name: 'Technical Preview 3'; Version: 0),
+    (Build: 10586; LoRev: 0; Name: 'Technical Preview 4'; Version: 0),
+    (Build: 14300; LoRev: 0; Name: 'Technical Preview 5'; Version: 0),
+    (Build: 14393; LoRev: 0; Name: 'Version 1607'; Version: 0),
+    (Build: 16299; LoRev: 0; Name: 'Version 1709'; Version: 0),
+    (Build: Win2016_Last_Build; LoRev: 0; Name: 'Version 1803'; Version: 0),
     // Windows Server 2019
-    (Build: 17763; LoRev: 0; HiRev: MaxInt; Name: 'Version 1809'; Version: 0),
-    (Build: 18362; LoRev: 0; HiRev: MaxInt; Name: 'Version 1903'; Version: 0),
-    (Build: Win2019_Last_Build; LoRev: 0; HiRev: MaxInt; Name: 'Version 1909';
-      Version: 0),
+    (Build: 17763; LoRev: 0; Name: 'Version 1809'; Version: 0),
+    (Build: 18362; LoRev: 0; Name: 'Version 1903'; Version: 0),
+    (Build: Win2019_Last_Build; LoRev: 0; Name: 'Version 1909'; Version: 0),
     // Windows Server (no year number)
-    (Build: 19041; LoRev: 0; HiRev: MaxInt; Name: 'Version 2004'; Version: 0),
-    (Build: WinServer_Last_Build; LoRev: 0; HiRev: MaxInt;
-      Name: 'Version 20H2'; Version: 0),
+    (Build: 19041; LoRev: 0; Name: 'Version 2004'; Version: 0),
+    (Build: WinServer_Last_Build; LoRev: 0; Name: 'Version 20H2'; Version: 0),
     // Windows Server 2022
-    (Build: Win2022_Build; LoRev: 0; HiRev: MaxInt; Name: 'Version 21H2';
-      Version: 0),
+    (Build: Win2022_Build; LoRev: 0; Name: 'Version 21H2'; Version: 0),
     // Windows Server 2025
-    (Build: Win2025_Build; LoRev: 0; HiRev: MaxInt; Name: '')
+    (Build: Win2025_Build; LoRev: 0; Name: ''; Version: 0)
   );
 
   // Windows server releases needing special handling
@@ -2347,7 +2628,7 @@ begin
   for I := Low(Infos) to High(Infos) do
   begin
     if IsBuildNumber(Infos[I].Build) and
-      IsInRange(InternalRevisionNumber, Infos[I].LoRev, Infos[I].HiRev) then
+      IsInRange(InternalRevisionNumber, Infos[I].LoRev, MaxInt) then
     begin
       FoundBN := Infos[I].Build;
       FoundExtra := Infos[I].Name;
@@ -2751,8 +3032,7 @@ begin
               VersionEx
             ) then
             begin
-              InternalWin1011Version :=
-              TPJWin10PlusVersion(VersionEx);
+              InternalWin1011Version := TPJWin10PlusVersion(VersionEx);
             end
             else if IsBuildNumber(Win10_21H1_Build) then
             begin
@@ -2916,7 +3196,9 @@ begin
                 1928, 1992, 2070, 2134, 2215, 2283, 2361, 2428, 2506, 2715,
                 2792, 2861, 3007, 3085, 3155, 3235, 3296, 3374, 3447, 3527,
                 3593, 3672, 3737, 3810, 3880, 3958, 4037, 4112, 4169, 4249,
-                4317, 4391, 4460, 4541, 4602 .. MaxInt:
+                4317, 4391, 4460, 4541, 4602, 4751, 4830, 4890, 4974, 5039,
+                5126, 5191, 5192, 5262, 5335, 5413, 5415, 5472, 5549, 5624,
+                5768, 5771, 5909, 6060 .. MaxInt:
                 begin
                   InternalExtraUpdateInfo := 'Version 22H2';
                   case InternalRevisionNumber of
@@ -2963,7 +3245,11 @@ begin
               case InternalRevisionNumber of
                 2428, 2506, 2715, 2792, 2861, 3007, 3085, 3155, 3235 {Moment 5},
                 3296, 3374, 3447, 3527, 3593, 3672, 3737, 3810, 3880, 3958,
-                4037, 4112, 4169, 4249, 4317, 4391, 4460, 4541, 4602 .. MaxInt:
+                4037, 4112, 4169, 4249, 4317, 4391, 4460, 4541, 4602, 4751,
+                4830, 4890, 4974, 5039, 5126, 5189, 5192, 5262, 5335, 5413,
+                5415, 5472, 5549, 5624, 5699, 5768, 5771, 5840, 5909, 5984,
+                6060, 6133, 6199,
+                Succ(6269) {after latest release channel release} .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 23H2';
                 1825, 1830, 1835, 1900, 1906, 1972:
                 begin
@@ -2980,7 +3266,8 @@ begin
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 2361, 2787, 3078, 3227, 3371, 3520, 3668, 3807, 3951, 4108,
-                4247, 4387, 4534:
+                4247, 4387, 4534, 4825, 4969, 5116, 5261, 5409, 5545, 5548,
+                5696, 5837, 5982, 6130, 6132, 6269:
                   InternalExtraUpdateInfo := Format(
                     'Version 23H2 [Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -2998,27 +3285,91 @@ begin
               InternalBuildNumber := Win11_24H2_Build;
               InternalWin1011Version := win11v24H2;
               case InternalRevisionNumber of
-                1742, 1882, 2033, 2161, 2314, 2454, 2605 .. MaxInt:
+                1742, 1882, 2033, 2161, 2240, 2314, 2454, 2528, 2605, 2894,
+                3037, 3107, 3194, 3323, 3403, 3476, 3624, 3775, 3781, 3981,
+                3983, 4061, 4066, 4202, 4270, 4349, 4351, 4484, 4652, 4656,
+                4770, 4851, 4946, 5074, 6508, 6584, 6588, 6725, 6899, 6901,
+                6905, 7019, 7092, 7171,
+                Succ(7309) {after last release preview rev} .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 24H2';
-                560, 712, 863, 994, 1000, 1150, 1297, 1301, 1457, 1586, 1591,
-                2152, 2448:
+                560, 712, 1297, 1586, 1876, 2152, 2448, 3025, 3321, 3613, 3902,
+                3909, 3915, 4188, 4482, 4762, 4767, 5061, 5067, 6713, 6718,
+                7015, 7296, 7309:
                   InternalExtraUpdateInfo := Format(
-                    'Version 24H2 [Release Preview v10.0.%d.%d',
+                    'Version 24H2 [Release Preview v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                863, 994, 1000, 1150, 1301, 1457, 1591:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 24H2 [Release Preview & Copilot+ PCs v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 1:
                   InternalExtraUpdateInfo := Format(
-                    'Version 24H2 [Dev & Canary Channel v10.0.%d.%d',
+                    'Version 24H2 [Dev & Canary Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 268:
                   InternalExtraUpdateInfo := Format(
-                    'Version 24H2 [Dev Channel v10.0.%d.%d',
+                    'Version 24H2 [Dev Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 else
                   InternalExtraUpdateInfo := Format(
                     'Version 24H2 [Unknown release v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
+            else if IsBuildNumber(Win11_25H2_Build) then
+            begin
+              // **REF13**
+              InternalBuildNumber := Win11_25H2_Build;
+              InternalWin1011Version := win11v25H2;
+              case InternalRevisionNumber of
+                6584, 6725, 6899, 6901, 7019, 7092, 7093, 7171,
+                Succ(7309) {after last Release Preview rev}
+                .. MaxInt:
+                  InternalExtraUpdateInfo := 'Version 25H2';
+                5074, 6713, 6718, 7015, 7296, 7309:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 25H2 [Release Preview v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                5670, 5702, 5710, 5722, 5733, 5742, 5751, 5761:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 25H2 [Dev Channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                5510, 5516, 5518, 5551, 5562, 5570, 5581, 5600, 5603, 5622,
+                5641, 5651, 5661:
+                begin
+                  InternalExtraUpdateInfo := Format(
+                    '25H2 Component Update Dev Channel v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                  InternalWin1011Version := win11v24H2;
+                end
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 25H2 [Unknown release v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
+            else if IsBuildNumber(Win11_26H1_Build) then
+            begin
+              InternalBuildNumber := Win11_26H1_Build;
+              InternalWin1011Version := win11v26H1;
+              case InternalRevisionNumber of
+                1, 1199:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 26H1 [Canary Channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 26H1 [Unknown release v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
               end;
@@ -3029,9 +3380,9 @@ begin
             begin
               // Win11 builds in Canary, Dev & Preview channels with version
               // string "24H2"
-              InternalWin1011Version := win10plusUnknown;
+              InternalWin1011Version := win11v24H2;
               InternalExtraUpdateInfo := Format(
-                'Dev or Canary Channel Version 24H2 v10.0.%d.%d',
+                'Version 24H2 [Dev or Canary Channel v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
@@ -3040,9 +3391,20 @@ begin
             ) then
             begin
               // Win11 builds in Canary channel with version string "24H2"
-              InternalWin1011Version := win10plusUnknown;
+              InternalWin1011Version := win11v24H2;
               InternalExtraUpdateInfo := Format(
-                'Canary Channel Version 24H2 v10.0.%d.%d',
+                'Version 24H2 [Canary Channel v10.0.%d.%d]',
+                [InternalBuildNumber, InternalRevisionNumber]
+              );
+            end
+            else if FindBuildNumberFrom(
+              Win11_25H2_CanaryChannel_Builds, InternalBuildNumber
+            ) then
+            begin
+              // Win11 builds in Canary channel with version string "25H2"
+              InternalWin1011Version := win11v25H2;
+              InternalExtraUpdateInfo := Format(
+                'Version 25H2 [Canary Channel v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
@@ -3069,7 +3431,7 @@ begin
             ) then
             begin
               // Win 11 Dev & Beta channel builds with version string "22H2"
-              InternalWin1011Version := win10plusUnknown;
+              InternalWin1011Version := win11v22H2;
               InternalExtraUpdateInfo := Format(
                 'Dev & Beta Channels v10.0.%d.%d (22H2)',
                 [InternalBuildNumber, InternalRevisionNumber]
@@ -3113,10 +3475,10 @@ begin
                   );
               end;
             end
-            else if IsBuildNumber(Win11_FutureComponent_BetaChannel_Build) then
+            else if IsBuildNumber(Win11_23H2_FutureComponent_Beta_Build) then
             begin
               // **REF9**
-              InternalBuildNumber := Win11_FutureComponent_BetaChannel_Build;
+              InternalBuildNumber := Win11_23H2_FutureComponent_Beta_Build;
               InternalWin1011Version := win10plusUnknown;
               case InternalRevisionNumber of
                 2419, 2483, 2486, 2552, 2700, 2771, 2776, 2841, 2850, 2915,
@@ -3124,7 +3486,9 @@ begin
                 3350, 3420, 3430, 3495, 3500, 3566, 3570, 3575, 3640, 3646,
                 3720, 3785, 3790, 3858, 3930, 3936, 4000, 4005, 4010, 4076,
                 4082, 4145, 4225, 4291, 4300, 4367, 4371, 4435, 4440, 4445,
-                4510, 4515, 4580, 4655 .. MaxInt:
+                4510, 4515, 4580, 4655, 4660, 4800, 4805, 4870, 4880, 4945,
+                4950, 5015, 5025, 5090, 5097, 5160, 5170, 5235, 5240, 5305
+                .. MaxInt:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Beta v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -3136,19 +3500,59 @@ begin
                   );
               end;
             end
-            else if IsBuildNumber(Win11_FutureComponent_DevChannel_Build) then
+            else if IsBuildNumber(Win11_24H2_FutureComponent_Rel_Build) then
             begin
               // **REF12**
-              InternalBuildNumber := Win11_FutureComponent_DevChannel_Build;
+              InternalBuildNumber := Win11_24H2_FutureComponent_Rel_Build;
               InternalWin1011Version := win10plusUnknown;
               case InternalRevisionNumber of
                  461, 470, 670, 751, 770, 961, 1252, 1330, 1340, 1350, 1542,
                  1843, 1912, 1930, 2122, 2130, 2200, 2213, 2222, 2415, 2510,
-                 2702, 2705 .. MaxInt:
+                 2702, 2705, 2992, 3000:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Dev Channel v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
+                 3073, 3281, 3291, 3360, 3380, 3576:
+                  // released with "ge_release" version string
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update Dev & Beta Channels v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                 3585, 3653, 3671, 3863, 3872, 3941, 3950, 3964, 4151, 4161,
+                 4230, 4250, 4441, 4452, 4520, 4733, 4741, 5722, 5733, 5742,
+                 5751, 5761, 5770, 5790, 6682, 6690, 6760, 6772, 6780, 6972,
+                 6982:
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update Beta Channels v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update [Unknown Beta v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
+            else if IsBuildNumber(Win11_25H2_FutureComponent_Rel_Build) then
+            begin
+              // **REF14**
+              InternalBuildNumber := Win11_25H2_FutureComponent_Rel_Build;
+              InternalWin1011Version := win10plusUnknown;
+              case InternalRevisionNumber of
+                7051, 7052, 7070, 7262, 7271:
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update Dev & Beta Channels v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                5770, 5790, 6682, 6690, 6760, 6722, 6780, 6972, 6982:
+                begin
+                  InternalExtraUpdateInfo := Format(
+                    'Version 25H2 [Dev channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                  InternalWin1011Version := win11v25H2;
+                end
                 else
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update [Unknown Beta v10.0.%d.%d]',
@@ -3176,12 +3580,21 @@ begin
             begin
               InternalWin1011Version := win10v2004;
             end
-            else if IsBuildNumber(Win10_19XX_Shared_Build) then
+            else if IsBuildNumber(Win10_1903_Build) then
             begin
-              // If we get here the Win10_19XX_Shared_Build will either be a
-              // preview of Version 1903 or 1909
-              InternalBuildNumber := Win10_19XX_Shared_Build;
-              if IsInRange(InternalRevisionNumber, 0, 113) then
+              // Build 18362 was used for version 1903 and preview and some
+              // version 1909 previews, as follows:
+              //   1903 preview - revs 0, 30, 53, 86, 113
+              //   1903 release - revs 116..1256
+              //   1909 preview - revs 10000, 10005, 10006, 10012, 10014, 10015,
+              //                       10019, 10022, 10024
+              InternalBuildNumber := Win10_1903_Build;
+              if IsInRange(InternalRevisionNumber, 116, 1256) then
+              begin
+                InternalWin1011Version := win10v1903;
+                InternalExtraUpdateInfo := 'Version 1903';
+              end
+              else if IsInRange(InternalRevisionNumber, 0, 113) then
               begin
                 InternalWin1011Version := win10v1903;
                 InternalExtraUpdateInfo := Format(
@@ -4342,7 +4755,7 @@ const
     '1803', '1809', '1903', '1909', '2004',
     '20H2', '21H1', '21H2', '22H2',
     // Windows 11
-    '21H2', '22H2', '23H2', '24H2'
+    '21H2', '22H2', '23H2', '24H2', '25H2', '26H1'
   );
 begin
   Result := cVersions[Windows10PlusVersion];
@@ -5093,4 +5506,3 @@ initialization
 InitPlatformIdEx;
 
 end.
-

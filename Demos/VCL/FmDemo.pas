@@ -131,7 +131,8 @@ const
     'win10v1507', 'win10v1511', 'win10v1607', 'win10v1703', 'win10v1709',
     'win10v1803', 'win10v1809', 'win10v1903', 'win10v1909', 'win10v2004',
     'win10v20H2', 'win10v21H1', 'win10v21H2', 'win10v22H2',
-    'win11v21H2', 'win11v22H2', 'win11v23H2', 'win11v24H2'
+    'win11v21H2', 'win11v22H2', 'win11v23H2', 'win11v24H2', 'win11v25H2',
+    'win11v26H1'
   );
 begin
   DisplayItem(Name, cVersions[Value]);

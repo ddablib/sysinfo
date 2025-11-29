@@ -2245,25 +2245,36 @@ const
   // See **REF11** in implementation
   Win11_24H2_Build = 26100;
 
-  // "Preview Builds of October 2022 component update in Beta Channel"
+  // Preview Builds of October 2022 component update in Beta Channel
   // See **REF2** in implementation
   Win11_Oct22Component_BetaChannel_Build = 22622;
 
-  // "Preview Builds of February 2023 component update in Beta Channel"
+  // Preview Builds of February 2023 component update in Beta Channel
   // See **REF7** in implementation
   Win11_Feb23Component_BetaChannel_Build = 22623;
 
-  // "Preview builds of May 2023 component update in Beta Channel"
+  // Preview builds of May 2023 component update in Beta Channel
   // See **REF8** in implementation
   Win11_May23Component_BetaChannel_Build = 22624;
 
-  // "Preview builds of future component update in Beta Channel"
+  // Preview builds of future component update in Beta Channel
   // See **REF9** in implementation
-  Win11_FutureComponent_BetaChannel_Build = 22635;
+  Win11_23H2_FutureComponent_Beta_Build = 22635;
 
-  // "Preview builds of future component update in Dev Channel"
+  // Preview builds of 24H2 future component update in Dev, Beta or both
+  // channels (ge_release)
   // See **REF12** in implementation
-  Win11_FutureComponent_DevChannel_Build = 26120;
+  Win11_24H2_FutureComponent_Rel_Build = 26120;
+
+  // Preview builds of 24H2 future component update in Dev channel
+  // (ge_prerelease)
+  // See **REF13** in implementation
+  Win11_24H2_FutureComponent_PreRel_Build = 26200;
+
+  // Preview builds of 24H2 future component update in Dev & Beta channels
+  // (ge_release)
+  // See **REF14** in implementation
+  Win11_25H2_FutureComponent_Rel_Build = 26220;
 
   // Windows 11 Dev channel releases with version string "Dev" [^2]
   // pre Win 11 release (expired 2021/10/31):
@@ -3389,10 +3400,10 @@ begin
                   );
               end;
             end
-            else if IsBuildNumber(Win11_FutureComponent_BetaChannel_Build) then
+            else if IsBuildNumber(Win11_23H2_FutureComponent_Beta_Build) then
             begin
               // **REF9**
-              InternalBuildNumber := Win11_FutureComponent_BetaChannel_Build;
+              InternalBuildNumber := Win11_23H2_FutureComponent_Beta_Build;
               InternalWin1011Version := win10plusUnknown;
               case InternalRevisionNumber of
                 2419, 2483, 2486, 2552, 2700, 2771, 2776, 2841, 2850, 2915,
@@ -3400,7 +3411,9 @@ begin
                 3350, 3420, 3430, 3495, 3500, 3566, 3570, 3575, 3640, 3646,
                 3720, 3785, 3790, 3858, 3930, 3936, 4000, 4005, 4010, 4076,
                 4082, 4145, 4225, 4291, 4300, 4367, 4371, 4435, 4440, 4445,
-                4510, 4515, 4580, 4655 .. MaxInt:
+                4510, 4515, 4580, 4655, 4660, 4800, 4805, 4870, 4880, 4945,
+                4950, 5015, 5025, 5090, 5097, 5160, 5170, 5235, 5240, 5305
+                .. MaxInt:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Beta v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
@@ -3412,21 +3425,66 @@ begin
                   );
               end;
             end
-            else if IsBuildNumber(Win11_FutureComponent_DevChannel_Build) then
+            else if IsBuildNumber(Win11_24H2_FutureComponent_Rel_Build) then
             begin
               // **REF12**
-              InternalBuildNumber := Win11_FutureComponent_DevChannel_Build;
+              InternalBuildNumber := Win11_24H2_FutureComponent_Rel_Build;
               InternalWin1011Version := win10plusUnknown;
               case InternalRevisionNumber of
                  461, 470, 670, 751, 770, 961, 1252, 1330, 1340, 1350, 1542,
                  1843, 1912, 1930, 2122, 2130, 2200, 2213, 2222, 2415, 2510,
-                 2702, 2705:
+                 2702, 2705, 2992, 3000:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Dev Channel v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                  3073, 3281, 3291, 3360, 3380, 3576:
                   // released with "ge_release" version string
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update Dev & Beta Channels v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                 3585, 3653, 3671, 3863, 3872, 3941, 3950, 3964, 4151, 4161,
+                 4230, 4250, 4441, 4452, 4520, 4733, 4741, 5722, 5733, 5742,
+                 5751, 5761, 5770, 5790, 6682, 6690, 6760, 6772, 6780, 6972,
+                 6982:
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update Beta Channels v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update [Unknown Beta v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
+            else if IsBuildNumber(Win11_24H2_FutureComponent_PreRel_Build) then
+            begin
+              // **REF13**
+              InternalBuildNumber := Win11_24H2_FutureComponent_PreRel_Build;
+              InternalWin1011Version := win10plusUnknown;
+              case InternalRevisionNumber of
+                5510, 5516, 5518, 5551, 5562, 5570, 5581, 5600, 5603, 5622,
+                5641, 5651, 5661:
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update Dev Channel v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update [Unknown Beta v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
+            else if IsBuildNumber(Win11_25H2_FutureComponent_Rel_Build) then
+            begin
+              // **REF14**
+              InternalBuildNumber := Win11_25H2_FutureComponent_Rel_Build;
+              InternalWin1011Version := win10plusUnknown;
+              case InternalRevisionNumber of
+                7051, 7052, 7070, 7262, 7271:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Dev & Beta Channels v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]

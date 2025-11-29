@@ -2324,9 +2324,15 @@ const
     26100 {Dev revs:1,268; Canary revs: 1}
   );
 
-  Win11_24H2_CanaryChannel_Builds: array[0..8] of Integer = (
-    // expiring 2025-09-15:
-    27695, 27718, 27723, 27729, 27744, 27749, 27754, 27758, 27764
+  Win11_24H2_CanaryChannel_Builds: array[0..0] of Integer = (
+    // expired 2024-09-15
+    //   27686
+    // expired 2025-09-15:
+    //   27695, 27718, 27723, 27729, 27744, 27749, 27754, 27758, 27764, 27766,
+    //   27768, 27774, 27783, 27788, 27802, 27808, 27813, 27818, 27823, 27842,
+    //   27858, 27863, 27868, 27871
+    // expiring 2026-08-11
+    27881
   );
 
   Win11_First_Build = Win11_Dev_Build;  // First build number of Windows 11
@@ -3221,8 +3227,7 @@ begin
                 4830, 4890, 4974, 5039, 5126, 5189, 5192, 5262, 5335, 5413,
                 5415, 5472, 5549, 5624, 5699, 5768, 5771, 5840, 5909, 5984,
                 6060, 6133, 6199,
-                Succ(6269) {after latest release channel release}
-                  .. MaxInt:
+                Succ(6269) {after latest release channel release} .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 23H2';
                 1825, 1830, 1835, 1900, 1906, 1972:
                 begin
@@ -3258,12 +3263,23 @@ begin
               InternalBuildNumber := Win11_24H2_Build;
               InternalWin1011Version := win11v24H2;
               case InternalRevisionNumber of
-                1742, 1882, 2033, 2161, 2314, 2454, 2605 .. MaxInt:
+                1742, 1882, 2033, 2161, 2240, 2314, 2454, 2528, 2605, 2894,
+                3037, 3107, 3194, 3323, 3403, 3476, 3624, 3775, 3781, 3981,
+                3983, 4061, 4066, 4202, 4270, 4349, 4351, 4484, 4652, 4656,
+                4770, 4851, 4946, 5074, 6508, 6584, 6588, 6725, 6899, 6901,
+                6905, 7019, 7092, 7171,
+                Succ(7309) {after last release preview rev} .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 24H2';
-                560, 712, 863, 994, 1000, 1150, 1297, 1301, 1457, 1586, 1591,
-                2152, 2448:
+                560, 712, 1297, 1586, 1876, 2152, 2448, 3025, 3321, 3613, 3902,
+                3909, 3915, 4188, 4482, 4762, 4767, 5061, 5067, 6713, 6718,
+                7015, 7296, 7309:
                   InternalExtraUpdateInfo := Format(
                     'Version 24H2 [Release Preview v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                863, 994, 1000, 1150, 1301, 1457, 1591:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 24H2 [Release Preview & Copilot+ PCs v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 1:
@@ -3404,9 +3420,15 @@ begin
               case InternalRevisionNumber of
                  461, 470, 670, 751, 770, 961, 1252, 1330, 1340, 1350, 1542,
                  1843, 1912, 1930, 2122, 2130, 2200, 2213, 2222, 2415, 2510,
-                 2702, 2705 .. MaxInt:
+                 2702, 2705:
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update Dev Channel v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                 3073, 3281, 3291, 3360, 3380, 3576:
+                  // released with "ge_release" version string
+                  InternalExtraUpdateInfo := Format(
+                    'Future Component Update Dev & Beta Channels v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 else

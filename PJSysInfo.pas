@@ -3217,7 +3217,12 @@ begin
               case InternalRevisionNumber of
                 2428, 2506, 2715, 2792, 2861, 3007, 3085, 3155, 3235 {Moment 5},
                 3296, 3374, 3447, 3527, 3593, 3672, 3737, 3810, 3880, 3958,
-                4037, 4112, 4169, 4249, 4317, 4391, 4460, 4541, 4602 .. MaxInt:
+                4037, 4112, 4169, 4249, 4317, 4391, 4460, 4541, 4602, 4751,
+                4830, 4890, 4974, 5039, 5126, 5189, 5192, 5262, 5335, 5413,
+                5415, 5472, 5549, 5624, 5699, 5768, 5771, 5840, 5909, 5984,
+                6060, 6133, 6199,
+                Succ(6269) {after latest release channel release}
+                  .. MaxInt:
                   InternalExtraUpdateInfo := 'Version 23H2';
                 1825, 1830, 1835, 1900, 1906, 1972:
                 begin
@@ -3234,7 +3239,8 @@ begin
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 2361, 2787, 3078, 3227, 3371, 3520, 3668, 3807, 3951, 4108,
-                4247, 4387, 4534:
+                4247, 4387, 4534, 4825, 4969, 5116, 5261, 5409, 5545, 5548,
+                5696, 5837, 5982, 6130, 6132, 6269:
                   InternalExtraUpdateInfo := Format(
                     'Version 23H2 [Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]

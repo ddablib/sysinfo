@@ -24,3 +24,5 @@ The project also draws on the work of:
     CodeProject by _enhzflep_ as Solution 4 at to the question ["How to get productId in windows 7 64 bit"](https://tinyurl.com/3n7fbt3h).
 
 * _**Strive Sun**_ for the C code presented in his answer to the Stack Overflow post ["Win32 API to get Machine UUID"](https://tinyurl.com/cvbx792t). A Pascal translation of some of this code was used as a basis for the portions of the _TPJBiosInfo_ class.
+
+* [_**weirdo12**_](https://github.com/weirdo12) for the _$EXTERNALSYM_ code necessary to get the code to compile with C++ Builder. See [pull request #25](https://github.com/ddablib/sysinfo/pull/25).

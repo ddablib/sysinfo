@@ -69,7 +69,7 @@ Version 2 and earlier of the unit provided the _TPJSysInfo_ component and variou
 
 ### Compatibility
 
-This unit is designed for compilation with the 32 bit and 64 bit Windows Delphi compilers. The latest version has been tested with Delphi XE, Delphi 11.0 Alexandria and Delphi 12 Athens only. An attempt has been made to retain compatibility back to Delphi 4, but this has not been tested for some time, so it's not guaranteed.
+This unit is designed for compilation with the 32 bit and 64 bit Windows Delphi compilers. The latest version has been tested with Delphi XE and Delphi 13 Florence only. An attempt has been made to retain compatibility back to Delphi 4, but this has not been tested for some time, so it's not guaranteed.
 
 Compilation on old Delphi versions that do not support setting registry access flags via _TRegistry_ is not recommended since parts of the code may not work correctly on 64 bit Windows.
 

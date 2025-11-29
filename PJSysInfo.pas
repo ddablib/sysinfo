@@ -1985,7 +1985,6 @@ type
   TBuildNameMap = record
     Build: Integer;
     LoRev: Integer;
-    HiRev: Integer;
     Name: string;
     Version: Word;
   end;
@@ -2111,14 +2110,7 @@ const
     18361
   );
 
-  // Single build number used for 3 purposes:
-  //   1903 preview - revs 0, 30, 53, 86, 113
-  //   1903 release - revs 116..1256
-  //   1909 preview - revs 10000, 10005, 10006, 10012, 10014, 10015,
-  //                       10019, 10022, 10024
-  Win10_19XX_Shared_Build = 18362;
-
-  // Version 1909 previews used build 18362 rev 10000 and later (see above)
+  // Version 1909 previews used version 1903 build 18362 rev 10000 and later
 
   // Version 2004 previews
   Win10_2004_Preview_Builds: array[0..43] of Integer = (
@@ -2166,7 +2158,7 @@ const
   Win10_1709_Build = 16299;
   Win10_1803_Build = 17134;
   Win10_1809_Build = 17763;
-  Win10_1903_Build = Win10_19XX_Shared_Build;
+  Win10_1903_Build = 18362;
   Win10_1909_Build = 18363;
   Win10_2004_Build = 19041;
   Win10_20H2_Build = 19042;
@@ -2174,34 +2166,30 @@ const
   Win10_21H2_Build = 19044; // See **REF4**
   Win10_22H2_Build = 19045; // See **REF5**
 
-  // Map of Win 10 builds from 1st release (version 1507) to version 20H2
-  // Later Win 10 releases have special handling and aren't in the build map
-  //
-  // NOTE: The following versions that are still being maintained per the above
-  // table have HiRev = MaxInt while the unsupported versions have HiRev set to
-  // the final build number.
-  Win10_BuildMap: array[0..10] of TBuildNameMap = (
-    (Build: Win10_1507_Build; LoRev: 16484; HiRev: MaxInt;
+  // Map of Win 10 builds from 1st release (version 1507) to version 20H2,
+  // excluding version 1903.
+  // Version 1903 and Win 10 releases after 20H2 have special handling and
+  // aren't in the build map
+  Win10_BuildMap: array[0..9] of TBuildNameMap = (
+    (Build: Win10_1507_Build; LoRev: 16484;
       Name: 'Version 1507'; Version: Ord(win10v1507)),
-    (Build: Win10_1511_Build; LoRev: 0; HiRev: 1540;
+    (Build: Win10_1511_Build; LoRev: 0;
       Name: 'Version 1511: November Update'; Version: Ord(win10v1511)),
-    (Build: Win10_1607_Build; LoRev: 0; HiRev: MaxInt;
+    (Build: Win10_1607_Build; LoRev: 0;
       Name: 'Version 1607: Anniversary Update'; Version: Ord(win10v1607)),
-    (Build: Win10_1703_Build; LoRev: 0; HiRev: 2679;
+    (Build: Win10_1703_Build; LoRev: 0;
       Name: 'Version 1703: Creators Update'; Version: Ord(win10v1703)),
-    (Build: Win10_1709_Build; LoRev: 15; HiRev: 2166;
+    (Build: Win10_1709_Build; LoRev: 15;
       Name: 'Version 1709: Fall Creators Update'; Version: Ord(win10v1709)),
-    (Build: Win10_1803_Build; LoRev: 1; HiRev: 2208;
+    (Build: Win10_1803_Build; LoRev: 1;
       Name: 'Version 1803: April 2018 Update'; Version: Ord(win10v1803)),
-    (Build: Win10_1809_Build; LoRev: 1; HiRev: MaxInt;
+    (Build: Win10_1809_Build; LoRev: 1;
       Name: 'Version 1809: October 2018 Update'; Version: Ord(win10v1809)),
-    (Build: Win10_1903_Build; LoRev: 116; HiRev: 1256;
-      Name: 'Version 1903: May 2019 Update'; Version: Ord(win10v1903)),
-    (Build: Win10_1909_Build; LoRev: 327; HiRev: 2274;
+    (Build: Win10_1909_Build; LoRev: 327;
       Name: 'Version 1909: November 2019 Update'; Version: Ord(win10v1909)),
-    (Build: Win10_2004_Build; LoRev: 264; HiRev: 1415;
+    (Build: Win10_2004_Build; LoRev: 264;
       Name: 'Version 2004: May 2020 Update'; Version: Ord(win10v2004)),
-    (Build: Win10_20H2_Build; LoRev: 572; HiRev: 2965;
+    (Build: Win10_20H2_Build; LoRev: 572;
       Name: 'Version 20H2: October 2020 Update'; Version: Ord(win10v20H2))
   );
 
@@ -2390,32 +2378,24 @@ const
   // Map of Windows server releases that are named straightforwardly
   WinServerSimpleBuildMap: array[0..13] of TBuildNameMap = (
     // Windows Server 2016
-    (Build: 10074; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 2';
-      Version: 0),
-    (Build: 10514; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 3';
-      Version: 0),
-    (Build: 10586; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 4';
-      Version: 0),
-    (Build: 14300; LoRev: 0; HiRev: MaxInt; Name: 'Technical Preview 5';
-      Version: 0),
-    (Build: 14393; LoRev: 0; HiRev: MaxInt; Name: 'Version 1607'; Version: 0),
-    (Build: 16299; LoRev: 0; HiRev: MaxInt; Name: 'Version 1709'; Version: 0),
-    (Build: Win2016_Last_Build; LoRev: 0; HiRev: MaxInt; Name: 'Version 1803';
-      Version: 0),
+    (Build: 10074; LoRev: 0; Name: 'Technical Preview 2'; Version: 0),
+    (Build: 10514; LoRev: 0; Name: 'Technical Preview 3'; Version: 0),
+    (Build: 10586; LoRev: 0; Name: 'Technical Preview 4'; Version: 0),
+    (Build: 14300; LoRev: 0; Name: 'Technical Preview 5'; Version: 0),
+    (Build: 14393; LoRev: 0; Name: 'Version 1607'; Version: 0),
+    (Build: 16299; LoRev: 0; Name: 'Version 1709'; Version: 0),
+    (Build: Win2016_Last_Build; LoRev: 0; Name: 'Version 1803'; Version: 0),
     // Windows Server 2019
-    (Build: 17763; LoRev: 0; HiRev: MaxInt; Name: 'Version 1809'; Version: 0),
-    (Build: 18362; LoRev: 0; HiRev: MaxInt; Name: 'Version 1903'; Version: 0),
-    (Build: Win2019_Last_Build; LoRev: 0; HiRev: MaxInt; Name: 'Version 1909';
-      Version: 0),
+    (Build: 17763; LoRev: 0; Name: 'Version 1809'; Version: 0),
+    (Build: 18362; LoRev: 0; Name: 'Version 1903'; Version: 0),
+    (Build: Win2019_Last_Build; LoRev: 0; Name: 'Version 1909'; Version: 0),
     // Windows Server (no year number)
-    (Build: 19041; LoRev: 0; HiRev: MaxInt; Name: 'Version 2004'; Version: 0),
-    (Build: WinServer_Last_Build; LoRev: 0; HiRev: MaxInt;
-      Name: 'Version 20H2'; Version: 0),
+    (Build: 19041; LoRev: 0; Name: 'Version 2004'; Version: 0),
+    (Build: WinServer_Last_Build; LoRev: 0; Name: 'Version 20H2'; Version: 0),
     // Windows Server 2022
-    (Build: Win2022_Build; LoRev: 0; HiRev: MaxInt; Name: 'Version 21H2';
-      Version: 0),
+    (Build: Win2022_Build; LoRev: 0; Name: 'Version 21H2'; Version: 0),
     // Windows Server 2025
-    (Build: Win2025_Build; LoRev: 0; HiRev: MaxInt; Name: '')
+    (Build: Win2025_Build; LoRev: 0; Name: ''; Version: 0)
   );
 
   // Windows server releases needing special handling
@@ -2619,7 +2599,7 @@ begin
   for I := Low(Infos) to High(Infos) do
   begin
     if IsBuildNumber(Infos[I].Build) and
-      IsInRange(InternalRevisionNumber, Infos[I].LoRev, Infos[I].HiRev) then
+      IsInRange(InternalRevisionNumber, Infos[I].LoRev, MaxInt) then
     begin
       FoundBN := Infos[I].Build;
       FoundExtra := Infos[I].Name;
@@ -3023,8 +3003,7 @@ begin
               VersionEx
             ) then
             begin
-              InternalWin1011Version :=
-              TPJWin10PlusVersion(VersionEx);
+              InternalWin1011Version := TPJWin10PlusVersion(VersionEx);
             end
             else if IsBuildNumber(Win10_21H1_Build) then
             begin
@@ -3448,12 +3427,21 @@ begin
             begin
               InternalWin1011Version := win10v2004;
             end
-            else if IsBuildNumber(Win10_19XX_Shared_Build) then
+            else if IsBuildNumber(Win10_1903_Build) then
             begin
-              // If we get here the Win10_19XX_Shared_Build will either be a
-              // preview of Version 1903 or 1909
-              InternalBuildNumber := Win10_19XX_Shared_Build;
-              if IsInRange(InternalRevisionNumber, 0, 113) then
+              // Build 18362 was used for version 1903 and preview and some
+              // version 1909 previews, as follows:
+              //   1903 preview - revs 0, 30, 53, 86, 113
+              //   1903 release - revs 116..1256
+              //   1909 preview - revs 10000, 10005, 10006, 10012, 10014, 10015,
+              //                       10019, 10022, 10024
+              InternalBuildNumber := Win10_1903_Build;
+              if IsInRange(InternalRevisionNumber, 116, 1256) then
+              begin
+                InternalWin1011Version := win10v1903;
+                InternalExtraUpdateInfo := 'Version 1903';
+              end
+              else if IsInRange(InternalRevisionNumber, 0, 113) then
               begin
                 InternalWin1011Version := win10v1903;
                 InternalExtraUpdateInfo := Format(

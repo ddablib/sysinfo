@@ -12,7 +12,7 @@ variables.
 
    This demo has been designed to be backward compatible with Delphi 4 and,
    later but this is not guaranteed. The current version has only been tested
-   with Delphi XE, 11 and 12 using Windows 11 Version 23H2.
+   with Delphi XE using Windows 11 Version 25H2.
 
    Some unsupported form properties may need to be removed when opening the
    project's form in earlier compilers, but this should do no harm.
@@ -45,8 +45,7 @@ variables.
 
    The demo was initially created using Delphi XE3 and updated using Delphi XE4.
    It is believed that the demo is compatible with Delphi XE3 through to Delphi
-   11, but it has only been tested with Delphi 11 & 12 using Windows 11
-   Version 23H2.
+   11, but it has only been tested with Delphi 13 using Windows 11 Version 25H2.
 
    When loaded into the IDE of Delphi version other than Delphi XE4, certain
    form properties may be reported as missing. Ignoring such properties should

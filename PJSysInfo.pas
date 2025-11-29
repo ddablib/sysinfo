@@ -858,7 +858,7 @@ type
     win10v1507, win10v1511, win10v1607, win10v1703, win10v1709, win10v1803,
     win10v1809, win10v1903, win10v1909, win10v2004, win10v20H2, win10v21H1,
     win10v21H2, win10v22H2,
-    win11v21H2, win11v22H2, win11v23H2, win11v24H2, win11v25H2
+    win11v21H2, win11v22H2, win11v23H2, win11v24H2, win11v25H2, win11v26H1
   );
 
 type
@@ -2246,9 +2246,12 @@ const
   Win11_24H2_Build = 26100;
 
   // Windows 11 version 25H2
-  // (ge_prerelease)
   // See **REF13** in implementation
   Win11_25H2_Build = 26200;
+
+  // Windows 11 version 26H1
+  // *** PROVISIONAL BUILD NUMBER ***
+  Win11_26H1_Build = 28000;
 
   // Preview Builds of October 2022 component update in Beta Channel
   // See **REF2** in implementation
@@ -2358,7 +2361,7 @@ const
 
   // Set of Windows 10 version identifiers
   Win11_Versions: TWin10PlusVersionSet = [
-    win11v21H2, win11v22H2, win11v23H2, win11v24H2, win11v25H2
+    win11v21H2, win11v22H2, win11v23H2, win11v24H2, win11v25H2, win11v26H1
   ];
 
   // Windows server v10.0 version ----------------------------------------------
@@ -3350,6 +3353,23 @@ begin
                 else
                   InternalExtraUpdateInfo := Format(
                     'Version 25H2 [Unknown release v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
+            else if IsBuildNumber(Win11_26H1_Build) then
+            begin
+              InternalBuildNumber := Win11_26H1_Build;
+              InternalWin1011Version := win11v26H1;
+              case InternalRevisionNumber of
+                1, 1199:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 26H1 [Canary Channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 26H1 [Unknown release v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
               end;
@@ -4735,7 +4755,7 @@ const
     '1803', '1809', '1903', '1909', '2004',
     '20H2', '21H1', '21H2', '22H2',
     // Windows 11
-    '21H2', '22H2', '23H2', '24H2', '25H2'
+    '21H2', '22H2', '23H2', '24H2', '25H2', '26H1'
   );
 begin
   Result := cVersions[Windows10PlusVersion];

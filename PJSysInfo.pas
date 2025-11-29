@@ -858,7 +858,7 @@ type
     win10v1507, win10v1511, win10v1607, win10v1703, win10v1709, win10v1803,
     win10v1809, win10v1903, win10v1909, win10v2004, win10v20H2, win10v21H1,
     win10v21H2, win10v22H2,
-    win11v21H2, win11v22H2, win11v23H2, win11v24H2
+    win11v21H2, win11v22H2, win11v23H2, win11v24H2, win11v25H2
   );
 
 type
@@ -2237,13 +2237,18 @@ const
   // See **REF1** in implementation
   Win11_22H2_Build = 22621;
 
-  // Windows 11 version 22H3
+  // Windows 11 version 23H2
   // See **REF10** in implementation
   Win11_23H2_Build = 22631;
 
-  // Windows 11 version 22H4
+  // Windows 11 version 24H2
   // See **REF11** in implementation
   Win11_24H2_Build = 26100;
+
+  // Windows 11 version 25H2
+  // (ge_prerelease)
+  // See **REF13** in implementation
+  Win11_25H2_Build = 26200;
 
   // Preview Builds of October 2022 component update in Beta Channel
   // See **REF2** in implementation
@@ -2265,11 +2270,6 @@ const
   // channels (ge_release)
   // See **REF12** in implementation
   Win11_24H2_FutureComponent_Rel_Build = 26120;
-
-  // Preview builds of 24H2 future component update in Dev channel
-  // (ge_prerelease)
-  // See **REF13** in implementation
-  Win11_24H2_FutureComponent_PreRel_Build = 26200;
 
   // Preview builds of 24H2 future component update in Dev & Beta channels
   // (ge_release)
@@ -2346,11 +2346,19 @@ const
     27881
   );
 
+  Win11_25H2_CanaryChannel_Builds: array[0..17] of Integer = (
+    // expires 2026-08-11
+    27891, 27898, 27902, 27909, 27913, 27919, 27924, 27928, 27934, 27938, 27943,
+    27950, 27954, 27959, 27965, 27971,
+    // unspecified expiry date:
+    27975, 27982
+  );
+
   Win11_First_Build = Win11_Dev_Build;  // First build number of Windows 11
 
   // Set of Windows 10 version identifiers
   Win11_Versions: TWin10PlusVersionSet = [
-    win11v21H2, win11v22H2, win11v23H2, win11v24H2
+    win11v21H2, win11v22H2, win11v23H2, win11v24H2, win11v25H2
   ];
 
   // Windows server v10.0 version ----------------------------------------------
@@ -3285,27 +3293,63 @@ begin
                 3909, 3915, 4188, 4482, 4762, 4767, 5061, 5067, 6713, 6718,
                 7015, 7296, 7309:
                   InternalExtraUpdateInfo := Format(
-                    'Version 24H2 [Release Preview v10.0.%d.%d',
+                    'Version 24H2 [Release Preview v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 863, 994, 1000, 1150, 1301, 1457, 1591:
                   InternalExtraUpdateInfo := Format(
-                    'Version 24H2 [Release Preview & Copilot+ PCs v10.0.%d.%d',
+                    'Version 24H2 [Release Preview & Copilot+ PCs v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 1:
                   InternalExtraUpdateInfo := Format(
-                    'Version 24H2 [Dev & Canary Channel v10.0.%d.%d',
+                    'Version 24H2 [Dev & Canary Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 268:
                   InternalExtraUpdateInfo := Format(
-                    'Version 24H2 [Dev Channel v10.0.%d.%d',
+                    'Version 24H2 [Dev Channel v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
                 else
                   InternalExtraUpdateInfo := Format(
                     'Version 24H2 [Unknown release v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+              end;
+            end
+            else if IsBuildNumber(Win11_25H2_Build) then
+            begin
+              // **REF13**
+              InternalBuildNumber := Win11_25H2_Build;
+              InternalWin1011Version := win11v25H2;
+              case InternalRevisionNumber of
+                6584, 6725, 6899, 6901, 7019, 7092, 7093, 7171,
+                Succ(7309) {after last Release Preview rev}
+                .. MaxInt:
+                  InternalExtraUpdateInfo := 'Version 25H2';
+                5074, 6713, 6718, 7015, 7296, 7309:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 25H2 [Release Preview v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                5670, 5702, 5710, 5722, 5733, 5742, 5751, 5761:
+                  InternalExtraUpdateInfo := Format(
+                    'Version 25H2 [Dev Channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                5510, 5516, 5518, 5551, 5562, 5570, 5581, 5600, 5603, 5622,
+                5641, 5651, 5661:
+                begin
+                  InternalExtraUpdateInfo := Format(
+                    '25H2 Component Update Dev Channel v10.0.%d.%d',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                  InternalWin1011Version := win11v24H2;
+                end
+                else
+                  InternalExtraUpdateInfo := Format(
+                    'Version 25H2 [Unknown release v10.0.%d.%d]',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
               end;
@@ -3316,9 +3360,9 @@ begin
             begin
               // Win11 builds in Canary, Dev & Preview channels with version
               // string "24H2"
-              InternalWin1011Version := win10plusUnknown;
+              InternalWin1011Version := win11v24H2;
               InternalExtraUpdateInfo := Format(
-                'Dev or Canary Channel Version 24H2 v10.0.%d.%d',
+                'Version 24H2 [Dev or Canary Channel v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
@@ -3327,9 +3371,20 @@ begin
             ) then
             begin
               // Win11 builds in Canary channel with version string "24H2"
-              InternalWin1011Version := win10plusUnknown;
+              InternalWin1011Version := win11v24H2;
               InternalExtraUpdateInfo := Format(
-                'Canary Channel Version 24H2 v10.0.%d.%d',
+                'Version 24H2 [Canary Channel v10.0.%d.%d]',
+                [InternalBuildNumber, InternalRevisionNumber]
+              );
+            end
+            else if FindBuildNumberFrom(
+              Win11_25H2_CanaryChannel_Builds, InternalBuildNumber
+            ) then
+            begin
+              // Win11 builds in Canary channel with version string "25H2"
+              InternalWin1011Version := win11v25H2;
+              InternalExtraUpdateInfo := Format(
+                'Version 25H2 [Canary Channel v10.0.%d.%d]',
                 [InternalBuildNumber, InternalRevisionNumber]
               );
             end
@@ -3356,7 +3411,7 @@ begin
             ) then
             begin
               // Win 11 Dev & Beta channel builds with version string "22H2"
-              InternalWin1011Version := win10plusUnknown;
+              InternalWin1011Version := win11v22H2;
               InternalExtraUpdateInfo := Format(
                 'Dev & Beta Channels v10.0.%d.%d (22H2)',
                 [InternalBuildNumber, InternalRevisionNumber]
@@ -3459,25 +3514,6 @@ begin
                   );
               end;
             end
-            else if IsBuildNumber(Win11_24H2_FutureComponent_PreRel_Build) then
-            begin
-              // **REF13**
-              InternalBuildNumber := Win11_24H2_FutureComponent_PreRel_Build;
-              InternalWin1011Version := win10plusUnknown;
-              case InternalRevisionNumber of
-                5510, 5516, 5518, 5551, 5562, 5570, 5581, 5600, 5603, 5622,
-                5641, 5651, 5661:
-                  InternalExtraUpdateInfo := Format(
-                    'Future Component Update Dev Channel v10.0.%d.%d',
-                    [InternalBuildNumber, InternalRevisionNumber]
-                  );
-                else
-                  InternalExtraUpdateInfo := Format(
-                    'Future Component Update [Unknown Beta v10.0.%d.%d]',
-                    [InternalBuildNumber, InternalRevisionNumber]
-                  );
-              end;
-            end
             else if IsBuildNumber(Win11_25H2_FutureComponent_Rel_Build) then
             begin
               // **REF14**
@@ -3489,6 +3525,14 @@ begin
                     'Future Component Update Dev & Beta Channels v10.0.%d.%d',
                     [InternalBuildNumber, InternalRevisionNumber]
                   );
+                5770, 5790, 6682, 6690, 6760, 6722, 6780, 6972, 6982:
+                begin
+                  InternalExtraUpdateInfo := Format(
+                    'Version 25H2 [Dev channel v10.0.%d.%d]',
+                    [InternalBuildNumber, InternalRevisionNumber]
+                  );
+                  InternalWin1011Version := win11v25H2;
+                end
                 else
                   InternalExtraUpdateInfo := Format(
                     'Future Component Update [Unknown Beta v10.0.%d.%d]',
@@ -4691,7 +4735,7 @@ const
     '1803', '1809', '1903', '1909', '2004',
     '20H2', '21H1', '21H2', '22H2',
     // Windows 11
-    '21H2', '22H2', '23H2', '24H2'
+    '21H2', '22H2', '23H2', '24H2', '25H2'
   );
 begin
   Result := cVersions[Windows10PlusVersion];
